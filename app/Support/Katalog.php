@@ -66,6 +66,31 @@ class Katalog
         'beradaDi' => 'berada di',
     ];
 
+    /** Label relasi dibaca dari sisi objek (arah balik), untuk rantai Benang merah dan daftar tetangga di graf. */
+    public const LABEL_BALIK = [
+        'dibangunOleh' => 'membangun',
+        'memimpin' => 'dipimpin oleh',
+        'terlibatDalam' => 'melibatkan',
+        'merepresentasikan' => 'tercermin di',
+        'khasDari' => 'punya kuliner khas',
+        'dekatDengan' => 'dekat dengan',
+        'bergaya' => 'terlihat di',
+        'bagianDari' => 'mencakup',
+        'berkaitanDengan' => 'berkaitan dengan',
+        'memilikiSejarah' => 'melahirkan',
+        'menjual' => 'dijual di',
+        'dilayaniOleh' => 'mengantar ke',
+        'beradaDi' => 'menjadi tempat',
+    ];
+
+    /** Label pendek satu relasi, dibaca dari entitas $sudut, lengkap dengan jarak bila ada. */
+    public static function labelRelasi(array $relasi, string $sudut): string
+    {
+        $label = $relasi[0] === $sudut ? self::LABEL_RELASI[$relasi[1]] : self::LABEL_BALIK[$relasi[1]];
+
+        return $label.(isset($relasi['jarak_m']) ? ' '.$relasi['jarak_m'].' m' : '');
+    }
+
     public static function entitas(): array
     {
         static $data = null;
