@@ -1,0 +1,1 @@
+document.querySelectorAll(`[data-lorong]`).forEach(e=>{let t=e.querySelector(`input[type="range"]`),n=()=>e.style.setProperty(`--pos`,`${t.value}%`);t.addEventListener(`input`,n),n()});

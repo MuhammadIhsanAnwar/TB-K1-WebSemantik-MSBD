@@ -1,0 +1,224 @@
+<?php
+
+namespace App\Support;
+
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+
+/**
+ * Penyimpanan sementara untuk prototipe: pesanan tiket, check-in, ulasan, log pencarian, voucher mitra,
+ * dan penukaran poin disimpan di cache berkas (CACHE_STORE=file), karena database belum tersambung.
+ * Semua angka di dashboard dihitung dari isi penyimpanan ini, tidak ada angka yang diketik.
+ * Nanti diganti tabel PostgreSQL (pesanan, checkin, ulasan, voucher) dan log MongoDB (aktivitas).
+ */
+class Penyimpanan
+{
+    private static function ambil(string $kunci): array
+    {
+        return Cache::get('medanvisit.'.$kunci, []);
+    }
+
+    private static function simpan(string $kunci, array $isi): void
+    {
+        Cache::forever('medanvisit.'.$kunci, $isi);
+    }
+
+    private static function tambah(string $kunci, array $baris): array
+    {
+        $isi = self::ambil($kunci);
+        $baris += ['id' => (string) Str::ulid(), 'waktu' => now('Asia/Jakarta')->toIso8601String()];
+        $isi[$baris['id']] = $baris;
+        self::simpan($kunci, $isi);
+
+        return $baris;
+    }
+
+    // ---------- pesanan tiket ----------
+    public static function pesanan(?string $email = null): array
+    {
+        $semua = self::ambil('pesanan');
+
+        return array_reverse(array_filter($semua, fn ($p) => $email === null || $p['email'] === $email));
+    }
+
+    public static function buatPesanan(array $data): array
+    {
+        $data['kode'] = 'MV-'.strtoupper(Str::random(4)).'-'.random_int(1000, 9999);
+        $data['status'] = 'menunggu';
+        $data['batas_bayar'] = now('Asia/Jakarta')->addMinutes(15)->toIso8601String();
+
+        return self::tambah('pesanan', $data);
+    }
+
+    public static function cariPesanan(string $kode): ?array
+    {
+        foreach (self::ambil('pesanan') as $p) {
+            if ($p['kode'] === $kode) {
+                return $p;
+            }
+        }
+
+        return null;
+    }
+
+    public static function ubahPesanan(string $kode, array $ubah): ?array
+    {
+        $semua = self::ambil('pesanan');
+        foreach ($semua as $id => $p) {
+            if ($p['kode'] === $kode) {
+                $semua[$id] = array_merge($p, $ubah);
+                self::simpan('pesanan', $semua);
+
+                return $semua[$id];
+            }
+        }
+
+        return null;
+    }
+
+    // ---------- check-in ----------
+    public static function checkin(?string $email = null): array
+    {
+        return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
+    }
+
+    public static function catatCheckin(string $email, string $nama, string $tempat, int $jarak): array
+    {
+        return self::tambah('checkin', ['email' => $email, 'nama' => $nama, 'tempat' => $tempat, 'jarak_m' => $jarak]);
+    }
+
+    public static function sudahCheckinHariIni(string $email, string $tempat): bool
+    {
+        $hariIni = now('Asia/Jakarta')->toDateString();
+        foreach (self::checkin($email) as $c) {
+            if ($c['tempat'] === $tempat && str_starts_with($c['waktu'], $hariIni)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** Poin: 10 per check-in, +25 sekali saat dua tempat bersejarah berbeda sudah dikunjungi, dikurangi penukaran. */
+    public static function poin(string $email): array
+    {
+        $checkin = self::checkin($email);
+        $sejarah = collect($checkin)->pluck('tempat')->unique()->filter(fn ($s) => (Katalog::get($s)['kategori'] ?? null) === 'sejarah');
+        $badge = [];
+        $poin = count($checkin) * 10;
+        if ($sejarah->count() >= 2) {
+            $badge[] = ['nama' => 'Pemburu Sejarah', 'keterangan' => '2 tempat bersejarah, bonus 25 poin'];
+            $poin += 25;
+        }
+        $dipakai = collect(self::penukaran($email))->sum('poin');
+
+        return ['total' => $poin - $dipakai, 'didapat' => $poin, 'dipakai' => $dipakai, 'badge' => $badge];
+    }
+
+    // ---------- ulasan ----------
+    public static function ulasan(?string $tempat = null, ?string $status = null): array
+    {
+        return array_reverse(array_filter(self::ambil('ulasan'), fn ($u) => ($tempat === null || $u['tempat'] === $tempat) && ($status === null || $u['status'] === $status)));
+    }
+
+    public static function tulisUlasan(array $data): array
+    {
+        return self::tambah('ulasan', $data + ['status' => 'menunggu']);
+    }
+
+    public static function moderasi(string $id, string $status): void
+    {
+        $semua = self::ambil('ulasan');
+        if (isset($semua[$id])) {
+            $semua[$id]['status'] = $status;
+            self::simpan('ulasan', $semua);
+        }
+    }
+
+    // ---------- log pencarian ----------
+    public static function catatCari(string $q, int $jumlahHasil): void
+    {
+        if (trim($q) !== '') {
+            self::tambah('cari', ['q' => mb_strtolower(trim($q)), 'hasil' => $jumlahHasil]);
+        }
+    }
+
+    /** Kata kunci yang dicari tetapi tanpa hasil, dengan jumlahnya. */
+    public static function celahKonten(): array
+    {
+        return collect(self::ambil('cari'))->where('hasil', 0)->countBy('q')->sortDesc()->all();
+    }
+
+    public static function jumlahCari(): int
+    {
+        return count(self::ambil('cari'));
+    }
+
+    // ---------- voucher & penukaran ----------
+    public static function voucher(): array
+    {
+        return self::ambil('voucher');
+    }
+
+    public static function buatVoucher(array $data): array
+    {
+        return self::tambah('voucher', $data);
+    }
+
+    public static function penukaran(?string $email = null): array
+    {
+        return array_reverse(array_filter(self::ambil('penukaran'), fn ($p) => $email === null || $p['email'] === $email));
+    }
+
+    public static function tukar(string $email, array $voucher): array
+    {
+        $semua = self::voucher();
+        $semua[$voucher['id']]['stok']--;
+        self::simpan('voucher', $semua);
+
+        return self::tambah('penukaran', [
+            'email' => $email, 'voucher' => $voucher['id'], 'nama' => $voucher['nama'], 'usaha' => $voucher['usaha'],
+            'poin' => $voucher['poin'], 'kode' => 'V-'.strtoupper(Str::random(6)), 'dipakai' => false,
+        ]);
+    }
+
+    public static function pakaiPenukaran(string $kode): ?array
+    {
+        $semua = self::ambil('penukaran');
+        foreach ($semua as $id => $p) {
+            if ($p['kode'] === strtoupper(trim($kode))) {
+                $sebelum = $p['dipakai'];
+                $semua[$id]['dipakai'] = true;
+                self::simpan('penukaran', $semua);
+
+                return $p + ['sudah_dipakai' => $sebelum];
+            }
+        }
+
+        return null;
+    }
+
+    // ---------- rencana tersimpan ----------
+    public static function rencana(?string $email = null): array
+    {
+        return array_reverse(array_filter(self::ambil('rencana'), fn ($r) => $email === null || $r['email'] === $email));
+    }
+
+    public static function simpanRencana(array $data): array
+    {
+        $data['kode'] = 'mdn-'.strtolower(Str::random(4));
+
+        return self::tambah('rencana', $data);
+    }
+
+    public static function cariRencana(string $kode): ?array
+    {
+        foreach (self::ambil('rencana') as $r) {
+            if ($r['kode'] === $kode) {
+                return $r;
+            }
+        }
+
+        return null;
+    }
+}
