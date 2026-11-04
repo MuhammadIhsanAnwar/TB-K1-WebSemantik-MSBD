@@ -188,7 +188,7 @@ class SitusController extends Controller
         foreach (Katalog::relasi() as $i => $r) {
             $edges[] = ['data' => [
                 'id' => 'r'.$i, 'source' => $r[0], 'target' => $r[2], 'predikat' => $r[1],
-                'label' => Katalog::LABEL_RELASI[$r[1]].(isset($r['jarak_m']) ? ' '.$r['jarak_m'].' m' : ''),
+                'label' => Katalog::labelRelasi($r, $r[0]), 'label_balik' => Katalog::labelRelasi($r, $r[2]),
                 'kalimat' => Katalog::kalimat($r, $r[0]), 'sumber' => $r['sumber'],
             ]];
         }

@@ -43,7 +43,7 @@ body.panel-app { margin: 0; background: var(--p-frame); color: var(--p-text); fo
 .ps__lingkup span { font-size: 12px; color: var(--p-muted); }
 .ps__lingkup b { font-weight: 600; }
 .ps__grup { margin: 18px 8px 6px; font-size: 12px; color: var(--p-muted); }
-.ps__nav a { display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 8px; margin-bottom: 2px; border-radius: 8px; color: var(--p-muted); transition: background-color 150ms ease, color 150ms ease; }
+.ps__nav a { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; margin-bottom: 2px; border-radius: 8px; color: var(--p-muted); transition: background-color 150ms ease, color 150ms ease; }
 .ps__nav a svg { width: 16px; height: 16px; flex: none; }
 .ps__nav a:hover { background: rgba(255, 255, 255, 0.6); color: var(--p-text); }
 .ps__nav a[aria-current="page"] { background: var(--p-active); color: var(--p-text); font-weight: 600; }
@@ -53,7 +53,7 @@ body.panel-app { margin: 0; background: var(--p-frame); color: var(--p-text); fo
 .ps__inisial { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #dbe7e0; color: #12392c; font-weight: 700; font-size: 12px; }
 .ps__atas { grid-column: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 24px; }
 .ps__atas form { flex: 0 1 460px; margin: 0 auto; }
-.ps__atas input[type="search"] { width: 100%; height: 32px; padding: 0 12px; border: 1px solid var(--p-border); border-radius: 8px; background: var(--p-surface); font: 14px var(--p-font); color: var(--p-text); }
+.ps__atas input[type="search"] { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid var(--p-border); border-radius: 8px; background: var(--p-surface); font: 14px var(--p-font); color: var(--p-text); }
 .ps__atas input::placeholder { color: var(--p-faint); }
 .ps__lembar { grid-column: 2; margin: 0 8px 8px 0; background: var(--p-surface); border: 1px solid var(--p-border); border-radius: 16px; padding: 24px; min-width: 0; }
 .ps__menu { display: none; height: 44px; padding: 0 8px; background: none; border: 0; font: 600 14px var(--p-font); }
@@ -63,7 +63,7 @@ body.panel-app { margin: 0; background: var(--p-frame); color: var(--p-text); fo
 .p-judul h1 { font-size: 24px; line-height: 30px; font-weight: 600; letter-spacing: -0.01em; }
 .p-judul .sub { margin-top: 4px; color: var(--p-muted); font-size: 14px; }
 .p-judul__aksi { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.p-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: var(--p-radius-control); border: 1px solid var(--p-control); background: var(--p-surface); color: var(--p-text); font: 600 14px var(--p-font); cursor: pointer; white-space: nowrap; transition: background-color 150ms ease, transform 120ms var(--ease-out, ease); }
+.p-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: var(--p-radius-control); border: 1px solid var(--p-control); background: var(--p-surface); color: var(--p-text); font: 600 14px var(--p-font); cursor: pointer; white-space: nowrap; transition: background-color 150ms ease, transform 120ms var(--ease-out, ease); }
 .p-btn:hover { background: var(--p-raised); }
 .p-btn:active { transform: translateY(1px); }
 .p-btn--utama { background: var(--p-primary); color: var(--p-primary-ink); border-color: transparent; }
@@ -234,32 +234,6 @@ body.panel-app { margin: 0; background: var(--p-frame); color: var(--p-text); fo
 .popup-tempat .aksi a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; background: var(--green); color: var(--on-green) !important; text-decoration: none; font-weight: 600; }
 .popup-tempat .aksi a + a { background: var(--accent); color: var(--accent-ink) !important; }
 
-/* jelajah graf */
-.jelajah { display: grid; grid-template-columns: 240px minmax(0, 1fr) 320px; grid-template-rows: auto minmax(0, 1fr); height: calc(100svh - 76px); background: var(--paper); }
-.jelajah__benang { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 12px var(--margin); background: var(--paper-deep); }
-.jelajah__benang h1 { font: 600 1.375rem var(--font-display); color: var(--green); margin-right: 8px; }
-.jelajah__benang select { min-height: 44px; max-width: 240px; padding: 0 10px; border: 0; border: 1px solid #c9bfa6; background: var(--white); font: 500 0.9375rem var(--font-text); }
-.jelajah__benang .cari-simpul { margin-left: auto; }
-.jelajah__benang input { min-height: 44px; width: 220px; padding: 0 12px; border: 0; border: 1px solid #c9bfa6; background: var(--white); font: 0.9375rem var(--font-text); }
-.jelajah__saring { padding: 16px var(--margin); overflow-y: auto; }
-.jelajah__saring h2 { font: 700 0.9375rem var(--font-text); color: var(--ink); margin: 0 0 10px; letter-spacing: 0; }
-.jelajah__saring h2:not(:first-child) { margin-top: 24px; }
-.jelajah__saring label { display: flex; align-items: center; gap: 10px; min-height: 36px; font-size: 0.9375rem; }
-.jelajah__saring label .n { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums; }
-.jelajah__saring input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--green); }
-.jelajah__kanvas { position: relative; min-width: 0; background: #f7f8f5; }
-.jelajah__kanvas #graf { position: absolute; inset: 0; }
-.jelajah__kontrol { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 6px; z-index: 2; }
-.jelajah__kontrol button { min-width: 44px; height: 44px; padding: 0 12px; background: var(--white); border: 0; border: 1px solid #c9bfa6; font: 600 0.9375rem var(--font-text); }
-.jelajah__daftar-alt { position: absolute; inset: 0; overflow-y: auto; padding: 16px; background: #f7f8f5; z-index: 3; }
-.jelajah__daftar-alt[hidden] { display: none; }
-.jelajah__panel { padding: 20px var(--margin) 24px 20px; overflow-y: auto; }
-.jelajah__panel h2 { font: 600 1.75rem/1.15 var(--font-display); color: var(--green); margin-top: 6px; }
-.jelajah__panel .narasi { margin-top: 20px; padding: 18px; background: var(--paper-deep); }
-.jelajah__panel .narasi h3 { font: 700 1rem var(--font-text); color: var(--ink); letter-spacing: 0; }
-.jelajah__panel .narasi ol { list-style: decimal; margin: 10px 0 0; padding-left: 1.3em; display: grid; gap: 8px; font-size: 1rem; }
-.jelajah__panel .narasi p { margin-top: 10px; font-size: 0.875rem; color: var(--muted); }
-
 /* tanya (chat) */
 .tanya { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 760px; margin: 0 auto; min-height: calc(100svh - 76px); padding: 0 var(--margin); }
 .tanya__log { display: grid; align-content: start; gap: 16px; padding: 16px 0 24px; }
@@ -367,8 +341,6 @@ body.panel-app { margin: 0; background: var(--p-frame); color: var(--p-text); fo
 
 /* ---------- ponsel ---------- */
 @media (max-width: 1100px) {
-  .jelajah { grid-template-columns: 220px minmax(0, 1fr); }
-  .jelajah__panel { grid-column: 1 / -1; }
   .tiket-alur, .paspor, .sparql { grid-template-columns: 1fr; }
   .ringkasan-pesanan { position: static; }
 }
@@ -394,12 +366,6 @@ body.panel-app { margin: 0; background: var(--p-frame); color: var(--p-text); fo
   .peta-alat__peta { height: 62svh; order: -1; }
   .peta-alat__samping { min-height: 0; }
   .peta-alat__daftar { max-height: none; }
-  .jelajah { grid-template-columns: 1fr; height: auto; }
-  .jelajah__benang .cari-simpul { margin-left: 0; width: 100%; }
-  .jelajah__benang input { width: 100%; }
-  .jelajah__saring { order: 3; }
-  .jelajah__kanvas { height: 64svh; }
-  .jelajah__panel { order: 2; padding: 20px var(--margin); }
   .p-tabel.jadi-daftar thead { display: none; }
   .p-tabel.jadi-daftar tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 12px 0; border-bottom: 1px solid var(--p-rule); }
   .p-tabel.jadi-daftar td { padding: 0; border: 0; }

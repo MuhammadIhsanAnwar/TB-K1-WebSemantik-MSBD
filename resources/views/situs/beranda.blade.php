@@ -263,7 +263,7 @@
                             </div>
                             <div>
                                 <dd>{{ $fmtMenit($j['menit']) }}</dd>
-                                <dt>Perkiraan waktu</dt>
+                                <dt>Durasi</dt>
                             </div>
                         </dl>
                         <p>{{ $j['ringkas'] }}</p>

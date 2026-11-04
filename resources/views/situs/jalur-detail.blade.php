@@ -16,7 +16,7 @@
         <h1 style="font-size:var(--s-head);margin-top:40px">{{ $j['nama'] }}</h1>
         <p class="detail__ringkas">{{ $j['ringkas'] }}</p>
         <div class="ringkas-angka">
-            <p><b>{{ count($singgah) }} tempat</b>, {{ number_format($j['meter'] / 1000, 1, ',', '.') }} km jalan kaki dan becak, {{ $fmtMenit($j['menit']) }} termasuk singgah.</p>
+            <dl class="mv-jalur-spek nums" style="width:100%;max-width:520px"><div><dd>{{ count($singgah) }} tempat</dd><dt>Perhentian</dt></div><div><dd>{{ number_format($j['meter'] / 1000, 1, ',', '.') }} km</dd><dt>Jarak rute</dt></div><div><dd>{{ $fmtMenit($j['menit']) }}</dd><dt>Durasi</dt></div></dl>
         </div>
         <div class="detail__aksi">
             <a class="tombol" href="{{ route('tempat', $singgah[0]['tempat']['slug']) }}">Mulai dari {{ $singgah[0]['tempat']['nama'] }}</a>

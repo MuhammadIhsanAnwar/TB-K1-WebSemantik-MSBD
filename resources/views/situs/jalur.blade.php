@@ -1,5 +1,8 @@
 @extends('layouts.situs')
-@php $fmtMenit = fn ($m) => intdiv($m, 60) ? intdiv($m, 60).' jam '.($m % 60).' menit' : $m.' menit'; @endphp
+@php
+    use App\Support\Katalog;
+    $fmtMenit = fn ($m) => intdiv($m, 60) ? intdiv($m, 60).' jam '.($m % 60).' mnt' : $m.' mnt';
+@endphp
 @section('judul', 'Jalur tematik')
 @section('foto-kaki', 'istana-maimun-1900.jpg')
 
@@ -16,11 +19,17 @@
                 <span>
                     <h2>{{ $j['nama'] }}</h2>
                     <p style="margin-top:12px">{{ $j['ringkas'] }}</p>
+                    <ol class="mv-jalur-singgah" style="margin-top:14px">
+                        @foreach ($j['singgah'] as $no => $s)
+                            <li><b class="nums">{{ $no + 1 }}.</b> <span>{{ Katalog::get($s)['nama'] ?? $s }}</span></li>
+                        @endforeach
+                    </ol>
                 </span>
-                <span class="angka">
-                    <b>{{ count($j['singgah']) }} tempat</b>
-                    {{ number_format($j['meter'] / 1000, 1, ',', '.') }} km, {{ $fmtMenit($j['menit']) }}
-                </span>
+                <dl class="mv-jalur-spek nums">
+                    <div><dd>{{ count($j['singgah']) }} tempat</dd><dt>Perhentian</dt></div>
+                    <div><dd>{{ number_format($j['meter'] / 1000, 1, ',', '.') }} km</dd><dt>Jarak rute</dt></div>
+                    <div><dd>{{ $fmtMenit($j['menit']) }}</dd><dt>Durasi</dt></div>
+                </dl>
             </a>
         @endforeach
     </div>

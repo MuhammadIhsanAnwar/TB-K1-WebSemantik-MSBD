@@ -59,7 +59,11 @@
     <section class="rencana__hasil" aria-labelledby="judul-hasil">
         @if ($hasil)
             <h2 id="judul-hasil" style="font-size:2.25rem">{{ $judulRute }}</h2>
-            <p class="redup" style="margin:8px 0 28px">{{ collect($minat)->map(fn ($m) => Katalog::KATEGORI[$m])->implode(', ') }} selama {{ $durasi }} jam dengan {{ collect($moda)->map(fn ($m) => $m === 'jalan' ? 'jalan kaki' : 'becak motor')->implode(' dan ') }}</p>
+            <dl class="mv-jalur-spek nums" style="margin:14px 0 24px;max-width:560px">
+                <div><dd>{{ count($hasil['singgah']) }} tempat</dd><dt>{{ collect($minat)->map(fn ($m) => Katalog::KATEGORI[$m])->implode(', ') }}</dt></div>
+                <div><dd>{{ $durasi }} jam</dd><dt>Durasi rencana</dt></div>
+                <div><dd>{{ collect($moda)->map(fn ($m) => $m === 'jalan' ? 'Jalan kaki' : 'Becak')->implode(' & ') }}</dd><dt>Cara pindah</dt></div>
+            </dl>
             <div class="slip" aria-label="Urutan singgah">
                 @foreach ($hasil['singgah'] as $s)
                     @if ($s['pindah'])

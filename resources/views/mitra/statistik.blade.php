@@ -15,7 +15,7 @@
     <div><div class="label">Voucher aktif</div><div class="nilai">{{ $voucher }}</div><div class="ket">jenis voucher</div></div>
 </div>
 <section class="p-panel" aria-labelledby="judul-grafik">
-    <div class="p-grafik-kepala"><h3 id="judul-grafik">Penukaran per hari</h3><span class="meta">hari ini disorot</span></div>
+    <div class="p-grafik-kepala"><h2 id="judul-grafik" style="font-size:15px;font-weight:600">Penukaran per hari</h2><span class="meta">hari ini disorot</span></div>
     <div class="p-grafik" data-grafik="{{ json_encode($grafik) }}" aria-label="Grafik penukaran voucher per hari selama 30 hari"></div>
     @if (! $ditukar)<p class="kecil" style="color:var(--p-muted);margin-top:8px">Belum ada penukaran dalam 30 hari terakhir; garis nol tetap digambar.</p>@endif
 </section>
