@@ -1,7 +1,7 @@
 @php
     use App\Support\Katalog;
     use App\Http\Controllers\SitusController;
-    // foto entitas yang terhubung (1–2 langkah): menunjukkan hal yang sedang dibicarakan, bukan hiasan
+    // foto entitas yang terhubung (1-2 langkah): menunjukkan hal yang sedang dibicarakan, bukan hiasan
     $berfoto = collect($grafMini['simpul'])->keys()->reject(fn ($s) => $s === $pusat)
         ->map(fn ($s) => Katalog::get($s))->filter(fn ($x) => ! empty($x['foto']))->take(4)->values();
     $sumber = collect($tetangga)->pluck('relasi.sumber')->unique()->values();
@@ -18,11 +18,6 @@
         </li>
     @endforeach
 </ul>
-<p class="sumber-relasi">Sumber hubungan:
-    @foreach ($sumber as $s)
-        @if (str_starts_with($s, 'http'))<a href="{{ $s }}" rel="noopener">{{ str_replace('_', ' ', \Illuminate\Support\Str::after($s, '/wiki/')) }} (Wikipedia)</a>@else{{ $s }}@endif{{ $loop->last ? '.' : ',' }}
-    @endforeach
-</p>
 @if ($berfoto->isNotEmpty())
     <div class="strip-foto">
         @foreach ($berfoto as $x)
@@ -35,4 +30,9 @@
         @endforeach
     </div>
 @endif
+<p class="sumber-relasi" style="margin-top:20px">Sumber hubungan:
+    @foreach ($sumber as $s)
+        @if (str_starts_with($s, 'http'))<a href="{{ $s }}" rel="noopener">{{ str_replace('_', ' ', \Illuminate\Support\Str::after($s, '/wiki/')) }} (Wikipedia)</a>@else{{ $s }}@endif{{ $loop->last ? '.' : ',' }}
+    @endforeach
+</p>
 @endif

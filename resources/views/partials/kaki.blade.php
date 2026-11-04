@@ -1,29 +1,44 @@
 @php $kredit = \App\Support\Katalog::kredit($fotoKaki); @endphp
-<footer class="kaki {{ $ringkas ? 'kaki--ringkas' : '' }}">
-    <x-foto :berkas="$fotoKaki" alt="" class="kaki__foto" />
-    <div class="kaki__isi">
-        <div class="kaki__atas">
-            <nav aria-label="Kaki">
-                <a href="{{ route('jelajah') }}">Jelajah graf</a>
-                <a href="{{ route('peta') }}">Peta wisata</a>
+<footer class="mv-kaki {{ $ringkas ? 'mv-kaki--ringkas' : '' }} tidak-dicetak">
+    <x-foto :berkas="$fotoKaki" alt="" class="mv-kaki__foto" />
+    <div class="mv-kaki__lapisan" aria-hidden="true"></div>
+    <div class="mv-kaki__isi">
+        <div class="mv-kaki__atas">
+            <nav class="mv-kaki__tautan" aria-label="Navigasi kaki halaman">
+                <a href="{{ route('peta') }}">Tempat &amp; peta</a>
                 <a href="{{ route('jalur') }}">Jalur tematik</a>
                 <a href="{{ route('rencana') }}">Perencana rute</a>
-                <a href="{{ route('tanya') }}">Tanya Medan</a>
+                <a href="{{ route('jelajah') }}">Cerita Medan (Graf)</a>
+                <a href="{{ route('tanya') }}">Tanya asisten</a>
                 <a href="{{ route('data') }}">Data terbuka &amp; SPARQL</a>
                 <a href="{{ route('kredit') }}">Kredit foto</a>
                 <a href="{{ route('ketentuan') }}">Ketentuan &amp; privasi</a>
             </nav>
-            <div class="kaki__kontak">
-                <p>Panduan wisata Kota Medan: istana, rumah ibadah, kuliner, dan tokohnya, beserta hubungan di antara mereka.</p>
+            <div class="mv-kaki__catatan">
+                <p>Jelajahi Medan, bawa pulang ceritanya. Panduan wisata berbasis jaringan cerita yang menautkan tempat, tokoh, budaya, dan kuliner Kota Medan.</p>
                 <p><a href="mailto:administrator@medanvisit.neoverse.my.id">administrator@medanvisit.neoverse.my.id</a></p>
+                <p class="mv-kaki__jujur">Keterangan bertanda “contoh” pada harga, jam buka, dan koordinat masih dalam tahap verifikasi pengelola.</p>
             </div>
         </div>
-        <div class="kaki__nama" aria-hidden="true">
-            <svg viewBox="0 0 1000 190" preserveAspectRatio="xMidYMax meet"><text x="0" y="168" textLength="1000" lengthAdjust="spacingAndGlyphs" font-size="200">MedanVisit</text></svg>
+
+        <div class="mv-kaki__merek" aria-hidden="true">
+            <svg viewBox="0 0 1000 185" preserveAspectRatio="xMidYMax meet">
+                <text x="0" y="162" textLength="1000" lengthAdjust="spacingAndGlyphs" font-size="192">MedanVisit</text>
+            </svg>
         </div>
-        <div class="kaki__legal">
-            <span>© {{ date('Y') }} MedanVisit. Harga, jam, dan koordinat bertanda “contoh” belum diverifikasi ke pengelola.</span>
-            @if ($kredit)<span>Foto latar: {{ $kredit }}. <a href="{{ route('kredit') }}">Semua kredit foto</a></span>@endif
+
+        <div class="mv-kaki__legal">
+            <span class="mv-meta-garis">
+                <span>© {{ date('Y') }} MedanVisit</span>
+                <span>Peta © kontributor OpenStreetMap</span>
+                <span>Data tertaut ke Wikidata</span>
+            </span>
+            @if ($kredit)
+                <span class="mv-meta-garis">
+                    <span>Foto latar: {{ $kredit }}</span>
+                    <a href="{{ route('kredit') }}">Daftar lengkap kredit</a>
+                </span>
+            @endif
         </div>
     </div>
 </footer>

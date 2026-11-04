@@ -1,303 +1,397 @@
 @extends('layouts.situs')
-@section('tanpa-kepala', '1')
 @section('foto-kaki', 'kesawan-arsip.jpg')
 
 @php
     use App\Support\Katalog;
-    $u = session('pengguna');
     $semuaTempat = Katalog::tempat();
     $jumlahKecamatan = collect($semuaTempat)->pluck('kecamatan')->unique()->count();
-    $berlabel = ['istana-maimun', 'masjid-raya-al-mashun', 'tjong-a-fie-mansion', 'lapangan-merdeka', 'kuil-shri-mariamman'];
     $istana = Katalog::get('istana-maimun');
-    $dekatIstana = collect($semuaTempat)->reject(fn ($t) => $t['slug'] === 'istana-maimun')->map(fn ($t) => $t + ['jarak' => Katalog::jarakMeter($istana, $t)])->sortBy('jarak')->take(4);
-    $petaJson = collect($petaTempat)->map(fn ($t) => ['slug' => $t['slug'], 'nama' => $t['nama'], 'lat' => $t['lat'], 'lng' => $t['lng'], 'kategori' => $t['kategori'], 'url' => route('tempat', $t['slug']), 'harga' => Katalog::rupiah(Katalog::hargaTermurah($t)), 'tiket' => ! empty($t['tiket']) ? route('tiket.pilih', $t['slug']) : null])->values();
-    $fmtMenit = fn ($m) => intdiv($m, 60) ? intdiv($m, 60).' j '.($m % 60).' m' : $m.' m';
+    $unggulan = ['istana-maimun', 'masjid-raya-al-mashun', 'tjong-a-fie-mansion'];
+    $heroSlide = [
+        ['berkas' => 'istana-maimun.jpg', 'nama' => 'Istana Maimun', 'sub' => 'Medan Maimun, warisan Kesultanan Deli 1888', 'alt' => 'Fasad kuning Istana Maimun dengan halaman hijau di Medan'],
+        ['berkas' => 'masjid-raya.jpg', 'nama' => 'Masjid Raya Al-Mashun', 'sub' => 'Medan Kota, dibangun Sultan Ma’mun Al Rasyid 1906', 'alt' => 'Masjid Raya Al-Mashun dengan kubah segi delapan dan halaman luas'],
+        ['berkas' => 'tjong-a-fie-mansion.jpg', 'nama' => 'Tjong A Fie Mansion', 'sub' => 'Medan Barat, rumah saudagar Kesawan 1900', 'alt' => 'Halaman depan rumah bersejarah Tjong A Fie Mansion di Kesawan'],
+        ['berkas' => 'graha-maria-annai-velangkanni.jpg', 'nama' => 'Graha Maria Annai Velangkanni', 'sub' => 'Medan Tuntungan, arsitektur Indo-Mogul', 'alt' => 'Menara bertingkat Graha Maria Annai Velangkanni di Medan'],
+    ];
+    $petaJson = collect($petaTempat)->map(fn ($t) => [
+        'slug' => $t['slug'],
+        'nama' => $t['nama'],
+        'lat' => $t['lat'],
+        'lng' => $t['lng'],
+        'kategori' => $t['kategori'],
+        'url' => route('tempat', $t['slug']),
+        'harga' => Katalog::rupiah(Katalog::hargaTermurah($t)),
+        'tiket' => ! empty($t['tiket']) ? route('tiket.pilih', $t['slug']) : null,
+    ])->values();
+    $fmtMenit = fn ($m) => intdiv($m, 60) ? intdiv($m, 60).' jam'.($m % 60 ? ' '.($m % 60).' mnt' : '') : $m.' mnt';
+    $urutTempat = collect($semuaTempat)->sortBy(fn ($t) => ($pos = array_search($t['slug'], $unggulan, true)) !== false ? $pos : 10)->values();
 @endphp
 
 @section('isi')
-<div class="panggung" data-panggung>
-    <div class="panggung__baca">
-        <section class="sampul" aria-labelledby="judul-utama">
-            <div class="sampul__baris">
-                <nav aria-label="Jelajah">
-                    <a href="{{ route('jelajah') }}">Jelajah</a>
-                    <a href="{{ route('peta') }}">Peta</a>
-                    <a href="{{ route('jalur') }}">Jalur</a>
-                </nav>
-                <a class="sampul__logo" href="{{ route('beranda') }}" aria-label="MedanVisit">
-                    <img src="{{ asset('images/logo/tanpa-tagline-terang.svg') }}" alt="MedanVisit" width="736" height="256">
-                </a>
-                <nav aria-label="Akun dan bantuan">
-                    <a href="{{ route('tanya') }}" class="hanya-lebar">Tanya</a>
-                    @if ($u)
-                        <a href="{{ route('akun') }}" class="hanya-lebar">{{ $u['nama'] }}</a>
-                    @else
-                        <a href="{{ route('masuk') }}" class="hanya-lebar">Masuk</a>
-                    @endif
-                    <button class="kepala__menu" type="button" data-buka-menu aria-haspopup="dialog" aria-controls="lembar-menu">Menu</button>
-                </nav>
-            </div>
-            <div class="sampul__isi">
-                <h1 id="judul-utama" data-naik>Jelajahi Medan lewat ceritanya</h1>
-                <p class="sampul__teks" data-naik style="--i:1">Panduan wisata Kota Medan yang menghubungkan istana, rumah ibadah, kuliner, dan tokohnya. Cari tempat, pesan tiket masuk, dan kumpulkan stempel.</p>
-                <form class="tanya-medan" action="{{ route('cari') }}" method="get" role="search" data-naik style="--i:2">
-                    <label>
-                        <span class="sr-only">Cari tempat, tokoh, atau kuliner</span>
-                        <input type="search" name="q" placeholder="soto dekat istana" autocomplete="off" required>
-                    </label>
-                    <button class="tombol" type="submit">Cari</button>
-                </form>
-                <p class="sampul__contoh" data-naik style="--i:3">Salah ketik tetap ketemu, coba <a href="{{ route('cari', ['q' => 'istana maimon']) }}">istana maimon</a>. Atau <a href="{{ route('tanya') }}">tanya asisten</a>.</p>
-            </div>
-        </section>
+{{-- 1. HERO: Small name, open sky --}}
+<section class="mv-hero" data-hero-crossfade aria-labelledby="judul-utama">
+    <div class="mv-hero__panggung" aria-hidden="true">
+        @foreach ($heroSlide as $idx => $s)
+            <figure class="mv-hero__slide {{ $idx === 0 ? 'aktif' : '' }}" data-hero-slide data-nama="{{ $s['nama'] }}" data-sub="{{ $s['sub'] }}">
+                <x-foto :berkas="$s['berkas']" :alt="$s['alt']" :utama="$idx === 0" :segera="$idx === 0" />
+            </figure>
+        @endforeach
+        <div class="mv-hero__lapisan"></div>
+    </div>
 
-        <section class="daftar-besar" aria-labelledby="judul-tempat">
-            <h2 class="kata-raksasa" id="judul-tempat"><span class="sr-only">Tempat</span><svg viewBox="0 0 1000 330" aria-hidden="true"><text x="0" y="245" textLength="1000" lengthAdjust="spacingAndGlyphs" font-size="330">Tempat</text></svg></h2>
-            <p class="daftar-besar__teks">{{ count($semuaTempat) }} tempat di {{ $jumlahKecamatan }} kecamatan, dari istana Kesultanan Deli sampai deretan toko bika ambon. Buka satu jenis untuk melihat letaknya di peta 1930.</p>
+    <div class="mv-hero__isi">
+        <div class="mv-hero__utama">
+            <h1 id="judul-utama" data-naik style="--i:0">Jelajahi Medan lewat ceritanya</h1>
+            <p class="mv-hero__sub" data-naik style="--i:1">Panduan wisata Kota Medan yang menautkan {{ count($semuaTempat) }} tempat, tokoh sejarah, budaya, dan kuliner khas. Cari tujuan, pesan tiket masuk, dan kumpulkan stempel di lokasi.</p>
+
+            <div class="mv-hero__cari-bungkus" data-naik style="--i:2">
+                <form action="{{ route('cari') }}" method="get" role="search" data-cari-cepat>
+                    <div class="mv-hero__cari">
+                        <label class="sr-only" for="input-cari-beranda">Cari tempat, tokoh, atau kuliner di Medan</label>
+                        <input id="input-cari-beranda" type="search" name="q" placeholder="Cari tempat, tokoh, atau kuliner (coba: soto dekat istana)" autocomplete="off" required>
+                        <button class="mv-btn mv-btn--utama" type="submit">Cari</button>
+                    </div>
+                    <div class="mv-saran-kotak" data-ui data-saran-hasil role="region" aria-live="polite" hidden></div>
+                </form>
+                <div class="mv-hero__saran-cepat">
+                    <span>Coba ketik:</span>
+                    <a href="{{ route('cari', ['q' => 'istana maimon']) }}">istana maimon</a>
+                    <a href="{{ route('cari', ['q' => 'tjong a fie']) }}">Tjong A Fie</a>
+                    <a href="{{ route('cari', ['q' => 'soto kesawan']) }}">Soto Kesawan</a>
+                    <a href="{{ route('tanya') }}">Tanya asisten</a>
+                </div>
+            </div>
+
+            <div class="mv-hero__aksi" data-naik style="--i:3">
+                <a class="mv-btn mv-btn--utama" href="#tempat">Lihat tempat wisata</a>
+                <a class="mv-tautan mv-tautan--terang" href="#tiket">Pesan tiket masuk</a>
+            </div>
+        </div>
+
+        <div class="mv-hero__info-foto" data-naik style="--i:2">
+            <div class="mv-hero__label-foto">
+                <b data-hero-nama>{{ $heroSlide[0]['nama'] }}</b>
+                <span data-hero-sub>{{ $heroSlide[0]['sub'] }}</span>
+            </div>
+            <div class="mv-hero__kontrol-slide" role="group" aria-label="Kontrol foto sampul">
+                @foreach ($heroSlide as $idx => $s)
+                    <button type="button" class="mv-hero__titik nums" data-hero-ke="{{ $idx }}" aria-label="Foto {{ $s['nama'] }}" aria-current="{{ $idx === 0 ? 'true' : 'false' }}">{{ $idx + 1 }}</button>
+                @endforeach
+                <button type="button" class="mv-hero__titik" data-hero-jeda aria-pressed="false" aria-label="Jeda pergantian foto otomatis" style="width:auto;padding-inline:12px">Jeda</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- 2. GALLERY: Photo tiles with label strips --}}
+<section class="mv-seksi-tempat" id="tempat" aria-labelledby="judul-tempat">
+    <div class="mv-wadah">
+        <div class="mv-kepala-seksi">
+            <h2 id="judul-tempat">Tiga belas tempat pilihan</h2>
+            <p>{{ count($semuaTempat) }} tujuan di {{ $jumlahKecamatan }} kecamatan Medan, lengkap dengan jam kunjungan, perkiraan biaya, dan kaitan sejarahnya di jaringan cerita.</p>
+        </div>
+
+        <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
+            <button type="button" data-filter="semua" aria-pressed="true">Semua <span class="nums">({{ count($semuaTempat) }})</span></button>
             @foreach ($kategori as $k => $grup)
                 @continue(! $grup['tempat'])
-                <details class="bilah" data-kategori="{{ $k }}" @if ($loop->first) open @endif>
-                    <summary>{{ $grup['label'] }} <span class="jumlah">{{ count($grup['tempat']) }}</span><span class="plus" aria-hidden="true"></span></summary>
-                    <div class="bilah__isi">
-                        @foreach ($grup['tempat'] as $t)
-                            <a class="baris-tempat" href="{{ route('tempat', $t['slug']) }}" data-sorot="{{ $t['slug'] }}" data-label="{{ $t['nama'] }}" data-sub="{{ $t['kecamatan'] }} · {{ $t['jam'] }}">
-                                <strong>{{ $t['nama'] }}</strong>
-                                <x-harga :tempat="$t" />
-                                <span class="redup">{{ $t['kecamatan'] }} · {{ $t['jam'] }}@if (! empty($t['jam_contoh'])) <span class="contoh">contoh</span>@endif</span>
-                            </a>
-                        @endforeach
+                <button type="button" data-filter="{{ $k }}" aria-pressed="false">{{ $grup['label'] }} <span class="nums">({{ count($grup['tempat']) }})</span></button>
+            @endforeach
+        </div>
+
+        <div class="mv-grid-tempat" data-grid-beranda>
+            @foreach ($urutTempat as $idx => $t)
+                @php
+                    $adalahLebar = in_array($t['slug'], $unggulan, true);
+                    $nadaPita = ['hijau', 'krem', 'kuning'][$idx % 3];
+                    $sedangBuka = Katalog::bukaSekarang($t);
+                    $berkasFoto = $t['foto'] ?: 'peta-medan-1930-kota-lama.jpg';
+                @endphp
+                <a class="mv-kartu-tempat {{ $adalahLebar ? 'mv-kartu-tempat--lebar' : '' }}" href="{{ route('tempat', $t['slug']) }}" data-kategori="{{ $t['kategori'] }}">
+                    <div class="mv-kartu-tempat__media">
+                        <x-foto :berkas="$berkasFoto" :alt="$t['nama']" :kecil="! $adalahLebar" />
                     </div>
-                </details>
+                    <div class="mv-kartu-tempat__pita mv-kartu-tempat__pita--{{ $nadaPita }}">
+                        <span>{{ Katalog::KATEGORI[$t['kategori']] }}</span>
+                        <span>{{ $t['kecamatan'] }}</span>
+                    </div>
+                    <div class="mv-kartu-tempat__isi">
+                        <strong class="mv-kartu-tempat__nama">{{ $t['nama'] }}</strong>
+                        <span class="mv-kartu-tempat__meta">{{ \Illuminate\Support\Str::limit($t['ringkas'], $adalahLebar ? 115 : 80) }}</span>
+                        <div class="mv-kartu-tempat__kaki">
+                            <span><x-harga :tempat="$t" /></span>
+                            <span class="mv-lencana-jam {{ $sedangBuka ? 'mv-lencana-jam--buka' : 'mv-lencana-jam--tutup' }}">{{ $sedangBuka ? 'Buka' : 'Tutup' }}</span>
+                        </div>
+                    </div>
+                </a>
             @endforeach
-        </section>
-    </div>
-
-    <div class="panggung__layar">
-        <img class="layar__gambar aktif" data-layar="peta" src="{{ asset('images/foto/peta-medan-1930.webp') }}" width="1422" height="1600" fetchpriority="high"
-             alt="Peta Kota Medan tahun 1930 berskala 1:20.000, dengan Esplanade, stasiun, Sungai Deli, dan Istana Sultan Deli bernomor 15.">
-        @foreach ($semuaTempat as $t)
-            @if ($t['foto'])
-                @php [$w, $h] = \App\Support\Foto::ukuran($t['foto']); @endphp
-                <img class="layar__gambar" data-layar="{{ $t['slug'] }}" src="{{ asset('images/foto/'.$t['foto']) }}" width="{{ $w }}" height="{{ $h }}" loading="lazy" decoding="async" alt="{{ $t['nama'] }}">
-            @endif
-        @endforeach
-        <svg class="layar__peta" data-layar-peta viewBox="0 0 1422 1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            @foreach ($semuaTempat as $t)
-                @php $p = Katalog::posisi1930($t); @endphp
-                @continue(! $p)
-                <g data-titik="{{ $t['slug'] }}" data-kategori="{{ $t['kategori'] }}">
-                    <circle class="titik" cx="{{ $p['x'] }}" cy="{{ $p['y'] }}" r="16"/>
-                    @if (in_array($t['slug'], $berlabel, true))
-                        @php $lbl = ['masjid-raya-al-mashun' => 'Masjid Raya', 'tjong-a-fie-mansion' => 'Tjong A Fie', 'kuil-shri-mariamman' => 'Kampung Madras'][$t['slug']] ?? $t['nama']; @endphp
-                        @php $lw = mb_strlen($lbl) * 20.5 + 30; @endphp
-                        @php $kiri = $t['slug'] === 'istana-maimun' || $p['x'] > 980; $dy = $t['slug'] === 'kuil-shri-mariamman' ? -58 : 0; @endphp
-                        <g class="titik-label" transform="translate({{ $kiri ? $p['x'] - 26 - $lw : $p['x'] + 26 }} {{ $p['y'] - 26 + $dy }})">
-                            <rect width="{{ $lw }}" height="52"/>
-                            <text x="14" y="37">{{ $lbl }}</text>
-                        </g>
-                    @endif
-                </g>
-            @endforeach
-        </svg>
-        <div class="layar__bilah">
-            <span data-bilah-kiri>Peta Medan, 1930</span>
-            <span data-bilah-kanan>Skala 1:20.000 · kini 21 kecamatan</span>
         </div>
     </div>
-</div>
+</section>
 
-<section class="benang" data-benang aria-labelledby="judul-benang">
-    <figure class="benang__plat">
-        <x-foto berkas="peta-medan-1930-kota-lama.jpg" alt="Potongan peta Medan 1930: Esplanade di utara, Istana Sultan Deli di selatan, dihubungkan Paleisweg." />
-        @foreach ($benang as $i => $b)
-            @php
-                $titik = collect($b['langkah'])->flatMap(fn ($l) => [$l['dari'], $l['ke']])->unique()
-                    ->map(fn ($s) => Katalog::get($s))->filter(fn ($e) => $e['jenis'] === 'tempat' && Katalog::posisiKotaLama($e))
-                    ->map(fn ($e) => ['e' => $e, 'p' => Katalog::posisiKotaLama($e)])->values();
-                $d = $titik->map(fn ($x, $j) => ($j ? 'L' : 'M').$x['p']['x'].' '.$x['p']['y'])->implode(' ');
-            @endphp
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none" data-panel-benang="{{ $i }}" @if ($i) hidden @endif aria-hidden="true">
-                <path class="utas-alas" d="{{ $d }}" pathLength="220"/>
-                <path class="utas" d="{{ $d }}" pathLength="220"/>
-                @foreach ($titik as $x)
-                    <circle class="simpul" cx="{{ $x['p']['x'] }}" cy="{{ $x['p']['y'] }}" r="1.9"/>
-                    @php $lw = mb_strlen($x['e']['nama']) * 1.75 + 3; @endphp
-                    @php $kiri = $x['p']['x'] > 62; @endphp
-                    <g class="nama-simpul" transform="translate({{ $kiri ? $x['p']['x'] - 3 - $lw : $x['p']['x'] + 3 }} {{ $x['p']['y'] - 2.6 }})">
-                        <rect width="{{ $lw }}" height="5.2"/>
-                        <text x="1.5" y="3.9">{{ $x['e']['nama'] }}</text>
-                    </g>
-                @endforeach
-            </svg>
-        @endforeach
-        <figcaption>Kota lama di peta 1930</figcaption>
-    </figure>
-    <div class="benang__sisi">
-        <div class="benang__tengah">
-            <h2 class="judul" id="judul-benang" data-muncul>Benang merah</h2>
-            <div class="tab-benang" role="tablist" aria-label="Pasangan tempat">
+{{-- 3. SHOWCASE: Square plate, spare text (Benang merah kota) --}}
+<section class="mv-benang" data-benang aria-labelledby="judul-benang">
+    <div class="mv-wadah">
+        <div class="mv-benang__grid">
+            <figure class="mv-benang__plat">
+                <x-foto berkas="peta-medan-1930-kota-lama.jpg" alt="Potongan peta Medan 1930: Esplanade di utara hingga Istana Sultan Deli di selatan" />
                 @foreach ($benang as $i => $b)
-                    <button type="button" role="tab" id="tab-benang-{{ $i }}" aria-controls="panel-benang-{{ $i }}" aria-selected="{{ $i ? 'false' : 'true' }}" tabindex="{{ $i ? '-1' : '0' }}" data-tab-benang="{{ $i }}">{{ $b['dari']['nama'] }} &amp; {{ \Illuminate\Support\Str::of($b['ke']['nama'])->replace(' Al-Mashun', '') }}</button>
-                @endforeach
-            </div>
-            @foreach ($benang as $i => $b)
-                <div role="tabpanel" id="panel-benang-{{ $i }}" aria-labelledby="tab-benang-{{ $i }}" data-panel-benang="{{ $i }}" @if ($i) hidden @endif>
-                    <p class="benang__pasangan">Apa hubungan {{ $b['dari']['nama'] }} dengan {{ $b['ke']['nama'] }}?</p>
-                    <ol class="benang__langkah">
-                        @foreach ($b['langkah'] as $l)
-                            <li>{{ $l['kalimat'] }}</li>
+                    @php
+                        $titik = collect($b['langkah'])->flatMap(fn ($l) => [$l['dari'], $l['ke']])->unique()
+                            ->map(fn ($s) => Katalog::get($s))->filter(fn ($e) => $e['jenis'] === 'tempat' && Katalog::posisiKotaLama($e))
+                            ->map(fn ($e) => ['e' => $e, 'p' => Katalog::posisiKotaLama($e)])->values();
+                        $d = $titik->map(fn ($x, $j) => ($j ? 'L' : 'M').$x['p']['x'].' '.$x['p']['y'])->implode(' ');
+                    @endphp
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none" data-panel-benang="{{ $i }}" @if ($i) hidden @endif aria-hidden="true">
+                        <path class="utas-alas" d="{{ $d }}" pathLength="220"/>
+                        <path class="utas" d="{{ $d }}" pathLength="220"/>
+                        @foreach ($titik as $x)
+                            <circle class="simpul" cx="{{ $x['p']['x'] }}" cy="{{ $x['p']['y'] }}" r="1.9"/>
+                            @php $lw = mb_strlen($x['e']['nama']) * 1.75 + 3; $kiri = $x['p']['x'] > 62; @endphp
+                            <g class="nama-simpul" transform="translate({{ $kiri ? $x['p']['x'] - 3 - $lw : $x['p']['x'] + 3 }} {{ $x['p']['y'] - 2.6 }})">
+                                <rect width="{{ $lw }}" height="5.2"/>
+                                <text x="1.5" y="3.9">{{ $x['e']['nama'] }}</text>
+                            </g>
                         @endforeach
-                    </ol>
-                </div>
-            @endforeach
-        </div>
-        <div class="benang__aksi">
-            @foreach ($benang as $i => $b)
-                <a href="{{ route('jelajah', ['dari' => $b['dari']['slug'], 'ke' => $b['ke']['slug']]) }}" data-panel-benang="{{ $i }}" @if ($i) hidden @endif>Lihat di jelajah graf</a>
-            @endforeach
-            <a href="{{ route('jelajah') }}">Pilih dua tempat sendiri</a>
-        </div>
-    </div>
-</section>
-
-<section class="jalur-pin" data-jalur-pin style="--n: {{ count($jalur) }}" aria-labelledby="judul-jalur">
-    <div class="jalur-pin__panggung">
-        <div class="jalur-pin__kiri">
-            <div>
-                <h2 id="judul-jalur">Jalur tematik</h2>
-                <p>Rute jalan kaki dan becak motor yang disusun dari hubungan di graf, dengan jarak dihitung dari letak setiap tempat.</p>
-            </div>
-            <nav class="jalur-pin__indeks" aria-label="Jalur tematik">
-                @foreach (array_values($jalur) as $i => $j)
-                    <a href="{{ route('jalur.detail', $j['slug']) }}" data-jalur="{{ $i }}" @if (! $i) aria-current="true" @endif>
-                        <b>{{ $j['nama'] }}</b>
-                        <span>{{ count($j['singgah']) }} tempat · {{ number_format($j['meter'] / 1000, 1, ',', '.') }} km · {{ $fmtMenit($j['menit']) }}</span>
-                    </a>
+                    </svg>
                 @endforeach
-            </nav>
-        </div>
-        <div class="jalur-pin__foto">
-            @foreach (array_values($jalur) as $i => $j)
-                <figure data-jalur-foto="{{ $i }}" @class(['aktif' => ! $i])>
-                    <x-foto :berkas="$j['foto']" :alt="$j['nama'].': '.$j['ringkas']" />
-                    <figcaption>{{ $j['ringkas'] }}</figcaption>
-                </figure>
-            @endforeach
-        </div>
-    </div>
-    <div class="jalur-pin__langkah" aria-hidden="true"></div>
-</section>
+                <figcaption>Peta kota lama Medan, 1930</figcaption>
+            </figure>
 
-<section aria-labelledby="judul-tiket">
-    @php $bt = array_values($bertiket); @endphp
-    <div class="tiket-dua__kepala">
-        <h2 class="judul" id="judul-tiket" data-muncul>Tiket masuk tanpa antre</h2>
-        <p data-muncul style="--i:1">Pilih tanggal dan jumlah, bayar dengan QRIS atau virtual account, lalu tunjukkan e-tiket ber-QR di loket.
-            @if (isset($bt[2])) Juga bisa: <a class="tautan" href="{{ route('tempat', $bt[2]['slug']) }}">{{ $bt[2]['nama'] }}</a>.@endif</p>
-    </div>
-    <div class="tiket-dua">
-        @foreach (array_slice($bt, 0, 2) as $i => $t)
-            <article class="bidang {{ $i ? 'bidang--dua' : 'bidang--satu' }}">
-                <h3 class="bidang__judul">{{ $t['nama'] }}</h3>
-                <p>{{ $t['ringkas'] }}</p>
-                <div class="bidang__bingkai"><x-foto :berkas="$t['foto']" :alt="$t['nama']" :kecil="true" class="bidang__foto geser-pelan" /></div>
-                <div class="bidang__bawah">
-                    @php $jenis = array_keys($t['tiket']); @endphp
-                    <div><p class="bidang__harga">{{ Katalog::rupiah($t['tiket'][$jenis[0]]) }}</p><p class="bidang__rincian">{{ mb_strtolower($jenis[0]) }} · {{ mb_strtolower($jenis[1]) }} {{ Katalog::rupiah($t['tiket'][$jenis[1]]) }} <span class="contoh">harga contoh</span></p></div>
-                    <a class="tombol {{ $i ? 'tombol--hijau' : '' }}" href="{{ route('tiket.pilih', $t['slug']) }}">Pesan tiket {{ $t['nama'] }}</a>
+            <div class="mv-benang__sisi">
+                <div>
+                    <h2 id="judul-benang" data-muncul>Benang merah kota</h2>
+                    <p style="margin-top:12px;color:var(--mv-redup)" data-muncul style="--i:1">Setiap tempat di Medan saling bertaut lewat tokoh pendiri, kawasan sejarah, dan tradisi kulinernya. Pilih pasangan tempat untuk melihat jejak hubungannya.</p>
                 </div>
-            </article>
-        @endforeach
+
+                <div class="mv-benang__tab" role="tablist" aria-label="Pasangan tempat bersejarah">
+                    @foreach ($benang as $i => $b)
+                        <button type="button" role="tab" id="tab-benang-{{ $i }}" aria-controls="panel-benang-{{ $i }}" aria-selected="{{ $i ? 'false' : 'true' }}" tabindex="{{ $i ? '-1' : '0' }}" data-tab-benang="{{ $i }}">
+                            {{ $b['dari']['nama'] }} &amp; {{ \Illuminate\Support\Str::of($b['ke']['nama'])->replace(' Al-Mashun', '') }}
+                        </button>
+                    @endforeach
+                </div>
+
+                @foreach ($benang as $i => $b)
+                    <div class="mv-benang__panel" role="tabpanel" id="panel-benang-{{ $i }}" aria-labelledby="tab-benang-{{ $i }}" data-panel-benang="{{ $i }}" @if ($i) hidden @endif>
+                        <p class="mv-benang__tanya">Bagaimana {{ $b['dari']['nama'] }} terhubung dengan {{ $b['ke']['nama'] }}?</p>
+                        <ol class="mv-benang__langkah">
+                            @foreach ($b['langkah'] as $l)
+                                <li>{{ $l['kalimat'] }}</li>
+                            @endforeach
+                        </ol>
+                    </div>
+                @endforeach
+
+                <div class="mv-benang__aksi">
+                    @foreach ($benang as $i => $b)
+                        <a class="mv-btn mv-btn--hijau" href="{{ route('jelajah', ['dari' => $b['dari']['slug'], 'ke' => $b['ke']['slug']]) }}" data-panel-benang="{{ $i }}" @if ($i) hidden @endif>Buka di jelajah graf</a>
+                    @endforeach
+                    <a class="mv-btn mv-btn--garis" href="{{ route('jelajah') }}">Hubungkan dua tempat lain</a>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="slip-seksi" aria-labelledby="judul-rute">
-    <div class="slip-seksi__kiri">
-        <h2 id="judul-rute" data-muncul>Setengah hari di Medan lama</h2>
-        <p data-muncul style="--i:1">Perencana Rute menyusun urutan singgah dari minat, durasi, dan cara berpindahmu, lalu menghitung jarak dan ongkos becaknya. Setiap tempat yang kamu datangi memberi satu stempel di Paspor Digital.</p>
-        <a class="tombol" data-muncul style="--i:2" href="{{ route('rencana', ['minat' => ['sejarah', 'religi', 'kuliner'], 'durasi' => 4, 'moda' => ['jalan', 'becak'], 'mulai' => 'istana-maimun']) }}">Susun rute sendiri</a>
+{{-- 4. PRICING: Prices like a menu (Tiket tanpa antre) --}}
+<section class="mv-seksi-tiket" id="tiket" aria-labelledby="judul-tiket">
+    <div class="mv-wadah">
+        <div class="mv-menu-tiket">
+            <div class="mv-menu-tiket__kiri">
+                <h2 id="judul-tiket" data-muncul>Tiket masuk tanpa antre</h2>
+                <p style="color:var(--mv-redup)" data-muncul style="--i:1">Pilih tanggal kunjungan dan jumlah pengunjung, bayar dengan QRIS atau virtual account, lalu tunjukkan e-tiket ber-QR di loket masuk.</p>
+                <figure class="mv-menu-tiket__potret" data-muncul style="--i:2">
+                    <x-foto berkas="istana-maimun.jpg" alt="Arsitektur kuning khas Melayu Deli di Istana Maimun" :kecil="true" />
+                </figure>
+            </div>
+
+            <div class="mv-menu-tiket__daftar">
+                @foreach ($bertiket as $t)
+                    <article class="mv-baris-tiket">
+                        <div class="mv-baris-tiket__atas">
+                            <a class="mv-baris-tiket__judul" href="{{ route('tempat', $t['slug']) }}">{{ $t['nama'] }}</a>
+                            <span class="mv-baris-tiket__mulai">Mulai {{ Katalog::rupiah(Katalog::hargaTermurah($t)) }}</span>
+                        </div>
+                        <p>{{ $t['ringkas'] }}</p>
+                        <div class="mv-baris-tiket__tarif nums">
+                            @foreach ($t['tiket'] as $jenis => $harga)
+                                <span>{{ $jenis }}: <b>{{ Katalog::rupiah($harga) }}</b></span>
+                            @endforeach
+                            @if (! empty($t['harga_contoh']))
+                                <span class="contoh">harga contoh</span>
+                            @endif
+                        </div>
+                        <div class="mv-baris-tiket__bawah">
+                            <span class="mv-meta-garis kecil redup">
+                                <span>{{ $t['kecamatan'] }}</span>
+                                <span>Buka {{ $t['jam'] }} @if (! empty($t['jam_contoh']))<span class="contoh">contoh</span>@endif</span>
+                            </span>
+                            <a class="mv-btn mv-btn--utama mv-btn--kecil" href="{{ route('tiket.pilih', $t['slug']) }}" aria-label="Pesan tiket {{ $t['nama'] }}">Pesan tiket</a>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </div>
     </div>
-    <div class="slip" data-muncul style="--i:1" aria-label="Contoh rencana perjalanan">
-        @php $pagi = collect($rute['singgah'])->filter(fn ($s) => $s['mulai'] < 11 * 60); @endphp
-        @php $siang = collect($rute['singgah'])->filter(fn ($s) => $s['mulai'] >= 11 * 60); @endphp
-        @foreach (['Pagi' => $pagi, 'Menjelang siang' => $siang] as $label => $grup)
-            @continue($grup->isEmpty())
-            <h3>{{ $label }}</h3>
-            @foreach ($grup as $s)
-                @if ($s['pindah'])
-                    <div class="slip__baris redup"><span>{{ $s['pindah']['moda'] }} {{ number_format($s['pindah']['meter'], 0, ',', '.') }} m</span><span class="titik-titik"></span><span class="kanan">{{ $s['pindah']['menit'] }} mnt</span></div>
-                @endif
-                <div class="slip__baris"><span>{{ Katalog::jamTeks($s['mulai']) }} {{ $s['tempat']['nama'] }}</span><span class="titik-titik"></span><span class="kanan">{{ $s['tempat']['singgah'] }} mnt</span></div>
+</section>
+
+{{-- 5. WORK: Loose scatter with pauses (Jalur siap jalan) --}}
+<section class="mv-seksi-jalur" aria-labelledby="judul-jalur">
+    <div class="mv-wadah">
+        <div class="mv-kepala-seksi">
+            <h2 id="judul-jalur">Jalur siap jalan</h2>
+            <p>Tiga rute bertema yang dirangkai dari kedekatan lokasi dan benang cerita di lapangan, lengkap dengan jarak tempuh serta waktu singgah.</p>
+        </div>
+
+        <div class="mv-jalur-daftar">
+            @foreach (array_values($jalur) as $idx => $j)
+                <article class="mv-jalur-item {{ $idx % 2 === 1 ? 'mv-jalur-item--balik' : '' }}">
+                    <figure class="mv-jalur-item__foto">
+                        <x-foto :berkas="$j['foto']" :alt="$j['nama'].': '.$j['ringkas']" />
+                    </figure>
+                    <div class="mv-jalur-item__teks">
+                        <h3>{{ $j['nama'] }}</h3>
+                        <dl class="mv-jalur-spek nums">
+                            <div>
+                                <dd>{{ count($j['singgah']) }} tempat</dd>
+                                <dt>Perhentian</dt>
+                            </div>
+                            <div>
+                                <dd>{{ number_format($j['meter'] / 1000, 1, ',', '.') }} km</dd>
+                                <dt>Jarak rute</dt>
+                            </div>
+                            <div>
+                                <dd>{{ $fmtMenit($j['menit']) }}</dd>
+                                <dt>Perkiraan waktu</dt>
+                            </div>
+                        </dl>
+                        <p>{{ $j['ringkas'] }}</p>
+                        <div class="mv-jalur-rute-kecil">
+                            <span class="mv-jalur-rute-kecil__label">Urutan singgah</span>
+                            <ol class="mv-jalur-singgah">
+                                @foreach ($j['singgah'] as $no => $s)
+                                    <li><b class="nums">{{ $no + 1 }}.</b> <span>{{ Katalog::get($s)['nama'] ?? $s }}</span></li>
+                                @endforeach
+                            </ol>
+                        </div>
+                        <div>
+                            <a class="mv-btn mv-btn--hijau mv-btn--kecil" href="{{ route('jalur.detail', $j['slug']) }}">Buka jalur ini</a>
+                        </div>
+                    </div>
+                </article>
             @endforeach
-        @endforeach
-        <div class="slip__akhir"><span>{{ count($rute['singgah']) }} tempat, {{ count($rute['singgah']) }} stempel</span><span>{{ Katalog::rupiah($rute['biaya']) }}</span></div>
-        <p class="kecil redup" style="margin-top:12px">Perkiraan tiket masuk dan becak per orang, selesai pukul {{ Katalog::jamTeks($rute['selesai']) }}.</p>
+        </div>
+
+        <div class="mv-jalur-kaki" data-muncul>
+            <div>
+                <b style="font-family:var(--font-display);font-size:1.375rem;color:var(--mv-kuning)">Ingin urutan singgah sesuai waktumu sendiri?</b>
+                <p style="margin-top:4px">Perencana Rute menyusun jadwal jalan kaki atau becak motor dari minat dan durasi kunjunganmu, lengkap dengan estimasi biaya.</p>
+            </div>
+            <a class="mv-btn mv-btn--utama" href="{{ route('rencana', ['minat' => ['sejarah', 'religi', 'kuliner'], 'durasi' => 4, 'moda' => ['jalan', 'becak'], 'mulai' => 'istana-maimun']) }}">Susun rute sendiri</a>
+        </div>
     </div>
 </section>
 
-<section class="kunjungan" aria-labelledby="judul-peta">
-    <div class="kunjungan__peta" data-peta data-peta-mode="ringkas" data-pusat="istana-maimun"
-         data-tempat="{{ json_encode($petaJson) }}">
-        <p class="peta-diam">Peta interaktif dimuat di sini.</p>
-    </div>
-    <div class="kunjungan__kartu">
-        <h2 id="judul-peta">Semua tempat di satu peta</h2>
-        <p>Mulai dari Istana Maimun. Yang paling dekat:</p>
-        <div class="kunjungan__daftar">
-            @foreach ($dekatIstana as $t)
-                <a href="{{ route('tempat', $t['slug']) }}"><b>{{ $t['nama'] }}</b><span>{{ number_format($t['jarak'], 0, ',', '.') }} m</span></a>
-            @endforeach
+{{-- 6. FEATURES: Statement cell, dark rows (Peta dan paspor) --}}
+<section class="mv-seksi-paspor" aria-labelledby="judul-peta-paspor">
+    <div class="mv-wadah">
+        <div class="mv-paspor-grid">
+            <div class="mv-paspor-peta">
+                <h2 id="judul-peta-paspor">Peta kota dan paspor</h2>
+                <p style="color:var(--mv-redup)">Lihat sebaran ke-{{ count($semuaTempat) }} titik di atas peta Kota Medan, lalu kumpulkan stempel resmi setiap kali tiba di lokasi.</p>
+                <div class="mv-paspor-peta__kanvas" data-peta data-peta-mode="ringkas" data-pusat="istana-maimun" data-tempat="{{ json_encode($petaJson) }}">
+                    <p class="peta-diam" style="padding:20px">Peta interaktif tempat wisata Medan dimuat di sini.</p>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+                    <a class="mv-btn mv-btn--hijau" href="{{ route('peta') }}">Buka peta lengkap</a>
+                    <a class="mv-tautan" href="{{ route('paspor') }}">Lihat Paspor Digital</a>
+                </div>
+            </div>
+
+            <div class="mv-paspor-baris">
+                <div class="mv-paspor-butir">
+                    <div>
+                        <h3>Peta {{ count($semuaTempat) }} titik</h3>
+                        <p>Saring berdasarkan kategori, tempat yang sedang buka sekarang, ketersediaan tiket, atau urutkan dari jarak terdekat.</p>
+                    </div>
+                </div>
+                <div class="mv-paspor-butir">
+                    <div>
+                        <h3>Check-in di lokasi</h3>
+                        <p>Stempel hanya terbit dalam radius 60 sampai 150 meter di pelataran tempat wisata, masing-masing bernilai 10 poin.</p>
+                    </div>
+                </div>
+                <div class="mv-paspor-butir">
+                    <div>
+                        <h3>Stempel &amp; gelar</h3>
+                        <p>Kumpulkan stempel berdesain khusus tiap tempat dan naikkan gelarmu dari Pendatang Baru hingga Duta Wisata Medan.</p>
+                    </div>
+                    <div class="mv-paspor-butir__stempel">
+                        <x-stempel :tempat="$istana" />
+                    </div>
+                </div>
+                <div class="mv-paspor-butir">
+                    <div>
+                        <h3>Voucher mitra UMKM</h3>
+                        <p>Gunakan poin perjalananmu untuk potongan kuliner, oleh-oleh bika ambon, dan kedai kopi lokal yang bekerja sama.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <a class="tombol tombol--hijau" href="{{ route('peta') }}">Buka peta wisata</a>
     </div>
 </section>
 
-<section class="tanya-jawab" aria-labelledby="judul-tanya">
-    <div class="tanya-jawab__kiri">
-        <h2 id="judul-tanya" data-muncul>Sebelum berangkat</h2>
-        <div class="fakta-singkat" data-muncul style="--i:1">
-            <p>Tiket dibayar lewat QRIS, virtual account, atau dompet digital.</p>
-            <p>Check-in hanya diterima di lokasi, dalam radius 60–150 m.</p>
-            <p>Masjid dan rumah ibadah dikunjungi di luar waktu ibadah.</p>
+{{-- 7. FAQ: Questions beside a tall photograph --}}
+<section class="mv-seksi-faq" aria-labelledby="judul-tanya">
+    <div class="mv-wadah">
+        <div class="mv-faq-grid">
+            <div class="mv-faq-kiri">
+                <h2 id="judul-tanya" data-muncul>Sebelum berangkat</h2>
+                <ul class="mv-faq-fakta" data-muncul style="--i:1">
+                    <li>Pembayaran tiket mendukung QRIS, virtual account, dan dompet digital.</li>
+                    <li>Check-in GPS diverifikasi langsung dalam radius 60 sampai 150 meter di lokasi.</li>
+                    <li>Masjid dan rumah ibadah dikunjungi dengan pakaian sopan di luar waktu ibadah.</li>
+                </ul>
+
+                <div class="mv-faq-daftar">
+                    <details>
+                        <summary>Bagaimana cara memesan tiket masuk?</summary>
+                        <p>Buka halaman tempat bertiket, pilih tanggal dan jumlah pengunjung, isi nama serta email pemesan, lalu selesaikan pembayaran. E-tiket ber-QR langsung tersimpan di menu Tiket saya.</p>
+                    </details>
+                    <details>
+                        <summary>Apakah e-tiket tetap bisa dibuka saat sinyal lemah?</summary>
+                        <p>Bisa. Pada halaman e-tiket, tekan tombol <strong>Simpan PDF</strong> sebelum berangkat agar kode QR tersimpan di ponsel dan siap dipindai tanpa koneksi internet.</p>
+                    </details>
+                    <details>
+                        <summary>Mengapa check-in saya belum berhasil?</summary>
+                        <p>Sistem memeriksa jarak koordinat GPS ponselmu terhadap titik tempat wisata. Jika berada di dalam ruangan tebal yang menghalangi sinyal, cobalah kembali dari halaman terbuka dekat pintu masuk.</p>
+                    </details>
+                    <details>
+                        <summary>Poin dari Paspor Digital bisa ditukar dengan apa?</summary>
+                        <p>Setiap check-in menambah 10 poin dan lencana jalur memberi poin tambahan. Poin dapat ditukarkan dengan kode voucher potongan harga dari mitra UMKM Medan di halaman Voucher.</p>
+                    </details>
+                    <details>
+                        <summary>Cerita wisata tersedia dalam bahasa apa saja?</summary>
+                        <p>Seluruh cerita saat ini ditulis dalam bahasa Indonesia. Terjemahan bahasa Inggris, Mandarin, dan Melayu sedang disiapkan secara bertahap oleh tim kurator.</p>
+                    </details>
+                    <details>
+                        <summary>Dari mana asal foto arsip dan rujukan sejarahnya?</summary>
+                        <p>Foto berasal dari Wikimedia Commons dan koleksi arsip Universitas Leiden (KITLV) berlisensi terbuka. Rujukan tiap hubungan sejarah dapat diperiksa di halaman tempat maupun <a class="mv-tautan" href="{{ route('data') }}" style="min-height:0">data terbuka</a>.</p>
+                    </details>
+                </div>
+
+                <div style="display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center">
+                    <a class="mv-btn mv-btn--hijau" href="{{ route('tanya') }}">Tanya asisten MedanVisit</a>
+                    <a class="mv-tautan" href="{{ route('ketentuan') }}">Ketentuan pembelian</a>
+                </div>
+            </div>
+
+            <div class="mv-faq-kanan">
+                <x-foto berkas="becak-medan.jpg" alt="Deretan becak motor khas Medan di tepi jalan kota" class="mv-faq-kanan__tinggi" />
+                <x-foto berkas="bika-ambon.jpg" alt="Potongan kue bika ambon bersarang khas Medan" class="mv-faq-kanan__kecil" />
+            </div>
         </div>
-        <div class="lipat">
-            <details>
-                <summary>Bagaimana cara memesan tiket masuk?</summary>
-                <p>Buka halaman tempat yang bertiket, pilih tanggal dan jumlah tiket, isi data pemesan, lalu bayar. E-tiket ber-QR langsung terbit di menu Tiket saya dan bisa ditunjukkan di loket.</p>
-            </details>
-            <details>
-                <summary>Apakah e-tiket bisa dibuka tanpa sinyal?</summary>
-                <p>Bisa. Dari halaman e-tiket, pilih <strong>Simpan PDF</strong>. Berkas itu tersimpan di ponselmu dan QR-nya tetap bisa dipindai tanpa internet.</p>
-            </details>
-            <details>
-                <summary>Kenapa check-in saya ditolak?</summary>
-                <p>Check-in dihitung dari lokasi GPS ponselmu. Kamu harus berada dalam radius tempat itu, misalnya 100 m dari Istana Maimun. Di dalam gedung GPS sering meleset, jadi coba lagi di halaman atau dekat gerbang.</p>
-            </details>
-            <details>
-                <summary>Poin dari Paspor Digital bisa ditukar apa?</summary>
-                <p>Setiap check-in memberi 10 poin, dan badge tertentu memberi bonus. Poin ditukar dengan voucher yang disediakan mitra UMKM; jumlah poinnya ditentukan masing-masing mitra.</p>
-            </details>
-            <details>
-                <summary>Cerita tersedia dalam bahasa apa?</summary>
-                <p>Saat ini cerita ditulis dalam bahasa Indonesia. Versi Inggris, Mandarin, dan Melayu sedang disiapkan kurator.</p>
-            </details>
-            <details>
-                <summary>Dari mana foto dan fakta sejarahnya?</summary>
-                <p>Foto berasal dari Wikimedia Commons dan arsip KITLV dengan lisensi terbuka. Setiap hubungan sejarah mencantumkan sumbernya di halaman tempat dan di <a class="tautan" href="{{ route('data') }}">data terbuka</a>.</p>
-            </details>
-        </div>
-        <div class="tanya-jawab__aksi">
-            <a class="tombol" href="{{ route('tanya') }}">Tanya asisten</a>
-            <a class="tautan" href="{{ route('ketentuan') }}">Ketentuan pembelian</a>
-        </div>
-    </div>
-    <div class="tanya-jawab__kanan">
-        <x-foto berkas="becak-medan.jpg" alt="Becak motor Medan berwarna-warni terparkir di tepi jalan" class="tanya-jawab__tinggi" />
-        <x-foto berkas="bika-ambon.jpg" alt="Dua potong bika ambon pandan di piring putih" class="tanya-jawab__persegi" />
     </div>
 </section>
 @endsection
-
-@push('skrip')
-    @include('partials.menu')
-@endpush

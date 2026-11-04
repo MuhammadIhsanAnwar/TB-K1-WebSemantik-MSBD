@@ -1,25 +1,53 @@
 @php
-    $menu ??= [['jelajah', 'Jelajah', 'jelajah*'], ['peta', 'Peta', 'peta'], ['jalur', 'Jalur', 'jalur*'], ['rencana', 'Rencana', 'rencana'], ['tanya', 'Tanya', 'tanya']];
     $u = session('pengguna');
+    $menuPonsel = [
+        [route('beranda'), 'Beranda', ['beranda']],
+        [route('peta'), 'Tempat & Peta', ['peta', 'tempat', 'entitas']],
+        [route('jalur'), 'Jalur tematik', ['jalur*']],
+        [route('rencana'), 'Perencana rute', ['rencana', 'rencana.bagikan']],
+        [route('jelajah'), 'Cerita Medan (Graf)', ['jelajah*']],
+        [route('tanya'), 'Tanya asisten', ['tanya', 'cari']],
+        [route('data'), 'Data terbuka & SPARQL', ['data']],
+    ];
 @endphp
-<dialog class="lembar-menu" id="lembar-menu" aria-label="Menu">
+<dialog class="lembar-menu" id="lembar-menu" data-ui aria-label="Menu navigasi">
     <div class="lembar-menu__isi">
         <div class="lembar-menu__atas">
-            <img src="{{ asset('images/logo/tanpa-tagline-gelap.svg') }}" alt="MedanVisit" width="736" height="256" style="width:148px;height:auto">
+            <img src="{{ asset('images/logo/tanpa-tagline-gelap.svg') }}" alt="MedanVisit" width="736" height="256" style="width:144px;height:auto">
             <button type="button" data-tutup-menu>Tutup</button>
         </div>
-        <nav aria-label="Utama, ponsel">
-            <a href="{{ route('beranda') }}" @if (request()->routeIs('beranda')) aria-current="page" @endif>Beranda</a>
-            @foreach ($menu as [$rute, $label, $pola])
-                <a href="{{ route($rute) }}" @if (request()->routeIs($pola)) aria-current="page" @endif>{{ $label }}</a>
+
+        <form class="mv-cari-menu" action="{{ route('cari') }}" method="get" role="search">
+            <label class="sr-only" for="input-cari-menu">Cari di MedanVisit</label>
+            <input id="input-cari-menu" type="search" name="q" placeholder="Cari tempat, tokoh, kuliner…" autocomplete="off" required>
+            <button type="submit">Cari</button>
+        </form>
+
+        <nav aria-label="Menu utama ponsel">
+            @foreach ($menuPonsel as [$href, $label, $pola])
+                <a href="{{ $href }}" @if (request()->routeIs(...$pola)) aria-current="page" @endif>{{ $label }}</a>
             @endforeach
-            <a href="{{ route('data') }}" @if (request()->routeIs('data')) aria-current="page" @endif>Data terbuka</a>
         </nav>
+
+        @if ($u && $u['peran'] === 'wisatawan')
+            <nav class="lembar-menu__sub" aria-label="Menu akun">
+                <a href="{{ route('tiket.saya') }}">Tiket saya</a>
+                <a href="{{ route('paspor') }}">Paspor Digital</a>
+                <a href="{{ route('voucher') }}">Voucher UMKM</a>
+                <a href="{{ route('peringkat') }}">Peringkat</a>
+                <a href="{{ route('rencana.saya') }}">Rencana tersimpan</a>
+                <a href="{{ route('akun') }}">Akun {{ $u['nama'] }}</a>
+            </nav>
+        @endif
+
         <div class="lembar-menu__bawah">
             @if ($u)
-                <a class="tombol tombol--terang tombol--lebar" href="{{ route('akun') }}">Akun {{ $u['nama'] }}</a>
+                <form method="post" action="{{ route('keluar') }}">
+                    @csrf
+                    <button class="mv-btn mv-btn--krem mv-btn--lebar" type="submit">Keluar ({{ $u['nama'] }})</button>
+                </form>
             @else
-                <a class="tombol tombol--lebar" href="{{ route('masuk', ['kembali' => request()->getRequestUri()]) }}">Masuk</a>
+                <a class="mv-btn mv-btn--utama mv-btn--lebar" href="{{ route('masuk', ['kembali' => request()->getRequestUri()]) }}">Masuk atau daftar</a>
             @endif
         </div>
     </div>

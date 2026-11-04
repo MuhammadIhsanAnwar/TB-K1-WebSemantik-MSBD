@@ -5,7 +5,7 @@
 @section('isi')
 <div class="alat">
     <div class="alat__judul">
-        <div><h1>Peringkat minggu ini</h1><p>{{ $awal->locale('id')->translatedFormat('j M') }} sampai {{ $akhir->locale('id')->translatedFormat('j M Y') }} · direset setiap Senin</p></div>
+        <div><h1>Peringkat minggu ini</h1><p>{{ $awal->locale('id')->translatedFormat('j M') }} sampai {{ $akhir->locale('id')->translatedFormat('j M Y') }}, direset setiap Senin</p></div>
     </div>
     @include('partials.subnav-akun')
     @if ($papan)

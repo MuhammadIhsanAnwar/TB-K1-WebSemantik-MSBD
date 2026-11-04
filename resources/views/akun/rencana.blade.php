@@ -13,7 +13,7 @@
                 <tbody>
                     @foreach ($rencana as $r)
                         <tr>
-                            <td><a class="nama" href="{{ route('rencana.bagikan', $r['kode']) }}">{{ $r['judul'] }}</a><span class="sub">Mulai dari {{ \App\Support\Katalog::get($r['mulai'])['nama'] }} · disimpan {{ \Illuminate\Support\Carbon::parse($r['waktu'])->locale('id')->translatedFormat('j M Y') }}</span></td>
+                            <td><a class="nama" href="{{ route('rencana.bagikan', $r['kode']) }}">{{ $r['judul'] }}</a><span class="sub">Mulai dari {{ \App\Support\Katalog::get($r['mulai'])['nama'] }}, disimpan {{ \Illuminate\Support\Carbon::parse($r['waktu'])->locale('id')->translatedFormat('j M Y') }}</span></td>
                             <td class="sekunder">{{ collect($r['minat'])->map(fn ($m) => \App\Support\Katalog::KATEGORI[$m])->implode(', ') }}</td>
                             <td class="n">{{ $r['durasi'] }} jam</td>
                         </tr>

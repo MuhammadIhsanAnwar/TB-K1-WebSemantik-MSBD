@@ -4,7 +4,7 @@
 
 @section('isi')
 <div class="p-judul">
-    <div><h1>Cerita dan audio</h1><p class="sub">{{ $t['nama'] }} · {{ collect($status)->filter()->count() }} dari 4 bahasa berisi</p></div>
+    <div><h1>Cerita dan audio</h1><p class="sub">{{ $t['nama'] }}, {{ collect($status)->filter()->count() }} dari 4 bahasa berisi</p></div>
     <form class="p-judul__aksi" action="{{ route('admin.cerita') }}" method="get">
         <label class="sr-only" for="tempat">Pilih tempat</label>
         <select id="tempat" name="tempat" class="p-btn" onchange="this.form.submit()">@foreach ($tempat as $x)<option value="{{ $x['slug'] }}" @selected($x['slug'] === $t['slug'])>{{ $x['nama'] }}</option>@endforeach</select>

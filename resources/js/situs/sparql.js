@@ -27,7 +27,7 @@ function tampil() {
     const isi = terakhir.baris.length
         ? terakhir.baris.map((b) => `<tr>${b.map((v) => `<td class="${typeof v === 'number' ? 'n' : ''}">${esc(typeof v === 'number' ? v.toLocaleString('id') : v)}</td>`).join('')}</tr>`).join('')
         : `<tr><td colspan="${terakhir.kolom.length}">0 baris.</td></tr>`;
-    hasil.innerHTML = `<p class="kecil redup" style="margin-bottom:8px">${terakhir.baris.length} baris · ${esc(terakhir.catatan)}</p><div class="p-tabel-bungkus"><table class="p-tabel"><thead><tr>${kepala}</tr></thead><tbody>${isi}</tbody></table></div>`;
+    hasil.innerHTML = `<p class="kecil redup" style="margin-bottom:8px">${terakhir.baris.length} baris, ${esc(terakhir.catatan)}</p><div class="p-tabel-bungkus"><table class="p-tabel"><thead><tr>${kepala}</tr></thead><tbody>${isi}</tbody></table></div>`;
 }
 
 akar.querySelectorAll('[data-mode-hasil]').forEach((b) => b.addEventListener('click', () => {

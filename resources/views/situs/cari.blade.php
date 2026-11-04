@@ -52,7 +52,7 @@
                 @foreach ($cepat as $c)
                     <a href="{{ route('tempat', $c['slug']) }}">
                         @if ($c['foto'])<x-foto :berkas="$c['foto']" :alt="$c['nama']" />@else<span class="tanpa-foto" aria-hidden="true"></span>@endif
-                        <span><b>{{ $c['nama'] }}</b><span class="redup">{{ Katalog::KATEGORI[$c['kategori']] }} · {{ $c['kecamatan'] }}</span></span>
+                        <span><b>{{ $c['nama'] }}</b><span class="redup">{{ Katalog::KATEGORI[$c['kategori']] }}, {{ $c['kecamatan'] }}</span></span>
                     </a>
                 @endforeach
             </div>

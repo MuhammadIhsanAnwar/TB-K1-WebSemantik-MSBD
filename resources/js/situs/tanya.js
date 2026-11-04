@@ -23,8 +23,8 @@ function tambah(html, kelas) {
 
 function kartu(t) {
     const foto = t.foto ? `<img src="${esc(t.foto)}" alt="" width="72" height="56" loading="lazy">` : '<span class="tanpa-foto" aria-hidden="true"></span>';
-    const sub = [t.jenis, t.harga, t.jarak != null ? `${Number(t.jarak).toLocaleString('id')} m` : null].filter(Boolean).join(' · ');
-    const aksi = [t.url ? `<a href="${esc(t.url)}">Lihat</a>` : '', t.tiket ? `<a href="${esc(t.tiket)}">Pesan tiket</a>` : ''].join('');
+    const sub = [t.jenis, t.harga, t.jarak != null ? `${Number(t.jarak).toLocaleString('id')} m` : null].filter(Boolean).join(', ');
+    const aksi = [t.url ? `<a href="${esc(t.url)}">Lihat tempat</a>` : '', t.tiket ? `<a href="${esc(t.tiket)}">Pesan tiket</a>` : ''].join('');
     return `<div><a class="kartu-mini" href="${esc(t.url ?? '#')}">${foto}<span><b>${esc(t.nama)}</b><span>${esc(sub)}</span></span></a>${aksi ? `<div class="aksi-mini">${aksi}</div>` : ''}</div>`;
 }
 
@@ -50,7 +50,7 @@ async function tanya(pesan) {
         const isi = (j.teks ?? []).map((p) => `<p>${esc(p)}</p>`).join('')
             + (j.tempat ?? []).map(kartu).join('')
             + (j.tautan ? `<div class="aksi-mini"><a href="${esc(j.tautan.url)}">${esc(j.tautan.label)}</a></div>` : '')
-            + '<p class="sumber">Berdasarkan data MedanVisit</p>';
+            + '<p class="sumber">Berdasarkan katalog MedanVisit</p>';
         tambah(isi, 'gelembung--asisten');
     } catch (e) {
         ketik.remove();
@@ -81,5 +81,7 @@ kotak.addEventListener('keydown', (e) => {
         form.requestSubmit();
     }
 });
-akar.querySelectorAll('[data-saran] button').forEach((b) => b.addEventListener('click', () => tanya(b.textContent.trim())));
+akar.querySelectorAll('[data-saran] button, [data-saran-samping] button').forEach((b) => {
+    b.addEventListener('click', () => tanya(b.textContent.trim()));
+});
 if (akar.dataset.awal) tanya(akar.dataset.awal);

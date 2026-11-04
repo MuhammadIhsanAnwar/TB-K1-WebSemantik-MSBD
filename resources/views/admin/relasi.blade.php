@@ -25,7 +25,7 @@
                 @foreach ($relasi as $r)
                     <tr>
                         <td><b>{{ Katalog::get($r[0])['nama'] }}</b></td>
-                        <td class="sekunder"><span class="p-pill">{{ Katalog::LABEL_RELASI[$r[1]] }}{{ isset($r['jarak_m']) ? ' · '.$r['jarak_m'].' m' : '' }}</span></td>
+                        <td class="sekunder"><span class="p-pill">{{ Katalog::LABEL_RELASI[$r[1]] }}{{ isset($r['jarak_m']) ? ' ('.$r['jarak_m'].' m)' : '' }}</span></td>
                         <td class="sekunder">{{ Katalog::get($r[2])['nama'] }}</td>
                         <td class="sekunder" style="color:var(--p-muted)">@if (str_contains($r['sumber'], 'perlu verifikasi'))<span class="p-pill warn">Survei, perlu verifikasi</span>@else{{ \Illuminate\Support\Str::of($r['sumber'])->after('wiki/')->replace('_', ' ')->limit(28) }}@endif</td>
                     </tr>

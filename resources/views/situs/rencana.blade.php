@@ -59,11 +59,11 @@
     <section class="rencana__hasil" aria-labelledby="judul-hasil">
         @if ($hasil)
             <h2 id="judul-hasil" style="font-size:2.25rem">{{ $judulRute }}</h2>
-            <p class="redup" style="margin:8px 0 28px">{{ collect($minat)->map(fn ($m) => Katalog::KATEGORI[$m])->implode(', ') }} · {{ $durasi }} jam · {{ collect($moda)->map(fn ($m) => $m === 'jalan' ? 'jalan kaki' : 'becak motor')->implode(' dan ') }}</p>
+            <p class="redup" style="margin:8px 0 28px">{{ collect($minat)->map(fn ($m) => Katalog::KATEGORI[$m])->implode(', ') }} selama {{ $durasi }} jam dengan {{ collect($moda)->map(fn ($m) => $m === 'jalan' ? 'jalan kaki' : 'becak motor')->implode(' dan ') }}</p>
             <div class="slip" aria-label="Urutan singgah">
                 @foreach ($hasil['singgah'] as $s)
                     @if ($s['pindah'])
-                        <div class="slip__baris redup"><span>{{ $s['pindah']['moda'] }} {{ number_format($s['pindah']['meter'], 0, ',', '.') }} m</span><span class="titik-titik"></span><span class="kanan">{{ $s['pindah']['menit'] }} mnt{{ $s['pindah']['biaya'] ? ' · '.Katalog::rupiah($s['pindah']['biaya']) : '' }}</span></div>
+                        <div class="slip__baris redup"><span>{{ $s['pindah']['moda'] }} {{ number_format($s['pindah']['meter'], 0, ',', '.') }} m</span><span class="titik-titik"></span><span class="kanan">{{ $s['pindah']['menit'] }} mnt{{ $s['pindah']['biaya'] ? ' ('.Katalog::rupiah($s['pindah']['biaya']).')' : '' }}</span></div>
                     @endif
                     <div class="slip__baris"><span>{{ Katalog::jamTeks($s['mulai']) }} <a href="{{ route('tempat', $s['tempat']['slug']) }}">{{ $s['tempat']['nama'] }}</a></span><span class="titik-titik"></span><span class="kanan">{{ $s['tempat']['singgah'] }} mnt</span></div>
                 @endforeach

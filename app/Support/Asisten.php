@@ -145,7 +145,7 @@ class Asisten
         $baris = array_map(fn ($s) => Katalog::jamTeks($s['mulai']).' '.$s['tempat']['nama'], $r['singgah']);
 
         return [
-            'teks' => ['Rute setengah hari dari Istana Maimun, jalan kaki dan becak motor:', implode(' · ', $baris), 'Perkiraan biaya tiket dan becak '.Katalog::rupiah($r['biaya']).' per orang. Kamu bisa mengubah minat dan durasinya di Perencana Rute.'],
+            'teks' => ['Rute setengah hari dari Istana Maimun, jalan kaki dan becak motor:', implode(', lalu ', $baris).'.', 'Perkiraan biaya tiket dan becak '.Katalog::rupiah($r['biaya']).' per orang. Kamu bisa mengubah minat dan durasinya di Perencana Rute.'],
             'tempat' => [],
             'tautan' => ['label' => 'Buka Perencana Rute', 'url' => route('rencana', ['minat' => ['sejarah', 'religi', 'kuliner'], 'durasi' => 4, 'moda' => ['jalan', 'becak'], 'mulai' => 'istana-maimun'])],
         ];

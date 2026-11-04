@@ -12,9 +12,9 @@
         @foreach ($ulasan as $ul)
             <div style="align-items:flex-start">
                 <span class="dua" style="flex:1">
-                    <b>{{ Katalog::get($ul['tempat'])['nama'] }} · <x-bintang :n="$ul['bintang']" /></b>
+                    <b>{{ Katalog::get($ul['tempat'])['nama'] }} <x-bintang :n="$ul['bintang']" /></b>
                     <span style="font-size:14px;color:var(--p-text);margin-top:6px">{{ $ul['teks'] }}</span>
-                    <span>{{ $ul['nama'] }} · {{ $ul['email'] }} · {{ \Illuminate\Support\Carbon::parse($ul['waktu'])->locale('id')->translatedFormat('j M Y, H.i') }}</span>
+                    <span>{{ $ul['nama'] }} ({{ $ul['email'] }}), {{ \Illuminate\Support\Carbon::parse($ul['waktu'])->locale('id')->translatedFormat('j M Y, H.i') }}</span>
                 </span>
                 @if ($tab === 'menunggu')
                     <span style="display:flex;gap:8px;flex:none">

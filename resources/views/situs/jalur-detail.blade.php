@@ -32,7 +32,7 @@
                     <span class="lini__nomor">{{ $i + 1 }}</span>
                     <div>
                         <h2 style="font-size:1.75rem"><a href="{{ route('tempat', $s['tempat']['slug']) }}">{{ $s['tempat']['nama'] }}</a></h2>
-                        <p class="redup kecil" style="margin-top:4px">Singgah {{ $s['tempat']['singgah'] }} menit · <x-harga :tempat="$s['tempat']" /></p>
+                        <p class="redup kecil" style="margin-top:4px">Singgah {{ $s['tempat']['singgah'] }} menit, <x-harga :tempat="$s['tempat']" /></p>
                         <p style="margin-top:10px">{{ $s['tempat']['cerita'][0] }}</p>
                         @if ($i > 0)
                             @php $rantai = Katalog::benangMerah($singgah[$i - 1]['tempat']['slug'], $s['tempat']['slug']); @endphp
@@ -65,7 +65,7 @@
             <h2 id="judul-lain">Jalur lain</h2>
             <div class="rekomendasi">
                 @foreach ($lain as $l)
-                    <a href="{{ route('jalur.detail', $l['slug']) }}"><x-foto :berkas="$l['foto']" :alt="$l['nama']" /><span><b>{{ $l['nama'] }}</b><span class="redup">{{ count($l['singgah']) }} tempat · {{ number_format($l['meter'] / 1000, 1, ',', '.') }} km</span></span></a>
+                    <a href="{{ route('jalur.detail', $l['slug']) }}"><x-foto :berkas="$l['foto']" :alt="$l['nama']" /><span><b>{{ $l['nama'] }}</b><span class="redup">{{ count($l['singgah']) }} tempat, {{ number_format($l['meter'] / 1000, 1, ',', '.') }} km</span></span></a>
                 @endforeach
             </div>
         </section>

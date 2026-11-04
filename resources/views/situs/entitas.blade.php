@@ -47,7 +47,7 @@
                             @if ($d['foto'])<x-foto :berkas="$d['foto']" :alt="$d['nama']" :kecil="true" :segera="true" />@else<span class="tanpa-foto" aria-hidden="true"></span>@endif
                             <span>
                                 <b>{{ $d['nama'] }}</b>
-                                <span class="redup">{{ Katalog::KATEGORI[$d['kategori']] }} · {{ $d['kecamatan'] }} · <x-harga :tempat="$d" /></span>
+                                <span class="redup">{{ Katalog::KATEGORI[$d['kategori']] }} di {{ $d['kecamatan'] }}, <x-harga :tempat="$d" /></span>
                                 @if ($rantai)<span class="alasan">{{ $rantai[0]['kalimat'] }}</span>@endif
                             </span>
                         </a>

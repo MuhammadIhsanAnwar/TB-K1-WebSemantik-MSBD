@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(SitusController::class)->group(function () {
     Route::get('/', 'beranda')->name('beranda');
     Route::get('/cari', 'cari')->name('cari');
+    Route::get('/cari/saran.json', 'saran')->name('cari.saran');
     Route::get('/tanya', 'tanya')->name('tanya');
     Route::post('/tanya', 'jawab')->name('tanya.jawab');
     Route::get('/peta', 'peta')->name('peta');

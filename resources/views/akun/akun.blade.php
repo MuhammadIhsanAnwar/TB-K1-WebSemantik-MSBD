@@ -6,7 +6,7 @@
 @section('isi')
 <div class="alat">
     <div class="alat__judul">
-        <div><h1>{{ $u['nama'] }}</h1><p>{{ $u['email'] }} · {{ $gelar['nama'] }}</p></div>
+        <div><h1>{{ $u['nama'] }}</h1><p class="mv-meta-garis"><span>{{ $u['email'] }}</span><span>{{ $gelar['nama'] }}</span></p></div>
         <form method="post" action="{{ route('keluar') }}">@csrf<button class="p-btn" type="submit">Keluar</button></form>
     </div>
     @include('partials.subnav-akun')

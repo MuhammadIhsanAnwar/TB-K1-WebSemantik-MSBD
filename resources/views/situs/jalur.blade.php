@@ -19,7 +19,7 @@
                 </span>
                 <span class="angka">
                     <b>{{ count($j['singgah']) }} tempat</b>
-                    {{ number_format($j['meter'] / 1000, 1, ',', '.') }} km · {{ $fmtMenit($j['menit']) }}
+                    {{ number_format($j['meter'] / 1000, 1, ',', '.') }} km, {{ $fmtMenit($j['menit']) }}
                 </span>
             </a>
         @endforeach

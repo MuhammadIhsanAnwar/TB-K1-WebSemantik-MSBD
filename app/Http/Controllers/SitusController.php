@@ -63,6 +63,30 @@ class SitusController extends Controller
         ]);
     }
 
+    public function saran(Request $request)
+    {
+        $q = trim((string) $request->query('q', ''));
+        if (mb_strlen($q) < 2) {
+            return response()->json(['saran' => [], 'tanya' => null]);
+        }
+
+        $items = array_slice(Katalog::cari($q), 0, 6);
+        $saran = array_map(fn ($e) => [
+            'nama' => $e['nama'],
+            'jenis' => $e['jenis'],
+            'label_jenis' => $e['jenis'] === 'tempat' ? Katalog::KATEGORI[$e['kategori']] : Katalog::KELAS[$e['jenis']],
+            'ringkas' => $e['kecamatan'] ?? ($e['ringkas'] ?? ''),
+            'harga' => $e['jenis'] === 'tempat' ? Katalog::rupiah(Katalog::hargaTermurah($e)) : null,
+            'url' => self::urlEntitas($e),
+        ], $items);
+
+        return response()->json([
+            'saran' => array_values(array_filter($saran, fn ($x) => ! empty($x['url']))),
+            'tanya' => route('tanya', ['q' => $q]),
+            'semua' => route('cari', ['q' => $q]),
+        ]);
+    }
+
     public function tanya(Request $request)
     {
         return view('situs.tanya', ['awal' => (string) $request->query('q', '')]);

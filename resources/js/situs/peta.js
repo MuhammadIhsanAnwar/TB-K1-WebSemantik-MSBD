@@ -20,7 +20,7 @@ function ikon(warna, nomor = null) {
 }
 
 function popup(t) {
-    return `<div class="popup-tempat"><b>${esc(t.nama)}</b><span>${esc(t.harga ?? '')}${t.jarak != null ? ` · ${t.jarak.toLocaleString('id')} m` : ''}</span>
+    return `<div class="popup-tempat"><b>${esc(t.nama)}</b><span>${esc(t.harga ?? '')}${t.jarak != null ? `, ${t.jarak.toLocaleString('id')} m` : ''}</span>
         <div class="aksi"><a href="${esc(t.url)}">Lihat tempat</a>${t.tiket ? `<a href="${esc(t.tiket)}">Pesan tiket</a>` : ''}</div></div>`;
 }
 
@@ -31,7 +31,6 @@ function buatPeta(el, opsi = {}) {
         maxZoom: 19,
         attribution: '&copy; kontributor <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(peta);
-    // fokus ke peta lewat Tab membolehkan gulir-zoom
     el.addEventListener('focus', () => peta.scrollWheelZoom.enable());
     el.addEventListener('blur', () => peta.scrollWheelZoom.disable());
     return peta;
@@ -41,9 +40,9 @@ function modeRingkas(el) {
     const tempat = JSON.parse(el.dataset.tempat);
     const peta = buatPeta(el);
     const grup = L.featureGroup(tempat.map((t) => L.marker([t.lat, t.lng], { icon: ikon(WARNA[t.kategori]), title: t.nama, alt: t.nama }).bindPopup(popup(t)))).addTo(peta);
-    // pusatkan pada kota lama (tanpa Tanjung Selamat yang jauh di selatan)
     const dekat = tempat.filter((t) => t.lat > 3.55);
-    peta.fitBounds(L.latLngBounds(dekat.map((t) => [t.lat, t.lng])).pad(0.12), { paddingTopLeft: [24, 24], paddingBottomRight: [innerWidth > 900 ? 440 : 24, 24] });
+    peta.fitBounds(L.latLngBounds(dekat.map((t) => [t.lat, t.lng])).pad(0.12), { padding: [24, 24] });
+    setTimeout(() => peta.invalidateSize(), 200);
     return { peta, grup };
 }
 
@@ -61,7 +60,11 @@ function modeAlat(el) {
     const daftar = document.querySelector('[data-peta-daftar]');
     const hitung = document.querySelector('[data-peta-hitung]');
     const kosong = document.querySelector('[data-peta-kosong]');
-    const saring = { kategori: new Set(Object.keys(WARNA)), buka: false, tiket: false };
+    const inputCari = document.querySelector('[data-peta-cari]');
+    const pilihUrut = document.querySelector('[data-peta-urut]');
+    const lembar = document.querySelector('[data-lembar-peta]');
+    const saring = { kategori: new Set(Object.keys(WARNA)), buka: false, tiket: false, teks: '', urut: 'bawaan' };
+    const titikPusat = { lat: 3.5752, lng: 98.6838 }; // Istana Maimun sebagai patokan jarak awal
     let lokasi = null;
     let lokasiPenanda = null;
 
@@ -72,12 +75,26 @@ function modeAlat(el) {
         penanda.set(t.slug, m);
     });
 
+    function aturLembar(mode) {
+        if (!lembar) return;
+        lembar.dataset.tinggi = mode;
+        document.querySelectorAll('[data-tinggi-peta]').forEach((b) => {
+            b.setAttribute('aria-pressed', b.dataset.tinggiPeta === mode ? 'true' : 'false');
+        });
+        setTimeout(() => peta.invalidateSize(), 260);
+    }
+
+    document.querySelectorAll('[data-tinggi-peta]').forEach((b) => {
+        b.addEventListener('click', () => aturLembar(b.dataset.tinggiPeta));
+    });
+
     function sorot(slug, terbang = true) {
         daftar.querySelectorAll('[data-slug]').forEach((a) => (a.dataset.slug === slug ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
         const t = tempat.find((x) => x.slug === slug);
         if (terbang && t) {
+            if (innerWidth <= 900) aturLembar('intip');
             peta.flyTo([t.lat, t.lng], Math.max(peta.getZoom(), 16), { duration: 0.6 });
-            penanda.get(slug).openPopup();
+            penanda.get(slug)?.openPopup();
         }
         daftar.querySelector(`[data-slug="${slug}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
@@ -90,21 +107,51 @@ function modeAlat(el) {
 
     function gambar() {
         const jam = new Date().getHours();
-        let tampil = tempat.filter((t) => saring.kategori.has(t.kategori) && (!saring.buka || (jam >= t.buka[0] && jam < t.buka[1])) && (!saring.tiket || t.tiket));
-        tampil = tampil.map((t) => ({ ...t, jarak: lokasi ? jarak(lokasi, t) : null }));
-        if (lokasi) tampil.sort((a, b) => a.jarak - b.jarak);
+        const kueri = saring.teks.toLowerCase();
+        let tampil = tempat.filter((t) => {
+            const cocokKat = saring.kategori.has(t.kategori);
+            const cocokJam = !saring.buka || (jam >= t.buka[0] && jam < t.buka[1]);
+            const cocokTiket = !saring.tiket || Boolean(t.tiket);
+            const cocokTeks = !kueri || `${t.nama} ${t.kecamatan ?? ''} ${t.kategori}`.toLowerCase().includes(kueri);
+            return cocokKat && cocokJam && cocokTiket && cocokTeks;
+        });
+
+        tampil = tampil.map((t) => ({ ...t, jarak: lokasi ? jarak(lokasi, t) : null, jarakPusat: jarak(titikPusat, t) }));
+
+        if (saring.urut === 'terdekat' || lokasi) {
+            tampil.sort((a, b) => (a.jarak ?? a.jarakPusat) - (b.jarak ?? b.jarakPusat));
+        } else if (saring.urut === 'termurah') {
+            tampil.sort((a, b) => (a.hargaAngka ?? 0) - (b.hargaAngka ?? 0));
+        }
+
         const terlihat = new Set(tampil.map((t) => t.slug));
         penanda.forEach((m, slug) => (terlihat.has(slug) ? m.addTo(peta) : m.remove()));
         daftar.querySelectorAll('[data-slug]').forEach((a) => {
             const t = tampil.find((x) => x.slug === a.dataset.slug);
             a.hidden = !t;
             const j = a.querySelector('[data-jarak]');
-            if (j) j.textContent = t && t.jarak != null ? `${t.jarak.toLocaleString('id')} m dari kamu` : '';
+            if (j) {
+                j.textContent = t && t.jarak != null
+                    ? `${t.jarak.toLocaleString('id')} m dari lokasimu`
+                    : (saring.urut === 'terdekat' && t ? `${t.jarakPusat.toLocaleString('id')} m dari Istana Maimun` : '');
+            }
         });
-        if (lokasi) tampil.forEach((t) => daftar.append(daftar.querySelector(`[data-slug="${t.slug}"]`)));
+        tampil.forEach((t) => {
+            const kartu = daftar.querySelector(`[data-slug="${t.slug}"]`);
+            if (kartu) daftar.insertBefore(kartu, kosong);
+        });
         hitung.textContent = `${tampil.length} dari ${tempat.length} tempat`;
         kosong.hidden = tampil.length > 0;
     }
+
+    inputCari?.addEventListener('input', () => {
+        saring.teks = inputCari.value.trim();
+        gambar();
+    });
+    pilihUrut?.addEventListener('change', () => {
+        saring.urut = pilihUrut.value;
+        gambar();
+    });
 
     document.querySelectorAll('[data-saring-kategori]').forEach((b) => {
         b.addEventListener('click', () => {
@@ -125,6 +172,10 @@ function modeAlat(el) {
     document.querySelector('[data-hapus-saring]')?.addEventListener('click', () => {
         saring.kategori = new Set(Object.keys(WARNA));
         saring.buka = saring.tiket = false;
+        saring.teks = '';
+        saring.urut = 'bawaan';
+        if (inputCari) inputCari.value = '';
+        if (pilihUrut) pilihUrut.value = 'bawaan';
         document.querySelectorAll('[data-saring-kategori]').forEach((b) => b.setAttribute('aria-pressed', 'true'));
         document.querySelectorAll('[data-saring]').forEach((b) => b.setAttribute('aria-pressed', 'false'));
         gambar();
@@ -146,7 +197,7 @@ function modeAlat(el) {
             tombolLokasi.setAttribute('aria-pressed', 'true');
             tombolLokasi.removeAttribute('aria-busy');
             const terdekat = Math.min(...tempat.map((t) => jarak(lokasi, t)));
-            pesanLokasi.textContent = terdekat > 30000 ? 'Kamu sedang jauh dari Medan. Daftar tetap diurutkan dari yang paling dekat denganmu.' : 'Daftar diurutkan dari yang terdekat.';
+            pesanLokasi.textContent = terdekat > 30000 ? 'Kamu sedang jauh dari Medan. Daftar tetap diurutkan dari yang paling dekat.' : 'Diurutkan dari yang terdekat denganmu.';
             gambar();
         }, () => {
             tombolLokasi.removeAttribute('aria-busy');
@@ -155,10 +206,14 @@ function modeAlat(el) {
     });
 
     daftar.querySelectorAll('[data-slug]').forEach((a) => {
-        a.addEventListener('click', (e) => {
-            if (e.metaKey || e.ctrlKey) return;
+        a.addEventListener('mouseenter', () => penanda.get(a.dataset.slug)?.setZIndexOffset(400));
+        a.addEventListener('mouseleave', () => penanda.get(a.dataset.slug)?.setZIndexOffset(0));
+    });
+    daftar.querySelectorAll('[data-fokus-peta]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
             e.preventDefault();
-            sorot(a.dataset.slug);
+            e.stopPropagation();
+            sorot(btn.dataset.fokusPeta, true);
         });
     });
 

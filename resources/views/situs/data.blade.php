@@ -29,7 +29,7 @@
 
     <div class="p-grid" style="margin-bottom:24px">
         <section class="p-panel s7" aria-labelledby="judul-ontologi">
-            <header><h2 id="judul-ontologi">Ontologi</h2><span class="meta">{{ count($kelas) + 1 }} kelas · {{ count(Katalog::LABEL_RELASI) }} properti</span></header>
+            <header><h2 id="judul-ontologi">Ontologi</h2><span class="meta">{{ count($kelas) + 1 }} kelas, {{ count(Katalog::LABEL_RELASI) }} properti</span></header>
             <svg class="ontologi" viewBox="0 0 920 430" role="img" aria-label="Diagram ontologi: TempatWisata dibangun oleh Tokoh, Tokoh memimpin Kerajaan dan terlibat dalam Peristiwa, TempatWisata mencerminkan Budaya, Kuliner khas dari Budaya, TempatWisata berada di Kecamatan dan dilayani ModaTransportasi.">
                 @foreach ($sisi as [$a, $b, $p])
                     @php [, $x1, $y1] = $kelas[$a]; [, $x2, $y2] = $kelas[$b]; @endphp

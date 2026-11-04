@@ -68,7 +68,7 @@
     "src": "node_modules/leaflet/dist/images/marker-icon.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-Ya6IHjku.css",
+    "file": "assets/app-B5UZLWd4.css",
     "name": "app",
     "names": [
       "app.css"
@@ -77,7 +77,7 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-B7C_WpqR.js",
+    "file": "assets/app-D6e8QvRW.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -138,7 +138,7 @@
     "isDynamicEntry": true
   },
   "resources/js/situs/peta.js": {
-    "file": "assets/peta-D2VMukFk.js",
+    "file": "assets/peta-BBexGgbW.js",
     "name": "peta",
     "src": "resources/js/situs/peta.js",
     "isDynamicEntry": true,
@@ -155,13 +155,13 @@
     ]
   },
   "resources/js/situs/sparql.js": {
-    "file": "assets/sparql-CLBKEPuA.js",
+    "file": "assets/sparql-BhgK8rPD.js",
     "name": "sparql",
     "src": "resources/js/situs/sparql.js",
     "isDynamicEntry": true
   },
   "resources/js/situs/tanya.js": {
-    "file": "assets/tanya-C4rfHLgp.js",
+    "file": "assets/tanya-DbYBvla7.js",
     "name": "tanya",
     "src": "resources/js/situs/tanya.js",
     "isDynamicEntry": true

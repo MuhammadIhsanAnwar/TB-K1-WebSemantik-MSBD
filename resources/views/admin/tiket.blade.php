@@ -17,7 +17,7 @@
         <h2>Harga tiket</h2>
         <div class="p-baris" style="margin-top:6px">
             @foreach ($bertiket as $t)
-                <div><span class="dua"><b>{{ $t['nama'] }}</b><span>{{ collect($t['tiket'])->map(fn ($h, $j) => $j.' '.Katalog::rupiah($h))->implode(' · ') }}</span></span><a class="p-tautan-kartu kanan" href="{{ route('admin.entitas.ubah', $t['slug']) }}">Ubah</a></div>
+                <div><span class="dua"><b>{{ $t['nama'] }}</b><span>{{ collect($t['tiket'])->map(fn ($h, $j) => $j.' '.Katalog::rupiah($h))->implode(', ') }}</span></span><a class="p-tautan-kartu kanan" href="{{ route('admin.entitas.ubah', $t['slug']) }}">Ubah</a></div>
             @endforeach
         </div>
     </section>

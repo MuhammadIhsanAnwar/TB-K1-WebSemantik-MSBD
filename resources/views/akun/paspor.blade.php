@@ -72,7 +72,7 @@
                 <header><h2 id="judul-tukar">Tukar poin</h2><a class="p-tautan-kartu" href="{{ route('voucher') }}">Voucher saya</a></header>
                 @forelse ($voucher as $v)
                     <div class="voucher-baris">
-                        <span><b>{{ $v['nama'] }}</b><span>{{ $v['usaha'] }} · sisa {{ $v['stok'] }} · berlaku sampai {{ \Illuminate\Support\Carbon::parse($v['berlaku'])->locale('id')->translatedFormat('j M Y') }}</span></span>
+                        <span><b>{{ $v['nama'] }}</b><span>{{ $v['usaha'] }}, sisa {{ $v['stok'] }}, berlaku sampai {{ \Illuminate\Support\Carbon::parse($v['berlaku'])->locale('id')->translatedFormat('j M Y') }}</span></span>
                         <form method="post" action="{{ route('paspor.tukar', $v['id']) }}">
                             @csrf
                             <button class="p-btn {{ $poin['total'] >= $v['poin'] ? 'p-btn--utama' : '' }}" type="submit" @if ($poin['total'] < $v['poin']) aria-describedby="kurang-{{ $v['id'] }}" @endif>Tukar {{ $v['poin'] }} poin</button>

@@ -4,7 +4,7 @@
 
 @section('isi')
 <div class="p-judul">
-    <div><h1>{{ $e['nama'] }}</h1><p class="sub">{{ Katalog::KELAS[$e['jenis']] }} · {{ count($tetangga) }} relasi · @if ($draf) draf disimpan {{ \Illuminate\Support\Carbon::parse($draf['waktu'])->locale('id')->diffForHumans() }} @else belum ada perubahan @endif</p></div>
+    <div><h1>{{ $e['nama'] }}</h1><p class="sub">{{ Katalog::KELAS[$e['jenis']] }}, {{ count($tetangga) }} relasi, @if ($draf) draf disimpan {{ \Illuminate\Support\Carbon::parse($draf['waktu'])->locale('id')->diffForHumans() }} @else belum ada perubahan @endif</p></div>
     <div class="p-judul__aksi">
         @if ($url = SitusController::urlEntitas($e))<a class="p-btn" href="{{ $url }}">Lihat di situs</a>@endif
         <a class="p-btn" href="{{ route('admin.entitas') }}">Kembali ke daftar</a>

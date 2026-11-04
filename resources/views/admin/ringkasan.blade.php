@@ -35,13 +35,13 @@
         @if ($ulasanMenunggu)
             <div class="p-baris">
                 @foreach (array_slice($ulasanMenunggu, 0, 4) as $ul)
-                    <div><span class="dua"><b>{{ Katalog::get($ul['tempat'])['nama'] }}</b><span>{{ $ul['nama'] }} · {{ \Illuminate\Support\Str::limit($ul['teks'], 60) }}</span></span><a class="p-btn kanan" href="{{ route('admin.ulasan') }}">Periksa</a></div>
+                    <div><span class="dua"><b>{{ Katalog::get($ul['tempat'])['nama'] }}</b><span>{{ $ul['nama'] }}: {{ \Illuminate\Support\Str::limit($ul['teks'], 60) }}</span></span><a class="p-btn kanan" href="{{ route('admin.ulasan') }}">Periksa</a></div>
                 @endforeach
             </div>
         @else
             <div class="p-kosong" style="min-height:44px">Tidak ada ulasan yang menunggu.</div>
         @endif
-        <h3 style="font-size:13px;color:var(--p-muted);font-weight:500;margin:20px 0 4px">Dicari tetapi tanpa hasil · dari {{ $jumlahCari }} pencarian</h3>
+        <h3 style="font-size:13px;color:var(--p-muted);font-weight:500;margin:20px 0 4px">Dicari tetapi tanpa hasil (dari {{ $jumlahCari }} pencarian)</h3>
         @if ($celah)
             <div class="p-baris">
                 @foreach (array_slice($celah, 0, 5, true) as $q => $n)
@@ -81,7 +81,7 @@
         <header><h2 id="judul-lengkapi">Tempat yang perlu dilengkapi</h2><span class="meta">{{ $tanpaFoto->count() }} tanpa foto</span></header>
         <div class="p-baris">
             @foreach ($tanpaFoto as $t)
-                <div><span class="dua"><b>{{ $t['nama'] }}</b><span>{{ Katalog::KATEGORI[$t['kategori']] }} · belum ada foto berlisensi</span></span><a class="p-btn kanan" href="{{ route('admin.entitas.ubah', $t['slug']) }}">Ubah</a></div>
+                <div><span class="dua"><b>{{ $t['nama'] }}</b><span>{{ Katalog::KATEGORI[$t['kategori']] }}, belum ada foto berlisensi</span></span><a class="p-btn kanan" href="{{ route('admin.entitas.ubah', $t['slug']) }}">Ubah</a></div>
             @endforeach
         </div>
     </section>
