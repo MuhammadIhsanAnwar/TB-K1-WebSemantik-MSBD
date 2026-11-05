@@ -1,6 +1,6 @@
 @props(['tempat', 'tanggal' => null, 'id' => null, 'besar' => false])
 @php
-    $warna = ['sejarah' => '#0f3b2e', 'religi' => '#6a4c9c', 'kuliner' => '#b24a18', 'museum' => '#2f6690', 'ruang-publik' => '#2e7d4f'][$tempat['kategori'] ?? 'sejarah'] ?? '#0f3b2e';
+    $warna = ['sejarah' => '#0f3b2e', 'religi' => '#6a4c9c', 'kuliner' => '#b24a18', 'museum' => '#2f6690', 'ruang-publik' => '#2e7d4f', 'belanja' => '#7a5230', 'rekreasi-air' => '#23706f'][$tempat['kategori'] ?? 'sejarah'] ?? '#0f3b2e';
     $uid = $id ?? 'st-'.$tempat['slug'].'-'.substr(md5((string) $tanggal), 0, 5);
     $nama = mb_strtoupper(\Illuminate\Support\Str::limit($tempat['nama'], 26, ''));
 @endphp

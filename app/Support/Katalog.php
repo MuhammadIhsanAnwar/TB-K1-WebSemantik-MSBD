@@ -26,11 +26,13 @@ class Katalog
     ];
 
     public const KATEGORI = [
-        'sejarah' => 'Wisata sejarah',
-        'religi' => 'Rumah ibadah',
-        'kuliner' => 'Tempat makan',
+        'sejarah' => 'Sejarah & cagar budaya',
         'museum' => 'Museum',
-        'ruang-publik' => 'Ruang publik',
+        'religi' => 'Rumah ibadah',
+        'kuliner' => 'Kuliner',
+        'ruang-publik' => 'Taman & ruang publik',
+        'belanja' => 'Belanja',
+        'rekreasi-air' => 'Rekreasi air',
     ];
 
     /** Kalimat per predikat: [arah maju, arah balik]. {a} subjek, {b} objek. */
@@ -104,14 +106,14 @@ class Katalog
             [
                 'slug' => 'istana-maimun', 'nama' => 'Istana Maimun', 'kategori' => 'sejarah',
                 'ringkas' => 'Istana Kesultanan Deli, dibangun 1888–1891 oleh Sultan Ma\'moen Al Rasyid.',
-                'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Sukaraja', 'alamat' => 'Jl. Brigjend Katamso No. 66',
-                'lat' => 3.5752, 'lng' => 98.6837, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Aur', 'alamat' => 'Jl. Brigjend Katamso No. 66',
+                'lat' => 3.57529, 'lng' => 98.68405,
                 'foto' => 'istana-maimun.jpg', 'foto_lama' => 'istana-maimun-1900.jpg', 'tahun_foto_lama' => 'sekitar 1900',
-                'tiket' => ['Dewasa' => 10000, 'Anak (3–12 tahun)' => 5000], 'harga_contoh' => true,
+                'tiket' => ['Dewasa' => 10000, 'Anak' => 5000], 'harga_contoh' => true,
                 'jam' => 'Setiap hari, 08.00–17.00', 'jam_buka' => [8, 17], 'jam_contoh' => true,
-                'fasilitas' => ['Parkir', 'Toilet', 'Mushola', 'Sewa baju adat Melayu'],
-                'radius_checkin' => 100, 'singgah' => 60,
-                'cara' => ['Becak motor dari Kesawan, sekitar 10 menit', 'Jalan kaki dari Masjid Raya Al-Mashun, sekitar 6 menit'],
+                'fasilitas' => ['Parkir', 'Toilet', 'Mushola', 'Sewa baju adat Melayu (Rp20.000–50.000)', 'Balita di bawah 5 tahun gratis'],
+                'radius_checkin' => 150, 'singgah' => 60,
+                'cara' => ['Becak motor dari Kesawan, tawar ongkos sebelum naik (sekitar Rp20.000–30.000)', 'Bus Listrik Medan koridor K1 melintas di depan istana', 'Jalan kaki dari Masjid Raya Al-Mashun, sekitar 6 menit'],
                 'cerita' => [
                     'Istana Maimun dibangun Sultan Ma\'moen Al Rasyid Perkasa Alamsyah, sultan Deli kesembilan, dan rampung pada 1891. Bangunannya memadukan unsur Melayu, Islam, India, dan Eropa.',
                     'Warna kuning yang mendominasi istana adalah warna kebesaran Melayu. Sampai sekarang sebagian ruangan masih ditinggali kerabat kesultanan, dan pengunjung bisa berfoto memakai baju adat Melayu di balairung.',
@@ -121,8 +123,8 @@ class Katalog
             [
                 'slug' => 'masjid-raya-al-mashun', 'nama' => 'Masjid Raya Al-Mashun', 'kategori' => 'religi',
                 'ringkas' => 'Masjid Kesultanan Deli, dibangun 1906–1909 dengan denah segi delapan.',
-                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja No. 61',
-                'lat' => 3.5752, 'lng' => 98.6874, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja',
+                'lat' => 3.57517, 'lng' => 98.68730,
                 'foto' => 'masjid-raya.jpg', 'foto_potret' => 'masjid-raya-potret.jpg',
                 'tiket' => null, 'jam' => 'Terbuka di luar waktu salat', 'jam_buka' => [5, 21], 'jam_contoh' => true,
                 'fasilitas' => ['Parkir', 'Tempat wudu', 'Peminjaman kain penutup'],
@@ -137,10 +139,10 @@ class Katalog
                 'slug' => 'tjong-a-fie-mansion', 'nama' => 'Tjong A Fie Mansion', 'kategori' => 'sejarah',
                 'ringkas' => 'Rumah saudagar Tjong A Fie di Kesawan, kini museum rumah.',
                 'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Jend. Ahmad Yani No. 105',
-                'lat' => 3.5857, 'lng' => 98.6800, 'koordinat_perkiraan' => true,
+                'lat' => 3.58543, 'lng' => 98.68037,
                 'foto' => 'tjong-a-fie-mansion.jpg', 'foto_lama' => 'tjong-a-fie-arsip.jpg', 'tahun_foto_lama' => 'awal 1900-an',
-                'tiket' => ['Dewasa' => 35000, 'Pelajar' => 20000], 'harga_contoh' => true,
-                'jam' => 'Setiap hari, 09.00–17.00', 'jam_buka' => [9, 17], 'jam_contoh' => true,
+                'tiket' => ['Umum, termasuk pemandu' => 35000],
+                'jam' => 'Setiap hari, 09.00–17.00 (masuk terakhir 16.30), tutup saat Imlek', 'jam_buka' => [9, 17],
                 'fasilitas' => ['Pemandu', 'Toilet', 'Kafe'],
                 'radius_checkin' => 80, 'singgah' => 60,
                 'cara' => ['Jalan kaki dari Lapangan Merdeka, sekitar 8 menit', 'Becak motor dari Istana Maimun, sekitar 10 menit'],
@@ -152,8 +154,8 @@ class Katalog
             [
                 'slug' => 'meriam-puntung', 'nama' => 'Meriam Puntung', 'kategori' => 'sejarah',
                 'ringkas' => 'Meriam di halaman Istana Maimun yang dikaitkan dengan legenda Putri Hijau.',
-                'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Sukaraja', 'alamat' => 'Kompleks Istana Maimun',
-                'lat' => 3.5749, 'lng' => 98.6833, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Aur', 'alamat' => 'Kompleks Istana Maimun',
+                'lat' => 3.57493, 'lng' => 98.68405,
                 'foto' => 'meriam-puntung.jpg', 'foto_keterangan' => 'Rumah Meriam Puntung di halaman Istana Maimun', 'tiket' => null, 'jam' => 'Mengikuti jam buka Istana Maimun', 'jam_buka' => [8, 17], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 60, 'singgah' => 15, 'cara' => ['Di halaman Istana Maimun'],
                 'cerita' => [
@@ -164,9 +166,9 @@ class Katalog
                 'slug' => 'kuil-shri-mariamman', 'nama' => 'Kuil Shri Mariamman', 'kategori' => 'religi',
                 'ringkas' => 'Kuil Hindu tertua di Medan, berdiri sejak 1884 di Kampung Madras.',
                 'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Teuku Umar No. 18',
-                'lat' => 3.5868, 'lng' => 98.6716, 'koordinat_perkiraan' => true,
+                'lat' => 3.58397, 'lng' => 98.67102,
                 'foto' => 'kuil-shri-mariamman.jpg',
-                'tiket' => null, 'jam' => 'Setiap hari, 07.00–20.00', 'jam_buka' => [7, 20], 'jam_contoh' => true,
+                'tiket' => null, 'jam' => 'Setiap hari, 06.00–12.00 dan 16.00–20.00', 'jam_buka' => [6, 20], 'jam_contoh' => true,
                 'fasilitas' => ['Lepas alas kaki di gerbang'], 'radius_checkin' => 80, 'singgah' => 30,
                 'cara' => ['Becak motor dari Lapangan Merdeka, sekitar 10 menit'],
                 'cerita' => [
@@ -177,10 +179,10 @@ class Katalog
                 'slug' => 'vihara-gunung-timur', 'nama' => 'Vihara Gunung Timur', 'kategori' => 'religi',
                 'ringkas' => 'Kelenteng Tionghoa di tepi Sungai Babura, dikenal dengan atap naga dan lampionnya.',
                 'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Hang Tuah No. 16',
-                'lat' => 3.5794, 'lng' => 98.6742, 'koordinat_perkiraan' => true,
+                'lat' => 3.57801, 'lng' => 98.66899,
                 'foto' => 'vihara-gunung-timur.jpg',
-                'tiket' => null, 'jam' => 'Setiap hari, 07.00–17.00', 'jam_buka' => [7, 17], 'jam_contoh' => true,
-                'fasilitas' => ['Parkir'], 'radius_checkin' => 80, 'singgah' => 30,
+                'tiket' => null, 'jam' => 'Setiap hari, 09.00–16.00', 'jam_buka' => [9, 16], 'jam_contoh' => true,
+                'fasilitas' => ['Parkir', 'Wajib berpakaian rapi dan tertutup'], 'radius_checkin' => 80, 'singgah' => 30,
                 'cara' => ['Becak motor dari Kampung Madras, sekitar 5 menit'],
                 'cerita' => [
                     'Vihara Gunung Timur adalah salah satu kelenteng terbesar di Medan. Menjelang Imlek, halaman dan atapnya dipenuhi lampion merah.',
@@ -189,10 +191,10 @@ class Katalog
             [
                 'slug' => 'graha-maria-annai-velangkanni', 'nama' => 'Graha Maria Annai Velangkanni', 'kategori' => 'religi',
                 'ringkas' => 'Gereja Katolik bergaya Indo-Mughal di Tanjung Selamat, diresmikan 2005.',
-                'kecamatan' => 'Medan Tuntungan', 'kelurahan' => 'Tanjung Selamat', 'alamat' => 'Jl. Sakura III, Tanjung Selamat',
-                'lat' => 3.5205, 'lng' => 98.6120, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Tuntungan', 'kelurahan' => 'Tanjung Selamat', 'alamat' => 'Jl. Sakura III No. 7–10, Taman Sakura Indah',
+                'lat' => 3.54763, 'lng' => 98.60870,
                 'foto' => 'graha-maria-annai-velangkanni.jpg',
-                'tiket' => null, 'jam' => 'Setiap hari, 08.00–17.00', 'jam_buka' => [8, 17], 'jam_contoh' => true,
+                'tiket' => null, 'jam' => 'Setiap hari, 08.00–18.00; misa Senin–Sabtu pukul 18.00', 'jam_buka' => [8, 18], 'jam_contoh' => true,
                 'fasilitas' => ['Parkir', 'Toilet'], 'radius_checkin' => 120, 'singgah' => 45,
                 'cara' => ['Taksi atau ojek daring dari pusat kota, sekitar 30 menit'],
                 'cerita' => [
@@ -202,13 +204,13 @@ class Katalog
             [
                 'slug' => 'museum-negeri-sumatera-utara', 'nama' => 'Museum Negeri Sumatera Utara', 'kategori' => 'museum',
                 'ringkas' => 'Museum sejarah dan budaya etnis-etnis Sumatera Utara.',
-                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Teladan Baru', 'alamat' => 'Jl. H. M. Joni No. 51',
-                'lat' => 3.5645, 'lng' => 98.6990, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Teladan Barat', 'alamat' => 'Jl. H. M. Joni No. 51',
+                'lat' => 3.56858, 'lng' => 98.69639,
                 'foto' => 'museum-negeri-sumut.jpg',
-                'tiket' => ['Dewasa' => 5000, 'Anak' => 3000], 'harga_contoh' => true,
-                'jam' => 'Selasa–Minggu, 08.00–15.30', 'jam_buka' => [8, 15], 'jam_contoh' => true,
+                'tiket' => ['Umum' => 3000], 'harga_contoh' => true,
+                'jam' => 'Selasa–Minggu, 09.00–16.00 (Senin tutup)', 'jam_buka' => [9, 16], 'jam_contoh' => true,
                 'fasilitas' => ['Parkir', 'Toilet'], 'radius_checkin' => 100, 'singgah' => 60,
-                'cara' => ['Trans Metro Deli lalu jalan kaki', 'Becak motor dari Masjid Raya, sekitar 10 menit'],
+                'cara' => ['Bus Listrik Medan koridor K1, turun di halte Simpang HM Joni lalu jalan kaki', 'Becak motor dari Masjid Raya Al-Mashun'],
                 'cerita' => [
                     'Koleksinya mengenalkan etnis-etnis Sumatera Utara, dari Melayu, Batak, Nias, sampai Tionghoa dan Tamil yang datang pada masa perkebunan.',
                 ],
@@ -217,49 +219,49 @@ class Katalog
                 'slug' => 'soto-kesawan', 'nama' => 'Soto Kesawan', 'kategori' => 'kuliner',
                 'ringkas' => 'Warung soto lama di Kesawan, beberapa langkah dari Tjong A Fie Mansion.',
                 'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Jend. Ahmad Yani',
-                'lat' => 3.5879, 'lng' => 98.6791, 'koordinat_perkiraan' => true,
+                'lat' => 3.58498, 'lng' => 98.68026,
                 'foto' => 'soto-medan.jpg', 'foto_keterangan' => 'Soto Medan berkuah santan',
-                'tiket' => null, 'jam' => 'Pagi sampai siang', 'jam_buka' => [7, 15], 'jam_contoh' => true,
+                'tiket' => null, 'jam' => 'Setiap hari, 08.00–14.30', 'jam_buka' => [8, 14], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 60, 'singgah' => 40,
                 'cara' => ['Jalan kaki dari Tjong A Fie Mansion'],
-                'cerita' => ['Soto Medan berkuah santan kuning, disajikan dengan perkedel dan emping.'],
+                'cerita' => ['Warung ini berjualan sejak 1950-an. Kuahnya berempah dengan sedikit santan dan agak manis. Soto ayam, soto jeroan sapi, dan soto udang sekitar Rp28.000–32.000, sudah termasuk nasi (2024).'],
             ],
             [
                 'slug' => 'bika-ambon-mojopahit', 'nama' => 'Deretan Bika Ambon Jl. Mojopahit', 'kategori' => 'kuliner',
                 'ringkas' => 'Jalan tempat toko-toko bika ambon berjajar, tujuan oleh-oleh khas Medan.',
-                'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Mojopahit',
-                'lat' => 3.5893, 'lng' => 98.6683, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Mojopahit (Bika Ambon Zulaikha No. 70 A-C)',
+                'lat' => 3.58618, 'lng' => 98.66617,
                 'foto' => 'bika-ambon.jpg', 'foto_keterangan' => 'Bika ambon pandan',
-                'tiket' => null, 'jam' => 'Setiap hari, 07.00–21.00', 'jam_buka' => [7, 21], 'jam_contoh' => true,
+                'tiket' => null, 'jam' => 'Setiap hari, 06.00–21.00', 'jam_buka' => [6, 21], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 120, 'singgah' => 30,
                 'cara' => ['Becak motor dari Kuil Shri Mariamman, sekitar 5 menit'],
-                'cerita' => ['Bika ambon Medan bertekstur bersarang, beraroma daun jeruk dan pandan. Di Jl. Mojopahit toko-tokonya berjajar.'],
+                'cerita' => ['Bika ambon Medan bertekstur bersarang, beraroma daun jeruk dan pandan. Jl. Mojopahit punya sedikitnya 30 toko; Bika Ambon Zulaikha menjual Rp80.000–150.000 per loyang.'],
             ],
             [
                 'slug' => 'lapangan-merdeka', 'nama' => 'Lapangan Merdeka', 'kategori' => 'ruang-publik',
                 'ringkas' => 'Alun-alun kota yang di peta 1930 masih bernama Esplanade.',
                 'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Balai Kota',
-                'lat' => 3.5904, 'lng' => 98.6779, 'koordinat_perkiraan' => true,
-                'foto' => 'lapangan-merdeka.jpg', 'foto_keterangan' => 'Lapangan Merdeka hari ini', 'foto_posisi' => '70% 50%', 'foto_lama' => 'esplanade-medan-arsip.jpg', 'tahun_foto_lama' => 'masa Esplanade', 'tiket' => null, 'jam' => 'Terbuka 24 jam', 'jam_buka' => [0, 24], 'jam_contoh' => true,
+                'lat' => 3.59038, 'lng' => 98.67860,
+                'foto' => 'lapangan-merdeka.jpg', 'foto_keterangan' => 'Lapangan Merdeka hari ini', 'foto_posisi' => '70% 50%', 'foto_lama' => 'esplanade-medan-arsip.jpg', 'tahun_foto_lama' => 'masa Esplanade', 'tiket' => null, 'jam' => 'Ruang terbuka, jam resmi belum diumumkan', 'jam_buka' => [6, 22], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 150, 'singgah' => 30,
-                'cara' => ['Stasiun Medan ada di sisi timur lapangan'],
+                'cara' => ['Stasiun Medan ada di sisi timur lapangan', 'Halte Bus Listrik Lapangan Merdeka, titik transit koridor K3, K4, dan K5'],
                 'cerita' => ['Di peta Medan 1930, lapangan ini tercatat sebagai Esplanade, dikelilingi kantor pos, bank, dan hotel kolonial.'],
             ],
             [
                 'slug' => 'taman-sri-deli', 'nama' => 'Taman Sri Deli', 'kategori' => 'ruang-publik',
                 'ringkas' => 'Taman berkolam di depan Masjid Raya Al-Mashun.',
-                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja',
-                'lat' => 3.5744, 'lng' => 98.6881, 'koordinat_perkiraan' => true,
-                'foto' => 'taman-sri-deli.jpg', 'foto_keterangan' => 'Taman Sri Deli', 'tiket' => null, 'jam' => 'Terbuka 24 jam', 'jam_buka' => [0, 24], 'jam_contoh' => true,
+                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja / Jl. Mesjid Raya',
+                'lat' => 3.57580, 'lng' => 98.68620,
+                'foto' => 'taman-sri-deli.jpg', 'foto_keterangan' => 'Taman Sri Deli', 'tiket' => null, 'jam' => 'Setiap hari, 07.00–21.00', 'jam_buka' => [7, 21], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 100, 'singgah' => 20,
                 'cara' => ['Di seberang Masjid Raya Al-Mashun'],
                 'cerita' => ['Taman ini dahulu bagian dari kawasan Kesultanan Deli dan kini jadi tempat warga bersantai sore.'],
             ],
             [
-                'slug' => 'gereja-immanuel', 'nama' => 'Gereja Immanuel', 'kategori' => 'religi',
+                'slug' => 'gereja-immanuel', 'nama' => 'GPIB Immanuel Medan', 'kategori' => 'religi',
                 'ringkas' => 'Gereja Protestan berlonceng menara di Jl. Diponegoro.',
-                'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Diponegoro No. 25',
-                'lat' => 3.5838, 'lng' => 98.6732, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Diponegoro No. 25–27',
+                'lat' => 3.58098, 'lng' => 98.67255,
                 'foto' => 'gereja-immanuel.jpg', 'foto_keterangan' => 'GPIB Immanuel hari ini', 'foto_arsip' => 'gereja-immanuel-arsip.jpg', 'foto_arsip_keterangan' => 'Gereja ini pada masa kolonial. Judul arsipnya menyebut jalan di depannya Mangalaan.', 'tiket' => null, 'jam' => 'Di luar jadwal ibadah', 'jam_buka' => [8, 16], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 80, 'singgah' => 20,
                 'cara' => ['Jalan kaki dari Kuil Shri Mariamman, sekitar 8 menit'],
@@ -285,17 +287,22 @@ class Katalog
             ['slug' => 'bika-ambon', 'jenis' => 'kuliner', 'nama' => 'Bika ambon', 'ringkas' => 'Kue bersarang beraroma pandan, oleh-oleh khas Medan.', 'foto' => 'bika-ambon.jpg'],
             ['slug' => 'soto-medan', 'jenis' => 'kuliner', 'nama' => 'Soto Medan', 'ringkas' => 'Soto berkuah santan kuning.', 'foto' => 'soto-medan.jpg'],
             ['slug' => 'becak-motor', 'jenis' => 'transportasi', 'nama' => 'Becak motor', 'ringkas' => 'Sepeda motor bergandeng kabin, angkutan khas Medan.', 'foto' => 'becak-medan.jpg'],
-            ['slug' => 'trans-metro-deli', 'jenis' => 'transportasi', 'nama' => 'Trans Metro Deli', 'ringkas' => 'Bus kota Medan.'],
+            ['slug' => 'bus-listrik-medan', 'jenis' => 'transportasi', 'nama' => 'Bus Listrik Medan', 'ringkas' => 'Bus kota Dishub Kota Medan, pengganti Trans Metro Deli sejak 24 November 2024. Tarif Rp5.000 (pelajar, lansia, disabilitas Rp3.000), bayar nontunai.'],
         ];
+
+        // tempat tambahan dari daftar tim; field yang tidak diisi memakai nilai bawaan di bawah
+        $tempat = array_merge($tempat, require __DIR__.'/data/tempat-tambahan.php');
+        $bawaan = ['jenis' => 'tempat', 'foto' => null, 'tiket' => null, 'jam_buka' => null, 'fasilitas' => [], 'cara' => [], 'radius_checkin' => 100, 'singgah' => 45];
 
         $data = [];
         foreach ($tempat as $t) {
-            $data[$t['slug']] = $t + ['jenis' => 'tempat'];
+            $t += $bawaan + ['cerita' => [$t['ringkas']]];
+            $data[$t['slug']] = $t;
         }
         foreach ($lain as $e) {
             $data[$e['slug']] = $e;
         }
-        foreach (['Medan Maimun', 'Medan Kota', 'Medan Barat', 'Medan Petisah', 'Medan Polonia', 'Medan Tuntungan'] as $kec) {
+        foreach (array_unique(array_column($tempat, 'kecamatan')) as $kec) {
             $slug = 'kec-'.str($kec)->slug();
             $data[$slug] = ['slug' => $slug, 'jenis' => 'wilayah', 'nama' => $kec, 'ringkas' => 'Kecamatan di Kota Medan.'];
         }
@@ -337,10 +344,18 @@ class Katalog
             ['kuil-shri-mariamman', 'merepresentasikan', 'tamil', 'sumber' => $wiki('Kuil_Shri_Mariamman')],
             ['graha-maria-annai-velangkanni', 'berkaitanDengan', 'tamil', 'sumber' => $wiki('Graha_Maria_Annai_Velangkanni')],
             ['soto-kesawan', 'dekatDengan', 'tjong-a-fie-mansion', 'sumber' => 'Dihitung dari koordinat'],
-            ['soto-kesawan', 'menjual', 'soto-medan', 'sumber' => 'Survei tim (perlu verifikasi)'],
-            ['bika-ambon-mojopahit', 'menjual', 'bika-ambon', 'sumber' => 'Survei tim (perlu verifikasi)'],
-            ['istana-maimun', 'dilayaniOleh', 'becak-motor', 'sumber' => 'Survei tim (perlu verifikasi)'],
-            ['museum-negeri-sumatera-utara', 'dilayaniOleh', 'trans-metro-deli', 'sumber' => 'Survei tim (perlu verifikasi)'],
+            ['soto-kesawan', 'menjual', 'soto-medan', 'sumber' => 'https://koran-jakarta.com/2024-09-17/ada-racikan-yogyakarta-di-soto-kesawan-medan'],
+            ['bika-ambon-mojopahit', 'menjual', 'bika-ambon', 'sumber' => 'https://www.indonesia.travel/id-id/travel-ideas/gastronomy/bika-ambonn/'],
+            ['istana-maimun', 'dilayaniOleh', 'becak-motor', 'sumber' => 'https://kumparan.com/sumutnews/tips-naik-becak-motor-di-kota-para-ketua-1552205494541583850'],
+            ['museum-negeri-sumatera-utara', 'dilayaniOleh', 'bus-listrik-medan', 'sumber' => $wiki('Bus_Listrik_Medan')],
+            ['masjid-lama-gang-bengkok', 'dibangunOleh', 'tjong-a-fie', 'sumber' => $wiki('Masjid_Lama_Gang_Bengkok')],
+            ['balai-kota-lama', 'berkaitanDengan', 'tjong-a-fie', 'sumber' => 'https://www.detik.com/sumut/berita/d-7045682/sejarah-balai-kota-medan-ada-peran-miliarder-tjong-a-fie'],
+            ['gedung-avros', 'berkaitanDengan', 'era-tembakau-deli', 'sumber' => 'https://www.penang-traveltips.com/indonesia/medan/bks-pps-building.htm'],
+            ['kuil-nagarattar', 'merepresentasikan', 'tamil', 'sumber' => $wiki('Kuil_Sree_Soepramaniem_Nagarattar')],
+            ['seng-hap-1881', 'merepresentasikan', 'tionghoa', 'sumber' => 'https://rri.co.id/medan/iptek/2772486/seng-hap-1881-dari-bangunan-bersejarah-hingga-ruang-umkm-dan-kuliner'],
+            ['tip-top-restaurant', 'dekatDengan', 'tjong-a-fie-mansion', 'sumber' => 'Dihitung dari koordinat'],
+            ['seng-hap-1881', 'dekatDengan', 'lapangan-merdeka', 'sumber' => 'Dihitung dari koordinat'],
+            ['katedral-medan', 'dekatDengan', 'istana-maimun', 'sumber' => 'Dihitung dari koordinat'],
             ['taman-sri-deli', 'dekatDengan', 'masjid-raya-al-mashun', 'sumber' => 'Dihitung dari koordinat'],
             ['lapangan-merdeka', 'dekatDengan', 'soto-kesawan', 'sumber' => 'Dihitung dari koordinat'],
             ['gereja-immanuel', 'dekatDengan', 'kuil-shri-mariamman', 'sumber' => 'Dihitung dari koordinat'],

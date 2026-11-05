@@ -1,7 +1,7 @@
 @extends('layouts.situs')
 @php
     use App\Support\Katalog;
-    $warnaKat = ['sejarah' => '#e3a51c', 'religi' => '#6a4c9c', 'kuliner' => '#c9541e', 'museum' => '#2f6690', 'ruang-publik' => '#2e7d4f'];
+    $warnaKat = ['sejarah' => '#e3a51c', 'religi' => '#6a4c9c', 'kuliner' => '#c9541e', 'museum' => '#2f6690', 'ruang-publik' => '#2e7d4f', 'belanja' => '#9b6b3d', 'rekreasi-air' => '#2f8a8a'];
     $json = collect($tempat)->map(fn ($t) => [
         'slug' => $t['slug'],
         'nama' => $t['nama'],

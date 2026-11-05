@@ -3,7 +3,7 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-export const WARNA = { sejarah: '#e3a51c', religi: '#6a4c9c', kuliner: '#c9541e', museum: '#2f6690', 'ruang-publik': '#2e7d4f' };
+export const WARNA = { sejarah: '#e3a51c', religi: '#6a4c9c', kuliner: '#c9541e', museum: '#2f6690', 'ruang-publik': '#2e7d4f', belanja: '#9b6b3d', 'rekreasi-air': '#2f8a8a' };
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
 function ikon(warna, nomor = null) {
@@ -110,7 +110,7 @@ function modeAlat(el) {
         const kueri = saring.teks.toLowerCase();
         let tampil = tempat.filter((t) => {
             const cocokKat = saring.kategori.has(t.kategori);
-            const cocokJam = !saring.buka || (jam >= t.buka[0] && jam < t.buka[1]);
+            const cocokJam = !saring.buka || (t.buka && jam >= t.buka[0] && jam < t.buka[1]);
             const cocokTiket = !saring.tiket || Boolean(t.tiket);
             const cocokTeks = !kueri || `${t.nama} ${t.kecamatan ?? ''} ${t.kategori}`.toLowerCase().includes(kueri);
             return cocokKat && cocokJam && cocokTiket && cocokTeks;
