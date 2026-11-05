@@ -37,7 +37,7 @@
                 <p class="mv-tempat-kepala__ringkas">{{ $t['ringkas'] }}</p>
                 <div class="mv-tempat-tanda">
                     <x-kelas jenis="tempat" :label="$kategori" />
-                    <span class="kecil">{{ $t['kelurahan'] }}, {{ $t['kecamatan'] }}</span>
+                    <span class="kecil">{{ implode(', ', array_filter([$t['kelurahan'], $t['kecamatan']])) }}</span>
                     <span class="mv-lencana-jam {{ $buka ? 'mv-lencana-jam--buka' : 'mv-lencana-jam--tutup' }}">{{ $buka ? 'Buka sekarang' : 'Tutup sekarang' }}</span>
                 </div>
             </div>
@@ -113,7 +113,7 @@
             <dl class="mv-fakta-grid">
                 <div class="mv-fakta-kotak">
                     <dt>Alamat lengkap</dt>
-                    <dd>{{ $t['alamat'] }}, {{ $t['kelurahan'] }}, {{ $t['kecamatan'] }}</dd>
+                    <dd>{{ implode(', ', array_filter([$t['alamat'], $t['kelurahan'], $t['kecamatan']])) }}</dd>
                 </div>
                 <div class="mv-fakta-kotak">
                     <dt>Jam operasional</dt>
