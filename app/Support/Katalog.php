@@ -241,10 +241,10 @@ class Katalog
                 'slug' => 'lapangan-merdeka', 'nama' => 'Lapangan Merdeka', 'kategori' => 'ruang-publik',
                 'ringkas' => 'Alun-alun kota yang di peta 1930 masih bernama Esplanade.',
                 'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Balai Kota',
-                'lat' => 3.5904, 'lng' => 98.6779, 'koordinat_perkiraan' => true,
-                'foto' => 'lapangan-merdeka.jpg', 'foto_keterangan' => 'Lapangan Merdeka hari ini', 'foto_posisi' => '70% 50%', 'foto_lama' => 'esplanade-medan-arsip.jpg', 'tahun_foto_lama' => 'masa Esplanade', 'tiket' => null, 'jam' => 'Terbuka 24 jam', 'jam_buka' => [0, 24], 'jam_contoh' => true,
+                'lat' => 3.59038, 'lng' => 98.67860,
+                'foto' => 'lapangan-merdeka.jpg', 'foto_keterangan' => 'Lapangan Merdeka hari ini', 'foto_posisi' => '70% 50%', 'foto_lama' => 'esplanade-medan-arsip.jpg', 'tahun_foto_lama' => 'masa Esplanade', 'tiket' => null, 'jam' => 'Ruang terbuka, jam resmi belum diumumkan', 'jam_buka' => [6, 22], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 150, 'singgah' => 30,
-                'cara' => ['Stasiun Medan ada di sisi timur lapangan'],
+                'cara' => ['Stasiun Medan ada di sisi timur lapangan', 'Halte Bus Listrik Lapangan Merdeka, titik transit koridor K3, K4, dan K5'],
                 'cerita' => ['Di peta Medan 1930, lapangan ini tercatat sebagai Esplanade, dikelilingi kantor pos, bank, dan hotel kolonial.'],
             ],
             [
