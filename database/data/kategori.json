@@ -1,0 +1,37 @@
+[
+    {
+        "id_kategori": 1,
+        "kode": "sejarah",
+        "nama_kategori": "Sejarah & cagar budaya"
+    },
+    {
+        "id_kategori": 2,
+        "kode": "museum",
+        "nama_kategori": "Museum"
+    },
+    {
+        "id_kategori": 3,
+        "kode": "religi",
+        "nama_kategori": "Rumah ibadah"
+    },
+    {
+        "id_kategori": 4,
+        "kode": "kuliner",
+        "nama_kategori": "Kuliner"
+    },
+    {
+        "id_kategori": 5,
+        "kode": "ruang-publik",
+        "nama_kategori": "Taman & ruang publik"
+    },
+    {
+        "id_kategori": 6,
+        "kode": "belanja",
+        "nama_kategori": "Belanja"
+    },
+    {
+        "id_kategori": 7,
+        "kode": "rekreasi-air",
+        "nama_kategori": "Rekreasi air"
+    }
+]
