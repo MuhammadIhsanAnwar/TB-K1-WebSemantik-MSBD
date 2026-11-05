@@ -229,13 +229,13 @@ class Katalog
             [
                 'slug' => 'bika-ambon-mojopahit', 'nama' => 'Deretan Bika Ambon Jl. Mojopahit', 'kategori' => 'kuliner',
                 'ringkas' => 'Jalan tempat toko-toko bika ambon berjajar, tujuan oleh-oleh khas Medan.',
-                'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Mojopahit',
-                'lat' => 3.5893, 'lng' => 98.6683, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Mojopahit (Bika Ambon Zulaikha No. 70 A-C)',
+                'lat' => 3.58618, 'lng' => 98.66617,
                 'foto' => 'bika-ambon.jpg', 'foto_keterangan' => 'Bika ambon pandan',
-                'tiket' => null, 'jam' => 'Setiap hari, 07.00–21.00', 'jam_buka' => [7, 21], 'jam_contoh' => true,
+                'tiket' => null, 'jam' => 'Setiap hari, 06.00–21.00', 'jam_buka' => [6, 21], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 120, 'singgah' => 30,
                 'cara' => ['Becak motor dari Kuil Shri Mariamman, sekitar 5 menit'],
-                'cerita' => ['Bika ambon Medan bertekstur bersarang, beraroma daun jeruk dan pandan. Di Jl. Mojopahit toko-tokonya berjajar.'],
+                'cerita' => ['Bika ambon Medan bertekstur bersarang, beraroma daun jeruk dan pandan. Jl. Mojopahit punya sedikitnya 30 toko; Bika Ambon Zulaikha menjual Rp80.000–150.000 per loyang.'],
             ],
             [
                 'slug' => 'lapangan-merdeka', 'nama' => 'Lapangan Merdeka', 'kategori' => 'ruang-publik',
