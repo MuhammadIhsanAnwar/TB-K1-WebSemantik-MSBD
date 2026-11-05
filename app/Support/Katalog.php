@@ -250,9 +250,9 @@ class Katalog
             [
                 'slug' => 'taman-sri-deli', 'nama' => 'Taman Sri Deli', 'kategori' => 'ruang-publik',
                 'ringkas' => 'Taman berkolam di depan Masjid Raya Al-Mashun.',
-                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja',
-                'lat' => 3.5744, 'lng' => 98.6881, 'koordinat_perkiraan' => true,
-                'foto' => 'taman-sri-deli.jpg', 'foto_keterangan' => 'Taman Sri Deli', 'tiket' => null, 'jam' => 'Terbuka 24 jam', 'jam_buka' => [0, 24], 'jam_contoh' => true,
+                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja / Jl. Mesjid Raya',
+                'lat' => 3.57580, 'lng' => 98.68620,
+                'foto' => 'taman-sri-deli.jpg', 'foto_keterangan' => 'Taman Sri Deli', 'tiket' => null, 'jam' => 'Setiap hari, 07.00–21.00', 'jam_buka' => [7, 21], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 100, 'singgah' => 20,
                 'cara' => ['Di seberang Masjid Raya Al-Mashun'],
                 'cerita' => ['Taman ini dahulu bagian dari kawasan Kesultanan Deli dan kini jadi tempat warga bersantai sore.'],
