@@ -1,0 +1,98 @@
+[
+    {
+        "id_tiket": 1,
+        "id_tempat": 1,
+        "jenis_pengunjung": "Dewasa",
+        "harga": 10000
+    },
+    {
+        "id_tiket": 2,
+        "id_tempat": 1,
+        "jenis_pengunjung": "Anak",
+        "harga": 5000
+    },
+    {
+        "id_tiket": 3,
+        "id_tempat": 3,
+        "jenis_pengunjung": "Umum, termasuk pemandu",
+        "harga": 35000
+    },
+    {
+        "id_tiket": 4,
+        "id_tempat": 8,
+        "jenis_pengunjung": "Umum",
+        "harga": 3000
+    },
+    {
+        "id_tiket": 5,
+        "id_tempat": 23,
+        "jenis_pengunjung": "Domestik",
+        "harga": 75000
+    },
+    {
+        "id_tiket": 6,
+        "id_tempat": 23,
+        "jenis_pengunjung": "Pelajar atau rombongan",
+        "harga": 25000
+    },
+    {
+        "id_tiket": 7,
+        "id_tempat": 23,
+        "jenis_pengunjung": "Wisatawan mancanegara",
+        "harga": 150000
+    },
+    {
+        "id_tiket": 8,
+        "id_tempat": 24,
+        "jenis_pengunjung": "Umum",
+        "harga": 12000
+    },
+    {
+        "id_tiket": 9,
+        "id_tempat": 65,
+        "jenis_pengunjung": "Umum",
+        "harga": 18000
+    },
+    {
+        "id_tiket": 10,
+        "id_tempat": 66,
+        "jenis_pengunjung": "Hari kerja",
+        "harga": 12000
+    },
+    {
+        "id_tiket": 11,
+        "id_tempat": 66,
+        "jenis_pengunjung": "Akhir pekan",
+        "harga": 15000
+    },
+    {
+        "id_tiket": 12,
+        "id_tempat": 67,
+        "jenis_pengunjung": "Umum",
+        "harga": 20000
+    },
+    {
+        "id_tiket": 13,
+        "id_tempat": 68,
+        "jenis_pengunjung": "Hari kerja",
+        "harga": 21000
+    },
+    {
+        "id_tiket": 14,
+        "id_tempat": 68,
+        "jenis_pengunjung": "Akhir pekan",
+        "harga": 26000
+    },
+    {
+        "id_tiket": 15,
+        "id_tempat": 69,
+        "jenis_pengunjung": "Reguler",
+        "harga": 15000
+    },
+    {
+        "id_tiket": 16,
+        "id_tempat": 69,
+        "jenis_pengunjung": "VIP",
+        "harga": 20000
+    }
+]
