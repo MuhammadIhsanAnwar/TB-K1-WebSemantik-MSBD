@@ -110,7 +110,7 @@ function modeAlat(el) {
         const kueri = saring.teks.toLowerCase();
         let tampil = tempat.filter((t) => {
             const cocokKat = saring.kategori.has(t.kategori);
-            const cocokJam = !saring.buka || (jam >= t.buka[0] && jam < t.buka[1]);
+            const cocokJam = !saring.buka || (t.buka && jam >= t.buka[0] && jam < t.buka[1]);
             const cocokTiket = !saring.tiket || Boolean(t.tiket);
             const cocokTeks = !kueri || `${t.nama} ${t.kecamatan ?? ''} ${t.kategori}`.toLowerCase().includes(kueri);
             return cocokKat && cocokJam && cocokTiket && cocokTeks;
