@@ -287,7 +287,7 @@ class Katalog
             ['slug' => 'bika-ambon', 'jenis' => 'kuliner', 'nama' => 'Bika ambon', 'ringkas' => 'Kue bersarang beraroma pandan, oleh-oleh khas Medan.', 'foto' => 'bika-ambon.jpg'],
             ['slug' => 'soto-medan', 'jenis' => 'kuliner', 'nama' => 'Soto Medan', 'ringkas' => 'Soto berkuah santan kuning.', 'foto' => 'soto-medan.jpg'],
             ['slug' => 'becak-motor', 'jenis' => 'transportasi', 'nama' => 'Becak motor', 'ringkas' => 'Sepeda motor bergandeng kabin, angkutan khas Medan.', 'foto' => 'becak-medan.jpg'],
-            ['slug' => 'trans-metro-deli', 'jenis' => 'transportasi', 'nama' => 'Trans Metro Deli', 'ringkas' => 'Bus kota Medan.'],
+            ['slug' => 'bus-listrik-medan', 'jenis' => 'transportasi', 'nama' => 'Bus Listrik Medan', 'ringkas' => 'Bus kota Dishub Kota Medan, pengganti Trans Metro Deli sejak 24 November 2024. Tarif Rp5.000 (pelajar, lansia, disabilitas Rp3.000), bayar nontunai.'],
         ];
 
         $data = [];
@@ -342,7 +342,7 @@ class Katalog
             ['soto-kesawan', 'menjual', 'soto-medan', 'sumber' => 'https://koran-jakarta.com/2024-09-17/ada-racikan-yogyakarta-di-soto-kesawan-medan'],
             ['bika-ambon-mojopahit', 'menjual', 'bika-ambon', 'sumber' => 'https://www.indonesia.travel/id-id/travel-ideas/gastronomy/bika-ambonn/'],
             ['istana-maimun', 'dilayaniOleh', 'becak-motor', 'sumber' => 'https://kumparan.com/sumutnews/tips-naik-becak-motor-di-kota-para-ketua-1552205494541583850'],
-            ['museum-negeri-sumatera-utara', 'dilayaniOleh', 'trans-metro-deli', 'sumber' => 'Survei tim (perlu verifikasi)'],
+            ['museum-negeri-sumatera-utara', 'dilayaniOleh', 'bus-listrik-medan', 'sumber' => $wiki('Bus_Listrik_Medan')],
             ['taman-sri-deli', 'dekatDengan', 'masjid-raya-al-mashun', 'sumber' => 'Dihitung dari koordinat'],
             ['lapangan-merdeka', 'dekatDengan', 'soto-kesawan', 'sumber' => 'Dihitung dari koordinat'],
             ['gereja-immanuel', 'dekatDengan', 'kuil-shri-mariamman', 'sumber' => 'Dihitung dari koordinat'],
