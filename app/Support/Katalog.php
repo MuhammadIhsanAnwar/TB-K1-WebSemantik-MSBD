@@ -204,13 +204,13 @@ class Katalog
             [
                 'slug' => 'museum-negeri-sumatera-utara', 'nama' => 'Museum Negeri Sumatera Utara', 'kategori' => 'museum',
                 'ringkas' => 'Museum sejarah dan budaya etnis-etnis Sumatera Utara.',
-                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Teladan Baru', 'alamat' => 'Jl. H. M. Joni No. 51',
-                'lat' => 3.5645, 'lng' => 98.6990, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Teladan Barat', 'alamat' => 'Jl. H. M. Joni No. 51',
+                'lat' => 3.56858, 'lng' => 98.69639,
                 'foto' => 'museum-negeri-sumut.jpg',
-                'tiket' => ['Dewasa' => 5000, 'Anak' => 3000], 'harga_contoh' => true,
-                'jam' => 'Selasa–Minggu, 08.00–15.30', 'jam_buka' => [8, 15], 'jam_contoh' => true,
+                'tiket' => ['Umum' => 3000], 'harga_contoh' => true,
+                'jam' => 'Selasa–Minggu, 09.00–16.00 (Senin tutup)', 'jam_buka' => [9, 16], 'jam_contoh' => true,
                 'fasilitas' => ['Parkir', 'Toilet'], 'radius_checkin' => 100, 'singgah' => 60,
-                'cara' => ['Trans Metro Deli lalu jalan kaki', 'Becak motor dari Masjid Raya, sekitar 10 menit'],
+                'cara' => ['Bus Listrik Medan koridor K1, turun di halte Simpang HM Joni lalu jalan kaki', 'Becak motor dari Masjid Raya Al-Mashun'],
                 'cerita' => [
                     'Koleksinya mengenalkan etnis-etnis Sumatera Utara, dari Melayu, Batak, Nias, sampai Tionghoa dan Tamil yang datang pada masa perkebunan.',
                 ],
