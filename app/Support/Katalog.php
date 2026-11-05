@@ -123,8 +123,8 @@ class Katalog
             [
                 'slug' => 'masjid-raya-al-mashun', 'nama' => 'Masjid Raya Al-Mashun', 'kategori' => 'religi',
                 'ringkas' => 'Masjid Kesultanan Deli, dibangun 1906–1909 dengan denah segi delapan.',
-                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja No. 61',
-                'lat' => 3.5752, 'lng' => 98.6874, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja',
+                'lat' => 3.57517, 'lng' => 98.68730,
                 'foto' => 'masjid-raya.jpg', 'foto_potret' => 'masjid-raya-potret.jpg',
                 'tiket' => null, 'jam' => 'Terbuka di luar waktu salat', 'jam_buka' => [5, 21], 'jam_contoh' => true,
                 'fasilitas' => ['Parkir', 'Tempat wudu', 'Peminjaman kain penutup'],
