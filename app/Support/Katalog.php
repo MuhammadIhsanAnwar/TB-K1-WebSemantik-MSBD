@@ -290,14 +290,19 @@ class Katalog
             ['slug' => 'bus-listrik-medan', 'jenis' => 'transportasi', 'nama' => 'Bus Listrik Medan', 'ringkas' => 'Bus kota Dishub Kota Medan, pengganti Trans Metro Deli sejak 24 November 2024. Tarif Rp5.000 (pelajar, lansia, disabilitas Rp3.000), bayar nontunai.'],
         ];
 
+        // tempat tambahan dari daftar tim; field yang tidak diisi memakai nilai bawaan di bawah
+        $tempat = array_merge($tempat, require __DIR__.'/data/tempat-tambahan.php');
+        $bawaan = ['jenis' => 'tempat', 'foto' => null, 'tiket' => null, 'jam_buka' => null, 'fasilitas' => [], 'cara' => [], 'radius_checkin' => 100, 'singgah' => 45];
+
         $data = [];
         foreach ($tempat as $t) {
-            $data[$t['slug']] = $t + ['jenis' => 'tempat'];
+            $t += $bawaan + ['cerita' => [$t['ringkas']]];
+            $data[$t['slug']] = $t;
         }
         foreach ($lain as $e) {
             $data[$e['slug']] = $e;
         }
-        foreach (['Medan Maimun', 'Medan Kota', 'Medan Barat', 'Medan Petisah', 'Medan Polonia', 'Medan Tuntungan'] as $kec) {
+        foreach (array_unique(array_column($tempat, 'kecamatan')) as $kec) {
             $slug = 'kec-'.str($kec)->slug();
             $data[$slug] = ['slug' => $slug, 'jenis' => 'wilayah', 'nama' => $kec, 'ringkas' => 'Kecamatan di Kota Medan.'];
         }
