@@ -120,4 +120,43 @@ return [
         'sumber' => 'https://mamikos.com/info/museum-terbaik-di-medan-yang-wajib-dikunjungi-gnr/?halaman=2',
     ],
 
+    // ---------- Rumah ibadah ----------
+    [
+        'slug' => 'masjid-lama-gang-bengkok', 'nama' => 'Masjid Lama Gang Bengkok', 'kategori' => 'religi',
+        'ringkas' => 'Masjid tua di Kesawan yang dibiayai Tjong A Fie, perpaduan gaya Tionghoa, Melayu, dan Persia.',
+        'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Mesjid No. 62',
+        'lat' => 3.58668, 'lng' => 98.67801,
+        'jam' => 'Di luar waktu salat', 'jam_buka' => [8, 17], 'jam_contoh' => true, 'singgah' => 20, 'radius_checkin' => 80,
+        'cerita' => ['Masjid ini dibangun di atas tanah wakaf Datuk Muhammad Ali dengan biaya dari Tjong A Fie, lalu diserahkan kepada Kesultanan Deli. Tahun berdirinya ditulis berbeda-beda, antara 1874 dan 1890.'],
+        'sumber' => 'https://www.detik.com/sumut/budaya/d-8271055/mengenal-10-masjid-bersejarah-di-medan-dari-arsitektur-hingga-ceritanya',
+    ],
+    [
+        'slug' => 'katedral-medan', 'nama' => 'Katedral Medan', 'kategori' => 'religi',
+        'ringkas' => 'Gereja Katedral Santa Perawan Maria yang Dikandung Tanpa Noda di Jl. Pemuda.',
+        'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Aur', 'alamat' => 'Jl. Pemuda No. 1',
+        'lat' => 3.58425, 'lng' => 98.68145,
+        'jam' => 'Di luar jam misa (Minggu 06.30, 08.00, 10.00, 17.30)', 'jam_buka' => [8, 17], 'jam_contoh' => true, 'singgah' => 20, 'radius_checkin' => 80,
+        'cerita' => ['Nama resminya Gereja Katedral Santa Perawan Maria yang Dikandung Tanpa Noda. Gereja pertamanya berdiri 1879, bangunan sekarang dari 1905 dan diperluas pada 1928.'],
+        'sumber' => 'https://gcatholic.org/churches/asia/3538.htm',
+    ],
+    [
+        'slug' => 'vihara-setia-budi', 'nama' => 'Vihara Setia Budi', 'kategori' => 'religi',
+        'ringkas' => 'Kelenteng di Jl. Irian Barat, di lokasi tempat kelenteng Kwan Tee Bio berdiri sejak 1884.',
+        'kecamatan' => 'Medan Timur', 'kelurahan' => 'Gang Buntu', 'alamat' => 'Jl. Irian Barat No. 6D',
+        'lat' => 3.58928, 'lng' => 98.68131,
+        'jam' => 'Jam buka belum terverifikasi', 'jam_contoh' => true, 'singgah' => 20, 'radius_checkin' => 80,
+        'cerita' => ['Di Jl. Irian Barat pernah berdiri kelenteng Kwan Tee Bio yang digagas Tjong Yong Hian pada 1884. Vihara Setia Budi diduga penerusnya, tetapi belum ada sumber yang menyebut keduanya sekaligus.'],
+        'sumber' => 'https://storiesfromdeli.com/2020/11/27/kwan-tee-bio/',
+    ],
+    [
+        'slug' => 'kuil-nagarattar', 'nama' => 'Kuil Sree Soepramaniem Nagarattar', 'kategori' => 'religi',
+        'ringkas' => 'Kuil Hindu bergaya Dravida milik komunitas Chettiar, selesai 1892.',
+        'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Kebun Bunga No. 6',
+        'lat' => 3.58713, 'lng' => 98.66905,
+        'jam' => 'Senin–Sabtu 06.00–11.00 dan 17.00–20.00; Minggu 06.00–09.30 dan 17.00–20.00', 'jam_buka' => [6, 20], 'jam_contoh' => true, 'singgah' => 20, 'radius_checkin' => 80,
+        'fasilitas' => ['Lepas alas kaki di gerbang'],
+        'cerita' => ['Kuil ini dibangun komunitas Nattukottai Chettiar dengan gaya Dravida dan dikenal juga sebagai Kuil Shri Subramaniam.'],
+        'sumber' => 'https://id.wikipedia.org/wiki/Kuil_Sree_Soepramaniem_Nagarattar',
+    ],
+
 ];
