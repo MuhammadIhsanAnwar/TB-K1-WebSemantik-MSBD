@@ -1,0 +1,86 @@
+[
+    {
+        "id_kecamatan": 1,
+        "slug": "kec-medan-maimun",
+        "nama_kecamatan": "Medan Maimun",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 2,
+        "slug": "kec-medan-kota",
+        "nama_kecamatan": "Medan Kota",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 3,
+        "slug": "kec-medan-barat",
+        "nama_kecamatan": "Medan Barat",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 4,
+        "slug": "kec-medan-petisah",
+        "nama_kecamatan": "Medan Petisah",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 5,
+        "slug": "kec-medan-polonia",
+        "nama_kecamatan": "Medan Polonia",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 6,
+        "slug": "kec-medan-tuntungan",
+        "nama_kecamatan": "Medan Tuntungan",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 7,
+        "slug": "kec-medan-baru",
+        "nama_kecamatan": "Medan Baru",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 8,
+        "slug": "kec-medan-marelan",
+        "nama_kecamatan": "Medan Marelan",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 9,
+        "slug": "kec-medan-timur",
+        "nama_kecamatan": "Medan Timur",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 10,
+        "slug": "kec-medan-sunggal",
+        "nama_kecamatan": "Medan Sunggal",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 11,
+        "slug": "kec-medan-johor",
+        "nama_kecamatan": "Medan Johor",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 12,
+        "slug": "kec-medan-selayang",
+        "nama_kecamatan": "Medan Selayang",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 13,
+        "slug": "kec-medan-helvetia",
+        "nama_kecamatan": "Medan Helvetia",
+        "kota": "Medan"
+    },
+    {
+        "id_kecamatan": 14,
+        "slug": "kec-medan-area",
+        "nama_kecamatan": "Medan Area",
+        "kota": "Medan"
+    }
+]
