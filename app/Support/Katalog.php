@@ -26,11 +26,13 @@ class Katalog
     ];
 
     public const KATEGORI = [
-        'sejarah' => 'Wisata sejarah',
-        'religi' => 'Rumah ibadah',
-        'kuliner' => 'Tempat makan',
+        'sejarah' => 'Sejarah & cagar budaya',
         'museum' => 'Museum',
-        'ruang-publik' => 'Ruang publik',
+        'religi' => 'Rumah ibadah',
+        'kuliner' => 'Kuliner',
+        'ruang-publik' => 'Taman & ruang publik',
+        'belanja' => 'Belanja',
+        'rekreasi-air' => 'Rekreasi air',
     ];
 
     /** Kalimat per predikat: [arah maju, arah balik]. {a} subjek, {b} objek. */
