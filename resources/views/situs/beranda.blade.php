@@ -24,7 +24,9 @@
         'tiket' => ! empty($t['tiket']) ? route('tiket.pilih', $t['slug']) : null,
     ])->values();
     $fmtMenit = fn ($m) => intdiv($m, 60) ? intdiv($m, 60).' jam'.($m % 60 ? ' '.($m % 60).' mnt' : '') : $m.' mnt';
-    $urutTempat = collect($semuaTempat)->sortBy(fn ($t) => ($pos = array_search($t['slug'], $unggulan, true)) !== false ? $pos : 10)->values();
+    // galeri hanya memuat tempat yang sudah punya foto berlisensi; sisanya ada di peta dan pencarian
+    $urutTempat = collect($semuaTempat)->filter(fn ($t) => $t['foto'])->sortBy(fn ($t) => ($pos = array_search($t['slug'], $unggulan, true)) !== false ? $pos : 10)->values();
+    $jumlahGaleri = $urutTempat->countBy('kategori');
 @endphp
 
 @section('isi')
@@ -87,15 +89,15 @@
 <section class="mv-seksi-tempat" id="tempat" aria-labelledby="judul-tempat">
     <div class="mv-wadah">
         <div class="mv-kepala-seksi">
-            <h2 id="judul-tempat">Tiga belas tempat pilihan</h2>
-            <p>{{ count($semuaTempat) }} tujuan di {{ $jumlahKecamatan }} kecamatan Medan, lengkap dengan jam kunjungan, perkiraan biaya, dan kaitan sejarahnya di jaringan cerita.</p>
+            <h2 id="judul-tempat">Tempat pilihan</h2>
+            <p>{{ $urutTempat->count() }} tempat berfoto dari {{ count($semuaTempat) }} tujuan di {{ $jumlahKecamatan }} kecamatan Medan. <a class="mv-tautan" href="{{ route('peta') }}">Lihat semua di peta</a></p>
         </div>
 
         <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
-            <button type="button" data-filter="semua" aria-pressed="true">Semua <span class="nums">({{ count($semuaTempat) }})</span></button>
+            <button type="button" data-filter="semua" aria-pressed="true">Semua <span class="nums">({{ $urutTempat->count() }})</span></button>
             @foreach ($kategori as $k => $grup)
-                @continue(! $grup['tempat'])
-                <button type="button" data-filter="{{ $k }}" aria-pressed="false">{{ $grup['label'] }} <span class="nums">({{ count($grup['tempat']) }})</span></button>
+                @continue(! ($jumlahGaleri[$k] ?? 0))
+                <button type="button" data-filter="{{ $k }}" aria-pressed="false">{{ $grup['label'] }} <span class="nums">({{ $jumlahGaleri[$k] }})</span></button>
             @endforeach
         </div>
 
