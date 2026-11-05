@@ -166,9 +166,9 @@ class Katalog
                 'slug' => 'kuil-shri-mariamman', 'nama' => 'Kuil Shri Mariamman', 'kategori' => 'religi',
                 'ringkas' => 'Kuil Hindu tertua di Medan, berdiri sejak 1884 di Kampung Madras.',
                 'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Teuku Umar No. 18',
-                'lat' => 3.5868, 'lng' => 98.6716, 'koordinat_perkiraan' => true,
+                'lat' => 3.58397, 'lng' => 98.67102,
                 'foto' => 'kuil-shri-mariamman.jpg',
-                'tiket' => null, 'jam' => 'Setiap hari, 07.00–20.00', 'jam_buka' => [7, 20], 'jam_contoh' => true,
+                'tiket' => null, 'jam' => 'Setiap hari, 06.00–12.00 dan 16.00–20.00', 'jam_buka' => [6, 20], 'jam_contoh' => true,
                 'fasilitas' => ['Lepas alas kaki di gerbang'], 'radius_checkin' => 80, 'singgah' => 30,
                 'cara' => ['Becak motor dari Lapangan Merdeka, sekitar 10 menit'],
                 'cerita' => [
