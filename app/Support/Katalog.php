@@ -179,10 +179,10 @@ class Katalog
                 'slug' => 'vihara-gunung-timur', 'nama' => 'Vihara Gunung Timur', 'kategori' => 'religi',
                 'ringkas' => 'Kelenteng Tionghoa di tepi Sungai Babura, dikenal dengan atap naga dan lampionnya.',
                 'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Hang Tuah No. 16',
-                'lat' => 3.5794, 'lng' => 98.6742, 'koordinat_perkiraan' => true,
+                'lat' => 3.57801, 'lng' => 98.66899,
                 'foto' => 'vihara-gunung-timur.jpg',
-                'tiket' => null, 'jam' => 'Setiap hari, 07.00–17.00', 'jam_buka' => [7, 17], 'jam_contoh' => true,
-                'fasilitas' => ['Parkir'], 'radius_checkin' => 80, 'singgah' => 30,
+                'tiket' => null, 'jam' => 'Setiap hari, 09.00–16.00', 'jam_buka' => [9, 16], 'jam_contoh' => true,
+                'fasilitas' => ['Parkir', 'Wajib berpakaian rapi dan tertutup'], 'radius_checkin' => 80, 'singgah' => 30,
                 'cara' => ['Becak motor dari Kampung Madras, sekitar 5 menit'],
                 'cerita' => [
                     'Vihara Gunung Timur adalah salah satu kelenteng terbesar di Medan. Menjelang Imlek, halaman dan atapnya dipenuhi lampion merah.',
