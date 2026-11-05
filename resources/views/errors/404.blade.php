@@ -19,7 +19,7 @@
     <div class="tempat-populer" style="margin-top:24px">
         @foreach ($populer as $t)
             <a href="{{ route('tempat', $t['slug']) }}">
-                <x-foto :berkas="$t['foto']" :alt="$t['nama']" :kecil="true" :segera="true" />
+                <x-foto :berkas="$t['foto'] ?: 'peta-medan-1930-kota-lama.jpg'" :alt="$t['nama']" :kecil="true" :segera="true" />
                 <b>{{ $t['nama'] }}</b>
                 <span class="kecil redup">{{ \App\Support\Katalog::KATEGORI[$t['kategori']] }}, {{ $t['kecamatan'] }}</span>
             </a>
