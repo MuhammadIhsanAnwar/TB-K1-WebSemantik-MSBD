@@ -191,10 +191,10 @@ class Katalog
             [
                 'slug' => 'graha-maria-annai-velangkanni', 'nama' => 'Graha Maria Annai Velangkanni', 'kategori' => 'religi',
                 'ringkas' => 'Gereja Katolik bergaya Indo-Mughal di Tanjung Selamat, diresmikan 2005.',
-                'kecamatan' => 'Medan Tuntungan', 'kelurahan' => 'Tanjung Selamat', 'alamat' => 'Jl. Sakura III, Tanjung Selamat',
-                'lat' => 3.5205, 'lng' => 98.6120, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Tuntungan', 'kelurahan' => 'Tanjung Selamat', 'alamat' => 'Jl. Sakura III No. 7–10, Taman Sakura Indah',
+                'lat' => 3.54763, 'lng' => 98.60870,
                 'foto' => 'graha-maria-annai-velangkanni.jpg',
-                'tiket' => null, 'jam' => 'Setiap hari, 08.00–17.00', 'jam_buka' => [8, 17], 'jam_contoh' => true,
+                'tiket' => null, 'jam' => 'Setiap hari, 08.00–18.00; misa Senin–Sabtu pukul 18.00', 'jam_buka' => [8, 18], 'jam_contoh' => true,
                 'fasilitas' => ['Parkir', 'Toilet'], 'radius_checkin' => 120, 'singgah' => 45,
                 'cara' => ['Taksi atau ojek daring dari pusat kota, sekitar 30 menit'],
                 'cerita' => [
