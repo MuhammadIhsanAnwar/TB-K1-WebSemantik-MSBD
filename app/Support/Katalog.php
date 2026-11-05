@@ -258,10 +258,10 @@ class Katalog
                 'cerita' => ['Taman ini dahulu bagian dari kawasan Kesultanan Deli dan kini jadi tempat warga bersantai sore.'],
             ],
             [
-                'slug' => 'gereja-immanuel', 'nama' => 'Gereja Immanuel', 'kategori' => 'religi',
+                'slug' => 'gereja-immanuel', 'nama' => 'GPIB Immanuel Medan', 'kategori' => 'religi',
                 'ringkas' => 'Gereja Protestan berlonceng menara di Jl. Diponegoro.',
-                'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Diponegoro No. 25',
-                'lat' => 3.5838, 'lng' => 98.6732, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Diponegoro No. 25–27',
+                'lat' => 3.58098, 'lng' => 98.67255,
                 'foto' => 'gereja-immanuel.jpg', 'foto_keterangan' => 'GPIB Immanuel hari ini', 'foto_arsip' => 'gereja-immanuel-arsip.jpg', 'foto_arsip_keterangan' => 'Gereja ini pada masa kolonial. Judul arsipnya menyebut jalan di depannya Mangalaan.', 'tiket' => null, 'jam' => 'Di luar jadwal ibadah', 'jam_buka' => [8, 16], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 80, 'singgah' => 20,
                 'cara' => ['Jalan kaki dari Kuil Shri Mariamman, sekitar 8 menit'],
