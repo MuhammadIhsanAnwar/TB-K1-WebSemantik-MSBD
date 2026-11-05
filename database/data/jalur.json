@@ -1,0 +1,23 @@
+[
+    {
+        "id_jalur": 1,
+        "slug": "jejak-kesultanan-deli",
+        "nama_jalur": "Jejak Kesultanan Deli",
+        "ringkas": "Istana, meriam, masjid, dan taman yang dibangun di masa Sultan Ma'moen Al Rasyid.",
+        "image": "istana-maimun-1900.jpg"
+    },
+    {
+        "id_jalur": 2,
+        "slug": "satu-kota-banyak-rumah-ibadah",
+        "nama_jalur": "Satu kota, banyak rumah ibadah",
+        "ringkas": "Masjid, kuil, vihara, dan gereja yang berdiri berdekatan di pusat Medan.",
+        "image": "vihara-gunung-timur.jpg"
+    },
+    {
+        "id_jalur": 3,
+        "slug": "kesawan-tempo-dulu",
+        "nama_jalur": "Kesawan tempo dulu",
+        "ringkas": "Esplanade, rumah saudagar, dan warung soto di jalan dagang tertua Medan.",
+        "image": "kesawan-arsip.jpg"
+    }
+]

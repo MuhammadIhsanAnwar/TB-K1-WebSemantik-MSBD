@@ -1,0 +1,57 @@
+[
+    {
+        "id_jalur": 1,
+        "id_tempat": 1,
+        "urutan": 1
+    },
+    {
+        "id_jalur": 1,
+        "id_tempat": 4,
+        "urutan": 2
+    },
+    {
+        "id_jalur": 1,
+        "id_tempat": 2,
+        "urutan": 3
+    },
+    {
+        "id_jalur": 1,
+        "id_tempat": 12,
+        "urutan": 4
+    },
+    {
+        "id_jalur": 2,
+        "id_tempat": 2,
+        "urutan": 1
+    },
+    {
+        "id_jalur": 2,
+        "id_tempat": 6,
+        "urutan": 2
+    },
+    {
+        "id_jalur": 2,
+        "id_tempat": 5,
+        "urutan": 3
+    },
+    {
+        "id_jalur": 2,
+        "id_tempat": 13,
+        "urutan": 4
+    },
+    {
+        "id_jalur": 3,
+        "id_tempat": 11,
+        "urutan": 1
+    },
+    {
+        "id_jalur": 3,
+        "id_tempat": 3,
+        "urutan": 2
+    },
+    {
+        "id_jalur": 3,
+        "id_tempat": 9,
+        "urutan": 3
+    }
+]
