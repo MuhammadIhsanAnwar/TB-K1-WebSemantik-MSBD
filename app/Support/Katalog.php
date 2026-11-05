@@ -154,8 +154,8 @@ class Katalog
             [
                 'slug' => 'meriam-puntung', 'nama' => 'Meriam Puntung', 'kategori' => 'sejarah',
                 'ringkas' => 'Meriam di halaman Istana Maimun yang dikaitkan dengan legenda Putri Hijau.',
-                'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Sukaraja', 'alamat' => 'Kompleks Istana Maimun',
-                'lat' => 3.5749, 'lng' => 98.6833, 'koordinat_perkiraan' => true,
+                'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Aur', 'alamat' => 'Kompleks Istana Maimun',
+                'lat' => 3.57493, 'lng' => 98.68405,
                 'foto' => 'meriam-puntung.jpg', 'foto_keterangan' => 'Rumah Meriam Puntung di halaman Istana Maimun', 'tiket' => null, 'jam' => 'Mengikuti jam buka Istana Maimun', 'jam_buka' => [8, 17], 'jam_contoh' => true,
                 'fasilitas' => [], 'radius_checkin' => 60, 'singgah' => 15, 'cara' => ['Di halaman Istana Maimun'],
                 'cerita' => [
