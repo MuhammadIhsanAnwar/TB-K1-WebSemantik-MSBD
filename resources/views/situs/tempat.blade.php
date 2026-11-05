@@ -125,10 +125,12 @@
                         <dd>{{ implode(', ', $t['fasilitas']) }}</dd>
                     </div>
                 @endif
-                <div class="mv-fakta-kotak">
-                    <dt>Cara menuju lokasi</dt>
-                    <dd>{{ implode('. ', $t['cara']) }}.</dd>
-                </div>
+                @if ($t['cara'])
+                    <div class="mv-fakta-kotak">
+                        <dt>Cara menuju lokasi</dt>
+                        <dd>{{ implode('. ', $t['cara']) }}.</dd>
+                    </div>
+                @endif
             </dl>
 
             <div class="ramai" style="margin-top:20px;padding:18px 20px;background:var(--mv-putih)">
