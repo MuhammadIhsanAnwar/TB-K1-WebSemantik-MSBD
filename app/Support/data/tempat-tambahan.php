@@ -89,4 +89,35 @@ return [
         'sumber' => 'https://www.detik.com/sumut/berita/d-8267318/monumen-sisingamangaraja-xii-medan-tak-terawat-begini-penampakannya',
     ],
 
+    // ---------- Museum ----------
+    [
+        'slug' => 'museum-perjuangan-tni', 'nama' => 'Museum Perjuangan TNI Bukit Barisan', 'kategori' => 'museum',
+        'ringkas' => 'Museum perjuangan Kodam I/Bukit Barisan di gedung kolonial Jl. Zainul Arifin.',
+        'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. K.H. Zainul Arifin No. 8',
+        'lat' => 3.58392, 'lng' => 98.67414,
+        'tiket' => null, 'jam' => 'Senin–Jumat, 08.00–15.30 (masuk dengan donasi)', 'jam_buka' => [8, 15], 'jam_contoh' => true, 'singgah' => 45,
+        'cerita' => ['Museum ini menyimpan senjata, seragam, dan dokumen perjuangan di Sumatera Utara. Dikelola Kodam I/Bukit Barisan dan hanya buka pada hari kerja.'],
+        'sumber' => 'https://mamikos.com/info/museum-terbaik-di-medan-yang-wajib-dikunjungi-gnr/',
+    ],
+    [
+        'slug' => 'rahmat-gallery', 'nama' => 'Rahmat International Wildlife Museum & Gallery', 'kategori' => 'museum',
+        'ringkas' => 'Museum satwa awetan dengan koleksi taksidermi besar dari berbagai benua.',
+        'kecamatan' => 'Medan Baru', 'kelurahan' => 'Petisah Hulu', 'alamat' => 'Jl. S. Parman No. 309',
+        'lat' => 3.57926, 'lng' => 98.66773,
+        'tiket' => ['Domestik' => 75000, 'Pelajar atau rombongan' => 25000, 'Wisatawan mancanegara' => 150000], 'harga_contoh' => true,
+        'jam' => 'Setiap hari, 09.00–17.00', 'jam_buka' => [9, 17], 'jam_contoh' => true, 'singgah' => 90,
+        'cerita' => ['Galeri milik Rahmat Shah ini memajang ratusan satwa awetan dalam diorama habitatnya. Dibuka untuk umum sejak 1990-an.'],
+        'sumber' => 'https://www.detik.com/sumut/berita/d-8239652/6-museum-di-medan-yang-wajib-dikunjungi',
+    ],
+    [
+        'slug' => 'museum-situs-kota-cina', 'nama' => 'Museum Situs Kota Cina', 'kategori' => 'museum',
+        'ringkas' => 'Museum situs pelabuhan dagang kuno abad ke-11 sampai 14 di Medan Marelan.',
+        'kecamatan' => 'Medan Marelan', 'kelurahan' => 'Paya Pasir', 'alamat' => 'Jl. Kota Cina',
+        'lat' => 3.72324, 'lng' => 98.65675,
+        'tiket' => ['Umum' => 12000], 'harga_contoh' => true,
+        'jam' => 'Kamis–Minggu, 09.00–17.00', 'jam_buka' => [9, 17], 'jam_contoh' => true, 'singgah' => 60,
+        'cerita' => ['Di Kota Cina ditemukan pecahan keramik, arca, dan sisa permukiman pelabuhan dagang yang ramai jauh sebelum kota Medan berdiri. Temuannya dipamerkan di museum kecil di lokasi situs.'],
+        'sumber' => 'https://mamikos.com/info/museum-terbaik-di-medan-yang-wajib-dikunjungi-gnr/?halaman=2',
+    ],
+
 ];
