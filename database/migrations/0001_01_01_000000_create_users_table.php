@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    // akun pengguna disimpan di database transaksi (DB 2)
+    protected $connection = 'transaksi';
+
     /**
      * Run the migrations.
      */
