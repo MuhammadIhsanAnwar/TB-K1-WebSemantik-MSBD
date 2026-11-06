@@ -33,7 +33,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 60,
         "image": "istana-maimun.jpg",
-        "status": "active",
+        "wikidata": "Q1674833",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -66,7 +67,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": "masjid-raya.jpg",
-        "status": "active",
+        "wikidata": "Q12497331",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -100,7 +102,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 60,
         "image": "tjong-a-fie-mansion.jpg",
-        "status": "active",
+        "wikidata": "Q7810631",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -129,7 +132,8 @@
         "radius_checkin": 60,
         "durasi_singgah": 15,
         "image": "meriam-puntung.jpg",
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -160,7 +164,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 30,
         "image": "kuil-shri-mariamman.jpg",
-        "status": "active",
+        "wikidata": "Q12492840",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -192,7 +197,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 30,
         "image": "vihara-gunung-timur.jpg",
-        "status": "active",
+        "wikidata": "Q14933726",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -224,7 +230,8 @@
         "radius_checkin": 120,
         "durasi_singgah": 45,
         "image": "graha-maria-annai-velangkanni.jpg",
-        "status": "active",
+        "wikidata": "Q4349197",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -257,7 +264,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 60,
         "image": "museum-negeri-sumut.jpg",
-        "status": "active",
+        "wikidata": "Q12499672",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -286,7 +294,8 @@
         "radius_checkin": 60,
         "durasi_singgah": 40,
         "image": "soto-medan.jpg",
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -315,7 +324,8 @@
         "radius_checkin": 120,
         "durasi_singgah": 30,
         "image": "bika-ambon.jpg",
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -345,7 +355,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 30,
         "image": "lapangan-merdeka.jpg",
-        "status": "active",
+        "wikidata": "Q12498196",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -374,7 +385,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 20,
         "image": "taman-sri-deli.jpg",
-        "status": "active",
+        "wikidata": "Q12518862",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -403,7 +415,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 20,
         "image": "gereja-immanuel.jpg",
-        "status": "active",
+        "wikidata": "Q113648754",
+        "status": "aktif",
         "source_url": null
     },
     {
@@ -430,7 +443,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 15,
         "image": null,
-        "status": "active",
+        "wikidata": "Q6805113",
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/berita/d-7045682/sejarah-balai-kota-medan-ada-peran-miliarder-tjong-a-fie"
     },
     {
@@ -457,7 +471,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 10,
         "image": null,
-        "status": "active",
+        "wikidata": "Q114814144",
+        "status": "aktif",
         "source_url": "https://economy.okezone.com/read/2023/04/12/470/2797205/ini-gedung-dengan-lift-pertama-di-sumatera-sudah-ada-sejak-zaman-kolonial"
     },
     {
@@ -484,7 +499,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 10,
         "image": null,
-        "status": "active",
+        "wikidata": "Q19746232",
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/budaya/d-7210677/sejarah-menara-pdam-tirtanadi-medan-dibangun-di-masa-kolonial-belanda"
     },
     {
@@ -511,7 +527,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 60,
         "image": null,
-        "status": "active",
+        "wikidata": "Q12489173",
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/berita/d-7187048/sejarah-kantor-pos-medan-yang-kini-jadi-pusat-kuliner-milenial"
     },
     {
@@ -538,7 +555,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 10,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://en.wikipedia.org/wiki/List_of_colonial_buildings_in_Medan"
     },
     {
@@ -565,7 +583,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 10,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.penang-traveltips.com/indonesia/medan/bks-pps-building.htm"
     },
     {
@@ -592,7 +611,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 30,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://fahum.umsu.ac.id/info/gedung-warenhuis-diresmikan/"
     },
     {
@@ -619,7 +639,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 15,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/berita/d-8267318/monumen-sisingamangaraja-xii-medan-tak-terawat-begini-penampakannya"
     },
     {
@@ -646,7 +667,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": "Q86584463",
+        "status": "aktif",
         "source_url": "https://mamikos.com/info/museum-terbaik-di-medan-yang-wajib-dikunjungi-gnr/"
     },
     {
@@ -673,7 +695,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 90,
         "image": null,
-        "status": "active",
+        "wikidata": "Q18393164",
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/berita/d-8239652/6-museum-di-medan-yang-wajib-dikunjungi"
     },
     {
@@ -700,7 +723,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 60,
         "image": null,
-        "status": "active",
+        "wikidata": "Q19748034",
+        "status": "aktif",
         "source_url": "https://mamikos.com/info/museum-terbaik-di-medan-yang-wajib-dikunjungi-gnr/?halaman=2"
     },
     {
@@ -727,7 +751,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": "Q110706913",
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/budaya/d-8271055/mengenal-10-masjid-bersejarah-di-medan-dari-arsitektur-hingga-ceritanya"
     },
     {
@@ -754,7 +779,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": "Q16951164",
+        "status": "aktif",
         "source_url": "https://gcatholic.org/churches/asia/3538.htm"
     },
     {
@@ -781,7 +807,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": "Q138358755",
+        "status": "aktif",
         "source_url": "https://storiesfromdeli.com/2020/11/27/kwan-tee-bio/"
     },
     {
@@ -810,7 +837,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://id.wikipedia.org/wiki/Kuil_Sree_Soepramaniem_Nagarattar"
     },
     {
@@ -837,7 +865,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://rri.co.id/medan/iptek/2772486/seng-hap-1881-dari-bangunan-bersejarah-hingga-ruang-umkm-dan-kuliner"
     },
     {
@@ -864,7 +893,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 60,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://gopay.co.id/blog/street-food-medan"
     },
     {
@@ -891,7 +921,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.indonesia.travel/id-id/travel-ideas/gastronomy/culinary-on-jalan-selat-panjang-medan/"
     },
     {
@@ -918,7 +949,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.inews.id/regional/sumut/6-wisata-kuliner-malam-di-medan-nomor-5-ucok-durian-buka-24-jam/all"
     },
     {
@@ -945,7 +977,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/kuliner/d-8079041/rekomendasi-wisata-kuliner-malam-di-medan-buka-hingga-tengah-malam"
     },
     {
@@ -972,7 +1005,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://infopublik.id/kategori/ponxxi/870956/bolu-meranti-primadona-oleh-oleh-medan-di-pon-xxi-aceh-sumut"
     },
     {
@@ -999,7 +1033,8 @@
         "radius_checkin": 80,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://fahum.umsu.ac.id/info/ucok-durian-medan-surga-durian-legendaris-yang-wajib-dikunjungi/"
     },
     {
@@ -1026,7 +1061,8 @@
         "radius_checkin": 60,
         "durasi_singgah": 40,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.jawapos.com/kuliner/2509260364/menjelajahi-3-kuliner-legendaris-di-medan-yang-tak-lekang-waktu"
     },
     {
@@ -1053,7 +1089,8 @@
         "radius_checkin": 60,
         "durasi_singgah": 40,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://koran-jakarta.com/2024-09-23/tak-berdaya-di-rumah-makan-tabona/amp"
     },
     {
@@ -1080,7 +1117,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 40,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.idntimes.com/food/dining-guide/rekomendasi-tempat-makan-halal-di-medan-c1c2-01-491ts-yd2zs6"
     },
     {
@@ -1107,7 +1145,8 @@
         "radius_checkin": 60,
         "durasi_singgah": 30,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.goodnewsfromindonesia.id/2023/11/01/mencicipi-kenikmatan-kopi-apek-kedai-legendaris-dari-kota-medan"
     },
     {
@@ -1134,7 +1173,8 @@
         "radius_checkin": 60,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.goodnewsfromindonesia.id/2025/12/05/tip-top-restaurant-tempat-kuliner-legendaris-di-medan-sejak-zaman-penjajahan"
     },
     {
@@ -1161,7 +1201,8 @@
         "radius_checkin": 120,
         "durasi_singgah": 40,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.idntimes.com/food/dining-guide/rekomendasi-tempat-makan-halal-di-medan-c1c2-01-491ts-yd2zs6"
     },
     {
@@ -1188,7 +1229,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 60,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://sumut.antaranews.com/berita/588991/bobby-apresiasi-wajah-baru-taman-cadika-medan"
     },
     {
@@ -1215,7 +1257,8 @@
         "radius_checkin": 120,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://sumut.idntimes.com/travel/destination/8-taman-kota-di-medan-tempat-terbaik-untuk-bersantai-dan-rekreasi-c1c2-01-2j5kq-dt7jcc"
     },
     {
@@ -1242,7 +1285,8 @@
         "radius_checkin": 120,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/berita/d-8455293/warga-berharap-fasilitas-di-taman-beringin-medan-lebih-terawat"
     },
     {
@@ -1269,7 +1313,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/berita/d-8309289/pemkot-klaim-progres-revitalisasi-stadion-teladan-capai-97-terkendala-apbn"
     },
     {
@@ -1296,7 +1341,8 @@
         "radius_checkin": 120,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://sumut.idntimes.com/travel/destination/5-fakta-unik-taman-gajah-mada-medan-ruang-hijau-favorit-warga-kota-c1c2-01-2j5kq-dst53d"
     },
     {
@@ -1323,7 +1369,8 @@
         "radius_checkin": 120,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://sumut.idntimes.com/news/sumatra-utara/5-fakta-unik-taman-budaya-kota-medan-01-2j5kq-7ktxm5"
     },
     {
@@ -1350,7 +1397,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 90,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/wisata/d-7399272/avros-park-daya-tarik-lokasi-jam-buka-harga-dan-rute"
     },
     {
@@ -1377,7 +1425,8 @@
         "radius_checkin": 150,
         "durasi_singgah": 20,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://kumparan.com/jendela-dunia/lapangan-benteng-medan-untuk-olahraga-fasilitas-alamat-jam-buka-dan-aksesnya-21iDvKcam1P"
     },
     {
@@ -1404,7 +1453,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.agungpodomoro.com/group/en/news/delipark-mall-the-new-icon-in-medan"
     },
     {
@@ -1431,7 +1481,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.jawapos.com/travelling/2605120204/liburan-tidak-lengkap-tanpa-mampir-ke-12-mall-terbaik-di-medan-ini-surga-belanja-sampai-tempat-hangout-viral-yang-wajib-anda-kunjungi"
     },
     {
@@ -1458,7 +1509,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.jawapos.com/travelling/2605120204/liburan-tidak-lengkap-tanpa-mampir-ke-12-mall-terbaik-di-medan-ini-surga-belanja-sampai-tempat-hangout-viral-yang-wajib-anda-kunjungi"
     },
     {
@@ -1485,7 +1537,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.jawapos.com/travelling/2605120204/liburan-tidak-lengkap-tanpa-mampir-ke-12-mall-terbaik-di-medan-ini-surga-belanja-sampai-tempat-hangout-viral-yang-wajib-anda-kunjungi"
     },
     {
@@ -1512,7 +1565,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/berita/d-6526632/deretan-mal-mewah-di-kota-medan-salah-satunya-terbaik-se-indonesia"
     },
     {
@@ -1539,7 +1593,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/berita/d-6526632/deretan-mal-mewah-di-kota-medan-salah-satunya-terbaik-se-indonesia"
     },
     {
@@ -1566,7 +1621,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://economy.okezone.com/read/2023/04/27/470/2804438/9-mall-paling-mewah-dan-terkenal-di-kota-medan"
     },
     {
@@ -1593,7 +1649,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.rumah123.com/explore/kota-medan/focal-point-medan/"
     },
     {
@@ -1620,7 +1677,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.openstreetmap.org/way/894120597"
     },
     {
@@ -1647,7 +1705,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://economy.okezone.com/read/2023/04/27/470/2804438/9-mall-paling-mewah-dan-terkenal-di-kota-medan"
     },
     {
@@ -1674,7 +1733,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/berita/d-7853535/matahari-thamrin-plaza-tutup-warga-medan-kenang-momen-belanja-semasa-kecil"
     },
     {
@@ -1701,7 +1761,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.jawapos.com/travelling/2605120204/liburan-tidak-lengkap-tanpa-mampir-ke-12-mall-terbaik-di-medan-ini-surga-belanja-sampai-tempat-hangout-viral-yang-wajib-anda-kunjungi"
     },
     {
@@ -1728,7 +1789,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.openstreetmap.org/way/645564631"
     },
     {
@@ -1755,7 +1817,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.bca.co.id/id/promo-bca/2025/03/12/02/45/Irian-Supermarket"
     },
     {
@@ -1782,7 +1845,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.holidify.com/pages/shopping-in-medan-2705.html"
     },
     {
@@ -1809,7 +1873,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.detik.com/sumut/budaya/d-8445606/paradiso-kolam-renang-tertua-di-medan-sejak-1924"
     },
     {
@@ -1836,7 +1901,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.sumutinsider.com/sumatera-utara/80015706882/miris-ikon-kolam-renang-deli-medan-terbengkalai"
     },
     {
@@ -1863,7 +1929,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://renangloka.com/pool/kolam-renang-tirta-kartika/"
     },
     {
@@ -1890,7 +1957,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://www.rumah123.com/explore/kota-medan/kolam-renang-medan/"
     },
     {
@@ -1917,7 +1985,8 @@
         "radius_checkin": 100,
         "durasi_singgah": 45,
         "image": null,
-        "status": "active",
+        "wikidata": null,
+        "status": "aktif",
         "source_url": "https://renangloka.com/pool/kolam-renang-primbana/"
     }
 ]
