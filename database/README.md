@@ -22,6 +22,7 @@ Kalau data tempat berubah: ubah `Katalog.php` atau `app/Support/data/tempat-tamb
 | `migrations/2026_11_06_000500_buat_role_database.php` | role hak akses kedua database |
 | `seeders/KatalogSeeder.php` | isi DB 1 dari `data/*.json` |
 | `seeders/TransaksiSeeder.php` | akun uji coba dan contoh transaksi di DB 2 (data uji coba) |
+| `sql/00_role.sql`, `sql/01_medanvisit_katalog.sql`, `sql/02_medanvisit_transaksi.sql` | dump kedua database (struktur + data, perintah `INSERT` biasa). Bisa dijalankan di psql, DBeaver, atau SQL Editor Supabase tanpa Laravel; jalankan `00_role.sql` dulu |
 | `rdf/medanvisit-ontologi.ttl` (`.owl`) | ontologi (TBox): kelas dan properti, RDFS/OWL 2 |
 | `rdf/medanvisit-data.ttl` (`.jsonld`) | data (ABox), dibuat `rdf:ekspor` |
 | `rdf/fuseki-medanvisit.ttl` | konfigurasi Fuseki: dataset `medanvisit`, hanya baca, reasoner OWL Micro |
@@ -33,7 +34,7 @@ Untuk sementara kedua database dan Fuseki berjalan di laptop; Supabase dipakai l
 
 | Layanan | Alamat | Menyalakan |
 |---|---|---|
-| PostgreSQL 17 portable | `127.0.0.1:5432`, user `postgres`, sandi `medanvisit_lokal`, database `medanvisit_katalog` dan `medanvisit_transaksi` | `C:\Users\ASUS\postgresql-17-portable\pgsql\bin\pg_ctl -D C:\Users\ASUS\postgresql-17-portable\data -l C:\Users\ASUS\postgresql-17-portable\postgres.log start` (ganti `start` dengan `stop` untuk mematikan) |
+| PostgreSQL 17 portable | `127.0.0.1:5432`, user `postgres`, sandi `medanvisit_lokal`, database `medanvisit_katalog` dan `medanvisit_transaksi` | `C:\MSBD-WS\postgresql\pgsql\bin\pg_ctl -D C:\MSBD-WS\postgresql\data -l C:\MSBD-WS\postgresql\postgres.log start` (ganti `start` dengan `stop` untuk mematikan) |
 | Apache Jena Fuseki 5.1 | `http://localhost:3030`, dataset `medanvisit` | dari folder `Downloads\apache-jena-fuseki-5.1.0\apache-jena-fuseki-5.1.0`: `fuseki-server --config=C:\MSBD-WS\TB-K1-WebSemantik-MSBD\database\rdf\fuseki-medanvisit.ttl` |
 
 Membuka database lewat DBeaver: koneksi PostgreSQL baru, host `localhost`, port `5432`, isi user dan sandi di atas.
