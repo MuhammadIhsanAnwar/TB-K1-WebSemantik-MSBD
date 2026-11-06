@@ -113,6 +113,38 @@ return [
             'sslmode' => 'require',
         ],
 
+        // Dua database MedanVisit (tugas MSBD). katalog = data master tempat & relasi (variabel DB_*),
+        // transaksi = akun, pesanan, check-in, ulasan, poin (variabel DB2_*).
+        'katalog' => [
+            'driver' => 'pgsql',
+            'url' => env('DB_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'medanvisit_katalog'),
+            'username' => env('DB_USERNAME', 'postgres'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => env('DB_SSLMODE', 'require'),
+        ],
+
+        'transaksi' => [
+            'driver' => 'pgsql',
+            'url' => env('DB2_URL'),
+            'host' => env('DB2_HOST', '127.0.0.1'),
+            'port' => env('DB2_PORT', '5432'),
+            'database' => env('DB2_DATABASE', 'medanvisit_transaksi'),
+            'username' => env('DB2_USERNAME', 'postgres'),
+            'password' => env('DB2_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => env('DB2_SSLMODE', 'require'),
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DB_URL'),
