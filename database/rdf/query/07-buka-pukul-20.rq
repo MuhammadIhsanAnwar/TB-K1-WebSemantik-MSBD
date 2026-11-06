@@ -1,0 +1,11 @@
+# Tempat yang masih buka pukul 20.00, memakai tipe data xsd:time.
+PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+PREFIX res: <https://medanvisit.neoverse.my.id/id/>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?tempat ?buka ?tutup WHERE {
+  ?t schema:name ?tempat ; mv:jamBuka ?buka ; mv:jamTutup ?tutup .
+  FILTER (?buka <= "20:00:00"^^xsd:time && ?tutup > "20:00:00"^^xsd:time)
+}
+ORDER BY ?tempat

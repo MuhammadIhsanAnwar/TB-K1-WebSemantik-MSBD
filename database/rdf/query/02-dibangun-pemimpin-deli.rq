@@ -1,0 +1,9 @@
+# Tempat yang dibangun pemimpin Kesultanan Deli.
+PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+PREFIX res: <https://medanvisit.neoverse.my.id/id/>
+PREFIX schema: <https://schema.org/>
+
+SELECT ?tempat ?tokoh WHERE {
+  ?t mv:dibangunOleh ?k ; schema:name ?tempat .
+  ?k mv:memimpin res:kesultanan-deli ; schema:name ?tokoh .
+}

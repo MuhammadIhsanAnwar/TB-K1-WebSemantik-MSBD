@@ -1,0 +1,10 @@
+# Semua relasi tentang Tjong A Fie beserta kalimat dan sumbernya (dari reifikasi rdf:Statement).
+PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+PREFIX res: <https://medanvisit.neoverse.my.id/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?kalimat ?sumber WHERE {
+  ?r a rdf:Statement ; mv:kalimat ?kalimat ; dcterms:source ?sumber .
+  { ?r rdf:subject res:tjong-a-fie } UNION { ?r rdf:object res:tjong-a-fie }
+}
