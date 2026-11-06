@@ -1,0 +1,2527 @@
+# Data MedanVisit (ABox), dibuat otomatis oleh `php artisan rdf:ekspor` dari database/data/*.json.
+# Jangan diedit langsung: ubah datanya, lalu jalankan ulang data:ekspor dan rdf:ekspor.
+
+@prefix mv: <https://medanvisit.neoverse.my.id/ontologi#> .
+@prefix res: <https://medanvisit.neoverse.my.id/id/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+
+# ---------- kota dan kecamatan ----------
+
+res:kota-medan a schema:City ;
+    schema:name "Medan"@id ;
+    owl:sameAs wd:Q5972 .
+
+res:kec-medan-maimun a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Maimun"@id ;
+    schema:name "Medan Maimun"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-kota a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Kota"@id ;
+    schema:name "Medan Kota"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-barat a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Barat"@id ;
+    schema:name "Medan Barat"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-petisah a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Petisah"@id ;
+    schema:name "Medan Petisah"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-polonia a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Polonia"@id ;
+    schema:name "Medan Polonia"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-tuntungan a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Tuntungan"@id ;
+    schema:name "Medan Tuntungan"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-baru a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Baru"@id ;
+    schema:name "Medan Baru"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-marelan a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Marelan"@id ;
+    schema:name "Medan Marelan"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-timur a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Timur"@id ;
+    schema:name "Medan Timur"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-sunggal a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Sunggal"@id ;
+    schema:name "Medan Sunggal"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-johor a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Johor"@id ;
+    schema:name "Medan Johor"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-selayang a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Selayang"@id ;
+    schema:name "Medan Selayang"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-helvetia a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Helvetia"@id ;
+    schema:name "Medan Helvetia"@id ;
+    schema:containedInPlace res:kota-medan .
+
+res:kec-medan-area a mv:Kecamatan ;
+    rdfs:label "Kecamatan Medan Area"@id ;
+    schema:name "Medan Area"@id ;
+    schema:containedInPlace res:kota-medan .
+
+# ---------- tempat wisata ----------
+
+res:istana-maimun a mv:SitusSejarah ;
+    rdfs:label "Istana Maimun"@id ;
+    schema:name "Istana Maimun"@id ;
+    schema:description "Istana Kesultanan Deli, dibangun 1888–1891 oleh Sultan Ma'moen Al Rasyid."@id ;
+    mv:cerita "Istana Maimun dibangun Sultan Ma'moen Al Rasyid Perkasa Alamsyah, sultan Deli kesembilan, dan rampung pada 1891. Bangunannya memadukan unsur Melayu, Islam, India, dan Eropa.\n\nWarna kuning yang mendominasi istana adalah warna kebesaran Melayu. Sampai sekarang sebagian ruangan masih ditinggali kerabat kesultanan, dan pengunjung bisa berfoto memakai baju adat Melayu di balairung.\n\nDi halaman istana ada bangunan kecil yang menyimpan Meriam Puntung, yang dalam cerita rakyat dikaitkan dengan legenda Putri Hijau."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Brigjend Katamso No. 66" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57529"^^xsd:decimal ;
+    geo:long "98.68405"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 08.00–17.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 60 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Aur" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    mv:fasilitas "Parkir"@id ;
+    mv:fasilitas "Toilet"@id ;
+    mv:fasilitas "Mushola"@id ;
+    mv:fasilitas "Sewa baju adat Melayu (Rp20.000–50.000)"@id ;
+    mv:fasilitas "Balita di bawah 5 tahun gratis"@id ;
+    mv:caraMenuju "Becak motor dari Kesawan, tawar ongkos sebelum naik (sekitar Rp20.000–30.000)"@id ;
+    mv:caraMenuju "Bus Listrik Medan koridor K1 melintas di depan istana"@id ;
+    mv:caraMenuju "Jalan kaki dari Masjid Raya Al-Mashun, sekitar 6 menit"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/istana-maimun.jpg> ;
+    owl:sameAs wd:Q1674833 ;
+    mv:hargaTiketMulai 5000 ;
+    mv:hargaContoh true ;
+    schema:offers [ a schema:Offer ; schema:name "Dewasa"@id ; schema:price 10000 ; schema:priceCurrency "IDR" ] ;
+    schema:offers [ a schema:Offer ; schema:name "Anak"@id ; schema:price 5000 ; schema:priceCurrency "IDR" ] .
+
+res:masjid-raya-al-mashun a mv:RumahIbadah ;
+    rdfs:label "Masjid Raya Al-Mashun"@id ;
+    schema:name "Masjid Raya Al-Mashun"@id ;
+    schema:description "Masjid Kesultanan Deli, dibangun 1906–1909 dengan denah segi delapan."@id ;
+    mv:cerita "Masjid Raya Al-Mashun dibangun oleh Sultan Ma'moen Al Rasyid, sultan yang sama yang membangun Istana Maimun, dan selesai pada 1909.\n\nDenahnya segi delapan dengan kubah utama dikelilingi empat serambi. Masjid ini masih dipakai untuk salat berjamaah, jadi pengunjung datang di luar waktu salat dan berpakaian sopan."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Sisingamangaraja" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57517"^^xsd:decimal ;
+    geo:long "98.6873"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Terbuka di luar waktu salat" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Mesjid" ;
+    mv:jamBuka "05:00:00"^^xsd:time ;
+    mv:jamTutup "21:00:00"^^xsd:time ;
+    mv:fasilitas "Parkir"@id ;
+    mv:fasilitas "Tempat wudu"@id ;
+    mv:fasilitas "Peminjaman kain penutup"@id ;
+    mv:caraMenuju "Jalan kaki dari Istana Maimun, sekitar 6 menit"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/masjid-raya.jpg> ;
+    owl:sameAs wd:Q12497331 .
+
+res:tjong-a-fie-mansion a mv:SitusSejarah ;
+    rdfs:label "Tjong A Fie Mansion"@id ;
+    schema:name "Tjong A Fie Mansion"@id ;
+    schema:description "Rumah saudagar Tjong A Fie di Kesawan, kini museum rumah."@id ;
+    mv:cerita "Tjong A Fie adalah saudagar Hakka yang datang ke Deli pada masa kejayaan tembakau dan menjadi pemimpin komunitas Tionghoa Medan. Rumahnya di Kesawan selesai dibangun sekitar 1900.\n\nArsitekturnya memadukan rumah Tionghoa, Eropa, dan Melayu. Kamar, perabot, dan foto keluarga masih tersimpan, sehingga pengunjung bisa melihat bagaimana sebuah keluarga saudagar hidup di Medan awal abad ke-20."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Jend. Ahmad Yani No. 105" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58543"^^xsd:decimal ;
+    geo:long "98.68037"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 09.00–17.00 (masuk terakhir 16.30), tutup saat Imlek" ;
+    mv:jamContoh false ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 60 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Kesawan" ;
+    mv:jamBuka "09:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    mv:fasilitas "Pemandu"@id ;
+    mv:fasilitas "Toilet"@id ;
+    mv:fasilitas "Kafe"@id ;
+    mv:caraMenuju "Jalan kaki dari Lapangan Merdeka, sekitar 8 menit"@id ;
+    mv:caraMenuju "Becak motor dari Istana Maimun, sekitar 10 menit"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/tjong-a-fie-mansion.jpg> ;
+    owl:sameAs wd:Q7810631 ;
+    mv:hargaTiketMulai 35000 ;
+    mv:hargaContoh false ;
+    schema:offers [ a schema:Offer ; schema:name "Umum, termasuk pemandu"@id ; schema:price 35000 ; schema:priceCurrency "IDR" ] .
+
+res:meriam-puntung a mv:SitusSejarah ;
+    rdfs:label "Meriam Puntung"@id ;
+    schema:name "Meriam Puntung"@id ;
+    schema:description "Meriam di halaman Istana Maimun yang dikaitkan dengan legenda Putri Hijau."@id ;
+    mv:cerita "Menurut cerita rakyat, meriam ini adalah penjelmaan saudara Putri Hijau yang menembak tanpa henti saat kerajaan diserang hingga patah. Satu potongannya ada di Istana Maimun, potongan lainnya di Tanah Karo."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Kompleks Istana Maimun" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57493"^^xsd:decimal ;
+    geo:long "98.68405"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Mengikuti jam buka Istana Maimun" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 60 ;
+    mv:durasiSinggah 15 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Aur" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    mv:caraMenuju "Di halaman Istana Maimun"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/meriam-puntung.jpg> .
+
+res:kuil-shri-mariamman a mv:RumahIbadah ;
+    rdfs:label "Kuil Shri Mariamman"@id ;
+    schema:name "Kuil Shri Mariamman"@id ;
+    schema:description "Kuil Hindu tertua di Medan, berdiri sejak 1884 di Kampung Madras."@id ;
+    mv:cerita "Kuil ini dibangun komunitas Tamil pada 1884 dan menjadi pusat Kampung Madras, kawasan yang juga dikenal sebagai Little India Medan. Menara gerbangnya dipenuhi patung dewa berwarna cerah."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Teuku Umar No. 18" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58397"^^xsd:decimal ;
+    geo:long "98.67102"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 06.00–12.00 dan 16.00–20.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 30 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Petisah Tengah" ;
+    mv:jamBuka "06:00:00"^^xsd:time ;
+    mv:jamTutup "20:00:00"^^xsd:time ;
+    mv:fasilitas "Lepas alas kaki di gerbang"@id ;
+    mv:caraMenuju "Becak motor dari Lapangan Merdeka, sekitar 10 menit"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/kuil-shri-mariamman.jpg> ;
+    owl:sameAs wd:Q12492840 .
+
+res:vihara-gunung-timur a mv:RumahIbadah ;
+    rdfs:label "Vihara Gunung Timur"@id ;
+    schema:name "Vihara Gunung Timur"@id ;
+    schema:description "Kelenteng Tionghoa di tepi Sungai Babura, dikenal dengan atap naga dan lampionnya."@id ;
+    mv:cerita "Vihara Gunung Timur adalah salah satu kelenteng terbesar di Medan. Menjelang Imlek, halaman dan atapnya dipenuhi lampion merah."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Hang Tuah No. 16" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57801"^^xsd:decimal ;
+    geo:long "98.66899"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 09.00–16.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 30 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Madras Hulu" ;
+    mv:jamBuka "09:00:00"^^xsd:time ;
+    mv:jamTutup "16:00:00"^^xsd:time ;
+    mv:fasilitas "Parkir"@id ;
+    mv:fasilitas "Wajib berpakaian rapi dan tertutup"@id ;
+    mv:caraMenuju "Becak motor dari Kampung Madras, sekitar 5 menit"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/vihara-gunung-timur.jpg> ;
+    owl:sameAs wd:Q14933726 .
+
+res:graha-maria-annai-velangkanni a mv:RumahIbadah ;
+    rdfs:label "Graha Maria Annai Velangkanni"@id ;
+    schema:name "Graha Maria Annai Velangkanni"@id ;
+    schema:description "Gereja Katolik bergaya Indo-Mughal di Tanjung Selamat, diresmikan 2005."@id ;
+    mv:cerita "Graha ini dibangun untuk Bunda Maria Annai Velangkanni yang dihormati umat Katolik Tamil. Bangunannya bertingkat seperti candi dengan ornamen India, sehingga sering dikira kuil."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Sakura III No. 7–10, Taman Sakura Indah" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.54763"^^xsd:decimal ;
+    geo:long "98.6087"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 08.00–18.00; misa Senin–Sabtu pukul 18.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 120 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Tanjung Selamat" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "18:00:00"^^xsd:time ;
+    mv:fasilitas "Parkir"@id ;
+    mv:fasilitas "Toilet"@id ;
+    mv:caraMenuju "Taksi atau ojek daring dari pusat kota, sekitar 30 menit"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/graha-maria-annai-velangkanni.jpg> ;
+    owl:sameAs wd:Q4349197 .
+
+res:museum-negeri-sumatera-utara a mv:Museum ;
+    rdfs:label "Museum Negeri Sumatera Utara"@id ;
+    schema:name "Museum Negeri Sumatera Utara"@id ;
+    schema:description "Museum sejarah dan budaya etnis-etnis Sumatera Utara."@id ;
+    mv:cerita "Koleksinya mengenalkan etnis-etnis Sumatera Utara, dari Melayu, Batak, Nias, sampai Tionghoa dan Tamil yang datang pada masa perkebunan."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. H. M. Joni No. 51" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.56858"^^xsd:decimal ;
+    geo:long "98.69639"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Selasa–Minggu, 09.00–16.00 (Senin tutup)" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 60 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Teladan Barat" ;
+    mv:jamBuka "09:00:00"^^xsd:time ;
+    mv:jamTutup "16:00:00"^^xsd:time ;
+    mv:fasilitas "Parkir"@id ;
+    mv:fasilitas "Toilet"@id ;
+    mv:caraMenuju "Bus Listrik Medan koridor K1, turun di halte Simpang HM Joni lalu jalan kaki"@id ;
+    mv:caraMenuju "Becak motor dari Masjid Raya Al-Mashun"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/museum-negeri-sumut.jpg> ;
+    owl:sameAs wd:Q12499672 ;
+    mv:hargaTiketMulai 3000 ;
+    mv:hargaContoh true ;
+    schema:offers [ a schema:Offer ; schema:name "Umum"@id ; schema:price 3000 ; schema:priceCurrency "IDR" ] .
+
+res:soto-kesawan a mv:TempatKuliner ;
+    rdfs:label "Soto Kesawan"@id ;
+    schema:name "Soto Kesawan"@id ;
+    schema:description "Warung soto lama di Kesawan, beberapa langkah dari Tjong A Fie Mansion."@id ;
+    mv:cerita "Warung ini berjualan sejak 1950-an. Kuahnya berempah dengan sedikit santan dan agak manis. Soto ayam, soto jeroan sapi, dan soto udang sekitar Rp28.000–32.000, sudah termasuk nasi (2024)."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Jend. Ahmad Yani" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58498"^^xsd:decimal ;
+    geo:long "98.68026"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 08.00–14.30" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 60 ;
+    mv:durasiSinggah 40 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "14:00:00"^^xsd:time ;
+    mv:caraMenuju "Jalan kaki dari Tjong A Fie Mansion"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/soto-medan.jpg> .
+
+res:bika-ambon-mojopahit a mv:TempatKuliner ;
+    rdfs:label "Deretan Bika Ambon Jl. Mojopahit"@id ;
+    schema:name "Deretan Bika Ambon Jl. Mojopahit"@id ;
+    schema:description "Jalan tempat toko-toko bika ambon berjajar, tujuan oleh-oleh khas Medan."@id ;
+    mv:cerita "Bika ambon Medan bertekstur bersarang, beraroma daun jeruk dan pandan. Jl. Mojopahit punya sedikitnya 30 toko; Bika Ambon Zulaikha menjual Rp80.000–150.000 per loyang."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Mojopahit (Bika Ambon Zulaikha No. 70 A-C)" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58618"^^xsd:decimal ;
+    geo:long "98.66617"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 06.00–21.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 120 ;
+    mv:durasiSinggah 30 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Petisah Tengah" ;
+    mv:jamBuka "06:00:00"^^xsd:time ;
+    mv:jamTutup "21:00:00"^^xsd:time ;
+    mv:caraMenuju "Becak motor dari Kuil Shri Mariamman, sekitar 5 menit"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/bika-ambon.jpg> .
+
+res:lapangan-merdeka a mv:RuangPublik ;
+    rdfs:label "Lapangan Merdeka"@id ;
+    schema:name "Lapangan Merdeka"@id ;
+    schema:description "Alun-alun kota yang di peta 1930 masih bernama Esplanade."@id ;
+    mv:cerita "Di peta Medan 1930, lapangan ini tercatat sebagai Esplanade, dikelilingi kantor pos, bank, dan hotel kolonial."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Balai Kota" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59038"^^xsd:decimal ;
+    geo:long "98.6786"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Ruang terbuka, jam resmi belum diumumkan" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 30 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    mv:jamBuka "06:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    mv:caraMenuju "Stasiun Medan ada di sisi timur lapangan"@id ;
+    mv:caraMenuju "Halte Bus Listrik Lapangan Merdeka, titik transit koridor K3, K4, dan K5"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/lapangan-merdeka.jpg> ;
+    owl:sameAs wd:Q12498196 .
+
+res:taman-sri-deli a mv:RuangPublik ;
+    rdfs:label "Taman Sri Deli"@id ;
+    schema:name "Taman Sri Deli"@id ;
+    schema:description "Taman berkolam di depan Masjid Raya Al-Mashun."@id ;
+    mv:cerita "Taman ini dahulu bagian dari kawasan Kesultanan Deli dan kini jadi tempat warga bersantai sore."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Sisingamangaraja / Jl. Mesjid Raya" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.5758"^^xsd:decimal ;
+    geo:long "98.6862"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 07.00–21.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Mesjid" ;
+    mv:jamBuka "07:00:00"^^xsd:time ;
+    mv:jamTutup "21:00:00"^^xsd:time ;
+    mv:caraMenuju "Di seberang Masjid Raya Al-Mashun"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/taman-sri-deli.jpg> ;
+    owl:sameAs wd:Q12518862 .
+
+res:gereja-immanuel a mv:RumahIbadah ;
+    rdfs:label "GPIB Immanuel Medan"@id ;
+    schema:name "GPIB Immanuel Medan"@id ;
+    schema:description "Gereja Protestan berlonceng menara di Jl. Diponegoro."@id ;
+    mv:cerita "Salah satu gereja tua Medan yang masih dipakai beribadah."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Diponegoro No. 25–27" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58098"^^xsd:decimal ;
+    geo:long "98.67255"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Di luar jadwal ibadah" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Madras Hulu" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "16:00:00"^^xsd:time ;
+    mv:caraMenuju "Jalan kaki dari Kuil Shri Mariamman, sekitar 8 menit"@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/gereja-immanuel.jpg> ;
+    owl:sameAs wd:Q113648754 .
+
+res:balai-kota-lama a mv:SitusSejarah ;
+    rdfs:label "Gedung Balai Kota Lama"@id ;
+    schema:name "Gedung Balai Kota Lama"@id ;
+    schema:description "Bekas balai kota Medan di depan Lapangan Merdeka, dibangun 1908–1909, kini bagian kompleks hotel."@id ;
+    mv:cerita "Gedung bermenara jam ini dibangun pada 1908–1909 sebagai balai kota Medan. Pembangunannya disebut melibatkan peran saudagar Tjong A Fie. Kini gedungnya dikelola swasta bersama hotel di sebelahnya."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Balai Kota" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59033"^^xsd:decimal ;
+    geo:long "98.6774"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Dilihat dari luar, gedung terintegrasi dengan hotel" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 15 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    owl:sameAs wd:Q6805113 ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-7045682/sejarah-balai-kota-medan-ada-peran-miliarder-tjong-a-fie> .
+
+res:gedung-lonsum a mv:SitusSejarah ;
+    rdfs:label "Gedung London Sumatra"@id ;
+    schema:name "Gedung London Sumatra"@id ;
+    schema:description "Gedung perkantoran perkebunan di Kesawan, disebut gedung berlift pertama di Sumatera."@id ;
+    mv:cerita "Dibangun pada 1906 (sebagian sumber menulis 1909) untuk perusahaan perkebunan Harrisons & Crosfield. Sampai sekarang gedung ini masih menjadi kantor PT PP London Sumatra Indonesia."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Jend. Ahmad Yani No. 2" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58857"^^xsd:decimal ;
+    geo:long "98.67803"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Dilihat dari luar, masih kantor aktif" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 10 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    owl:sameAs wd:Q114814144 ;
+    dcterms:source <https://economy.okezone.com/read/2023/04/12/470/2797205/ini-gedung-dengan-lift-pertama-di-sumatera-sudah-ada-sejak-zaman-kolonial> .
+
+res:menara-air-tirtanadi a mv:SitusSejarah ;
+    rdfs:label "Menara Air Tirtanadi"@id ;
+    schema:name "Menara Air Tirtanadi"@id ;
+    schema:description "Menara air peninggalan kolonial yang menjadi penanda kota, selesai 1908."@id ;
+    mv:cerita "Menara ini selesai pada 1908 untuk menyalurkan air bersih ke kota. Kini berstatus cagar budaya dan menjadi latar foto yang populer."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Sisingamangaraja, kompleks PDAM Tirtanadi" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.5821"^^xsd:decimal ;
+    geo:long "98.68499"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Dilihat dari luar, berada di kompleks PDAM" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 10 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Pasar Baru" ;
+    owl:sameAs wd:Q19746232 ;
+    dcterms:source <https://www.detik.com/sumut/budaya/d-7210677/sejarah-menara-pdam-tirtanadi-medan-dibangun-di-masa-kolonial-belanda> .
+
+res:pos-bloc-medan a mv:SitusSejarah ;
+    rdfs:label "Kantor Pos Besar Medan (Pos Bloc)"@id ;
+    schema:name "Kantor Pos Besar Medan (Pos Bloc)"@id ;
+    schema:description "Kantor pos kolonial di sisi Lapangan Merdeka yang kini sebagian besar menjadi ruang kuliner dan kreatif Pos Bloc."@id ;
+    mv:cerita "Gedung kantor pos ini berstatus cagar budaya. Sebagian besar ruangnya kini dipakai Pos Bloc untuk tenant kuliner dan acara kreatif, jadi pengunjung bisa masuk melihat bangunannya."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Pos No. 1" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59194"^^xsd:decimal ;
+    geo:long "98.67743"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Senin–Jumat 10.00–22.00, Sabtu–Minggu 08.00–23.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 60 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    owl:sameAs wd:Q12489173 ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-7187048/sejarah-kantor-pos-medan-yang-kini-jadi-pusat-kuliner-milenial> .
+
+res:gedung-bank-indonesia-lama a mv:SitusSejarah ;
+    rdfs:label "Gedung Bank Indonesia Lama"@id ;
+    schema:name "Gedung Bank Indonesia Lama"@id ;
+    schema:description "Gedung De Javasche Bank di Jl. Balai Kota, masih dipakai Bank Indonesia."@id ;
+    mv:cerita "Bangunan bergaya Eropa ini dulu kantor De Javasche Bank dan kini masih menjadi kantor Bank Indonesia, sehingga hanya bisa dinikmati dari luar."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Balai Kota No. 4" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59069"^^xsd:decimal ;
+    geo:long "98.67661"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Dilihat dari luar, masih kantor Bank Indonesia" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 10 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    dcterms:source <https://en.wikipedia.org/wiki/List_of_colonial_buildings_in_Medan> .
+
+res:gedung-avros a mv:SitusSejarah ;
+    rdfs:label "Gedung AVROS (BKS-PPS)"@id ;
+    schema:name "Gedung AVROS (BKS-PPS)"@id ;
+    schema:description "Gedung asosiasi pengusaha perkebunan masa kolonial di sudut Jl. Ahmad Yani."@id ;
+    mv:cerita "Dibangun sekitar 1918–1919 untuk AVROS, perkumpulan pengusaha perkebunan karet Sumatera Timur. Sejak 1967 gedung ini menjadi kantor BKS-PPS."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Sudut Jl. Jend. Ahmad Yani dan Jl. Palang Merah" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58447"^^xsd:decimal ;
+    geo:long "98.68051"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Dilihat dari luar, masih kantor BKS-PPS" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 10 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Aur" ;
+    dcterms:source <https://www.penang-traveltips.com/indonesia/medan/bks-pps-building.htm> .
+
+res:gedung-warenhuis a mv:SitusSejarah ;
+    rdfs:label "Gedung Warenhuis"@id ;
+    schema:name "Gedung Warenhuis"@id ;
+    schema:description "Toserba pertama di Medan dari masa kolonial, direvitalisasi dan dibuka lagi sekitar 2025 sebagai pusat seni dan UMKM."@id ;
+    mv:cerita "Warenhuis dibangun sekitar 1916–1919 sebagai pusat perbelanjaan modern pertama di Medan. Setelah lama terbengkalai, gedungnya direvitalisasi pada 2023–2024 dan diresmikan kembali sekitar Februari 2025."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Ahmad Yani VII / Jl. Hindu" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58833"^^xsd:decimal ;
+    geo:long "98.67694"^^xsd:decimal ;
+    mv:koordinatPerkiraan true ;
+    mv:keteranganJam "Jam buka belum terverifikasi" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 30 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    dcterms:source <https://fahum.umsu.ac.id/info/gedung-warenhuis-diresmikan/> .
+
+res:monumen-sisingamangaraja-xii a mv:SitusSejarah ;
+    rdfs:label "Monumen Sisingamangaraja XII"@id ;
+    schema:name "Monumen Sisingamangaraja XII"@id ;
+    schema:description "Monumen pahlawan nasional di Teladan Barat. Kondisinya kurang terawat dan pendoponya terbakar Juni 2026."@id ;
+    mv:cerita "Monumen ini dibangun pada 1979 dan diresmikan 1992. Ini monumen, bukan museum: museum Sisingamangaraja XII berada di Balige. Pendopo rumah adat di kompleksnya terbakar pada 22 Juni 2026."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Sisingamangaraja No. 98" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.56498"^^xsd:decimal ;
+    geo:long "98.69292"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Ruang terbuka, jam resmi tidak ada" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 15 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Teladan Barat" ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-8267318/monumen-sisingamangaraja-xii-medan-tak-terawat-begini-penampakannya> .
+
+res:museum-perjuangan-tni a mv:Museum ;
+    rdfs:label "Museum Perjuangan TNI Bukit Barisan"@id ;
+    schema:name "Museum Perjuangan TNI Bukit Barisan"@id ;
+    schema:description "Museum perjuangan Kodam I/Bukit Barisan di gedung kolonial Jl. Zainul Arifin."@id ;
+    mv:cerita "Museum ini menyimpan senjata, seragam, dan dokumen perjuangan di Sumatera Utara. Dikelola Kodam I/Bukit Barisan dan hanya buka pada hari kerja."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. K.H. Zainul Arifin No. 8" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58392"^^xsd:decimal ;
+    geo:long "98.67414"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Senin–Jumat, 08.00–15.30 (masuk dengan donasi)" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Petisah Tengah" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "15:00:00"^^xsd:time ;
+    owl:sameAs wd:Q86584463 ;
+    dcterms:source <https://mamikos.com/info/museum-terbaik-di-medan-yang-wajib-dikunjungi-gnr/> .
+
+res:rahmat-gallery a mv:Museum ;
+    rdfs:label "Rahmat International Wildlife Museum & Gallery"@id ;
+    schema:name "Rahmat International Wildlife Museum & Gallery"@id ;
+    schema:description "Museum satwa awetan dengan koleksi taksidermi besar dari berbagai benua."@id ;
+    mv:cerita "Galeri milik Rahmat Shah ini memajang ratusan satwa awetan dalam diorama habitatnya. Dibuka untuk umum sejak 1990-an."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. S. Parman No. 309" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57926"^^xsd:decimal ;
+    geo:long "98.66773"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 09.00–17.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 90 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Petisah Hulu" ;
+    mv:jamBuka "09:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    owl:sameAs wd:Q18393164 ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-8239652/6-museum-di-medan-yang-wajib-dikunjungi> ;
+    mv:hargaTiketMulai 25000 ;
+    mv:hargaContoh true ;
+    schema:offers [ a schema:Offer ; schema:name "Domestik"@id ; schema:price 75000 ; schema:priceCurrency "IDR" ] ;
+    schema:offers [ a schema:Offer ; schema:name "Pelajar atau rombongan"@id ; schema:price 25000 ; schema:priceCurrency "IDR" ] ;
+    schema:offers [ a schema:Offer ; schema:name "Wisatawan mancanegara"@id ; schema:price 150000 ; schema:priceCurrency "IDR" ] .
+
+res:museum-situs-kota-cina a mv:Museum ;
+    rdfs:label "Museum Situs Kota Cina"@id ;
+    schema:name "Museum Situs Kota Cina"@id ;
+    schema:description "Museum situs pelabuhan dagang kuno abad ke-11 sampai 14 di Medan Marelan."@id ;
+    mv:cerita "Di Kota Cina ditemukan pecahan keramik, arca, dan sisa permukiman pelabuhan dagang yang ramai jauh sebelum kota Medan berdiri. Temuannya dipamerkan di museum kecil di lokasi situs."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Kota Cina" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.72324"^^xsd:decimal ;
+    geo:long "98.65675"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Kamis–Minggu, 09.00–17.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 60 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Paya Pasir" ;
+    mv:jamBuka "09:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    owl:sameAs wd:Q19748034 ;
+    dcterms:source <https://mamikos.com/info/museum-terbaik-di-medan-yang-wajib-dikunjungi-gnr/?halaman=2> ;
+    mv:hargaTiketMulai 12000 ;
+    mv:hargaContoh true ;
+    schema:offers [ a schema:Offer ; schema:name "Umum"@id ; schema:price 12000 ; schema:priceCurrency "IDR" ] .
+
+res:masjid-lama-gang-bengkok a mv:RumahIbadah ;
+    rdfs:label "Masjid Lama Gang Bengkok"@id ;
+    schema:name "Masjid Lama Gang Bengkok"@id ;
+    schema:description "Masjid tua di Kesawan yang dibiayai Tjong A Fie, perpaduan gaya Tionghoa, Melayu, dan Persia."@id ;
+    mv:cerita "Masjid ini dibangun di atas tanah wakaf Datuk Muhammad Ali dengan biaya dari Tjong A Fie, lalu diserahkan kepada Kesultanan Deli. Tahun berdirinya ditulis berbeda-beda, antara 1874 dan 1890."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Mesjid No. 62" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58668"^^xsd:decimal ;
+    geo:long "98.67801"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Di luar waktu salat" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    owl:sameAs wd:Q110706913 ;
+    dcterms:source <https://www.detik.com/sumut/budaya/d-8271055/mengenal-10-masjid-bersejarah-di-medan-dari-arsitektur-hingga-ceritanya> .
+
+res:katedral-medan a mv:RumahIbadah ;
+    rdfs:label "Katedral Medan"@id ;
+    schema:name "Katedral Medan"@id ;
+    schema:description "Gereja Katedral Santa Perawan Maria yang Dikandung Tanpa Noda di Jl. Pemuda."@id ;
+    mv:cerita "Nama resminya Gereja Katedral Santa Perawan Maria yang Dikandung Tanpa Noda. Gereja pertamanya berdiri 1879, bangunan sekarang dari 1905 dan diperluas pada 1928."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Pemuda No. 1" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58425"^^xsd:decimal ;
+    geo:long "98.68145"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Di luar jam misa (Minggu 06.30, 08.00, 10.00, 17.30)" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Aur" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    owl:sameAs wd:Q16951164 ;
+    dcterms:source <https://gcatholic.org/churches/asia/3538.htm> .
+
+res:vihara-setia-budi a mv:RumahIbadah ;
+    rdfs:label "Vihara Setia Budi"@id ;
+    schema:name "Vihara Setia Budi"@id ;
+    schema:description "Kelenteng di Jl. Irian Barat, di lokasi tempat kelenteng Kwan Tee Bio berdiri sejak 1884."@id ;
+    mv:cerita "Di Jl. Irian Barat pernah berdiri kelenteng Kwan Tee Bio yang digagas Tjong Yong Hian pada 1884. Vihara Setia Budi diduga penerusnya, tetapi belum ada sumber yang menyebut keduanya sekaligus."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Irian Barat No. 6D" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58928"^^xsd:decimal ;
+    geo:long "98.68131"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Jam buka belum terverifikasi" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Gang Buntu" ;
+    owl:sameAs wd:Q138358755 ;
+    dcterms:source <https://storiesfromdeli.com/2020/11/27/kwan-tee-bio/> .
+
+res:kuil-nagarattar a mv:RumahIbadah ;
+    rdfs:label "Kuil Sree Soepramaniem Nagarattar"@id ;
+    schema:name "Kuil Sree Soepramaniem Nagarattar"@id ;
+    schema:description "Kuil Hindu bergaya Dravida milik komunitas Chettiar, selesai 1892."@id ;
+    mv:cerita "Kuil ini dibangun komunitas Nattukottai Chettiar dengan gaya Dravida dan dikenal juga sebagai Kuil Shri Subramaniam."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Kebun Bunga No. 6" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58713"^^xsd:decimal ;
+    geo:long "98.66905"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Senin–Sabtu 06.00–11.00 dan 17.00–20.00; Minggu 06.00–09.30 dan 17.00–20.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Petisah Tengah" ;
+    mv:jamBuka "06:00:00"^^xsd:time ;
+    mv:jamTutup "20:00:00"^^xsd:time ;
+    mv:fasilitas "Lepas alas kaki di gerbang"@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Kuil_Sree_Soepramaniem_Nagarattar> .
+
+res:seng-hap-1881 a mv:TempatKuliner ;
+    rdfs:label "Seng Hap 1881"@id ;
+    schema:name "Seng Hap 1881"@id ;
+    schema:description "Gedung niaga tua di Kesawan yang hidup lagi sebagai kopitiam, galeri sejarah, dan toko UMKM."@id ;
+    mv:cerita "Usaha Seng Hap didirikan Tan Tang Ho pada 1881, dan gedungnya berdiri sekitar 1900. Setelah lama kosong, bangunan ini kini dipakai sebagai kopitiam dan ruang pamer sejarah Kesawan."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Jend. Ahmad Yani, Kesawan" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58848"^^xsd:decimal ;
+    geo:long "98.67851"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 07.00–24.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    mv:jamBuka "07:00:00"^^xsd:time ;
+    mv:jamTutup "23:59:00"^^xsd:time ;
+    dcterms:source <https://rri.co.id/medan/iptek/2772486/seng-hap-1881-dari-bangunan-bersejarah-hingga-ruang-umkm-dan-kuliner> .
+
+res:kuliner-jalan-semarang a mv:TempatKuliner ;
+    rdfs:label "Kawasan Kuliner Jl. Semarang"@id ;
+    schema:name "Kawasan Kuliner Jl. Semarang"@id ;
+    schema:description "Pasar kuliner malam sepanjang sekitar 200 m, dari sate Padang sampai masakan Tionghoa."@id ;
+    mv:cerita "Siang hari jalan ini berisi toko suku cadang, malamnya berubah jadi deretan kedai: sate Padang, lontong, sate kerang, fu yung hai, dan kwetiau. Harga sekitar Rp5.000–100.000. Sebagian menu tidak halal, jadi tanyakan ke penjual."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Semarang" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58605"^^xsd:decimal ;
+    geo:long "98.68486"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 17.00–01.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 60 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Pasar Baru" ;
+    mv:jamBuka "17:00:00"^^xsd:time ;
+    mv:jamTutup "23:59:00"^^xsd:time ;
+    dcterms:source <https://gopay.co.id/blog/street-food-medan> .
+
+res:kuliner-selat-panjang a mv:TempatKuliner ;
+    rdfs:label "Kawasan Kuliner Jl. Selat Panjang"@id ;
+    schema:name "Kawasan Kuliner Jl. Selat Panjang"@id ;
+    schema:description "Deretan kedai pagi dan malam: bakmi, chasio, nasi ayam Hainan, dan jajanan."@id ;
+    mv:cerita "Kedai di sini buka bergantian dari pagi sampai malam, misalnya Bakmi Khek SP5 (06.30–11.30 dan 17.00–23.00) dan Nasi Ayam Hainan SP10 yang halal. Harga dari Rp3.000 sampai sekitar Rp90.000."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Selat Panjang" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58318"^^xsd:decimal ;
+    geo:long "98.68477"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Tiap kedai berbeda, antara 06.30 dan 23.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Pasar Baru" ;
+    mv:jamBuka "07:00:00"^^xsd:time ;
+    mv:jamTutup "23:00:00"^^xsd:time ;
+    dcterms:source <https://www.indonesia.travel/id-id/travel-ideas/gastronomy/culinary-on-jalan-selat-panjang-medan/> .
+
+res:kuliner-pagaruyung a mv:TempatKuliner ;
+    rdfs:label "Kawasan Kuliner Jl. Pagaruyung"@id ;
+    schema:name "Kawasan Kuliner Jl. Pagaruyung"@id ;
+    schema:description "Kuliner malam di Kampung Madras: martabak, masakan India, dan jajanan lokal."@id ;
+    mv:cerita "Jalan di Kampung Madras ini ramai pada malam hari dengan kedai martabak, roti canai, dan masakan India. Kecamatannya ditulis berbeda-beda oleh sumber, karena kawasannya berada di perbatasan Medan Petisah dan Medan Polonia."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Pagaruyung, Kampung Madras" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58443"^^xsd:decimal ;
+    geo:long "98.67027"^^xsd:decimal ;
+    mv:koordinatPerkiraan true ;
+    mv:keteranganJam "Malam, sekitar 18.00–02.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Petisah Tengah" ;
+    mv:jamBuka "18:00:00"^^xsd:time ;
+    mv:jamTutup "23:59:00"^^xsd:time ;
+    dcterms:source <https://www.inews.id/regional/sumut/6-wisata-kuliner-malam-di-medan-nomor-5-ucok-durian-buka-24-jam/all> .
+
+res:kuliner-multatuli a mv:TempatKuliner ;
+    rdfs:label "Kawasan Kuliner Multatuli"@id ;
+    schema:name "Kawasan Kuliner Multatuli"@id ;
+    schema:description "Kumpulan kedai di Jl. Multatuli dan Komplek Multatuli Indah, dari mi Bangladesh 24 jam sampai nasi goreng."@id ;
+    mv:cerita "Kawasan ini dikenal lewat warkop mi Bangladesh yang buka 24 jam, mulai sekitar Rp12.000, dan Nasi Goreng Wak Ribut di No. 83."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Multatuli dan Komplek Multatuli Indah" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57868"^^xsd:decimal ;
+    geo:long "98.67836"^^xsd:decimal ;
+    mv:koordinatPerkiraan true ;
+    mv:keteranganJam "Tiap kedai berbeda, sebagian buka 24 jam" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Hamdan" ;
+    mv:jamBuka "00:00:00"^^xsd:time ;
+    mv:jamTutup "23:59:00"^^xsd:time ;
+    dcterms:source <https://www.detik.com/sumut/kuliner/d-8079041/rekomendasi-wisata-kuliner-malam-di-medan-buka-hingga-tengah-malam> .
+
+res:bolu-meranti-kruing a mv:TempatKuliner ;
+    rdfs:label "Bolu Meranti Jl. Kruing"@id ;
+    schema:name "Bolu Meranti Jl. Kruing"@id ;
+    schema:description "Toko bolu gulung Meranti, oleh-oleh khas Medan yang paling sering dibawa pulang."@id ;
+    mv:cerita "Bolu gulung Meranti dijual sekitar Rp60.000–85.000 per kotak. Antrean sering panjang menjelang libur panjang."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Kruing, simpang Jl. Razak" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59418"^^xsd:decimal ;
+    geo:long "98.66624"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 07.00–20.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Sekip" ;
+    mv:jamBuka "07:00:00"^^xsd:time ;
+    mv:jamTutup "20:00:00"^^xsd:time ;
+    dcterms:source <https://infopublik.id/kategori/ponxxi/870956/bolu-meranti-primadona-oleh-oleh-medan-di-pon-xxi-aceh-sumut> .
+
+res:ucok-durian a mv:TempatKuliner ;
+    rdfs:label "Ucok Durian"@id ;
+    schema:name "Ucok Durian"@id ;
+    schema:description "Kedai durian paling terkenal di Medan, buka 24 jam."@id ;
+    mv:cerita "Durian utuh dijual sekitar Rp50.000–200.000 per buah (2025), dan pembeli bisa langsung makan di tempat. Usahanya dimulai sejak 1980-an atau 1990-an, sumber berbeda."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. K.H. Wahid Hasyim No. 30–32" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58276"^^xsd:decimal ;
+    geo:long "98.6575"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 24 jam" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 80 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Babura" ;
+    mv:jamBuka "00:00:00"^^xsd:time ;
+    mv:jamTutup "23:59:00"^^xsd:time ;
+    dcterms:source <https://fahum.umsu.ac.id/info/ucok-durian-medan-surga-durian-legendaris-yang-wajib-dikunjungi/> .
+
+res:soto-sinar-pagi a mv:TempatKuliner ;
+    rdfs:label "Soto Sinar Pagi"@id ;
+    schema:name "Soto Sinar Pagi"@id ;
+    schema:description "Rumah makan soto Medan sejak 1962 di Jl. Sei Deli."@id ;
+    mv:cerita "Soto berkuah santan dengan pilihan isi daging, ayam, udang, atau paru, sekitar Rp33.000 per porsi dengan nasi (2025). Punya cabang di Jl. Gatot Subroto dan Jl. Mangkubumi."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Sei Deli No. 2D" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59222"^^xsd:decimal ;
+    geo:long "98.67107"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 07.00–15.30" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 60 ;
+    mv:durasiSinggah 40 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Silalas" ;
+    mv:jamBuka "07:00:00"^^xsd:time ;
+    mv:jamTutup "15:00:00"^^xsd:time ;
+    dcterms:source <https://www.jawapos.com/kuliner/2509260364/menjelajahi-3-kuliner-legendaris-di-medan-yang-tak-lekang-waktu> .
+
+res:rumah-makan-tabona a mv:TempatKuliner ;
+    rdfs:label "Rumah Makan Tabona"@id ;
+    schema:name "Rumah Makan Tabona"@id ;
+    schema:description "Kari sapi dan kari ayam kampung legendaris, di Medan sejak 1982."@id ;
+    mv:cerita "Tabona berdiri di Pematang Siantar pada 1972 lalu pindah ke Medan pada 1982. Kari dengan nasi atau bihun sekitar Rp60.000, porsi jumbo Rp90.000 (2024)."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Mangkubumi No. 17" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58174"^^xsd:decimal ;
+    geo:long "98.68145"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 06.30–16.30" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 60 ;
+    mv:durasiSinggah 40 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Aur" ;
+    mv:jamBuka "07:00:00"^^xsd:time ;
+    mv:jamTutup "16:00:00"^^xsd:time ;
+    dcterms:source <https://koran-jakarta.com/2024-09-23/tak-berdaya-di-rumah-makan-tabona/amp> .
+
+res:sate-memeng a mv:TempatKuliner ;
+    rdfs:label "Sate Memeng"@id ;
+    schema:name "Sate Memeng"@id ;
+    schema:description "Kedai sate dan mie rebus Medan di Jl. Irian Barat, buka malam."@id ;
+    mv:cerita "Menjual sate dan mie rebus Medan, sekitar Rp7.000–34.000 (2024). Di daftar tim tertulis \"Mie Memeng\"."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Irian Barat No. 2" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58971"^^xsd:decimal ;
+    geo:long "98.68149"^^xsd:decimal ;
+    mv:koordinatPerkiraan true ;
+    mv:keteranganJam "Setiap hari, 17.00–23.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 40 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Gang Buntu" ;
+    mv:jamBuka "17:00:00"^^xsd:time ;
+    mv:jamTutup "23:00:00"^^xsd:time ;
+    dcterms:source <https://www.idntimes.com/food/dining-guide/rekomendasi-tempat-makan-halal-di-medan-c1c2-01-491ts-yd2zs6> .
+
+res:kedai-kopi-apek a mv:TempatKuliner ;
+    rdfs:label "Kedai Kopi Apek"@id ;
+    schema:name "Kedai Kopi Apek"@id ;
+    schema:description "Kedai kopi tua di Kesawan, dinamai dari julukan pendirinya, Thia Tjo Lie."@id ;
+    mv:cerita "Kedai ini sudah berjualan kopi sejak awal 1920-an. Minuman sekitar Rp22.000–30.000 (2023)."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Hindu, Kesawan" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58758"^^xsd:decimal ;
+    geo:long "98.67733"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 06.00–14.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 60 ;
+    mv:durasiSinggah 30 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    mv:jamBuka "06:00:00"^^xsd:time ;
+    mv:jamTutup "14:00:00"^^xsd:time ;
+    dcterms:source <https://www.goodnewsfromindonesia.id/2023/11/01/mencicipi-kenikmatan-kopi-apek-kedai-legendaris-dari-kota-medan> .
+
+res:tip-top-restaurant a mv:TempatKuliner ;
+    rdfs:label "Tip Top Restaurant"@id ;
+    schema:name "Tip Top Restaurant"@id ;
+    schema:description "Restoran tertua di Medan: toko roti sejak 1929, di Kesawan sejak 1934."@id ;
+    mv:cerita "Dimulai pada 1929 sebagai toko roti Jang Kie di Jl. Pandu, lalu pindah ke Kesawan pada 1934 dengan nama Tip Top. Es krim dan kue buatan sendiri masih jadi andalan. Menu Rp7.000–96.000 (2025)."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Jend. Ahmad Yani No. 92 A-B" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58607"^^xsd:decimal ;
+    geo:long "98.67963"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 08.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 60 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.goodnewsfromindonesia.id/2025/12/05/tip-top-restaurant-tempat-kuliner-legendaris-di-medan-sejak-zaman-penjajahan> .
+
+res:rumah-makan-sipirok a mv:TempatKuliner ;
+    rdfs:label "Rumah Makan Sipirok"@id ;
+    schema:name "Rumah Makan Sipirok"@id ;
+    schema:description "Rumah makan sop sumsum dan sop iga di Jl. Sunggal."@id ;
+    mv:cerita "Menu andalannya sop sumsum dan sop iga, harga sekitar Rp7.000–93.000 (2024)."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Sunggal No. 14" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58488"^^xsd:decimal ;
+    geo:long "98.64134"^^xsd:decimal ;
+    mv:koordinatPerkiraan true ;
+    mv:keteranganJam "Setiap hari, 11.00–16.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 120 ;
+    mv:durasiSinggah 40 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Sei Sikambing B" ;
+    mv:jamBuka "11:00:00"^^xsd:time ;
+    mv:jamTutup "16:00:00"^^xsd:time ;
+    dcterms:source <https://www.idntimes.com/food/dining-guide/rekomendasi-tempat-makan-halal-di-medan-c1c2-01-491ts-yd2zs6> .
+
+res:taman-cadika a mv:RuangPublik ;
+    rdfs:label "Taman Cadika Pramuka"@id ;
+    schema:name "Taman Cadika Pramuka"@id ;
+    schema:description "Taman luas berdanau di Medan Johor, direvitalisasi dan dibuka lagi September 2024."@id ;
+    mv:cerita "Masuk gratis. Ada danau, jalur lari, dan wahana berbayar seperti berkuda dan kayak. Revitalisasinya diresmikan pada 12 September 2024."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Karya Wisata" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.53058"^^xsd:decimal ;
+    geo:long "98.65958"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Terbuka setiap hari" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 60 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Pangkalan Masyhur" ;
+    mv:jamBuka "06:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://sumut.antaranews.com/berita/588991/bobby-apresiasi-wajah-baru-taman-cadika-medan> .
+
+res:taman-ahmad-yani a mv:RuangPublik ;
+    rdfs:label "Taman Ahmad Yani"@id ;
+    schema:name "Taman Ahmad Yani"@id ;
+    schema:description "Taman kota rindang di simpang Jl. Imam Bonjol dan Jl. Sudirman."@id ;
+    mv:cerita "Taman gratis di tengah kawasan perkantoran yang sering dipakai Pemko Medan untuk acara warga."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Simpang Jl. Imam Bonjol – Jl. Sudirman" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57645"^^xsd:decimal ;
+    geo:long "98.67705"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Terbuka 24 jam" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 120 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Jati" ;
+    mv:jamBuka "00:00:00"^^xsd:time ;
+    mv:jamTutup "23:59:00"^^xsd:time ;
+    dcterms:source <https://sumut.idntimes.com/travel/destination/8-taman-kota-di-medan-tempat-terbaik-untuk-bersantai-dan-rekreasi-c1c2-01-2j5kq-dt7jcc> .
+
+res:taman-beringin a mv:RuangPublik ;
+    rdfs:label "Taman Beringin"@id ;
+    schema:name "Taman Beringin"@id ;
+    schema:description "Taman bermain di simpang Jl. Sudirman dan Jl. Teuku Cik Ditiro."@id ;
+    mv:cerita "Taman gratis dengan area bermain anak. Pada April 2026 warga mengeluhkan sebagian permainan yang rusak."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Simpang Jl. Sudirman – Jl. Teuku Cik Ditiro" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57631"^^xsd:decimal ;
+    geo:long "98.66927"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Terbuka setiap hari" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 120 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Madras Hulu" ;
+    mv:jamBuka "06:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-8455293/warga-berharap-fasilitas-di-taman-beringin-medan-lebih-terawat> .
+
+res:taman-teladan a mv:RuangPublik ;
+    rdfs:label "Taman Teladan"@id ;
+    schema:name "Taman Teladan"@id ;
+    schema:description "Taman di depan Stadion Teladan, ikut proyek revitalisasi stadion."@id ;
+    mv:cerita "Per Januari 2026 revitalisasi Stadion Teladan dan tamannya diklaim sudah 97 persen. Cek kondisinya sebelum datang."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Stadion" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.56496"^^xsd:decimal ;
+    geo:long "98.69421"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Belum pasti, menunggu revitalisasi stadion selesai" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Teladan Barat" ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-8309289/pemkot-klaim-progres-revitalisasi-stadion-teladan-capai-97-terkendala-apbn> .
+
+res:taman-gajah-mada a mv:RuangPublik ;
+    rdfs:label "Taman Gajah Mada"@id ;
+    schema:name "Taman Gajah Mada"@id ;
+    schema:description "Ruang hijau favorit warga di Jl. Gajah Mada untuk olahraga dan bersantai."@id ;
+    mv:cerita "Masuk gratis, parkir berbayar. Revitalisasinya direncanakan sejak Juli 2025. Jangan tertukar dengan Lapangan Gajah Mada di Jl. Krakatau."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Gajah Mada" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58416"^^xsd:decimal ;
+    geo:long "98.65886"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Terbuka 24 jam" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 120 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:jamBuka "00:00:00"^^xsd:time ;
+    mv:jamTutup "23:59:00"^^xsd:time ;
+    dcterms:source <https://sumut.idntimes.com/travel/destination/5-fakta-unik-taman-gajah-mada-medan-ruang-hijau-favorit-warga-kota-c1c2-01-2j5kq-dst53d> .
+
+res:taman-budaya-medan a mv:RuangPublik ;
+    rdfs:label "Taman Budaya Medan"@id ;
+    schema:name "Taman Budaya Medan"@id ;
+    schema:description "Kompleks kesenian di Jl. Perintis Kemerdekaan, tempat latihan dan pentas seniman Medan."@id ;
+    mv:cerita "Gedung lama ini masih dipakai seniman untuk berlatih dan pentas. Kantor UPT Taman Budaya Sumatera Utara sendiri pindah ke kawasan PRSU pada 2020."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Perintis Kemerdekaan No. 33" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59951"^^xsd:decimal ;
+    geo:long "98.6814"^^xsd:decimal ;
+    mv:koordinatPerkiraan true ;
+    mv:keteranganJam "Mengikuti jadwal acara" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 120 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Gaharu" ;
+    dcterms:source <https://sumut.idntimes.com/news/sumatra-utara/5-fakta-unik-taman-budaya-kota-medan-01-2j5kq-7ktxm5> .
+
+res:avros-park a mv:RuangPublik ;
+    rdfs:label "Avros Park"@id ;
+    schema:name "Avros Park"@id ;
+    schema:description "Taman edukasi di tepi sungai dengan wahana outbound dan susur sungai."@id ;
+    mv:cerita "Masuk gratis, wahana edukasi dan outbound mulai sekitar Rp20.000."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Avros No. 60B" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.55584"^^xsd:decimal ;
+    geo:long "98.68397"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Senin–Jumat 09.00–23.00, Sabtu–Minggu 08.00–23.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 90 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kampung Baru" ;
+    mv:jamBuka "09:00:00"^^xsd:time ;
+    mv:jamTutup "23:00:00"^^xsd:time ;
+    dcterms:source <https://www.detik.com/sumut/wisata/d-7399272/avros-park-daya-tarik-lokasi-jam-buka-harga-dan-rute> .
+
+res:lapangan-benteng a mv:RuangPublik ;
+    rdfs:label "Lapangan Benteng"@id ;
+    schema:name "Lapangan Benteng"@id ;
+    schema:description "Ruang terbuka hijau untuk olahraga dan acara kota di Jl. Pengadilan."@id ;
+    mv:cerita "Lapangan gratis untuk jogging dan olahraga, juga tempat acara kota sepanjang 2025–2026."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Pengadilan" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58822"^^xsd:decimal ;
+    geo:long "98.67358"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Terbuka 24 jam" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 150 ;
+    mv:durasiSinggah 20 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Petisah Tengah" ;
+    mv:jamBuka "00:00:00"^^xsd:time ;
+    mv:jamTutup "23:59:00"^^xsd:time ;
+    dcterms:source <https://kumparan.com/jendela-dunia/lapangan-benteng-medan-untuk-olahraga-fasilitas-alamat-jam-buka-dan-aksesnya-21iDvKcam1P> .
+
+res:delipark-mall a mv:PusatBelanja ;
+    rdfs:label "DeliPark Mall"@id ;
+    schema:name "DeliPark Mall"@id ;
+    schema:description "Mal di Podomoro City, dibuka akhir 2019 di bekas lahan Deli Plaza."@id ;
+    mv:cerita "Mal di Podomoro City, dibuka akhir 2019 di bekas lahan Deli Plaza."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Putri Hijau No. 1" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59402"^^xsd:decimal ;
+    geo:long "98.67432"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Kesawan" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.agungpodomoro.com/group/en/news/delipark-mall-the-new-icon-in-medan> .
+
+res:sun-plaza a mv:PusatBelanja ;
+    rdfs:label "Sun Plaza"@id ;
+    schema:name "Sun Plaza"@id ;
+    schema:description "Mal besar di Jl. Zainul Arifin, dibuka 2004."@id ;
+    mv:cerita "Mal besar di Jl. Zainul Arifin, dibuka 2004."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. K.H. Zainul Arifin No. 7" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58226"^^xsd:decimal ;
+    geo:long "98.67191"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Madras Hulu" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.jawapos.com/travelling/2605120204/liburan-tidak-lengkap-tanpa-mampir-ke-12-mall-terbaik-di-medan-ini-surga-belanja-sampai-tempat-hangout-viral-yang-wajib-anda-kunjungi> .
+
+res:centre-point-mall a mv:PusatBelanja ;
+    rdfs:label "Centre Point Mall"@id ;
+    schema:name "Centre Point Mall"@id ;
+    schema:description "Mal di Jl. Jawa, dekat Stasiun Medan."@id ;
+    mv:cerita "Mal di Jl. Jawa, dekat Stasiun Medan."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Jawa No. 8" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59172"^^xsd:decimal ;
+    geo:long "98.68099"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Gang Buntu" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.jawapos.com/travelling/2605120204/liburan-tidak-lengkap-tanpa-mampir-ke-12-mall-terbaik-di-medan-ini-surga-belanja-sampai-tempat-hangout-viral-yang-wajib-anda-kunjungi> .
+
+res:plaza-medan-fair a mv:PusatBelanja ;
+    rdfs:label "Plaza Medan Fair"@id ;
+    schema:name "Plaza Medan Fair"@id ;
+    schema:description "Mal di Jl. Gatot Subroto, dibuka 2004."@id ;
+    mv:cerita "Mal di Jl. Gatot Subroto, dibuka 2004."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Gatot Subroto No. 30" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59287"^^xsd:decimal ;
+    geo:long "98.66374"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Sekip" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.jawapos.com/travelling/2605120204/liburan-tidak-lengkap-tanpa-mampir-ke-12-mall-terbaik-di-medan-ini-surga-belanja-sampai-tempat-hangout-viral-yang-wajib-anda-kunjungi> .
+
+res:manhattan-times-square a mv:PusatBelanja ;
+    rdfs:label "Manhattan Times Square"@id ;
+    schema:name "Manhattan Times Square"@id ;
+    schema:description "Mal di Jl. Gatot Subroto bagian barat, dibuka 2017."@id ;
+    mv:cerita "Mal di Jl. Gatot Subroto bagian barat, dibuka 2017."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Gatot Subroto No. 217" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59083"^^xsd:decimal ;
+    geo:long "98.62657"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Sei Sikambing B" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-6526632/deretan-mal-mewah-di-kota-medan-salah-satunya-terbaik-se-indonesia> .
+
+res:ringroad-city-walks a mv:PusatBelanja ;
+    rdfs:label "Ringroad City Walks"@id ;
+    schema:name "Ringroad City Walks"@id ;
+    schema:description "Mal di Jl. Ring Road, dibuka 2015."@id ;
+    mv:cerita "Mal di Jl. Ring Road, dibuka 2015."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Ring Road / Jl. Gagak Hitam" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57575"^^xsd:decimal ;
+    geo:long "98.62555"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Sunggal" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-6526632/deretan-mal-mewah-di-kota-medan-salah-satunya-terbaik-se-indonesia> .
+
+res:cambridge-city-square a mv:PusatBelanja ;
+    rdfs:label "Cambridge City Square"@id ;
+    schema:name "Cambridge City Square"@id ;
+    schema:description "Mal dan apartemen di Jl. S. Parman."@id ;
+    mv:cerita "Mal dan apartemen di Jl. S. Parman."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. S. Parman" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58495"^^xsd:decimal ;
+    geo:long "98.66735"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Sekitar 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Petisah Tengah" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://economy.okezone.com/read/2023/04/27/470/2804438/9-mall-paling-mewah-dan-terkenal-di-kota-medan> .
+
+res:focal-point a mv:PusatBelanja ;
+    rdfs:label "Focal Point"@id ;
+    schema:name "Focal Point"@id ;
+    schema:description "Mal di Jl. Ring Road, dibuka 2014."@id ;
+    mv:cerita "Mal di Jl. Ring Road, dibuka 2014."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Arteri Ring Road / Jl. Gagak Hitam" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.56703"^^xsd:decimal ;
+    geo:long "98.6258"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Asam Kumbang" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.rumah123.com/explore/kota-medan/focal-point-medan/> .
+
+res:plaza-millenium a mv:PusatBelanja ;
+    rdfs:label "Plaza Millenium"@id ;
+    schema:name "Plaza Millenium"@id ;
+    schema:description "Pusat gawai dan elektronik di Jl. Kapten Muslim."@id ;
+    mv:cerita "Pusat gawai dan elektronik di Jl. Kapten Muslim."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Kapten Muslim" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.59935"^^xsd:decimal ;
+    geo:long "98.64432"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Jam buka belum terverifikasi" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Dwi Kora" ;
+    dcterms:source <https://www.openstreetmap.org/way/894120597> .
+
+res:medan-mall a mv:PusatBelanja ;
+    rdfs:label "Medan Mall"@id ;
+    schema:name "Medan Mall"@id ;
+    schema:description "Pusat belanja grosir legendaris di dekat Pusat Pasar."@id ;
+    mv:cerita "Pusat belanja grosir legendaris di dekat Pusat Pasar."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Letjen M.T. Haryono" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58855"^^xsd:decimal ;
+    geo:long "98.68646"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Jam buka belum terverifikasi" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Pusat Pasar" ;
+    dcterms:source <https://economy.okezone.com/read/2023/04/27/470/2804438/9-mall-paling-mewah-dan-terkenal-di-kota-medan> .
+
+res:thamrin-plaza a mv:PusatBelanja ;
+    rdfs:label "Thamrin Plaza"@id ;
+    schema:name "Thamrin Plaza"@id ;
+    schema:description "Plaza lama di Jl. Thamrin. Sebagian tutup: Matahari berhenti beroperasi sejak 1 April 2025."@id ;
+    mv:cerita "Plaza lama di Jl. Thamrin. Sebagian tutup: Matahari berhenti beroperasi sejak 1 April 2025."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. M.H. Thamrin No. 75R" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58683"^^xsd:decimal ;
+    geo:long "98.69291"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Jam buka belum terverifikasi" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Sei Rengas II" ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-7853535/matahari-thamrin-plaza-tutup-warga-medan-kenang-momen-belanja-semasa-kecil> .
+
+res:lippo-plaza-medan a mv:PusatBelanja ;
+    rdfs:label "Lippo Plaza Medan"@id ;
+    schema:name "Lippo Plaza Medan"@id ;
+    schema:description "Gedung 15 lantai berisi mal, kantor, rumah sakit, dan kampus."@id ;
+    mv:cerita "Gedung 15 lantai berisi mal, kantor, rumah sakit, dan kampus."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Imam Bonjol No. 6" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.58644"^^xsd:decimal ;
+    geo:long "98.67335"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Suka Damai" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.jawapos.com/travelling/2605120204/liburan-tidak-lengkap-tanpa-mampir-ke-12-mall-terbaik-di-medan-ini-surga-belanja-sampai-tempat-hangout-viral-yang-wajib-anda-kunjungi> .
+
+res:suzuya-marelan a mv:PusatBelanja ;
+    rdfs:label "Suzuya Mall Marelan"@id ;
+    schema:name "Suzuya Mall Marelan"@id ;
+    schema:description "Mal di Medan Marelan, wilayah utara kota."@id ;
+    mv:cerita "Mal di Medan Marelan, wilayah utara kota."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Medan Marelan" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.67847"^^xsd:decimal ;
+    geo:long "98.65707"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Setiap hari, 10.00–22.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Tanah Enam Ratus" ;
+    mv:jamBuka "10:00:00"^^xsd:time ;
+    mv:jamTutup "22:00:00"^^xsd:time ;
+    dcterms:source <https://www.openstreetmap.org/way/645564631> .
+
+res:irian-supermarket a mv:PusatBelanja ;
+    rdfs:label "Irian Supermarket Jl. Karya"@id ;
+    schema:name "Irian Supermarket Jl. Karya"@id ;
+    schema:description "Jaringan swalayan lokal Medan, cabang Jl. Karya."@id ;
+    mv:cerita "Jaringan swalayan lokal Medan, cabang Jl. Karya."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Karya No. 116" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.60903"^^xsd:decimal ;
+    geo:long "98.66558"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Jam buka belum terverifikasi" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Sei Agul" ;
+    dcterms:source <https://www.bca.co.id/id/promo-bca/2025/03/12/02/45/Irian-Supermarket> .
+
+res:pasar-ramai a mv:PusatBelanja ;
+    rdfs:label "Pasar Ramai"@id ;
+    schema:name "Pasar Ramai"@id ;
+    schema:description "Pasar grosir dan tekstil di samping Thamrin Plaza."@id ;
+    mv:cerita "Pasar grosir dan tekstil di samping Thamrin Plaza."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. M.H. Thamrin" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.5865"^^xsd:decimal ;
+    geo:long "98.6925"^^xsd:decimal ;
+    mv:koordinatPerkiraan true ;
+    mv:keteranganJam "Pagi sampai sore" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree true ;
+    mv:kelurahan "Sei Rengas II" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    dcterms:source <https://www.holidify.com/pages/shopping-in-medan-2705.html> .
+
+res:kolam-renang-paradiso a mv:RekreasiAir ;
+    rdfs:label "Kolam Renang Paradiso"@id ;
+    schema:name "Kolam Renang Paradiso"@id ;
+    schema:description "Kolam renang tertua di Medan, sejak 1924."@id ;
+    mv:cerita "Dibangun pada 1924 dan dulu hanya untuk orang Eropa. Sampai April 2026 kolam ini masih buka untuk umum."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Sisingamangaraja No. 6" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.57994"^^xsd:decimal ;
+    geo:long "98.68495"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Sekitar 07.00–18.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Mesjid" ;
+    mv:jamBuka "07:00:00"^^xsd:time ;
+    mv:jamTutup "18:00:00"^^xsd:time ;
+    dcterms:source <https://www.detik.com/sumut/budaya/d-8445606/paradiso-kolam-renang-tertua-di-medan-sejak-1924> ;
+    mv:hargaTiketMulai 18000 ;
+    mv:hargaContoh true ;
+    schema:offers [ a schema:Offer ; schema:name "Umum"@id ; schema:price 18000 ; schema:priceCurrency "IDR" ] .
+
+res:kolam-renang-deli a mv:RekreasiAir ;
+    rdfs:label "Kolam Renang Deli"@id ;
+    schema:name "Kolam Renang Deli"@id ;
+    schema:description "Kolam renang lama di Jl. Sutomo Ujung. Sebagian kolam tidak berfungsi (Agustus 2025)."@id ;
+    mv:cerita "Saat dikunjungi wali kota pada Agustus 2025, satu dari lima kolamnya tidak berfungsi. Cek kondisinya sebelum datang."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Sutomo Ujung" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.60266"^^xsd:decimal ;
+    geo:long "98.68076"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Sekitar 07.00–18.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Gaharu" ;
+    mv:jamBuka "07:00:00"^^xsd:time ;
+    mv:jamTutup "18:00:00"^^xsd:time ;
+    dcterms:source <https://www.sumutinsider.com/sumatera-utara/80015706882/miris-ikon-kolam-renang-deli-medan-terbengkalai> ;
+    mv:hargaTiketMulai 12000 ;
+    mv:hargaContoh true ;
+    schema:offers [ a schema:Offer ; schema:name "Hari kerja"@id ; schema:price 12000 ; schema:priceCurrency "IDR" ] ;
+    schema:offers [ a schema:Offer ; schema:name "Akhir pekan"@id ; schema:price 15000 ; schema:priceCurrency "IDR" ] .
+
+res:kolam-renang-tirta-kartika a mv:RekreasiAir ;
+    rdfs:label "Kolam Renang Tirta Kartika"@id ;
+    schema:name "Kolam Renang Tirta Kartika"@id ;
+    schema:description "Kolam renang di Medan Helvetia yang juga dipakai latihan renang prajurit."@id ;
+    mv:cerita "Kolam renang di Medan Helvetia yang juga dipakai latihan renang prajurit."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. H.A. Manaf Lubis Blok G No. 20A" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.60533"^^xsd:decimal ;
+    geo:long "98.63985"^^xsd:decimal ;
+    mv:koordinatPerkiraan true ;
+    mv:keteranganJam "Sekitar 07.00–19.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Helvetia Tengah" ;
+    mv:jamBuka "07:00:00"^^xsd:time ;
+    mv:jamTutup "19:00:00"^^xsd:time ;
+    dcterms:source <https://renangloka.com/pool/kolam-renang-tirta-kartika/> ;
+    mv:hargaTiketMulai 20000 ;
+    mv:hargaContoh true ;
+    schema:offers [ a schema:Offer ; schema:name "Umum"@id ; schema:price 20000 ; schema:priceCurrency "IDR" ] .
+
+res:bumi-asri-waterpark a mv:RekreasiAir ;
+    rdfs:label "Bumi Asri Waterpark"@id ;
+    schema:name "Bumi Asri Waterpark"@id ;
+    schema:description "Kolam renang dan waterpark di Komplek Bumi Asri."@id ;
+    mv:cerita "Kolam renang dan waterpark di Komplek Bumi Asri."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Blok G, Komplek Bumi Asri" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.60029"^^xsd:decimal ;
+    geo:long "98.62379"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Sekitar 08.00–17.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Cinta Damai" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    dcterms:source <https://www.rumah123.com/explore/kota-medan/kolam-renang-medan/> ;
+    mv:hargaTiketMulai 21000 ;
+    mv:hargaContoh true ;
+    schema:offers [ a schema:Offer ; schema:name "Hari kerja"@id ; schema:price 21000 ; schema:priceCurrency "IDR" ] ;
+    schema:offers [ a schema:Offer ; schema:name "Akhir pekan"@id ; schema:price 26000 ; schema:priceCurrency "IDR" ] .
+
+res:kolam-renang-primbana a mv:RekreasiAir ;
+    rdfs:label "Kolam Renang Primbana"@id ;
+    schema:name "Kolam Renang Primbana"@id ;
+    schema:description "Kolam renang di Sempakata, Medan Selayang. Senin tutup."@id ;
+    mv:cerita "Kolam renang di Sempakata, Medan Selayang. Senin tutup."@id ;
+    schema:address [ a schema:PostalAddress ; schema:streetAddress "Jl. Melati Raya No. 55" ; schema:addressLocality "Medan" ; schema:addressRegion "Sumatera Utara" ; schema:addressCountry "ID" ] ;
+    geo:lat "3.53961"^^xsd:decimal ;
+    geo:long "98.62883"^^xsd:decimal ;
+    mv:koordinatPerkiraan false ;
+    mv:keteranganJam "Selasa–Minggu, 08.00–17.00" ;
+    mv:jamContoh true ;
+    mv:radiusCheckin 100 ;
+    mv:durasiSinggah 45 ;
+    schema:isAccessibleForFree false ;
+    mv:kelurahan "Sempakata" ;
+    mv:jamBuka "08:00:00"^^xsd:time ;
+    mv:jamTutup "17:00:00"^^xsd:time ;
+    dcterms:source <https://renangloka.com/pool/kolam-renang-primbana/> ;
+    mv:hargaTiketMulai 15000 ;
+    mv:hargaContoh true ;
+    schema:offers [ a schema:Offer ; schema:name "Reguler"@id ; schema:price 15000 ; schema:priceCurrency "IDR" ] ;
+    schema:offers [ a schema:Offer ; schema:name "VIP"@id ; schema:price 20000 ; schema:priceCurrency "IDR" ] .
+
+# ---------- tokoh, kerajaan, peristiwa, budaya, kuliner, transportasi ----------
+
+res:sultan-maamun-al-rasyid a mv:Tokoh ;
+    rdfs:label "Sultan Ma'moen Al Rasyid"@id ;
+    schema:name "Sultan Ma'moen Al Rasyid"@id ;
+    schema:description "Sultan Deli kesembilan, memerintah 1873–1924."@id ;
+    mv:masa "1873–1924 (masa pemerintahan)" .
+
+res:tjong-a-fie a mv:Tokoh ;
+    rdfs:label "Tjong A Fie"@id ;
+    schema:name "Tjong A Fie"@id ;
+    schema:description "Saudagar dan pemimpin komunitas Tionghoa Medan, 1860–1921."@id ;
+    mv:masa "1860–1921" ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/tjong-a-fie-arsip.jpg> .
+
+res:jacob-nienhuys a mv:Tokoh ;
+    rdfs:label "Jacob Nienhuys"@id ;
+    schema:name "Jacob Nienhuys"@id ;
+    schema:description "Pengusaha Belanda yang membuka perkebunan tembakau Deli pada 1863."@id ;
+    mv:masa "1836–1928" .
+
+res:kesultanan-deli a mv:Kerajaan ;
+    rdfs:label "Kesultanan Deli"@id ;
+    schema:name "Kesultanan Deli"@id ;
+    schema:description "Kerajaan Melayu yang berpusat di Medan."@id .
+
+res:pembangunan-istana-maimun a mv:Peristiwa ;
+    rdfs:label "Pembangunan Istana Maimun"@id ;
+    schema:name "Pembangunan Istana Maimun"@id ;
+    schema:description "Istana dibangun 1888 dan rampung 1891."@id ;
+    mv:masa "1888–1891" .
+
+res:pembangunan-masjid-raya a mv:Peristiwa ;
+    rdfs:label "Pembangunan Masjid Raya"@id ;
+    schema:name "Pembangunan Masjid Raya"@id ;
+    schema:description "Masjid dibangun 1906 dan rampung 1909."@id ;
+    mv:masa "1906–1909" .
+
+res:era-tembakau-deli a mv:Peristiwa ;
+    rdfs:label "Era Tembakau Deli"@id ;
+    schema:name "Era Tembakau Deli"@id ;
+    schema:description "Masa perkebunan tembakau yang membuat Medan tumbuh menjadi kota."@id ;
+    mv:masa "sejak 1863" ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/tembakau-deli-1897.jpg> .
+
+res:legenda-putri-hijau a mv:Peristiwa ;
+    rdfs:label "Legenda Putri Hijau"@id ;
+    schema:name "Legenda Putri Hijau"@id ;
+    schema:description "Cerita rakyat Deli tentang putri, naga, dan meriam yang patah."@id ;
+    mv:masa "cerita rakyat" .
+
+res:melayu-deli a mv:Budaya ;
+    rdfs:label "Melayu Deli"@id ;
+    schema:name "Melayu Deli"@id ;
+    schema:description "Budaya Melayu pesisir timur Sumatera, budaya Kesultanan Deli."@id .
+
+res:tionghoa a mv:Budaya ;
+    rdfs:label "Tionghoa Medan"@id ;
+    schema:name "Tionghoa Medan"@id ;
+    schema:description "Komunitas Tionghoa yang datang pada masa perkebunan."@id .
+
+res:tamil a mv:Budaya ;
+    rdfs:label "Tamil"@id ;
+    schema:name "Tamil"@id ;
+    schema:description "Komunitas Tamil Medan, berpusat di Kampung Madras."@id .
+
+res:arsitektur-mughal a mv:Budaya ;
+    rdfs:label "Arsitektur Mughal"@id ;
+    schema:name "Arsitektur Mughal"@id ;
+    schema:description "Gaya bangunan Islam India: kubah, lengkung, dan menara."@id .
+
+res:bubur-pedas a mv:Kuliner ;
+    rdfs:label "Bubur pedas"@id ;
+    schema:name "Bubur pedas"@id ;
+    schema:description "Bubur rempah Melayu Deli, biasa disajikan saat Ramadan."@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/bubur-pedas.jpg> .
+
+res:roti-jala a mv:Kuliner ;
+    rdfs:label "Roti jala"@id ;
+    schema:name "Roti jala"@id ;
+    schema:description "Roti berbentuk jaring, dimakan dengan kari."@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/roti-jala.jpg> .
+
+res:bika-ambon a mv:Kuliner ;
+    rdfs:label "Bika ambon"@id ;
+    schema:name "Bika ambon"@id ;
+    schema:description "Kue bersarang beraroma pandan, oleh-oleh khas Medan."@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/bika-ambon.jpg> .
+
+res:soto-medan a mv:Kuliner ;
+    rdfs:label "Soto Medan"@id ;
+    schema:name "Soto Medan"@id ;
+    schema:description "Soto berkuah santan kuning."@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/soto-medan.jpg> .
+
+res:becak-motor a mv:ModaTransportasi ;
+    rdfs:label "Becak motor"@id ;
+    schema:name "Becak motor"@id ;
+    schema:description "Sepeda motor bergandeng kabin, angkutan khas Medan."@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/becak-medan.jpg> .
+
+res:bus-listrik-medan a mv:ModaTransportasi ;
+    rdfs:label "Bus Listrik Medan"@id ;
+    schema:name "Bus Listrik Medan"@id ;
+    schema:description "Bus kota Dishub Kota Medan, pengganti Trans Metro Deli sejak 24 November 2024. Tarif Rp5.000 (pelajar, lansia, disabilitas Rp3.000), bayar nontunai."@id .
+
+# ---------- relasi, beserta sumbernya lewat reifikasi rdf:Statement ----------
+
+res:istana-maimun mv:dibangunOleh res:sultan-maamun-al-rasyid .
+res:relasi-1 a rdf:Statement ;
+    rdf:subject res:istana-maimun ;
+    rdf:predicate mv:dibangunOleh ;
+    rdf:object res:sultan-maamun-al-rasyid ;
+    mv:kalimat "Istana Maimun dibangun oleh Sultan Ma'moen Al Rasyid."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Istana_Maimun> .
+
+res:masjid-raya-al-mashun mv:dibangunOleh res:sultan-maamun-al-rasyid .
+res:relasi-2 a rdf:Statement ;
+    rdf:subject res:masjid-raya-al-mashun ;
+    rdf:predicate mv:dibangunOleh ;
+    rdf:object res:sultan-maamun-al-rasyid ;
+    mv:kalimat "Masjid Raya Al-Mashun dibangun oleh Sultan Ma'moen Al Rasyid."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Masjid_Raya_Medan> .
+
+res:sultan-maamun-al-rasyid mv:memimpin res:kesultanan-deli .
+res:relasi-3 a rdf:Statement ;
+    rdf:subject res:sultan-maamun-al-rasyid ;
+    rdf:predicate mv:memimpin ;
+    rdf:object res:kesultanan-deli ;
+    mv:kalimat "Sultan Ma'moen Al Rasyid memimpin Kesultanan Deli."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Kesultanan_Deli> .
+
+res:istana-maimun mv:merepresentasikan res:melayu-deli .
+res:relasi-4 a rdf:Statement ;
+    rdf:subject res:istana-maimun ;
+    rdf:predicate mv:merepresentasikan ;
+    rdf:object res:melayu-deli ;
+    mv:kalimat "Istana Maimun mencerminkan budaya Melayu Deli."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Istana_Maimun> .
+
+res:istana-maimun mv:bergaya res:arsitektur-mughal .
+res:relasi-5 a rdf:Statement ;
+    rdf:subject res:istana-maimun ;
+    rdf:predicate mv:bergaya ;
+    rdf:object res:arsitektur-mughal ;
+    mv:kalimat "Istana Maimun memakai gaya Arsitektur Mughal."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Istana_Maimun> .
+
+res:masjid-raya-al-mashun mv:bergaya res:arsitektur-mughal .
+res:relasi-6 a rdf:Statement ;
+    rdf:subject res:masjid-raya-al-mashun ;
+    rdf:predicate mv:bergaya ;
+    rdf:object res:arsitektur-mughal ;
+    mv:kalimat "Masjid Raya Al-Mashun memakai gaya Arsitektur Mughal."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Masjid_Raya_Medan> .
+
+res:istana-maimun mv:dekatDengan res:masjid-raya-al-mashun .
+res:relasi-7 a rdf:Statement ;
+    rdf:subject res:istana-maimun ;
+    rdf:predicate mv:dekatDengan ;
+    rdf:object res:masjid-raya-al-mashun ;
+    mv:kalimat "Istana Maimun hanya 361 meter dari Masjid Raya Al-Mashun."@id ;
+    dcterms:source "Dihitung dari koordinat" .
+
+res:kedekatan-7 a mv:Kedekatan ;
+    mv:antara res:istana-maimun, res:masjid-raya-al-mashun ;
+    mv:jarakMeter 361 .
+
+res:istana-maimun mv:memilikiSejarah res:pembangunan-istana-maimun .
+res:relasi-8 a rdf:Statement ;
+    rdf:subject res:istana-maimun ;
+    rdf:predicate mv:memilikiSejarah ;
+    rdf:object res:pembangunan-istana-maimun ;
+    mv:kalimat "Sejarah Istana Maimun dimulai dari Pembangunan Istana Maimun."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Istana_Maimun> .
+
+res:masjid-raya-al-mashun mv:memilikiSejarah res:pembangunan-masjid-raya .
+res:relasi-9 a rdf:Statement ;
+    rdf:subject res:masjid-raya-al-mashun ;
+    rdf:predicate mv:memilikiSejarah ;
+    rdf:object res:pembangunan-masjid-raya ;
+    mv:kalimat "Sejarah Masjid Raya Al-Mashun dimulai dari Pembangunan Masjid Raya."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Masjid_Raya_Medan> .
+
+res:meriam-puntung mv:bagianDari res:istana-maimun .
+res:relasi-10 a rdf:Statement ;
+    rdf:subject res:meriam-puntung ;
+    rdf:predicate mv:bagianDari ;
+    rdf:object res:istana-maimun ;
+    mv:kalimat "Meriam Puntung berada di dalam kompleks Istana Maimun."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Meriam_Puntung> .
+
+res:meriam-puntung mv:berkaitanDengan res:legenda-putri-hijau .
+res:relasi-11 a rdf:Statement ;
+    rdf:subject res:meriam-puntung ;
+    rdf:predicate mv:berkaitanDengan ;
+    rdf:object res:legenda-putri-hijau ;
+    mv:kalimat "Meriam Puntung berkaitan dengan Legenda Putri Hijau."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Putri_Hijau> .
+
+res:bubur-pedas mv:khasDari res:melayu-deli .
+res:relasi-12 a rdf:Statement ;
+    rdf:subject res:bubur-pedas ;
+    rdf:predicate mv:khasDari ;
+    rdf:object res:melayu-deli ;
+    mv:kalimat "Bubur pedas adalah kuliner khas Melayu Deli."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Bubur_pedas> .
+
+res:roti-jala mv:khasDari res:melayu-deli .
+res:relasi-13 a rdf:Statement ;
+    rdf:subject res:roti-jala ;
+    rdf:predicate mv:khasDari ;
+    rdf:object res:melayu-deli ;
+    mv:kalimat "Roti jala adalah kuliner khas Melayu Deli."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Roti_jala> .
+
+res:sultan-maamun-al-rasyid mv:terlibatDalam res:era-tembakau-deli .
+res:relasi-14 a rdf:Statement ;
+    rdf:subject res:sultan-maamun-al-rasyid ;
+    rdf:predicate mv:terlibatDalam ;
+    rdf:object res:era-tembakau-deli ;
+    mv:kalimat "Sultan Ma'moen Al Rasyid hidup dan berperan pada masa Era Tembakau Deli."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Kesultanan_Deli> .
+
+res:tjong-a-fie mv:terlibatDalam res:era-tembakau-deli .
+res:relasi-15 a rdf:Statement ;
+    rdf:subject res:tjong-a-fie ;
+    rdf:predicate mv:terlibatDalam ;
+    rdf:object res:era-tembakau-deli ;
+    mv:kalimat "Tjong A Fie hidup dan berperan pada masa Era Tembakau Deli."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Tjong_A_Fie> .
+
+res:jacob-nienhuys mv:terlibatDalam res:era-tembakau-deli .
+res:relasi-16 a rdf:Statement ;
+    rdf:subject res:jacob-nienhuys ;
+    rdf:predicate mv:terlibatDalam ;
+    rdf:object res:era-tembakau-deli ;
+    mv:kalimat "Jacob Nienhuys hidup dan berperan pada masa Era Tembakau Deli."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Tembakau_Deli> .
+
+res:tjong-a-fie-mansion mv:dibangunOleh res:tjong-a-fie .
+res:relasi-17 a rdf:Statement ;
+    rdf:subject res:tjong-a-fie-mansion ;
+    rdf:predicate mv:dibangunOleh ;
+    rdf:object res:tjong-a-fie ;
+    mv:kalimat "Tjong A Fie Mansion dibangun oleh Tjong A Fie."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Rumah_Tjong_A_Fie> .
+
+res:tjong-a-fie mv:berkaitanDengan res:tionghoa .
+res:relasi-18 a rdf:Statement ;
+    rdf:subject res:tjong-a-fie ;
+    rdf:predicate mv:berkaitanDengan ;
+    rdf:object res:tionghoa ;
+    mv:kalimat "Tjong A Fie berkaitan dengan Tionghoa Medan."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Tjong_A_Fie> .
+
+res:vihara-gunung-timur mv:merepresentasikan res:tionghoa .
+res:relasi-19 a rdf:Statement ;
+    rdf:subject res:vihara-gunung-timur ;
+    rdf:predicate mv:merepresentasikan ;
+    rdf:object res:tionghoa ;
+    mv:kalimat "Vihara Gunung Timur mencerminkan budaya Tionghoa Medan."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Vihara_Gunung_Timur> .
+
+res:kuil-shri-mariamman mv:merepresentasikan res:tamil .
+res:relasi-20 a rdf:Statement ;
+    rdf:subject res:kuil-shri-mariamman ;
+    rdf:predicate mv:merepresentasikan ;
+    rdf:object res:tamil ;
+    mv:kalimat "Kuil Shri Mariamman mencerminkan budaya Tamil."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Kuil_Shri_Mariamman> .
+
+res:graha-maria-annai-velangkanni mv:berkaitanDengan res:tamil .
+res:relasi-21 a rdf:Statement ;
+    rdf:subject res:graha-maria-annai-velangkanni ;
+    rdf:predicate mv:berkaitanDengan ;
+    rdf:object res:tamil ;
+    mv:kalimat "Graha Maria Annai Velangkanni berkaitan dengan Tamil."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Graha_Maria_Annai_Velangkanni> .
+
+res:soto-kesawan mv:dekatDengan res:tjong-a-fie-mansion .
+res:relasi-22 a rdf:Statement ;
+    rdf:subject res:soto-kesawan ;
+    rdf:predicate mv:dekatDengan ;
+    rdf:object res:tjong-a-fie-mansion ;
+    mv:kalimat "Soto Kesawan hanya 52 meter dari Tjong A Fie Mansion."@id ;
+    dcterms:source "Dihitung dari koordinat" .
+
+res:kedekatan-22 a mv:Kedekatan ;
+    mv:antara res:soto-kesawan, res:tjong-a-fie-mansion ;
+    mv:jarakMeter 52 .
+
+res:soto-kesawan mv:menjual res:soto-medan .
+res:relasi-23 a rdf:Statement ;
+    rdf:subject res:soto-kesawan ;
+    rdf:predicate mv:menjual ;
+    rdf:object res:soto-medan ;
+    mv:kalimat "Soto Kesawan menjual Soto Medan."@id ;
+    dcterms:source <https://koran-jakarta.com/2024-09-17/ada-racikan-yogyakarta-di-soto-kesawan-medan> .
+
+res:bika-ambon-mojopahit mv:menjual res:bika-ambon .
+res:relasi-24 a rdf:Statement ;
+    rdf:subject res:bika-ambon-mojopahit ;
+    rdf:predicate mv:menjual ;
+    rdf:object res:bika-ambon ;
+    mv:kalimat "Deretan Bika Ambon Jl. Mojopahit menjual Bika ambon."@id ;
+    dcterms:source <https://www.indonesia.travel/id-id/travel-ideas/gastronomy/bika-ambonn/> .
+
+res:istana-maimun mv:dilayaniOleh res:becak-motor .
+res:relasi-25 a rdf:Statement ;
+    rdf:subject res:istana-maimun ;
+    rdf:predicate mv:dilayaniOleh ;
+    rdf:object res:becak-motor ;
+    mv:kalimat "Istana Maimun bisa dicapai dengan Becak motor."@id ;
+    dcterms:source <https://kumparan.com/sumutnews/tips-naik-becak-motor-di-kota-para-ketua-1552205494541583850> .
+
+res:museum-negeri-sumatera-utara mv:dilayaniOleh res:bus-listrik-medan .
+res:relasi-26 a rdf:Statement ;
+    rdf:subject res:museum-negeri-sumatera-utara ;
+    rdf:predicate mv:dilayaniOleh ;
+    rdf:object res:bus-listrik-medan ;
+    mv:kalimat "Museum Negeri Sumatera Utara bisa dicapai dengan Bus Listrik Medan."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Bus_Listrik_Medan> .
+
+res:masjid-lama-gang-bengkok mv:dibangunOleh res:tjong-a-fie .
+res:relasi-27 a rdf:Statement ;
+    rdf:subject res:masjid-lama-gang-bengkok ;
+    rdf:predicate mv:dibangunOleh ;
+    rdf:object res:tjong-a-fie ;
+    mv:kalimat "Masjid Lama Gang Bengkok dibangun oleh Tjong A Fie."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Masjid_Lama_Gang_Bengkok> .
+
+res:balai-kota-lama mv:berkaitanDengan res:tjong-a-fie .
+res:relasi-28 a rdf:Statement ;
+    rdf:subject res:balai-kota-lama ;
+    rdf:predicate mv:berkaitanDengan ;
+    rdf:object res:tjong-a-fie ;
+    mv:kalimat "Gedung Balai Kota Lama berkaitan dengan Tjong A Fie."@id ;
+    dcterms:source <https://www.detik.com/sumut/berita/d-7045682/sejarah-balai-kota-medan-ada-peran-miliarder-tjong-a-fie> .
+
+res:gedung-avros mv:berkaitanDengan res:era-tembakau-deli .
+res:relasi-29 a rdf:Statement ;
+    rdf:subject res:gedung-avros ;
+    rdf:predicate mv:berkaitanDengan ;
+    rdf:object res:era-tembakau-deli ;
+    mv:kalimat "Gedung AVROS (BKS-PPS) berkaitan dengan Era Tembakau Deli."@id ;
+    dcterms:source <https://www.penang-traveltips.com/indonesia/medan/bks-pps-building.htm> .
+
+res:kuil-nagarattar mv:merepresentasikan res:tamil .
+res:relasi-30 a rdf:Statement ;
+    rdf:subject res:kuil-nagarattar ;
+    rdf:predicate mv:merepresentasikan ;
+    rdf:object res:tamil ;
+    mv:kalimat "Kuil Sree Soepramaniem Nagarattar mencerminkan budaya Tamil."@id ;
+    dcterms:source <https://id.wikipedia.org/wiki/Kuil_Sree_Soepramaniem_Nagarattar> .
+
+res:seng-hap-1881 mv:merepresentasikan res:tionghoa .
+res:relasi-31 a rdf:Statement ;
+    rdf:subject res:seng-hap-1881 ;
+    rdf:predicate mv:merepresentasikan ;
+    rdf:object res:tionghoa ;
+    mv:kalimat "Seng Hap 1881 mencerminkan budaya Tionghoa Medan."@id ;
+    dcterms:source <https://rri.co.id/medan/iptek/2772486/seng-hap-1881-dari-bangunan-bersejarah-hingga-ruang-umkm-dan-kuliner> .
+
+res:tip-top-restaurant mv:dekatDengan res:tjong-a-fie-mansion .
+res:relasi-32 a rdf:Statement ;
+    rdf:subject res:tip-top-restaurant ;
+    rdf:predicate mv:dekatDengan ;
+    rdf:object res:tjong-a-fie-mansion ;
+    mv:kalimat "Tip Top Restaurant hanya 109 meter dari Tjong A Fie Mansion."@id ;
+    dcterms:source "Dihitung dari koordinat" .
+
+res:kedekatan-32 a mv:Kedekatan ;
+    mv:antara res:tip-top-restaurant, res:tjong-a-fie-mansion ;
+    mv:jarakMeter 109 .
+
+res:seng-hap-1881 mv:dekatDengan res:lapangan-merdeka .
+res:relasi-33 a rdf:Statement ;
+    rdf:subject res:seng-hap-1881 ;
+    rdf:predicate mv:dekatDengan ;
+    rdf:object res:lapangan-merdeka ;
+    mv:kalimat "Seng Hap 1881 hanya 212 meter dari Lapangan Merdeka."@id ;
+    dcterms:source "Dihitung dari koordinat" .
+
+res:kedekatan-33 a mv:Kedekatan ;
+    mv:antara res:seng-hap-1881, res:lapangan-merdeka ;
+    mv:jarakMeter 212 .
+
+res:katedral-medan mv:dekatDengan res:istana-maimun .
+res:relasi-34 a rdf:Statement ;
+    rdf:subject res:katedral-medan ;
+    rdf:predicate mv:dekatDengan ;
+    rdf:object res:istana-maimun ;
+    mv:kalimat "Katedral Medan hanya 1.037 meter dari Istana Maimun."@id ;
+    dcterms:source "Dihitung dari koordinat" .
+
+res:kedekatan-34 a mv:Kedekatan ;
+    mv:antara res:katedral-medan, res:istana-maimun ;
+    mv:jarakMeter 1037 .
+
+res:taman-sri-deli mv:dekatDengan res:masjid-raya-al-mashun .
+res:relasi-35 a rdf:Statement ;
+    rdf:subject res:taman-sri-deli ;
+    rdf:predicate mv:dekatDengan ;
+    rdf:object res:masjid-raya-al-mashun ;
+    mv:kalimat "Taman Sri Deli hanya 141 meter dari Masjid Raya Al-Mashun."@id ;
+    dcterms:source "Dihitung dari koordinat" .
+
+res:kedekatan-35 a mv:Kedekatan ;
+    mv:antara res:taman-sri-deli, res:masjid-raya-al-mashun ;
+    mv:jarakMeter 141 .
+
+res:lapangan-merdeka mv:dekatDengan res:soto-kesawan .
+res:relasi-36 a rdf:Statement ;
+    rdf:subject res:lapangan-merdeka ;
+    rdf:predicate mv:dekatDengan ;
+    rdf:object res:soto-kesawan ;
+    mv:kalimat "Lapangan Merdeka hanya 628 meter dari Soto Kesawan."@id ;
+    dcterms:source "Dihitung dari koordinat" .
+
+res:kedekatan-36 a mv:Kedekatan ;
+    mv:antara res:lapangan-merdeka, res:soto-kesawan ;
+    mv:jarakMeter 628 .
+
+res:gereja-immanuel mv:dekatDengan res:kuil-shri-mariamman .
+res:relasi-37 a rdf:Statement ;
+    rdf:subject res:gereja-immanuel ;
+    rdf:predicate mv:dekatDengan ;
+    rdf:object res:kuil-shri-mariamman ;
+    mv:kalimat "GPIB Immanuel Medan hanya 373 meter dari Kuil Shri Mariamman."@id ;
+    dcterms:source "Dihitung dari koordinat" .
+
+res:kedekatan-37 a mv:Kedekatan ;
+    mv:antara res:gereja-immanuel, res:kuil-shri-mariamman ;
+    mv:jarakMeter 373 .
+
+res:istana-maimun mv:beradaDi res:kec-medan-maimun .
+res:relasi-38 a rdf:Statement ;
+    rdf:subject res:istana-maimun ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-maimun ;
+    mv:kalimat "Istana Maimun berada di Kecamatan Medan Maimun."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:masjid-raya-al-mashun mv:beradaDi res:kec-medan-kota .
+res:relasi-39 a rdf:Statement ;
+    rdf:subject res:masjid-raya-al-mashun ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Masjid Raya Al-Mashun berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:tjong-a-fie-mansion mv:beradaDi res:kec-medan-barat .
+res:relasi-40 a rdf:Statement ;
+    rdf:subject res:tjong-a-fie-mansion ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Tjong A Fie Mansion berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:meriam-puntung mv:beradaDi res:kec-medan-maimun .
+res:relasi-41 a rdf:Statement ;
+    rdf:subject res:meriam-puntung ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-maimun ;
+    mv:kalimat "Meriam Puntung berada di Kecamatan Medan Maimun."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kuil-shri-mariamman mv:beradaDi res:kec-medan-petisah .
+res:relasi-42 a rdf:Statement ;
+    rdf:subject res:kuil-shri-mariamman ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-petisah ;
+    mv:kalimat "Kuil Shri Mariamman berada di Kecamatan Medan Petisah."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:vihara-gunung-timur mv:beradaDi res:kec-medan-polonia .
+res:relasi-43 a rdf:Statement ;
+    rdf:subject res:vihara-gunung-timur ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-polonia ;
+    mv:kalimat "Vihara Gunung Timur berada di Kecamatan Medan Polonia."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:graha-maria-annai-velangkanni mv:beradaDi res:kec-medan-tuntungan .
+res:relasi-44 a rdf:Statement ;
+    rdf:subject res:graha-maria-annai-velangkanni ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-tuntungan ;
+    mv:kalimat "Graha Maria Annai Velangkanni berada di Kecamatan Medan Tuntungan."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:museum-negeri-sumatera-utara mv:beradaDi res:kec-medan-kota .
+res:relasi-45 a rdf:Statement ;
+    rdf:subject res:museum-negeri-sumatera-utara ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Museum Negeri Sumatera Utara berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:soto-kesawan mv:beradaDi res:kec-medan-barat .
+res:relasi-46 a rdf:Statement ;
+    rdf:subject res:soto-kesawan ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Soto Kesawan berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:bika-ambon-mojopahit mv:beradaDi res:kec-medan-petisah .
+res:relasi-47 a rdf:Statement ;
+    rdf:subject res:bika-ambon-mojopahit ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-petisah ;
+    mv:kalimat "Deretan Bika Ambon Jl. Mojopahit berada di Kecamatan Medan Petisah."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:lapangan-merdeka mv:beradaDi res:kec-medan-barat .
+res:relasi-48 a rdf:Statement ;
+    rdf:subject res:lapangan-merdeka ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Lapangan Merdeka berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:taman-sri-deli mv:beradaDi res:kec-medan-kota .
+res:relasi-49 a rdf:Statement ;
+    rdf:subject res:taman-sri-deli ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Taman Sri Deli berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:gereja-immanuel mv:beradaDi res:kec-medan-polonia .
+res:relasi-50 a rdf:Statement ;
+    rdf:subject res:gereja-immanuel ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-polonia ;
+    mv:kalimat "GPIB Immanuel Medan berada di Kecamatan Medan Polonia."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:balai-kota-lama mv:beradaDi res:kec-medan-barat .
+res:relasi-51 a rdf:Statement ;
+    rdf:subject res:balai-kota-lama ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Gedung Balai Kota Lama berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:gedung-lonsum mv:beradaDi res:kec-medan-barat .
+res:relasi-52 a rdf:Statement ;
+    rdf:subject res:gedung-lonsum ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Gedung London Sumatra berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:menara-air-tirtanadi mv:beradaDi res:kec-medan-kota .
+res:relasi-53 a rdf:Statement ;
+    rdf:subject res:menara-air-tirtanadi ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Menara Air Tirtanadi berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:pos-bloc-medan mv:beradaDi res:kec-medan-barat .
+res:relasi-54 a rdf:Statement ;
+    rdf:subject res:pos-bloc-medan ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Kantor Pos Besar Medan (Pos Bloc) berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:gedung-bank-indonesia-lama mv:beradaDi res:kec-medan-barat .
+res:relasi-55 a rdf:Statement ;
+    rdf:subject res:gedung-bank-indonesia-lama ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Gedung Bank Indonesia Lama berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:gedung-avros mv:beradaDi res:kec-medan-maimun .
+res:relasi-56 a rdf:Statement ;
+    rdf:subject res:gedung-avros ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-maimun ;
+    mv:kalimat "Gedung AVROS (BKS-PPS) berada di Kecamatan Medan Maimun."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:gedung-warenhuis mv:beradaDi res:kec-medan-barat .
+res:relasi-57 a rdf:Statement ;
+    rdf:subject res:gedung-warenhuis ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Gedung Warenhuis berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:monumen-sisingamangaraja-xii mv:beradaDi res:kec-medan-kota .
+res:relasi-58 a rdf:Statement ;
+    rdf:subject res:monumen-sisingamangaraja-xii ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Monumen Sisingamangaraja XII berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:museum-perjuangan-tni mv:beradaDi res:kec-medan-petisah .
+res:relasi-59 a rdf:Statement ;
+    rdf:subject res:museum-perjuangan-tni ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-petisah ;
+    mv:kalimat "Museum Perjuangan TNI Bukit Barisan berada di Kecamatan Medan Petisah."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:rahmat-gallery mv:beradaDi res:kec-medan-baru .
+res:relasi-60 a rdf:Statement ;
+    rdf:subject res:rahmat-gallery ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-baru ;
+    mv:kalimat "Rahmat International Wildlife Museum & Gallery berada di Kecamatan Medan Baru."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:museum-situs-kota-cina mv:beradaDi res:kec-medan-marelan .
+res:relasi-61 a rdf:Statement ;
+    rdf:subject res:museum-situs-kota-cina ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-marelan ;
+    mv:kalimat "Museum Situs Kota Cina berada di Kecamatan Medan Marelan."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:masjid-lama-gang-bengkok mv:beradaDi res:kec-medan-barat .
+res:relasi-62 a rdf:Statement ;
+    rdf:subject res:masjid-lama-gang-bengkok ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Masjid Lama Gang Bengkok berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:katedral-medan mv:beradaDi res:kec-medan-maimun .
+res:relasi-63 a rdf:Statement ;
+    rdf:subject res:katedral-medan ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-maimun ;
+    mv:kalimat "Katedral Medan berada di Kecamatan Medan Maimun."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:vihara-setia-budi mv:beradaDi res:kec-medan-timur .
+res:relasi-64 a rdf:Statement ;
+    rdf:subject res:vihara-setia-budi ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-timur ;
+    mv:kalimat "Vihara Setia Budi berada di Kecamatan Medan Timur."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kuil-nagarattar mv:beradaDi res:kec-medan-petisah .
+res:relasi-65 a rdf:Statement ;
+    rdf:subject res:kuil-nagarattar ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-petisah ;
+    mv:kalimat "Kuil Sree Soepramaniem Nagarattar berada di Kecamatan Medan Petisah."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:seng-hap-1881 mv:beradaDi res:kec-medan-barat .
+res:relasi-66 a rdf:Statement ;
+    rdf:subject res:seng-hap-1881 ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Seng Hap 1881 berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kuliner-jalan-semarang mv:beradaDi res:kec-medan-kota .
+res:relasi-67 a rdf:Statement ;
+    rdf:subject res:kuliner-jalan-semarang ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Kawasan Kuliner Jl. Semarang berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kuliner-selat-panjang mv:beradaDi res:kec-medan-kota .
+res:relasi-68 a rdf:Statement ;
+    rdf:subject res:kuliner-selat-panjang ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Kawasan Kuliner Jl. Selat Panjang berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kuliner-pagaruyung mv:beradaDi res:kec-medan-petisah .
+res:relasi-69 a rdf:Statement ;
+    rdf:subject res:kuliner-pagaruyung ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-petisah ;
+    mv:kalimat "Kawasan Kuliner Jl. Pagaruyung berada di Kecamatan Medan Petisah."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kuliner-multatuli mv:beradaDi res:kec-medan-maimun .
+res:relasi-70 a rdf:Statement ;
+    rdf:subject res:kuliner-multatuli ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-maimun ;
+    mv:kalimat "Kawasan Kuliner Multatuli berada di Kecamatan Medan Maimun."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:bolu-meranti-kruing mv:beradaDi res:kec-medan-petisah .
+res:relasi-71 a rdf:Statement ;
+    rdf:subject res:bolu-meranti-kruing ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-petisah ;
+    mv:kalimat "Bolu Meranti Jl. Kruing berada di Kecamatan Medan Petisah."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:ucok-durian mv:beradaDi res:kec-medan-baru .
+res:relasi-72 a rdf:Statement ;
+    rdf:subject res:ucok-durian ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-baru ;
+    mv:kalimat "Ucok Durian berada di Kecamatan Medan Baru."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:soto-sinar-pagi mv:beradaDi res:kec-medan-barat .
+res:relasi-73 a rdf:Statement ;
+    rdf:subject res:soto-sinar-pagi ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Soto Sinar Pagi berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:rumah-makan-tabona mv:beradaDi res:kec-medan-maimun .
+res:relasi-74 a rdf:Statement ;
+    rdf:subject res:rumah-makan-tabona ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-maimun ;
+    mv:kalimat "Rumah Makan Tabona berada di Kecamatan Medan Maimun."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:sate-memeng mv:beradaDi res:kec-medan-timur .
+res:relasi-75 a rdf:Statement ;
+    rdf:subject res:sate-memeng ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-timur ;
+    mv:kalimat "Sate Memeng berada di Kecamatan Medan Timur."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kedai-kopi-apek mv:beradaDi res:kec-medan-barat .
+res:relasi-76 a rdf:Statement ;
+    rdf:subject res:kedai-kopi-apek ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Kedai Kopi Apek berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:tip-top-restaurant mv:beradaDi res:kec-medan-barat .
+res:relasi-77 a rdf:Statement ;
+    rdf:subject res:tip-top-restaurant ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Tip Top Restaurant berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:rumah-makan-sipirok mv:beradaDi res:kec-medan-sunggal .
+res:relasi-78 a rdf:Statement ;
+    rdf:subject res:rumah-makan-sipirok ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-sunggal ;
+    mv:kalimat "Rumah Makan Sipirok berada di Kecamatan Medan Sunggal."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:taman-cadika mv:beradaDi res:kec-medan-johor .
+res:relasi-79 a rdf:Statement ;
+    rdf:subject res:taman-cadika ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-johor ;
+    mv:kalimat "Taman Cadika Pramuka berada di Kecamatan Medan Johor."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:taman-ahmad-yani mv:beradaDi res:kec-medan-maimun .
+res:relasi-80 a rdf:Statement ;
+    rdf:subject res:taman-ahmad-yani ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-maimun ;
+    mv:kalimat "Taman Ahmad Yani berada di Kecamatan Medan Maimun."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:taman-beringin mv:beradaDi res:kec-medan-polonia .
+res:relasi-81 a rdf:Statement ;
+    rdf:subject res:taman-beringin ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-polonia ;
+    mv:kalimat "Taman Beringin berada di Kecamatan Medan Polonia."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:taman-teladan mv:beradaDi res:kec-medan-kota .
+res:relasi-82 a rdf:Statement ;
+    rdf:subject res:taman-teladan ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Taman Teladan berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:taman-gajah-mada mv:beradaDi res:kec-medan-baru .
+res:relasi-83 a rdf:Statement ;
+    rdf:subject res:taman-gajah-mada ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-baru ;
+    mv:kalimat "Taman Gajah Mada berada di Kecamatan Medan Baru."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:taman-budaya-medan mv:beradaDi res:kec-medan-timur .
+res:relasi-84 a rdf:Statement ;
+    rdf:subject res:taman-budaya-medan ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-timur ;
+    mv:kalimat "Taman Budaya Medan berada di Kecamatan Medan Timur."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:avros-park mv:beradaDi res:kec-medan-polonia .
+res:relasi-85 a rdf:Statement ;
+    rdf:subject res:avros-park ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-polonia ;
+    mv:kalimat "Avros Park berada di Kecamatan Medan Polonia."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:lapangan-benteng mv:beradaDi res:kec-medan-petisah .
+res:relasi-86 a rdf:Statement ;
+    rdf:subject res:lapangan-benteng ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-petisah ;
+    mv:kalimat "Lapangan Benteng berada di Kecamatan Medan Petisah."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:delipark-mall mv:beradaDi res:kec-medan-barat .
+res:relasi-87 a rdf:Statement ;
+    rdf:subject res:delipark-mall ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "DeliPark Mall berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:sun-plaza mv:beradaDi res:kec-medan-polonia .
+res:relasi-88 a rdf:Statement ;
+    rdf:subject res:sun-plaza ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-polonia ;
+    mv:kalimat "Sun Plaza berada di Kecamatan Medan Polonia."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:centre-point-mall mv:beradaDi res:kec-medan-timur .
+res:relasi-89 a rdf:Statement ;
+    rdf:subject res:centre-point-mall ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-timur ;
+    mv:kalimat "Centre Point Mall berada di Kecamatan Medan Timur."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:plaza-medan-fair mv:beradaDi res:kec-medan-petisah .
+res:relasi-90 a rdf:Statement ;
+    rdf:subject res:plaza-medan-fair ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-petisah ;
+    mv:kalimat "Plaza Medan Fair berada di Kecamatan Medan Petisah."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:manhattan-times-square mv:beradaDi res:kec-medan-sunggal .
+res:relasi-91 a rdf:Statement ;
+    rdf:subject res:manhattan-times-square ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-sunggal ;
+    mv:kalimat "Manhattan Times Square berada di Kecamatan Medan Sunggal."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:ringroad-city-walks mv:beradaDi res:kec-medan-sunggal .
+res:relasi-92 a rdf:Statement ;
+    rdf:subject res:ringroad-city-walks ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-sunggal ;
+    mv:kalimat "Ringroad City Walks berada di Kecamatan Medan Sunggal."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:cambridge-city-square mv:beradaDi res:kec-medan-petisah .
+res:relasi-93 a rdf:Statement ;
+    rdf:subject res:cambridge-city-square ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-petisah ;
+    mv:kalimat "Cambridge City Square berada di Kecamatan Medan Petisah."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:focal-point mv:beradaDi res:kec-medan-selayang .
+res:relasi-94 a rdf:Statement ;
+    rdf:subject res:focal-point ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-selayang ;
+    mv:kalimat "Focal Point berada di Kecamatan Medan Selayang."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:plaza-millenium mv:beradaDi res:kec-medan-helvetia .
+res:relasi-95 a rdf:Statement ;
+    rdf:subject res:plaza-millenium ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-helvetia ;
+    mv:kalimat "Plaza Millenium berada di Kecamatan Medan Helvetia."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:medan-mall mv:beradaDi res:kec-medan-kota .
+res:relasi-96 a rdf:Statement ;
+    rdf:subject res:medan-mall ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Medan Mall berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:thamrin-plaza mv:beradaDi res:kec-medan-area .
+res:relasi-97 a rdf:Statement ;
+    rdf:subject res:thamrin-plaza ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-area ;
+    mv:kalimat "Thamrin Plaza berada di Kecamatan Medan Area."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:lippo-plaza-medan mv:beradaDi res:kec-medan-polonia .
+res:relasi-98 a rdf:Statement ;
+    rdf:subject res:lippo-plaza-medan ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-polonia ;
+    mv:kalimat "Lippo Plaza Medan berada di Kecamatan Medan Polonia."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:suzuya-marelan mv:beradaDi res:kec-medan-marelan .
+res:relasi-99 a rdf:Statement ;
+    rdf:subject res:suzuya-marelan ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-marelan ;
+    mv:kalimat "Suzuya Mall Marelan berada di Kecamatan Medan Marelan."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:irian-supermarket mv:beradaDi res:kec-medan-barat .
+res:relasi-100 a rdf:Statement ;
+    rdf:subject res:irian-supermarket ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-barat ;
+    mv:kalimat "Irian Supermarket Jl. Karya berada di Kecamatan Medan Barat."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:pasar-ramai mv:beradaDi res:kec-medan-area .
+res:relasi-101 a rdf:Statement ;
+    rdf:subject res:pasar-ramai ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-area ;
+    mv:kalimat "Pasar Ramai berada di Kecamatan Medan Area."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kolam-renang-paradiso mv:beradaDi res:kec-medan-kota .
+res:relasi-102 a rdf:Statement ;
+    rdf:subject res:kolam-renang-paradiso ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-kota ;
+    mv:kalimat "Kolam Renang Paradiso berada di Kecamatan Medan Kota."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kolam-renang-deli mv:beradaDi res:kec-medan-timur .
+res:relasi-103 a rdf:Statement ;
+    rdf:subject res:kolam-renang-deli ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-timur ;
+    mv:kalimat "Kolam Renang Deli berada di Kecamatan Medan Timur."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kolam-renang-tirta-kartika mv:beradaDi res:kec-medan-helvetia .
+res:relasi-104 a rdf:Statement ;
+    rdf:subject res:kolam-renang-tirta-kartika ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-helvetia ;
+    mv:kalimat "Kolam Renang Tirta Kartika berada di Kecamatan Medan Helvetia."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:bumi-asri-waterpark mv:beradaDi res:kec-medan-helvetia .
+res:relasi-105 a rdf:Statement ;
+    rdf:subject res:bumi-asri-waterpark ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-helvetia ;
+    mv:kalimat "Bumi Asri Waterpark berada di Kecamatan Medan Helvetia."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+res:kolam-renang-primbana mv:beradaDi res:kec-medan-selayang .
+res:relasi-106 a rdf:Statement ;
+    rdf:subject res:kolam-renang-primbana ;
+    rdf:predicate mv:beradaDi ;
+    rdf:object res:kec-medan-selayang ;
+    mv:kalimat "Kolam Renang Primbana berada di Kecamatan Medan Selayang."@id ;
+    dcterms:source "BPS Kota Medan" .
+
+# ---------- jalur tematik ----------
+
+res:jejak-kesultanan-deli a mv:JalurTematik ;
+    schema:name "Jejak Kesultanan Deli"@id ;
+    schema:description "Istana, meriam, masjid, dan taman yang dibangun di masa Sultan Ma'moen Al Rasyid."@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/istana-maimun-1900.jpg> ;
+    mv:persinggahan res:jejak-kesultanan-deli-singgah-1 ;
+    mv:persinggahan res:jejak-kesultanan-deli-singgah-2 ;
+    mv:persinggahan res:jejak-kesultanan-deli-singgah-3 ;
+    mv:persinggahan res:jejak-kesultanan-deli-singgah-4 .
+
+res:jejak-kesultanan-deli-singgah-1 a mv:Persinggahan ;
+    mv:urutan "1"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:istana-maimun .
+
+res:jejak-kesultanan-deli-singgah-2 a mv:Persinggahan ;
+    mv:urutan "2"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:meriam-puntung .
+
+res:jejak-kesultanan-deli-singgah-3 a mv:Persinggahan ;
+    mv:urutan "3"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:masjid-raya-al-mashun .
+
+res:jejak-kesultanan-deli-singgah-4 a mv:Persinggahan ;
+    mv:urutan "4"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:taman-sri-deli .
+
+res:satu-kota-banyak-rumah-ibadah a mv:JalurTematik ;
+    schema:name "Satu kota, banyak rumah ibadah"@id ;
+    schema:description "Masjid, kuil, vihara, dan gereja yang berdiri berdekatan di pusat Medan."@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/vihara-gunung-timur.jpg> ;
+    mv:persinggahan res:satu-kota-banyak-rumah-ibadah-singgah-1 ;
+    mv:persinggahan res:satu-kota-banyak-rumah-ibadah-singgah-2 ;
+    mv:persinggahan res:satu-kota-banyak-rumah-ibadah-singgah-3 ;
+    mv:persinggahan res:satu-kota-banyak-rumah-ibadah-singgah-4 .
+
+res:satu-kota-banyak-rumah-ibadah-singgah-1 a mv:Persinggahan ;
+    mv:urutan "1"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:masjid-raya-al-mashun .
+
+res:satu-kota-banyak-rumah-ibadah-singgah-2 a mv:Persinggahan ;
+    mv:urutan "2"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:vihara-gunung-timur .
+
+res:satu-kota-banyak-rumah-ibadah-singgah-3 a mv:Persinggahan ;
+    mv:urutan "3"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:kuil-shri-mariamman .
+
+res:satu-kota-banyak-rumah-ibadah-singgah-4 a mv:Persinggahan ;
+    mv:urutan "4"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:gereja-immanuel .
+
+res:kesawan-tempo-dulu a mv:JalurTematik ;
+    schema:name "Kesawan tempo dulu"@id ;
+    schema:description "Esplanade, rumah saudagar, dan warung soto di jalan dagang tertua Medan."@id ;
+    schema:image <https://medanvisit.neoverse.my.id/images/foto/kesawan-arsip.jpg> ;
+    mv:persinggahan res:kesawan-tempo-dulu-singgah-1 ;
+    mv:persinggahan res:kesawan-tempo-dulu-singgah-2 ;
+    mv:persinggahan res:kesawan-tempo-dulu-singgah-3 .
+
+res:kesawan-tempo-dulu-singgah-1 a mv:Persinggahan ;
+    mv:urutan "1"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:lapangan-merdeka .
+
+res:kesawan-tempo-dulu-singgah-2 a mv:Persinggahan ;
+    mv:urutan "2"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:tjong-a-fie-mansion .
+
+res:kesawan-tempo-dulu-singgah-3 a mv:Persinggahan ;
+    mv:urutan "3"^^xsd:positiveInteger ;
+    mv:tempatSinggah res:soto-kesawan .
+
