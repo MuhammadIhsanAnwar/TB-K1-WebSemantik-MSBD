@@ -16,7 +16,7 @@
 return [
     // ---------- Sejarah & cagar budaya ----------
     [
-        'slug' => 'balai-kota-lama', 'nama' => 'Gedung Balai Kota Lama', 'kategori' => 'sejarah',
+        'slug' => 'balai-kota-lama', 'wikidata' => 'Q6805113', 'nama' => 'Gedung Balai Kota Lama', 'kategori' => 'sejarah',
         'ringkas' => 'Bekas balai kota Medan di depan Lapangan Merdeka, dibangun 1908–1909, kini bagian kompleks hotel.',
         'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Balai Kota',
         'lat' => 3.59033, 'lng' => 98.67740,
@@ -25,7 +25,7 @@ return [
         'sumber' => 'https://www.detik.com/sumut/berita/d-7045682/sejarah-balai-kota-medan-ada-peran-miliarder-tjong-a-fie',
     ],
     [
-        'slug' => 'gedung-lonsum', 'nama' => 'Gedung London Sumatra', 'kategori' => 'sejarah',
+        'slug' => 'gedung-lonsum', 'wikidata' => 'Q114814144', 'nama' => 'Gedung London Sumatra', 'kategori' => 'sejarah',
         'ringkas' => 'Gedung perkantoran perkebunan di Kesawan, disebut gedung berlift pertama di Sumatera.',
         'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Jend. Ahmad Yani No. 2',
         'lat' => 3.58857, 'lng' => 98.67803,
@@ -34,7 +34,7 @@ return [
         'sumber' => 'https://economy.okezone.com/read/2023/04/12/470/2797205/ini-gedung-dengan-lift-pertama-di-sumatera-sudah-ada-sejak-zaman-kolonial',
     ],
     [
-        'slug' => 'menara-air-tirtanadi', 'nama' => 'Menara Air Tirtanadi', 'kategori' => 'sejarah',
+        'slug' => 'menara-air-tirtanadi', 'wikidata' => 'Q19746232', 'nama' => 'Menara Air Tirtanadi', 'kategori' => 'sejarah',
         'ringkas' => 'Menara air peninggalan kolonial yang menjadi penanda kota, selesai 1908.',
         'kecamatan' => 'Medan Kota', 'kelurahan' => 'Pasar Baru', 'alamat' => 'Jl. Sisingamangaraja, kompleks PDAM Tirtanadi',
         'lat' => 3.58210, 'lng' => 98.68499,
@@ -43,7 +43,7 @@ return [
         'sumber' => 'https://www.detik.com/sumut/budaya/d-7210677/sejarah-menara-pdam-tirtanadi-medan-dibangun-di-masa-kolonial-belanda',
     ],
     [
-        'slug' => 'pos-bloc-medan', 'nama' => 'Kantor Pos Besar Medan (Pos Bloc)', 'kategori' => 'sejarah',
+        'slug' => 'pos-bloc-medan', 'wikidata' => 'Q12489173', 'nama' => 'Kantor Pos Besar Medan (Pos Bloc)', 'kategori' => 'sejarah',
         'ringkas' => 'Kantor pos kolonial di sisi Lapangan Merdeka yang kini sebagian besar menjadi ruang kuliner dan kreatif Pos Bloc.',
         'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Pos No. 1',
         'lat' => 3.59194, 'lng' => 98.67743,
@@ -91,7 +91,7 @@ return [
 
     // ---------- Museum ----------
     [
-        'slug' => 'museum-perjuangan-tni', 'nama' => 'Museum Perjuangan TNI Bukit Barisan', 'kategori' => 'museum',
+        'slug' => 'museum-perjuangan-tni', 'wikidata' => 'Q86584463', 'nama' => 'Museum Perjuangan TNI Bukit Barisan', 'kategori' => 'museum',
         'ringkas' => 'Museum perjuangan Kodam I/Bukit Barisan di gedung kolonial Jl. Zainul Arifin.',
         'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. K.H. Zainul Arifin No. 8',
         'lat' => 3.58392, 'lng' => 98.67414,
@@ -100,7 +100,7 @@ return [
         'sumber' => 'https://mamikos.com/info/museum-terbaik-di-medan-yang-wajib-dikunjungi-gnr/',
     ],
     [
-        'slug' => 'rahmat-gallery', 'nama' => 'Rahmat International Wildlife Museum & Gallery', 'kategori' => 'museum',
+        'slug' => 'rahmat-gallery', 'wikidata' => 'Q18393164', 'nama' => 'Rahmat International Wildlife Museum & Gallery', 'kategori' => 'museum',
         'ringkas' => 'Museum satwa awetan dengan koleksi taksidermi besar dari berbagai benua.',
         'kecamatan' => 'Medan Baru', 'kelurahan' => 'Petisah Hulu', 'alamat' => 'Jl. S. Parman No. 309',
         'lat' => 3.57926, 'lng' => 98.66773,
@@ -110,7 +110,7 @@ return [
         'sumber' => 'https://www.detik.com/sumut/berita/d-8239652/6-museum-di-medan-yang-wajib-dikunjungi',
     ],
     [
-        'slug' => 'museum-situs-kota-cina', 'nama' => 'Museum Situs Kota Cina', 'kategori' => 'museum',
+        'slug' => 'museum-situs-kota-cina', 'wikidata' => 'Q19748034', 'nama' => 'Museum Situs Kota Cina', 'kategori' => 'museum',
         'ringkas' => 'Museum situs pelabuhan dagang kuno abad ke-11 sampai 14 di Medan Marelan.',
         'kecamatan' => 'Medan Marelan', 'kelurahan' => 'Paya Pasir', 'alamat' => 'Jl. Kota Cina',
         'lat' => 3.72324, 'lng' => 98.65675,
@@ -122,7 +122,7 @@ return [
 
     // ---------- Rumah ibadah ----------
     [
-        'slug' => 'masjid-lama-gang-bengkok', 'nama' => 'Masjid Lama Gang Bengkok', 'kategori' => 'religi',
+        'slug' => 'masjid-lama-gang-bengkok', 'wikidata' => 'Q110706913', 'nama' => 'Masjid Lama Gang Bengkok', 'kategori' => 'religi',
         'ringkas' => 'Masjid tua di Kesawan yang dibiayai Tjong A Fie, perpaduan gaya Tionghoa, Melayu, dan Persia.',
         'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Mesjid No. 62',
         'lat' => 3.58668, 'lng' => 98.67801,
@@ -131,7 +131,7 @@ return [
         'sumber' => 'https://www.detik.com/sumut/budaya/d-8271055/mengenal-10-masjid-bersejarah-di-medan-dari-arsitektur-hingga-ceritanya',
     ],
     [
-        'slug' => 'katedral-medan', 'nama' => 'Katedral Medan', 'kategori' => 'religi',
+        'slug' => 'katedral-medan', 'wikidata' => 'Q16951164', 'nama' => 'Katedral Medan', 'kategori' => 'religi',
         'ringkas' => 'Gereja Katedral Santa Perawan Maria yang Dikandung Tanpa Noda di Jl. Pemuda.',
         'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Aur', 'alamat' => 'Jl. Pemuda No. 1',
         'lat' => 3.58425, 'lng' => 98.68145,
@@ -140,7 +140,7 @@ return [
         'sumber' => 'https://gcatholic.org/churches/asia/3538.htm',
     ],
     [
-        'slug' => 'vihara-setia-budi', 'nama' => 'Vihara Setia Budi', 'kategori' => 'religi',
+        'slug' => 'vihara-setia-budi', 'wikidata' => 'Q138358755', 'nama' => 'Vihara Setia Budi', 'kategori' => 'religi',
         'ringkas' => 'Kelenteng di Jl. Irian Barat, di lokasi tempat kelenteng Kwan Tee Bio berdiri sejak 1884.',
         'kecamatan' => 'Medan Timur', 'kelurahan' => 'Gang Buntu', 'alamat' => 'Jl. Irian Barat No. 6D',
         'lat' => 3.58928, 'lng' => 98.68131,

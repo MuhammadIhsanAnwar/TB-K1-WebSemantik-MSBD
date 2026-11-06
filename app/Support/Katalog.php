@@ -104,7 +104,7 @@ class Katalog
     {
         $tempat = [
             [
-                'slug' => 'istana-maimun', 'nama' => 'Istana Maimun', 'kategori' => 'sejarah',
+                'slug' => 'istana-maimun', 'wikidata' => 'Q1674833', 'nama' => 'Istana Maimun', 'kategori' => 'sejarah',
                 'ringkas' => 'Istana Kesultanan Deli, dibangun 1888–1891 oleh Sultan Ma\'moen Al Rasyid.',
                 'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Aur', 'alamat' => 'Jl. Brigjend Katamso No. 66',
                 'lat' => 3.57529, 'lng' => 98.68405,
@@ -121,7 +121,7 @@ class Katalog
                 ],
             ],
             [
-                'slug' => 'masjid-raya-al-mashun', 'nama' => 'Masjid Raya Al-Mashun', 'kategori' => 'religi',
+                'slug' => 'masjid-raya-al-mashun', 'wikidata' => 'Q12497331', 'nama' => 'Masjid Raya Al-Mashun', 'kategori' => 'religi',
                 'ringkas' => 'Masjid Kesultanan Deli, dibangun 1906–1909 dengan denah segi delapan.',
                 'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja',
                 'lat' => 3.57517, 'lng' => 98.68730,
@@ -136,7 +136,7 @@ class Katalog
                 ],
             ],
             [
-                'slug' => 'tjong-a-fie-mansion', 'nama' => 'Tjong A Fie Mansion', 'kategori' => 'sejarah',
+                'slug' => 'tjong-a-fie-mansion', 'wikidata' => 'Q7810631', 'nama' => 'Tjong A Fie Mansion', 'kategori' => 'sejarah',
                 'ringkas' => 'Rumah saudagar Tjong A Fie di Kesawan, kini museum rumah.',
                 'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Jend. Ahmad Yani No. 105',
                 'lat' => 3.58543, 'lng' => 98.68037,
@@ -163,7 +163,7 @@ class Katalog
                 ],
             ],
             [
-                'slug' => 'kuil-shri-mariamman', 'nama' => 'Kuil Shri Mariamman', 'kategori' => 'religi',
+                'slug' => 'kuil-shri-mariamman', 'wikidata' => 'Q12492840', 'nama' => 'Kuil Shri Mariamman', 'kategori' => 'religi',
                 'ringkas' => 'Kuil Hindu tertua di Medan, berdiri sejak 1884 di Kampung Madras.',
                 'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Teuku Umar No. 18',
                 'lat' => 3.58397, 'lng' => 98.67102,
@@ -176,7 +176,7 @@ class Katalog
                 ],
             ],
             [
-                'slug' => 'vihara-gunung-timur', 'nama' => 'Vihara Gunung Timur', 'kategori' => 'religi',
+                'slug' => 'vihara-gunung-timur', 'wikidata' => 'Q14933726', 'nama' => 'Vihara Gunung Timur', 'kategori' => 'religi',
                 'ringkas' => 'Kelenteng Tionghoa di tepi Sungai Babura, dikenal dengan atap naga dan lampionnya.',
                 'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Hang Tuah No. 16',
                 'lat' => 3.57801, 'lng' => 98.66899,
@@ -189,7 +189,7 @@ class Katalog
                 ],
             ],
             [
-                'slug' => 'graha-maria-annai-velangkanni', 'nama' => 'Graha Maria Annai Velangkanni', 'kategori' => 'religi',
+                'slug' => 'graha-maria-annai-velangkanni', 'wikidata' => 'Q4349197', 'nama' => 'Graha Maria Annai Velangkanni', 'kategori' => 'religi',
                 'ringkas' => 'Gereja Katolik bergaya Indo-Mughal di Tanjung Selamat, diresmikan 2005.',
                 'kecamatan' => 'Medan Tuntungan', 'kelurahan' => 'Tanjung Selamat', 'alamat' => 'Jl. Sakura III No. 7–10, Taman Sakura Indah',
                 'lat' => 3.54763, 'lng' => 98.60870,
@@ -202,7 +202,7 @@ class Katalog
                 ],
             ],
             [
-                'slug' => 'museum-negeri-sumatera-utara', 'nama' => 'Museum Negeri Sumatera Utara', 'kategori' => 'museum',
+                'slug' => 'museum-negeri-sumatera-utara', 'wikidata' => 'Q12499672', 'nama' => 'Museum Negeri Sumatera Utara', 'kategori' => 'museum',
                 'ringkas' => 'Museum sejarah dan budaya etnis-etnis Sumatera Utara.',
                 'kecamatan' => 'Medan Kota', 'kelurahan' => 'Teladan Barat', 'alamat' => 'Jl. H. M. Joni No. 51',
                 'lat' => 3.56858, 'lng' => 98.69639,
@@ -238,7 +238,7 @@ class Katalog
                 'cerita' => ['Bika ambon Medan bertekstur bersarang, beraroma daun jeruk dan pandan. Jl. Mojopahit punya sedikitnya 30 toko; Bika Ambon Zulaikha menjual Rp80.000–150.000 per loyang.'],
             ],
             [
-                'slug' => 'lapangan-merdeka', 'nama' => 'Lapangan Merdeka', 'kategori' => 'ruang-publik',
+                'slug' => 'lapangan-merdeka', 'wikidata' => 'Q12498196', 'nama' => 'Lapangan Merdeka', 'kategori' => 'ruang-publik',
                 'ringkas' => 'Alun-alun kota yang di peta 1930 masih bernama Esplanade.',
                 'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Balai Kota',
                 'lat' => 3.59038, 'lng' => 98.67860,
@@ -248,7 +248,7 @@ class Katalog
                 'cerita' => ['Di peta Medan 1930, lapangan ini tercatat sebagai Esplanade, dikelilingi kantor pos, bank, dan hotel kolonial.'],
             ],
             [
-                'slug' => 'taman-sri-deli', 'nama' => 'Taman Sri Deli', 'kategori' => 'ruang-publik',
+                'slug' => 'taman-sri-deli', 'wikidata' => 'Q12518862', 'nama' => 'Taman Sri Deli', 'kategori' => 'ruang-publik',
                 'ringkas' => 'Taman berkolam di depan Masjid Raya Al-Mashun.',
                 'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja / Jl. Mesjid Raya',
                 'lat' => 3.57580, 'lng' => 98.68620,
@@ -258,7 +258,7 @@ class Katalog
                 'cerita' => ['Taman ini dahulu bagian dari kawasan Kesultanan Deli dan kini jadi tempat warga bersantai sore.'],
             ],
             [
-                'slug' => 'gereja-immanuel', 'nama' => 'GPIB Immanuel Medan', 'kategori' => 'religi',
+                'slug' => 'gereja-immanuel', 'wikidata' => 'Q113648754', 'nama' => 'GPIB Immanuel Medan', 'kategori' => 'religi',
                 'ringkas' => 'Gereja Protestan berlonceng menara di Jl. Diponegoro.',
                 'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Diponegoro No. 25–27',
                 'lat' => 3.58098, 'lng' => 98.67255,
