@@ -1182,11 +1182,9 @@
   color: var(--mv-hijau);
   text-decoration: none;
 }
-.mv-baris-tiket__tarif {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  font-size: var(--mv-s-ui);
+.mv-menu-harga__nama a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.mv-menu-harga__nama > span {
+  font-size: var(--mv-s-meta);
   color: var(--mv-redup);
 }
 .mv-baris-tiket__bawah {
