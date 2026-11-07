@@ -247,4 +247,5 @@ document.querySelectorAll('[data-peta]').forEach((el) => {
     if (mode === 'ringkas') modeRingkas(el);
     else if (mode === 'rute') modeRute(el);
     else if (mode === 'alat') modeAlat(el);
+    else if (mode === 'lokasi') modeLokasi(el);
 });
