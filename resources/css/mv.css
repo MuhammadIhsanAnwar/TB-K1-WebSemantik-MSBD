@@ -1581,6 +1581,8 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
   max-width: 58ch;
 }
 .mv-perbesar-btn {
+  display: inline-flex;
+  align-items: center;
   min-height: 44px;
   padding: 8px 16px;
   border: 0;
