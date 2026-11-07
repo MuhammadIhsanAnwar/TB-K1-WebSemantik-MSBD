@@ -2613,8 +2613,8 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
   /* graf berhenti di atas bilah kontrol, supaya simpul paling bawah tidak tertutup */
   .mv-graf__kanvas #graf { bottom: 72px; }
   .mv-graf__petunjuk { display: none; }
-  [data-ui] .mv-graf__panel { order: 2; grid-template-columns: minmax(0, 1fr); gap: 32px; padding-bottom: 32px; }
-  [data-ui] .mv-graf__saring {
+  .mv-graf__panel { order: 2; grid-template-columns: minmax(0, 1fr); gap: 32px; padding-bottom: 32px; }
+  .mv-graf__saring {
     order: 3;
     padding: 24px var(--mv-margin);
     border-right: 0;
