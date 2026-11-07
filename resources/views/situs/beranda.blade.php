@@ -186,6 +186,10 @@
                                     <span class="mv-rantai__kata">{{ Katalog::labelRelasi($l['relasi'], $l['dari']) }}</span>
                                 </li>
                             @endforeach
+                            @php $akhir = Katalog::get(end($b['langkah'])['ke']); @endphp
+                            <li>
+                                <a href="{{ \App\Http\Controllers\SitusController::urlEntitas($akhir) ?? route('jelajah') }}"><span class="mv-graf__titik" data-kelas="{{ $akhir['jenis'] }}"></span>{{ $akhir['nama'] }}</a>
+                            </li>
                         </ol>
                     </div>
                 @endforeach
