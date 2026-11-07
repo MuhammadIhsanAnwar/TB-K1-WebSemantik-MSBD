@@ -15,7 +15,7 @@
             <h1>Benang merah</h1>
             <p>Pilih dua hal di Medan, lalu lihat rantai hubungan terpendek di antara keduanya.</p>
         </div>
-        <div class="mv-graf__pasangan">
+        <div class="mv-graf__pasangan" data-ui>
             <label for="dari">Dari</label>
             <select id="dari" name="dari">
                 @foreach ($pilihan as $p)<option value="{{ $p['slug'] }}" @selected($p['slug'] === $dari)>{{ $p['nama'] }}</option>@endforeach
