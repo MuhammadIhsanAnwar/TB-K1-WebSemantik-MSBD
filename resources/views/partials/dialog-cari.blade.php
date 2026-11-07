@@ -10,7 +10,14 @@
                 <input id="input-dialog-cari" type="search" name="q" placeholder="Ketik tempat, tokoh, kuliner (coba: istana maimon)" autocomplete="off" required>
                 <button class="mv-btn mv-btn--utama mv-btn--kecil" type="submit">Cari</button>
             </div>
-            <div class="mv-saran-kotak" data-saran-hasil role="region" aria-live="polite" hidden></div>
+            <div class="mv-dialog-cari__saring" role="group" aria-label="Jenis hasil">
+                <button type="button" data-jenis-cari="" aria-pressed="true">Semua</button>
+                <button type="button" data-jenis-cari="tempat" aria-pressed="false">Tempat</button>
+                <button type="button" data-jenis-cari="sejarah" aria-pressed="false">Tokoh &amp; sejarah</button>
+                <button type="button" data-jenis-cari="kuliner" aria-pressed="false">Kuliner</button>
+            </div>
+            <div class="mv-saran-kotak" data-saran-hasil hidden></div>
+            <p class="mv-dialog-cari__petunjuk">Panah atas/bawah untuk memilih, Enter untuk membuka, Esc untuk menutup.</p>
         </form>
         <div class="mv-dialog-cari__contoh">
             <span>Pencarian populer:</span>
