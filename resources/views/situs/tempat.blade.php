@@ -290,8 +290,8 @@
                 };
             @endphp
             <div class="mv-kartu-samping__harga">
-                <div class="mv-kartu-samping__angka">Tanpa tiket</div>
-                <p class="kecil redup" style="margin-top:4px">Terbuka tanpa biaya tiket masuk pada jam kunjungan.</p>
+                <p class="mv-kartu-samping__angka">{{ $judulMasuk }}</p>
+                <p class="kecil redup" style="margin-top:4px">{{ $ketMasuk }}</p>
             </div>
         @endif
 
