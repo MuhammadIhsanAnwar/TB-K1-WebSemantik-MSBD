@@ -2471,7 +2471,7 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
 .mv-graf__daftar h2 { font-size: var(--mv-s-h3); }
 
 /* panel kanan; ruang bawah 104px supaya isi terakhir tidak tertutup tombol asisten melayang */
-[data-ui] .mv-graf__panel {
+.mv-graf__panel {
   display: grid;
   align-content: start;
   overflow-y: auto;
@@ -2590,7 +2590,7 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
   .mv-graf__kanvas { height: calc(100svh - var(--mv-tinggi-kepala) - 96px); min-height: 460px; }
   /* kontrol pindah ke kiri: di sini kanvas sampai ke tepi kanan, tempat tombol asisten melayang */
   .mv-graf__kontrol { left: 16px; right: auto; }
-  [data-ui] .mv-graf__panel {
+  .mv-graf__panel {
     grid-column: 1 / -1;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 40px;
