@@ -66,7 +66,7 @@
                 @endforeach
             </ul>
         </div>
-        <div class="mv-graf__kontrol">
+        <div class="mv-graf__kontrol" data-ui>
             <button class="mv-graf__alih" type="button" data-tampilan-daftar aria-pressed="false">Tampilan daftar</button>
             <button type="button" data-zoom="masuk" aria-label="Perbesar">+</button>
             <button type="button" data-zoom="keluar" aria-label="Perkecil">−</button>
