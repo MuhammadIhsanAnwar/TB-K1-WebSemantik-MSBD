@@ -1153,13 +1153,11 @@
   gap: 18px;
   min-width: 0;
 }
-.mv-baris-tiket {
-  padding: 24px 26px;
+/* tiap kategori satu blok berlatar; baris dipisah jarak saja, tanpa garis */
+.mv-menu-harga {
+  padding: 22px 24px 10px;
   background: var(--mv-kertas);
   clip-path: var(--mv-potong-kecil);
-  display: grid;
-  gap: 14px;
-  min-width: 0;
 }
 .mv-baris-tiket:nth-child(2) { background: var(--mv-krem); }
 .mv-baris-tiket__atas {
