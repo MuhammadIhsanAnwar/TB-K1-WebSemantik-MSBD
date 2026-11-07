@@ -133,41 +133,47 @@ document.querySelectorAll('[data-cari-cepat]').forEach((form, nomor) => {
         daftar[aktif].scrollIntoView({ block: 'nearest' });
     };
 
-    input.addEventListener('input', () => {
-        clearTimeout(tunda);
+    async function muat() {
         const q = input.value.trim();
         if (q.length < 2) {
             sembunyi();
             return;
         }
-        tunda = setTimeout(async () => {
-            try {
-                const res = await fetch(`${saranUrl}?q=${encodeURIComponent(q)}`, { headers: { Accept: 'application/json' } });
-                if (!res.ok) return;
-                const data = await res.json();
-                const hasil = data.saran ?? data.hasil ?? [];
-                const urlSemua = data.semua || `/cari?q=${encodeURIComponent(q)}`;
-                const urlTanya = data.tanya || `/tanya?q=${encodeURIComponent(q)}`;
-                const butir = hasil.map((h) => {
-                    const sub = [h.ringkas ?? h.sub, h.harga].filter(Boolean).join(', ');
-                    const jenis = h.label_jenis ?? h.jenis ?? '';
-                    return `
-                    <a class="mv-saran-butir" href="${esc(h.url)}">
-                        <span><b>${esc(h.nama)}</b><span>${esc(sub)}</span></span>
-                        <span class="mv-saran-butir__jenis">${esc(jenis)}</span>
-                    </a>`;
-                }).join('');
-                const kosong = `<div style="padding:12px 14px;font-size:1rem;color:var(--mv-redup)">Tidak ada nama persis untuk “${esc(q)}”. Tekan Cari atau tanyakan ke asisten.</div>`;
-                kotak.innerHTML = (butir || kosong) + `
-                    <div class="mv-saran-kaki">
-                        <a href="${esc(urlSemua)}">Semua hasil “${esc(q)}”</a>
-                        <a href="${esc(urlTanya)}">Tanyakan ke asisten</a>
-                    </div>`;
-                kotak.hidden = false;
-            } catch {
-                sembunyi();
-            }
-        }, 180);
+        kotak.innerHTML = '<div class="mv-saran-status" role="status">Mencari…</div>';
+        kotak.hidden = false;
+        try {
+            const res = await fetch(`${saranUrl}?q=${encodeURIComponent(q)}${jenis ? `&jenis=${jenis}` : ''}`, { headers: { Accept: 'application/json' } });
+            if (!res.ok) throw new Error(String(res.status));
+            const data = await res.json();
+            if (input.value.trim() !== q) return; // sudah diketik ulang, hasil ini usang
+            const hasil = data.saran ?? data.hasil ?? [];
+            const urlSemua = data.semua || `/cari?q=${encodeURIComponent(q)}`;
+            const urlTanya = data.tanya || `/tanya?q=${encodeURIComponent(q)}`;
+            const butir = hasil.map((h, i) => {
+                const sub = [h.ringkas ?? h.sub, h.harga].filter(Boolean).join(', ');
+                const label = h.label_jenis ?? h.jenis ?? '';
+                return `
+                <a class="mv-saran-butir" id="${idKotak}-${i}" role="option" aria-selected="false" href="${esc(h.url)}" data-nama="${esc(h.nama)}" data-jenis="${esc(label)}">
+                    <span><b>${esc(h.nama)}</b><span>${esc(sub)}</span></span>
+                    <span class="mv-saran-butir__jenis">${esc(label)}</span>
+                </a>`;
+            }).join('');
+            const kosong = `<div class="mv-saran-status" role="status">Tidak ada nama persis untuk “${esc(q)}”${jenis ? ' di jenis ini' : ''}. Tekan Cari atau tanyakan ke asisten.</div>`;
+            kotak.innerHTML = (butir || kosong) + `
+                <div class="mv-saran-kaki">
+                    <a href="${esc(urlSemua)}">Semua hasil “${esc(q)}”</a>
+                    <a href="${esc(urlTanya)}">Tanyakan ke asisten</a>
+                </div>`;
+            aktif = -1;
+            input.setAttribute('aria-expanded', 'true');
+        } catch {
+            kotak.innerHTML = '<div class="mv-saran-status" role="status">Saran tidak bisa dimuat. Tekan Cari untuk tetap mencari.</div>';
+        }
+    }
+
+    input.addEventListener('input', () => {
+        clearTimeout(tunda);
+        tunda = setTimeout(muat, 180);
     });
 
     input.addEventListener('keydown', (e) => {
