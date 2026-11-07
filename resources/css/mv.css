@@ -2302,8 +2302,8 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
   font: 600 var(--mv-s-meta)/1 var(--font-text);
   color: var(--mv-redup);
 }
-[data-ui] .mv-graf__pasangan select,
-[data-ui] .mv-graf__saring input[type="search"] {
+.mv-graf__pasangan select,
+.mv-graf__saring input[type="search"] {
   min-height: 44px;
   padding: 0 12px;
   border: 1px solid #b3a888;
@@ -2313,7 +2313,7 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
 }
 .mv-graf__pasangan select { width: 230px; }
 
-[data-ui] .mv-graf__saring {
+.mv-graf__saring {
   display: grid;
   align-content: start;
   gap: 24px;
@@ -2338,7 +2338,7 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
 legend.mv-graf__label { margin-bottom: 4px; }
 fieldset.mv-graf__kelompok { gap: 0; }
 fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
-[data-ui] .mv-graf__saring input[type="search"] {
+.mv-graf__saring input[type="search"] {
   width: 100%;
   border-color: var(--mv-kertas-2);
   background: var(--mv-kertas);
