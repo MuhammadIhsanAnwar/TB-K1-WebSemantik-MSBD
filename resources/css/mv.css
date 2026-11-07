@@ -2268,7 +2268,7 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
    Rantai hasil di panel kanan memakai garis emas yang sama dengan rantai di graf,
    jadi daftar dan gambar terbaca sebagai satu benda.
    ========================================================================== */
-[data-ui].mv-graf {
+.mv-graf {
   display: grid;
   grid-template-columns: 248px minmax(0, 1fr) 320px;
   grid-template-rows: auto minmax(0, 1fr);
@@ -2583,7 +2583,7 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
 .mv-graf__tetangga button:hover { text-decoration: underline; text-underline-offset: 0.2em; }
 
 @media (max-width: 1180px) {
-  [data-ui].mv-graf {
+  .mv-graf {
     grid-template-columns: 240px minmax(0, 1fr);
     grid-template-rows: auto auto auto;
     height: auto;
@@ -2602,7 +2602,7 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
   .mv-graf__simpul { margin-top: 0; padding-top: 0; border-top: 0; }
 }
 @media (max-width: 900px) {
-  [data-ui].mv-graf { display: flex; flex-direction: column; }
+  .mv-graf { display: flex; flex-direction: column; }
   .mv-graf__pasangan {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
