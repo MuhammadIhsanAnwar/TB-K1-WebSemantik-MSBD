@@ -9,7 +9,7 @@
 @section('tanpa-kaki', '1')
 
 @section('isi')
-<div class="mv-graf" data-ui data-graf data-sumber="{{ route('jelajah.graf') }}" data-jalur="{{ json_encode($jalurSimpul) }}">
+<div class="mv-graf" data-graf data-sumber="{{ route('jelajah.graf') }}" data-jalur="{{ json_encode($jalurSimpul) }}">
     <form class="mv-graf__cari" action="{{ route('jelajah') }}" method="get">
         <div class="mv-graf__judul">
             <h1>Benang merah</h1>
