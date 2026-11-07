@@ -233,18 +233,8 @@
                                     <a class="mv-btn mv-btn--utama mv-btn--kecil" href="{{ route('tiket.pilih', $t['slug']) }}" aria-label="Pesan tiket {{ $t['nama'] }}">Pesan</a>
                                 </li>
                             @endforeach
-                            @if (! empty($t['harga_contoh']))
-                                <span class="contoh">harga contoh</span>
-                            @endif
-                        </div>
-                        <div class="mv-baris-tiket__bawah">
-                            <span class="mv-meta-garis kecil redup">
-                                <span>{{ $t['kecamatan'] }}</span>
-                                <span>Buka {{ $t['jam'] }} @if (! empty($t['jam_contoh']))<span class="contoh">contoh</span>@endif</span>
-                            </span>
-                            <a class="mv-btn mv-btn--utama mv-btn--kecil" href="{{ route('tiket.pilih', $t['slug']) }}" aria-label="Pesan tiket {{ $t['nama'] }}">Pesan tiket</a>
-                        </div>
-                    </article>
+                        </ul>
+                    </section>
                 @endforeach
             </div>
         </div>
