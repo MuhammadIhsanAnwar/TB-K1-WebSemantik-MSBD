@@ -2596,7 +2596,7 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
     gap: 40px;
     padding: 28px var(--mv-margin) 104px;
   }
-  .mv-graf__simpul { margin-top: 0; padding-top: 0; border-top: 0; }
+  .mv-graf__simpul { margin: 0; align-self: start; }
 }
 @media (max-width: 900px) {
   .mv-graf { display: flex; flex-direction: column; }
