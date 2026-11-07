@@ -24,9 +24,52 @@ if (pilih) {
     };
     baris.forEach((b) => {
         const input = b.querySelector('input');
-        b.querySelector('[data-kurang]').addEventListener('click', () => { input.value = Math.max(0, (Number(input.value) || 0) - 1); hitung(); });
-        b.querySelector('[data-tambah]').addEventListener('click', () => { input.value = Math.min(10, (Number(input.value) || 0) + 1); hitung(); });
-        input.addEventListener('input', hitung);
+        const kurang = b.querySelector('[data-kurang]');
+        const tambah = b.querySelector('[data-tambah]');
+        const min = Number(input.min) || 0;
+        const maks = Number(input.max) || 10;
+        // tombol mati di batas, supaya jelas jumlahnya tidak bisa turun/naik lagi
+        const aturBatas = () => {
+            const n = Number(input.value) || 0;
+            kurang.disabled = n <= min;
+            tambah.disabled = n >= maks;
+        };
+        const ubah = (arah) => {
+            const lama = Number(input.value) || 0;
+            const baru = Math.min(maks, Math.max(min, lama + arah));
+            if (baru === lama) return false;
+            input.value = baru;
+            input.dataset.arah = arah > 0 ? 'naik' : 'turun';
+            input.classList.remove('berganti');
+            void input.offsetWidth; // ulang animasi angka
+            input.classList.add('berganti');
+            aturBatas();
+            hitung();
+            return true;
+        };
+        // tahan tombol: setelah 400 ms jumlah berubah terus, makin lama makin cepat
+        const tahan = (tombol, arah) => {
+            let jeda = null;
+            let selang = 180;
+            const henti = () => { clearTimeout(jeda); selang = 180; };
+            const ulang = () => {
+                if (!ubah(arah)) return henti();
+                selang = Math.max(70, selang * 0.85);
+                jeda = setTimeout(ulang, selang);
+            };
+            tombol.addEventListener('pointerdown', (e) => {
+                if (e.button !== 0) return;
+                ubah(arah);
+                jeda = setTimeout(ulang, 400);
+            });
+            ['pointerup', 'pointerleave', 'pointercancel'].forEach((ev) => tombol.addEventListener(ev, henti));
+            // papan ketik: Enter/Spasi memicu click tanpa pointerdown
+            tombol.addEventListener('click', (e) => { if (e.detail === 0) ubah(arah); });
+        };
+        tahan(kurang, -1);
+        tahan(tambah, 1);
+        input.addEventListener('input', () => { aturBatas(); hitung(); });
+        aturBatas();
     });
     hitung();
 }
