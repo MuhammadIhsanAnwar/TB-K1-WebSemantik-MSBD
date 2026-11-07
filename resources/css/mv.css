@@ -2560,8 +2560,7 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
 }
 .mv-graf__tetangga li {
   display: grid;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--mv-kertas-2);
+  padding: 6px 0;
 }
 .mv-graf__tetangga li > span {
   font-size: 0.8125rem;
