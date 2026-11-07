@@ -70,7 +70,15 @@ class SitusController extends Controller
             return response()->json(['saran' => [], 'tanya' => null]);
         }
 
-        $items = array_slice(Katalog::cari($q), 0, 6);
+        // saringan jenis dari dialog pencarian cepat: tempat, sejarah (tokoh, kerajaan, peristiwa, budaya), kuliner
+        $jenis = $request->query('jenis');
+        $cocok = match ($jenis) {
+            'tempat' => fn ($e) => $e['jenis'] === 'tempat',
+            'sejarah' => fn ($e) => in_array($e['jenis'], ['tokoh', 'kerajaan', 'peristiwa', 'budaya'], true),
+            'kuliner' => fn ($e) => $e['jenis'] === 'kuliner' || ($e['kategori'] ?? null) === 'kuliner',
+            default => fn () => true,
+        };
+        $items = array_slice(array_values(array_filter(Katalog::cari($q), $cocok)), 0, 6);
         $saran = array_map(fn ($e) => [
             'nama' => $e['nama'],
             'jenis' => $e['jenis'],
