@@ -67,6 +67,7 @@ document.addEventListener('keydown', (e) => {
         if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || document.activeElement?.isContentEditable) return;
         if (dialogCari?.showModal && !dialogCari.open) {
             e.preventDefault();
+            tampilkanRiwayat();
             dialogCari.showModal();
             dialogCari.querySelector('input[type="search"]')?.focus();
         }
