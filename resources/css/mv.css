@@ -2747,7 +2747,6 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
 
 @media (max-width: 580px) {
   .mv-btn { white-space: normal; text-align: center; }
-  .mv-baris-tiket { padding: 18px; }
   .mv-kepala__dalam { gap: 8px; }
   .mv-kepala__logo img { width: 108px; }
   .mv-kepala__cepat-ponsel:nth-of-type(2) { display: none; }
