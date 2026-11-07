@@ -1589,6 +1589,22 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
   background: var(--mv-kuning);
   color: var(--mv-hijau);
   font: 700 var(--mv-s-meta)/1 var(--font-text);
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+.mv-perbesar-btn:hover { background: var(--mv-kuning-hover); }
+
+/* peta lokasi sebagai gambar utama tempat yang belum punya foto */
+.mv-tempat-peta {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 320px;
+  max-height: 68svh;
+  background: #dfe4dd;
+}
+@media (max-width: 580px) {
+  .mv-tempat-peta { aspect-ratio: 4 / 3; }
 }
 
 /* Navigasi lompat seksi */
