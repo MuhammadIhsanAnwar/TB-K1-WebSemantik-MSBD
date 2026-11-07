@@ -217,17 +217,21 @@
                 </figure>
             </div>
 
+            {{-- daftar harga ala menu: satu baris per tempat, dikelompokkan per kategori; rincian tarif ada di halaman tiket --}}
             <div class="mv-menu-tiket__daftar">
-                @foreach ($bertiket as $t)
-                    <article class="mv-baris-tiket">
-                        <div class="mv-baris-tiket__atas">
-                            <a class="mv-baris-tiket__judul" href="{{ route('tempat', $t['slug']) }}">{{ $t['nama'] }}</a>
-                            <span class="mv-baris-tiket__mulai">Mulai {{ Katalog::rupiah(Katalog::hargaTermurah($t)) }}</span>
-                        </div>
-                        <p>{{ $t['ringkas'] }}</p>
-                        <div class="mv-baris-tiket__tarif nums">
-                            @foreach ($t['tiket'] as $jenis => $harga)
-                                <span>{{ $jenis }}: <b>{{ Katalog::rupiah($harga) }}</b></span>
+                @foreach (collect($bertiket)->groupBy('kategori') as $kode => $grup)
+                    <section class="mv-menu-harga" aria-labelledby="harga-{{ $kode }}">
+                        <h3 id="harga-{{ $kode }}">{{ Katalog::KATEGORI[$kode] }}</h3>
+                        <ul>
+                            @foreach ($grup->sortBy(fn ($t) => Katalog::hargaTermurah($t)) as $t)
+                                <li class="mv-menu-harga__baris">
+                                    <span class="mv-menu-harga__nama">
+                                        <a href="{{ route('tempat', $t['slug']) }}">{{ $t['nama'] }}</a>
+                                        <span>{{ $t['kecamatan'] }}, {{ collect($t['tiket'])->map(fn ($h, $j) => $j.' '.Katalog::rupiah($h))->implode(' · ') }}@if (! empty($t['harga_contoh'])) <span class="contoh">contoh</span>@endif</span>
+                                    </span>
+                                    <span class="mv-menu-harga__harga nums">{{ Katalog::rupiah(Katalog::hargaTermurah($t)) }}</span>
+                                    <a class="mv-btn mv-btn--utama mv-btn--kecil" href="{{ route('tiket.pilih', $t['slug']) }}" aria-label="Pesan tiket {{ $t['nama'] }}">Pesan</a>
+                                </li>
                             @endforeach
                             @if (! empty($t['harga_contoh']))
                                 <span class="contoh">harga contoh</span>
