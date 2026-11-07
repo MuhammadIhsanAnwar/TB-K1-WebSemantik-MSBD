@@ -280,6 +280,17 @@ body.panel-app { margin: 0; background: var(--p-frame); color: var(--p-text); fo
 .penghitung__kontrol button { width: 44px; height: 44px; border: 0; background: var(--paper-deep); font: 700 1.25rem var(--font-text); color: var(--green); }
 .penghitung__kontrol input { width: 56px; height: 44px; border: 0; text-align: center; font: 600 1.125rem var(--font-text); background: var(--white); border: 1px solid var(--p-border); -moz-appearance: textfield; }
 .penghitung__kontrol input::-webkit-outer-spin-button, .penghitung__kontrol input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.penghitung__kontrol button { touch-action: manipulation; user-select: none; transition: background-color 150ms ease, transform 100ms ease; }
+.penghitung__kontrol button:hover:not(:disabled) { background: var(--accent); color: var(--accent-ink); }
+.penghitung__kontrol button:active:not(:disabled) { transform: scale(0.94); }
+.penghitung__kontrol button:disabled { background: var(--white); color: #8a968f; outline: 1px dashed #b9c4bf; outline-offset: -4px; }
+/* angka bergeser dari arah perubahan: naik dari bawah, turun dari atas */
+@media (prefers-reduced-motion: no-preference) {
+  .penghitung__kontrol input.berganti { animation: angka-naik 180ms ease-out; }
+  .penghitung__kontrol input.berganti[data-arah="turun"] { animation-name: angka-turun; }
+}
+@keyframes angka-naik { from { transform: translateY(6px); opacity: 0.4; } }
+@keyframes angka-turun { from { transform: translateY(-6px); opacity: 0.4; } }
 .metode { display: grid; gap: 8px; }
 .metode label { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 16px; background: var(--white); border: 1px solid var(--p-border); font-weight: 600; }
 .metode label:has(input:checked) { border: 2px solid var(--green); }
