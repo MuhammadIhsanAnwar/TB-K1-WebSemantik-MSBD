@@ -115,6 +115,7 @@ document.querySelectorAll('[data-cari-cepat]').forEach((form, nomor) => {
     const tombolJenis = [...form.querySelectorAll('[data-jenis-cari]')];
     let jenis = '';
     let tunda = null;
+    let aktif = -1;
 
     const sembunyi = () => { kotak.hidden = true; };
 
