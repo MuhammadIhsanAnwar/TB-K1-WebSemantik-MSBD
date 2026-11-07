@@ -103,6 +103,17 @@ document.querySelectorAll('[data-cari-cepat]').forEach((form, nomor) => {
     const input = form.querySelector('input[type="search"]');
     const kotak = form.querySelector('[data-saran-hasil]');
     if (!input || !kotak) return;
+    const idKotak = `saran-${nomor}`;
+    kotak.id = idKotak;
+    kotak.setAttribute('role', 'listbox');
+    kotak.setAttribute('aria-label', 'Saran pencarian');
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-controls', idKotak);
+    input.setAttribute('aria-expanded', 'false');
+
+    const tombolJenis = [...form.querySelectorAll('[data-jenis-cari]')];
+    let jenis = '';
     let tunda = null;
 
     const sembunyi = () => { kotak.hidden = true; };
