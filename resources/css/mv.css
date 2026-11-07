@@ -2445,10 +2445,10 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
   z-index: 4;
   display: flex;
 }
-[data-ui] .mv-graf__kontrol .mv-graf__alih { margin-right: 8px; border: 1px solid var(--mv-kertas-2); }
+.mv-graf__kontrol .mv-graf__alih { margin-right: 8px; border: 1px solid var(--mv-kertas-2); }
 .mv-graf__kontrol .mv-graf__alih[aria-pressed="true"] { background: var(--mv-hijau); color: var(--mv-di-hijau); }
 .mv-graf__daftar:not([hidden]) + .mv-graf__kontrol [data-zoom] { display: none; }
-[data-ui] .mv-graf__kontrol button {
+.mv-graf__kontrol button {
   min-width: 44px;
   min-height: 44px;
   padding: 0 14px;
@@ -2457,7 +2457,7 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
   color: var(--mv-hijau);
   font: 600 0.9375rem/1 var(--font-text);
 }
-[data-ui] .mv-graf__kontrol [data-zoom] + [data-zoom] { border-left: 0; }
+.mv-graf__kontrol [data-zoom] + [data-zoom] { border-left: 0; }
 .mv-graf__kontrol button:hover { background: var(--mv-krem); }
 .mv-graf__daftar {
   position: absolute;
