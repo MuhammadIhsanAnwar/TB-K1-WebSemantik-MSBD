@@ -95,8 +95,8 @@
                     <p class="peta-diam">Peta lokasi dimuat di sini.</p>
                 </div>
                 <div class="mv-tempat-media__bilah">
-                    <span>Letak kawasan {{ $t['nama'] }} pada peta Medan tahun 1930</span>
-                    <span>{{ $t['kecamatan'] }}</span>
+                    <span>Lingkaran kuning: area check-in {{ $t['radius_checkin'] }} m dari {{ $t['nama'] }}.@if (! empty($t['koordinat_perkiraan'])) Titiknya masih perkiraan.@endif</span>
+                    <a class="mv-perbesar-btn" href="{{ $osm }}" rel="noopener">Buka di OpenStreetMap</a>
                 </div>
             @endif
         </div>
