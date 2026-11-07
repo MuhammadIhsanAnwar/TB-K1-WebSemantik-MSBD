@@ -177,9 +177,14 @@
                 @foreach ($benang as $i => $b)
                     <div class="mv-benang__panel" role="tabpanel" id="panel-benang-{{ $i }}" aria-labelledby="tab-benang-{{ $i }}" data-panel-benang="{{ $i }}" @if ($i) hidden @endif>
                         <p class="mv-benang__tanya">Bagaimana {{ $b['dari']['nama'] }} terhubung dengan {{ $b['ke']['nama'] }}?</p>
-                        <ol class="mv-benang__langkah">
-                            @foreach ($b['langkah'] as $l)
-                                <li>{{ $l['kalimat'] }}</li>
+                        {{-- rantai digambar sebagai benang yang melewati manik-manik, sama dengan panel di /jelajah --}}
+                        <ol class="mv-rantai mv-benang__rantai">
+                            @foreach ($b['langkah'] as $j => $l)
+                                @php $simpul = Katalog::get($l['dari']); @endphp
+                                <li>
+                                    <a href="{{ \App\Http\Controllers\SitusController::urlEntitas($simpul) ?? route('jelajah', ['dari' => $l['dari']]) }}"><span class="mv-graf__titik" data-kelas="{{ $simpul['jenis'] }}"></span>{{ $simpul['nama'] }}</a>
+                                    <span class="mv-rantai__kata">{{ Katalog::labelRelasi($l['relasi'], $l['dari']) }}</span>
+                                </li>
                             @endforeach
                         </ol>
                     </div>
