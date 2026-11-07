@@ -169,7 +169,7 @@
             <p class="kecil redup" style="margin-top:20px">Narasi bahasa Inggris, Mandarin, dan Melayu sedang disiapkan oleh kurator.</p>
         </section>
 
-        @if ($posisi && $t['foto'])
+        @if ($posisi)
             @php
                 $px = $posisi['x'] / 14.22; $py = $posisi['y'] / 16;
                 $cx = max(22.73, min(77.27, $px)); $cy = max(13.47, min(86.53, $py));
