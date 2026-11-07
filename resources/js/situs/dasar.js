@@ -73,8 +73,32 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ---- Saran langsung toleran salah ketik ----
-document.querySelectorAll('[data-cari-cepat]').forEach((form) => {
+// ---- Riwayat "terakhir dibuka" di dialog pencarian (hanya di peramban ini) ----
+const KUNCI_RIWAYAT = 'mv-cari-terakhir';
+const bacaRiwayat = () => {
+    try { return JSON.parse(localStorage.getItem(KUNCI_RIWAYAT) || '[]'); } catch { return []; }
+};
+const catatRiwayat = (butir) => {
+    try {
+        const baru = [butir, ...bacaRiwayat().filter((r) => r.url !== butir.url)].slice(0, 5);
+        localStorage.setItem(KUNCI_RIWAYAT, JSON.stringify(baru));
+    } catch { /* penyimpanan peramban tidak tersedia: riwayat dilewati */ }
+};
+function tampilkanRiwayat() {
+    const blok = dialogCari?.querySelector('[data-cari-terakhir]');
+    if (!blok) return;
+    const riwayat = bacaRiwayat();
+    blok.hidden = riwayat.length === 0;
+    blok.querySelector('ul').innerHTML = riwayat.map((r) => `<li><a href="${esc(r.url)}">${esc(r.nama)}</a><span>${esc(r.jenis)}</span></li>`).join('');
+}
+document.querySelectorAll('[data-buka-cari]').forEach((b) => b.addEventListener('click', tampilkanRiwayat));
+dialogCari?.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-cari-terakhir] a');
+    if (a) catatRiwayat({ nama: a.textContent, url: a.getAttribute('href'), jenis: a.nextElementSibling?.textContent ?? '' });
+});
+
+// ---- Saran langsung toleran salah ketik, bisa dipilih dengan panah keyboard (pola combobox) ----
+document.querySelectorAll('[data-cari-cepat]').forEach((form, nomor) => {
     const input = form.querySelector('input[type="search"]');
     const kotak = form.querySelector('[data-saran-hasil]');
     if (!input || !kotak) return;
