@@ -19,6 +19,10 @@
             <div class="mv-saran-kotak" data-saran-hasil hidden></div>
             <p class="mv-dialog-cari__petunjuk">Panah atas/bawah untuk memilih, Enter untuk membuka, Esc untuk menutup.</p>
         </form>
+        <div class="mv-dialog-cari__terakhir" data-cari-terakhir hidden>
+            <span>Terakhir dibuka</span>
+            <ul></ul>
+        </div>
         <div class="mv-dialog-cari__contoh">
             <span>Pencarian populer:</span>
             <a href="{{ route('cari', ['q' => 'istana maimon']) }}">istana maimon</a>
