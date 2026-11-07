@@ -2,25 +2,16 @@
 
 namespace App\Support;
 
+use Illuminate\Http\Client\ConnectionException;
+
 /**
- * Lapisan web semantik prototipe: ekspor RDF Turtle dan JSON-LD dari katalog, dan contoh query SPARQL.
- * Query contoh dijalankan pada salinan data lokal; query lain dikirim ke Apache Jena Fuseki
- * setelah endpoint SPARQL_ENDPOINT tersedia (lihat .env).
+ * Lapisan web semantik: unduhan RDF Turtle dan JSON-LD, serta query SPARQL ke Apache Jena Fuseki
+ * (SPARQL_ENDPOINT). Kelas dan properti ada di database/rdf/medanvisit-ontologi.ttl. Bila Fuseki tidak
+ * bisa dihubungi, query contoh dijawab dari salinan data lokal.
  */
 class Semantik
 {
     public const BASIS = 'https://medanvisit.neoverse.my.id/';
-
-    public const KELAS_RDF = [
-        'tempat' => ['mv:TempatWisata', 'schema:TouristAttraction'],
-        'tokoh' => ['mv:Tokoh', 'schema:Person'],
-        'kerajaan' => ['mv:Kerajaan', 'schema:Organization'],
-        'peristiwa' => ['mv:Peristiwa', 'schema:Event'],
-        'budaya' => ['mv:Budaya', 'schema:Thing'],
-        'kuliner' => ['mv:Kuliner', 'schema:Thing'],
-        'transportasi' => ['mv:ModaTransportasi', 'schema:Thing'],
-        'wilayah' => ['mv:Kecamatan', 'schema:AdministrativeArea'],
-    ];
 
     public const CONTOH = [
         'dibangun-pemimpin-deli' => [
@@ -50,17 +41,30 @@ class Semantik
         return preg_replace('/\s+/', ' ', trim($q));
     }
 
+    /**
+     * Jalankan query di Fuseki bila SPARQL_ENDPOINT diisi dan bisa dihubungi. Bila tidak, query contoh
+     * tetap dijawab dari salinan data lokal supaya halaman /data tidak kosong.
+     */
     public static function jalankan(string $query): array
     {
+        $alasan = 'Endpoint SPARQL (Apache Jena Fuseki) belum diatur';
+        if (SparqlService::endpoint()) {
+            try {
+                return SparqlService::jalankan($query);
+            } catch (ConnectionException) {
+                $alasan = 'Fuseki tidak bisa dihubungi';
+            }
+        }
+
         foreach (self::CONTOH as $id => $c) {
             if (self::rapikan($c['query']) === self::rapikan($query)) {
-                return ['ok' => true, 'kolom' => $c['kolom'], 'baris' => self::hasil($id), 'catatan' => 'Dijalankan pada salinan data lokal MedanVisit.'];
+                return ['ok' => true, 'kolom' => $c['kolom'], 'baris' => self::hasil($id), 'catatan' => "dijalankan pada salinan data lokal MedanVisit ($alasan)."];
             }
         }
 
         return [
             'ok' => false,
-            'pesan' => 'Endpoint SPARQL (Apache Jena Fuseki) belum tersambung, jadi hanya query contoh yang bisa dijalankan sekarang. Query ini akan bisa dijalankan setelah SPARQL_ENDPOINT diisi.',
+            'pesan' => "$alasan, jadi hanya query contoh yang bisa dijalankan sekarang. Jalankan Fuseki dengan database/rdf/fuseki-medanvisit.ttl dan isi SPARQL_ENDPOINT untuk query lain.",
         ];
     }
 
@@ -109,66 +113,16 @@ class Semantik
         return array_values($baris);
     }
 
-    private static function lit(string $s): string
-    {
-        return '"'.addcslashes($s, "\"\\\n").'"';
-    }
-
+    /**
+     * Ontologi dan data dalam satu dokumen Turtle, persis file yang dimuat ke Fuseki
+     * (database/rdf/medanvisit-ontologi.ttl dan medanvisit-data.ttl, dibuat ulang dengan `php artisan rdf:ekspor`).
+     */
     public static function turtle(): string
     {
-        $o = [];
-        $o[] = '@prefix mv: <'.self::BASIS.'ontologi#> .';
-        $o[] = '@prefix res: <'.self::BASIS.'id/> .';
-        $o[] = '@prefix schema: <https://schema.org/> .';
-        $o[] = '@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .';
-        $o[] = '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .';
-        $o[] = '@prefix owl: <http://www.w3.org/2002/07/owl#> .';
-        $o[] = '@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .';
-        $o[] = '@prefix dct: <http://purl.org/dc/terms/> .';
-        $o[] = '';
-        $o[] = '# ---------- ontologi ----------';
-        foreach (self::KELAS_RDF as $jenis => [$kelas, $super]) {
-            $o[] = "$kelas a owl:Class ; rdfs:subClassOf $super ; rdfs:label ".self::lit(Katalog::KELAS[$jenis]).'@id .';
-        }
-        $o[] = 'mv:Kedekatan a owl:Class ; rdfs:label "Kedekatan dua tempat"@id .';
-        foreach (Katalog::LABEL_RELASI as $p => $label) {
-            $o[] = "mv:$p a owl:ObjectProperty ; rdfs:label ".self::lit($label).'@id .';
-        }
-        $o[] = 'mv:bagianDari a owl:TransitiveProperty .';
-        $o[] = 'mv:dekatDengan a owl:SymmetricProperty .';
-        $o[] = 'mv:hargaTiketMulai a owl:DatatypeProperty ; rdfs:range xsd:integer .';
-        $o[] = 'mv:jarakMeter a owl:DatatypeProperty ; rdfs:range xsd:integer .';
-        $o[] = '';
-        $o[] = '# ---------- entitas ----------';
-        foreach (Katalog::entitas() as $slug => $e) {
-            $baris = ["res:$slug a ".self::KELAS_RDF[$e['jenis']][0], 'rdfs:label '.self::lit($e['nama']).'@id'];
-            if (! empty($e['ringkas'])) {
-                $baris[] = 'schema:description '.self::lit($e['ringkas']).'@id';
-            }
-            if (isset($e['lat'])) {
-                $baris[] = 'geo:lat "'.$e['lat'].'"^^xsd:decimal';
-                $baris[] = 'geo:long "'.$e['lng'].'"^^xsd:decimal';
-            }
-            if (! empty($e['tiket'])) {
-                $baris[] = 'mv:hargaTiketMulai '.Katalog::hargaTermurah($e);
-            }
-            if (! empty($e['alamat'])) {
-                $baris[] = 'schema:address '.self::lit($e['alamat'].', '.$e['kecamatan'].', Medan').'@id';
-            }
-            $o[] = implode(" ;\n    ", $baris).' .';
-        }
-        $o[] = '';
-        $o[] = '# ---------- relasi (setiap relasi mencantumkan sumbernya lewat reifikasi) ----------';
-        foreach (Katalog::relasi() as $i => $r) {
-            $o[] = "res:{$r[0]} mv:{$r[1]} res:{$r[2]} .";
-            if (isset($r['jarak_m'])) {
-                $o[] = "res:dekat-$i a mv:Kedekatan ; mv:antara res:{$r[0]}, res:{$r[2]} ; mv:jarakMeter {$r['jarak_m']} .";
-            }
-            $o[] = "[] a rdf:Statement ; rdf:subject res:{$r[0]} ; rdf:predicate mv:{$r[1]} ; rdf:object res:{$r[2]} ; dct:source ".self::lit($r['sumber']).' .';
-        }
-        array_splice($o, 7, 0, ['@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .']);
-
-        return implode("\n", $o)."\n";
+        return collect(['medanvisit-ontologi.ttl', 'medanvisit-data.ttl'])
+            ->map(fn ($f) => file_get_contents(database_path("rdf/$f")))
+            ->implode("
+");
     }
 
     public static function jsonld(): array

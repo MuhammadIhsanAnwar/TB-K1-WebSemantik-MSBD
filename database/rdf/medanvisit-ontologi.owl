@@ -1,0 +1,420 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:schema="https://schema.org/"
+    xmlns:mv="https://medanvisit.neoverse.my.id/ontologi#"
+    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#" > 
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Kecamatan">
+    <rdfs:label xml:lang="id">Kecamatan</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/AdministrativeArea"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Entitas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A0">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Kecamatan"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#cerita">
+    <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"/>
+    <rdfs:label xml:lang="id">cerita</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Museum">
+    <mv:kodeKategori>museum</mv:kodeKategori>
+    <rdfs:label xml:lang="id">Museum</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Museum"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#fasilitas">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">fasilitas</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#radiusCheckin">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">radius check-in (meter)</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#hargaTiketMulai">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">harga tiket mulai (Rp)</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#merepresentasikan">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Budaya"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">mencerminkan</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Kerajaan">
+    <rdfs:label xml:lang="id">Kerajaan</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Organization"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Entitas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#jarakMeter">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="id">jarak (meter)</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#membangun">
+    <rdfs:label xml:lang="id">membangun</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A1">
+    <rdf:rest rdf:nodeID="A2"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Kerajaan"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#TempatKuliner">
+    <mv:kodeKategori>kuliner</mv:kodeKategori>
+    <rdfs:label xml:lang="id">Kuliner</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/FoodEstablishment"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#bagianDari">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:subPropertyOf rdf:resource="https://schema.org/containedInPlace"/>
+    <rdfs:label xml:lang="id">bagian dari</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#RumahIbadah">
+    <mv:kodeKategori>religi</mv:kodeKategori>
+    <rdfs:label xml:lang="id">Rumah ibadah</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/PlaceOfWorship"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#dijualDi">
+    <rdfs:label xml:lang="id">dijual di</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#khasDari">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Budaya"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Kuliner"/>
+    <rdfs:label xml:lang="id">khas dari</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#antara">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Kedekatan"/>
+    <rdfs:label xml:lang="id">antara</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A3">
+    <rdf:rest rdf:nodeID="A4"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#RuangPublik"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#dilayaniOleh">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#ModaTransportasi"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">dilayani oleh</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#jamContoh">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:label xml:lang="id">jam buka belum dicek ke pengelola</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#terlibatDalam">
+    <owl:inverseOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#melibatkan"/>
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Peristiwa"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Tokoh"/>
+    <rdfs:label xml:lang="id">terlibat dalam</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#ModaTransportasi">
+    <rdfs:label xml:lang="id">Transportasi</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Entitas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#RuangPublik">
+    <mv:kodeKategori>ruang-publik</mv:kodeKategori>
+    <rdfs:label xml:lang="id">Taman &amp; ruang publik</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/CivicStructure"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#durasiSinggah">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">durasi singgah (menit)</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A5">
+    <rdf:rest rdf:nodeID="A6"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Kuliner"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A7">
+    <owl:members rdf:nodeID="A8"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A9">
+    <rdf:rest rdf:nodeID="A1"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Tokoh"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#tempatSinggah">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Persinggahan"/>
+    <rdfs:label xml:lang="id">tempat singgah</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#urutan">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Persinggahan"/>
+    <rdfs:label xml:lang="id">urutan</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#dekatDengan">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">dekat dengan</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#kelurahan">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">kelurahan</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A2">
+    <rdf:rest rdf:nodeID="A10"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Peristiwa"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#RekreasiAir">
+    <mv:kodeKategori>rekreasi-air</mv:kodeKategori>
+    <rdfs:label xml:lang="id">Rekreasi air</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/SportsActivityLocation"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#SitusSejarah">
+    <mv:kodeKategori>sejarah</mv:kodeKategori>
+    <rdfs:label xml:lang="id">Sejarah &amp; cagar budaya</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/LandmarksOrHistoricalBuildings"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Persinggahan">
+    <rdfs:comment xml:lang="id">Satu titik singgah dalam jalur tematik, beserta urutannya.</rdfs:comment>
+    <rdfs:label xml:lang="id">Persinggahan</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#JalurTematik">
+    <rdfs:label xml:lang="id">Jalur tematik</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/TouristTrip"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A6">
+    <rdf:rest rdf:nodeID="A0"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#ModaTransportasi"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#berkaitanDengan">
+    <rdfs:label xml:lang="id">berkaitan dengan</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#caraMenuju">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">cara menuju</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Entitas">
+    <rdfs:comment xml:lang="id">Segala sesuatu yang dibahas MedanVisit: tempat, tokoh, kerajaan, peristiwa, budaya, kuliner, transportasi, dan wilayah.</rdfs:comment>
+    <rdfs:label xml:lang="id">Entitas</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#koordinatPerkiraan">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:label xml:lang="id">koordinat masih perkiraan</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Tokoh">
+    <rdfs:label xml:lang="id">Tokoh</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Person"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Entitas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#kodeKategori">
+    <rdfs:label xml:lang="id">kode kategori di PostgreSQL</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#bergaya">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Budaya"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">bergaya</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A10">
+    <rdf:rest rdf:nodeID="A5"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Budaya"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#memimpin">
+    <owl:inverseOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#dipimpinOleh"/>
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Kerajaan"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Tokoh"/>
+    <rdfs:label xml:lang="id">memimpin</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A4">
+    <rdf:rest rdf:nodeID="A11"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#PusatBelanja"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#TempatWisata">
+    <rdfs:label xml:lang="id">Tempat wisata</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/TouristAttraction"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Entitas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A8">
+    <rdf:rest rdf:nodeID="A9"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Kuliner">
+    <rdfs:comment xml:lang="id">Jenis makanan khas, bukan tempat makannya. Tempat makan masuk kelas mv:TempatKuliner.</rdfs:comment>
+    <rdfs:label xml:lang="id">Kuliner</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Entitas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A12">
+    <rdf:rest rdf:nodeID="A13"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#SitusSejarah"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#PusatBelanja">
+    <mv:kodeKategori>belanja</mv:kodeKategori>
+    <rdfs:label xml:lang="id">Belanja</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/ShoppingCenter"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#beradaDi">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Kecamatan"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:subPropertyOf rdf:resource="https://schema.org/containedInPlace"/>
+    <rdfs:label xml:lang="id">berada di</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#menjual">
+    <owl:inverseOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#dijualDi"/>
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Kuliner"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">menjual</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Kedekatan">
+    <rdfs:comment xml:lang="id">Dua tempat yang berdekatan beserta jaraknya dalam meter, dihitung dari koordinat.</rdfs:comment>
+    <rdfs:label xml:lang="id">Kedekatan dua tempat</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Budaya">
+    <rdfs:comment xml:lang="id">Komunitas budaya, gaya arsitektur, dan tradisi.</rdfs:comment>
+    <rdfs:label xml:lang="id">Budaya</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Entitas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#dibangunOleh">
+    <owl:inverseOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#membangun"/>
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Tokoh"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">dibangun oleh</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A14">
+    <owl:members rdf:nodeID="A12"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#memilikiSejarah">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Peristiwa"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">punya sejarah</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#melibatkan">
+    <rdfs:label xml:lang="id">melibatkan</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#masa">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="id">masa</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#persinggahan">
+    <rdfs:range rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Persinggahan"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#JalurTematik"/>
+    <rdfs:label xml:lang="id">persinggahan</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#Peristiwa">
+    <rdfs:label xml:lang="id">Peristiwa</rdfs:label>
+    <rdfs:subClassOf rdf:resource="https://schema.org/Event"/>
+    <rdfs:subClassOf rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Entitas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#hargaContoh">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:label xml:lang="id">harga belum dicek ke pengelola</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi">
+    <owl:versionInfo>1.0</owl:versionInfo>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-11-06</dcterms:created>
+    <rdfs:comment xml:lang="id">Kelas dan properti untuk tempat wisata, tokoh, peristiwa, budaya, kuliner, dan transportasi di Kota Medan, beserta hubungan di antaranya.</rdfs:comment>
+    <dcterms:title xml:lang="id">Ontologi MedanVisit</dcterms:title>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A13">
+    <rdf:rest rdf:nodeID="A15"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#Museum"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A16">
+    <rdf:rest rdf:nodeID="A3"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatKuliner"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A15">
+    <rdf:rest rdf:nodeID="A16"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#RumahIbadah"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#dipimpinOleh">
+    <rdfs:label xml:lang="id">dipimpin oleh</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#keteranganJam">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">keterangan jam buka</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#jamBuka">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#time"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">jam buka</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#kalimat">
+    <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"/>
+    <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <rdfs:label xml:lang="id">kalimat relasi</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://medanvisit.neoverse.my.id/ontologi#jamTutup">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#time"/>
+    <rdfs:domain rdf:resource="https://medanvisit.neoverse.my.id/ontologi#TempatWisata"/>
+    <rdfs:label xml:lang="id">jam tutup</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A11">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="https://medanvisit.neoverse.my.id/ontologi#RekreasiAir"/>
+  </rdf:Description>
+</rdf:RDF>

@@ -1,0 +1,13 @@
+# Jumlah tempat per kategori. Kelas kategori adalah turunan mv:TempatWisata (inferensi reasoner).
+PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+PREFIX res: <https://medanvisit.neoverse.my.id/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?kategori (COUNT(?tempat) AS ?jumlah) WHERE {
+  ?kelas rdfs:subClassOf mv:TempatWisata ;
+         mv:kodeKategori ?kode ;
+         rdfs:label ?kategori .
+  ?tempat a ?kelas .
+}
+GROUP BY ?kategori
+ORDER BY DESC(?jumlah)

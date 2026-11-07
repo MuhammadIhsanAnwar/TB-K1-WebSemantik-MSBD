@@ -67,60 +67,141 @@ document.addEventListener('keydown', (e) => {
         if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || document.activeElement?.isContentEditable) return;
         if (dialogCari?.showModal && !dialogCari.open) {
             e.preventDefault();
+            tampilkanRiwayat();
             dialogCari.showModal();
             dialogCari.querySelector('input[type="search"]')?.focus();
         }
     }
 });
 
-// ---- Saran langsung toleran salah ketik ----
-document.querySelectorAll('[data-cari-cepat]').forEach((form) => {
+// ---- Riwayat "terakhir dibuka" di dialog pencarian (hanya di peramban ini) ----
+const KUNCI_RIWAYAT = 'mv-cari-terakhir';
+const bacaRiwayat = () => {
+    try { return JSON.parse(localStorage.getItem(KUNCI_RIWAYAT) || '[]'); } catch { return []; }
+};
+const catatRiwayat = (butir) => {
+    try {
+        const baru = [butir, ...bacaRiwayat().filter((r) => r.url !== butir.url)].slice(0, 5);
+        localStorage.setItem(KUNCI_RIWAYAT, JSON.stringify(baru));
+    } catch { /* penyimpanan peramban tidak tersedia: riwayat dilewati */ }
+};
+function tampilkanRiwayat() {
+    const blok = dialogCari?.querySelector('[data-cari-terakhir]');
+    if (!blok) return;
+    const riwayat = bacaRiwayat();
+    blok.hidden = riwayat.length === 0;
+    blok.querySelector('ul').innerHTML = riwayat.map((r) => `<li><a href="${esc(r.url)}">${esc(r.nama)}</a><span>${esc(r.jenis)}</span></li>`).join('');
+}
+document.querySelectorAll('[data-buka-cari]').forEach((b) => b.addEventListener('click', tampilkanRiwayat));
+dialogCari?.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-cari-terakhir] a');
+    if (a) catatRiwayat({ nama: a.textContent, url: a.getAttribute('href'), jenis: a.nextElementSibling?.textContent ?? '' });
+});
+
+// ---- Saran langsung toleran salah ketik, bisa dipilih dengan panah keyboard (pola combobox) ----
+document.querySelectorAll('[data-cari-cepat]').forEach((form, nomor) => {
     const input = form.querySelector('input[type="search"]');
     const kotak = form.querySelector('[data-saran-hasil]');
     if (!input || !kotak) return;
+    const idKotak = `saran-${nomor}`;
+    kotak.id = idKotak;
+    kotak.setAttribute('role', 'listbox');
+    kotak.setAttribute('aria-label', 'Saran pencarian');
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-controls', idKotak);
+    input.setAttribute('aria-expanded', 'false');
+
+    const tombolJenis = [...form.querySelectorAll('[data-jenis-cari]')];
+    let jenis = '';
     let tunda = null;
+    let aktif = -1;
 
-    const sembunyi = () => { kotak.hidden = true; };
+    const pilihan = () => [...kotak.querySelectorAll('[role="option"]')];
+    const sembunyi = () => {
+        kotak.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+        input.removeAttribute('aria-activedescendant');
+        aktif = -1;
+    };
+    const tandai = (i) => {
+        const daftar = pilihan();
+        if (!daftar.length) return;
+        aktif = (i + daftar.length) % daftar.length;
+        daftar.forEach((o, n) => o.setAttribute('aria-selected', n === aktif ? 'true' : 'false'));
+        input.setAttribute('aria-activedescendant', daftar[aktif].id);
+        daftar[aktif].scrollIntoView({ block: 'nearest' });
+    };
 
-    input.addEventListener('input', () => {
-        clearTimeout(tunda);
+    async function muat() {
         const q = input.value.trim();
         if (q.length < 2) {
             sembunyi();
             return;
         }
-        tunda = setTimeout(async () => {
-            try {
-                const res = await fetch(`${saranUrl}?q=${encodeURIComponent(q)}`, { headers: { Accept: 'application/json' } });
-                if (!res.ok) return;
-                const data = await res.json();
-                const hasil = data.saran ?? data.hasil ?? [];
-                const urlSemua = data.semua || `/cari?q=${encodeURIComponent(q)}`;
-                const urlTanya = data.tanya || `/tanya?q=${encodeURIComponent(q)}`;
-                const butir = hasil.map((h) => {
-                    const sub = [h.ringkas ?? h.sub, h.harga].filter(Boolean).join(', ');
-                    const jenis = h.label_jenis ?? h.jenis ?? '';
-                    return `
-                    <a class="mv-saran-butir" href="${esc(h.url)}">
-                        <span><b>${esc(h.nama)}</b><span>${esc(sub)}</span></span>
-                        <span class="mv-saran-butir__jenis">${esc(jenis)}</span>
-                    </a>`;
-                }).join('');
-                const kosong = `<div style="padding:12px 14px;font-size:1rem;color:var(--mv-redup)">Tidak ada nama persis untuk “${esc(q)}”. Tekan Cari atau tanyakan ke asisten.</div>`;
-                kotak.innerHTML = (butir || kosong) + `
-                    <div class="mv-saran-kaki">
-                        <a href="${esc(urlSemua)}">Semua hasil “${esc(q)}”</a>
-                        <a href="${esc(urlTanya)}">Tanyakan ke asisten</a>
-                    </div>`;
-                kotak.hidden = false;
-            } catch {
-                sembunyi();
-            }
-        }, 180);
+        kotak.innerHTML = '<div class="mv-saran-status" role="status">Mencari…</div>';
+        kotak.hidden = false;
+        try {
+            const res = await fetch(`${saranUrl}?q=${encodeURIComponent(q)}${jenis ? `&jenis=${jenis}` : ''}`, { headers: { Accept: 'application/json' } });
+            if (!res.ok) throw new Error(String(res.status));
+            const data = await res.json();
+            if (input.value.trim() !== q) return; // sudah diketik ulang, hasil ini usang
+            const hasil = data.saran ?? data.hasil ?? [];
+            const urlSemua = data.semua || `/cari?q=${encodeURIComponent(q)}`;
+            const urlTanya = data.tanya || `/tanya?q=${encodeURIComponent(q)}`;
+            const butir = hasil.map((h, i) => {
+                const sub = [h.ringkas ?? h.sub, h.harga].filter(Boolean).join(', ');
+                const label = h.label_jenis ?? h.jenis ?? '';
+                return `
+                <a class="mv-saran-butir" id="${idKotak}-${i}" role="option" aria-selected="false" href="${esc(h.url)}" data-nama="${esc(h.nama)}" data-jenis="${esc(label)}">
+                    <span><b>${esc(h.nama)}</b><span>${esc(sub)}</span></span>
+                    <span class="mv-saran-butir__jenis">${esc(label)}</span>
+                </a>`;
+            }).join('');
+            const kosong = `<div class="mv-saran-status" role="status">Tidak ada nama persis untuk “${esc(q)}”${jenis ? ' di jenis ini' : ''}. Tekan Cari atau tanyakan ke asisten.</div>`;
+            kotak.innerHTML = (butir || kosong) + `
+                <div class="mv-saran-kaki">
+                    <a href="${esc(urlSemua)}">Semua hasil “${esc(q)}”</a>
+                    <a href="${esc(urlTanya)}">Tanyakan ke asisten</a>
+                </div>`;
+            aktif = -1;
+            input.setAttribute('aria-expanded', 'true');
+        } catch {
+            kotak.innerHTML = '<div class="mv-saran-status" role="status">Saran tidak bisa dimuat. Tekan Cari untuk tetap mencari.</div>';
+        }
+    }
+
+    input.addEventListener('input', () => {
+        clearTimeout(tunda);
+        tunda = setTimeout(muat, 180);
     });
 
+    tombolJenis.forEach((b) => b.addEventListener('click', () => {
+        jenis = b.dataset.jenisCari;
+        tombolJenis.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+        muat();
+        input.focus();
+    }));
+
     input.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') sembunyi();
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            if (kotak.hidden || !pilihan().length) return;
+            e.preventDefault();
+            tandai(aktif + (e.key === 'ArrowDown' ? 1 : -1));
+        } else if (e.key === 'Enter' && aktif > -1) {
+            e.preventDefault();
+            const o = pilihan()[aktif];
+            catatRiwayat({ nama: o.dataset.nama, url: o.getAttribute('href'), jenis: o.dataset.jenis });
+            window.location.href = o.href;
+        } else if (e.key === 'Escape' && !kotak.hidden) {
+            e.preventDefault(); // Esc pertama menutup saran, Esc kedua menutup dialog
+            sembunyi();
+        }
+    });
+
+    kotak.addEventListener('click', (e) => {
+        const o = e.target.closest('[role="option"]');
+        if (o) catatRiwayat({ nama: o.dataset.nama, url: o.getAttribute('href'), jenis: o.dataset.jenis });
     });
     document.addEventListener('click', (e) => {
         if (!form.contains(e.target)) sembunyi();
@@ -336,7 +417,7 @@ const tandaiOtomatis = [
     'main .tempat-populer > a > *', 'main .strip-foto > a', 'main .rekomendasi > a',
     'main .kepala-halaman > *', 'main .detail__kepala > *', 'main .detail__seksi > *',
     'main .tiket-blok', 'main .isi-halaman > *',
-    '.mv-kartu-tempat', '.mv-baris-tiket', '.mv-jalur-item', '.mv-paspor-butir',
+    '.mv-kartu-tempat', '.mv-menu-harga', '.mv-jalur-item', '.mv-paspor-butir',
     '.mv-faq-daftar details', '.mv-seksi-detail > *', '.mv-kepala-seksi > *',
     '.mv-tempat-kepala__teks > *', '.mv-tempat-media', '.mv-kartu-samping > *',
 ].join(', ');

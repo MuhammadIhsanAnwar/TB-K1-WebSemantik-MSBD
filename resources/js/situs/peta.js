@@ -54,6 +54,26 @@ function modeRute(el) {
     peta.fitBounds(garis.getBounds().pad(0.25));
 }
 
+// Satu tempat beserta area check-in (lingkaran seluas radius aslinya) dan tempat lain dalam 1,5 km.
+// Dipakai sebagai gambar utama halaman tempat yang belum punya foto berlisensi.
+function modeLokasi(el) {
+    const l = JSON.parse(el.dataset.lokasi);
+    // di layar sentuh, geser satu jari tetap untuk menggulir halaman, bukan menggeser peta
+    const peta = buatPeta(el, { dragging: !L.Browser.mobile });
+    L.circle([l.lat, l.lng], { radius: l.radius, color: '#0f3b2e', weight: 2, fillColor: '#e3a51c', fillOpacity: 0.3 }).addTo(peta);
+    L.marker([l.lat, l.lng], { icon: ikon(WARNA[l.kategori] ?? '#e3a51c'), title: l.nama, alt: l.nama, zIndexOffset: 1000 }).addTo(peta);
+
+    const titik = [[l.lat, l.lng]];
+    l.sekitar.filter((t) => t.jarak <= 1500).forEach((t) => {
+        const isi = `<div class="popup-tempat"><b>${esc(t.nama)}</b><span>${t.jarak.toLocaleString('id')} m dari sini</span><div class="aksi"><a href="${esc(t.url)}">Lihat tempat</a></div></div>`;
+        L.marker([t.lat, t.lng], { icon: ikon(WARNA[t.kategori] ?? '#e3a51c'), title: t.nama, alt: t.nama, opacity: 0.8 }).bindPopup(isi).addTo(peta);
+        titik.push([t.lat, t.lng]);
+    });
+    if (titik.length > 1) peta.fitBounds(L.latLngBounds(titik).pad(0.2), { maxZoom: 17 });
+    else peta.setView([l.lat, l.lng], 16);
+    setTimeout(() => peta.invalidateSize(), 200);
+}
+
 function modeAlat(el) {
     const tempat = JSON.parse(el.dataset.tempat);
     const peta = buatPeta(el, { scrollWheelZoom: true });
@@ -227,4 +247,5 @@ document.querySelectorAll('[data-peta]').forEach((el) => {
     if (mode === 'ringkas') modeRingkas(el);
     else if (mode === 'rute') modeRute(el);
     else if (mode === 'alat') modeAlat(el);
+    else if (mode === 'lokasi') modeLokasi(el);
 });

@@ -82,11 +82,21 @@
                     <span>{{ $t['foto_keterangan'] ?? $t['nama'] }}, {{ $t['kecamatan'] }}</span>
                     <button type="button" class="mv-perbesar-btn" data-buka-lightbox data-src="{{ Foto::url($t['foto']) }}" data-judul="{{ $t['nama'] }}" data-kredit="{{ $kreditUtama ? 'Foto: '.$kreditUtama : '' }}">Perbesar foto</button>
                 </div>
-            @elseif ($posisi)
-                <img src="{{ asset('images/foto/peta-medan-1930.webp') }}" width="1422" height="1600" fetchpriority="high" alt="Letak {{ $t['nama'] }} pada peta Kota Medan tahun 1930">
+            @else
+                {{-- belum ada foto berlisensi: tampilkan lokasi sebenarnya, area check-in, dan tempat terdekat --}}
+                @php
+                    $lokasi = [
+                        'nama' => $t['nama'], 'lat' => $t['lat'], 'lng' => $t['lng'], 'kategori' => $t['kategori'], 'radius' => $t['radius_checkin'],
+                        'sekitar' => collect($dekat)->map(fn ($d) => ['nama' => $d['nama'], 'lat' => $d['lat'], 'lng' => $d['lng'], 'kategori' => $d['kategori'], 'url' => route('tempat', $d['slug']), 'jarak' => $d['jarak']])->values(),
+                    ];
+                    $osm = 'https://www.openstreetmap.org/?mlat='.$t['lat'].'&mlon='.$t['lng'].'#map=17/'.$t['lat'].'/'.$t['lng'];
+                @endphp
+                <div class="mv-tempat-peta" data-ui data-peta data-peta-mode="lokasi" data-lokasi="{{ json_encode($lokasi) }}" tabindex="0" aria-label="Peta lokasi {{ $t['nama'] }} dan tempat di sekitarnya">
+                    <p class="peta-diam">Peta lokasi dimuat di sini.</p>
+                </div>
                 <div class="mv-tempat-media__bilah">
-                    <span>Letak kawasan {{ $t['nama'] }} pada peta Medan tahun 1930</span>
-                    <span>{{ $t['kecamatan'] }}</span>
+                    <span>Lingkaran kuning: area check-in {{ $t['radius_checkin'] }} m dari {{ $t['nama'] }}.@if (! empty($t['koordinat_perkiraan'])) Titiknya masih perkiraan.@endif</span>
+                    <a class="mv-perbesar-btn" href="{{ $osm }}" rel="noopener">Buka di OpenStreetMap</a>
                 </div>
             @endif
         </div>
@@ -97,7 +107,7 @@
     <div class="mv-wadah mv-lompat-seksi__dalam">
         <a href="#info">Info kunjungan</a>
         <a href="#cerita">Cerita sejarah</a>
-        @if ($posisi && $t['foto'])
+        @if ($posisi)
             <a href="#peta-1930">Peta 1930</a>
         @endif
         <a href="#terhubung">Terhubung dengan</a>
@@ -159,7 +169,7 @@
             <p class="kecil redup" style="margin-top:20px">Narasi bahasa Inggris, Mandarin, dan Melayu sedang disiapkan oleh kurator.</p>
         </section>
 
-        @if ($posisi && $t['foto'])
+        @if ($posisi)
             @php
                 $px = $posisi['x'] / 14.22; $py = $posisi['y'] / 16;
                 $cx = max(22.73, min(77.27, $px)); $cy = max(13.47, min(86.53, $py));
@@ -270,9 +280,18 @@
             </div>
             <a class="mv-btn mv-btn--utama mv-btn--lebar" href="{{ route('tiket.pilih', $t['slug']) }}">Pesan tiket masuk</a>
         @else
+            @php
+                // tempat tanpa tiket berbeda maknanya per kategori: restoran tetap berbayar, rumah ibadah punya aturan kunjungan
+                [$judulMasuk, $ketMasuk] = match ($t['kategori']) {
+                    'kuliner', 'belanja' => ['Tanpa tiket masuk', 'Bayar sesuai yang dibeli di tempat.'],
+                    'religi' => ['Masuk gratis', 'Datang di luar jam ibadah dan berpakaian sopan.'],
+                    'ruang-publik' => ['Masuk gratis', 'Ruang terbuka untuk umum.'],
+                    default => ['Tidak dijual di sini', 'Biaya masuk, bila ada, dibayar di lokasi.'],
+                };
+            @endphp
             <div class="mv-kartu-samping__harga">
-                <div class="mv-kartu-samping__angka">Tanpa tiket</div>
-                <p class="kecil redup" style="margin-top:4px">Terbuka tanpa biaya tiket masuk pada jam kunjungan.</p>
+                <p class="mv-kartu-samping__angka">{{ $judulMasuk }}</p>
+                <p class="kecil redup" style="margin-top:4px">{{ $ketMasuk }}</p>
             </div>
         @endif
 

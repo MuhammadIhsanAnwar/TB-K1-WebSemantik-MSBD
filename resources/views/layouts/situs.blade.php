@@ -31,7 +31,8 @@
     @hasSection('tanpa-kepala')
     @else
         @include('partials.dialog-cari')
-        @unless (request()->routeIs('tanya'))
+        {{-- tidak dipasang di halaman Tanya (sudah percakapan) dan alur tiket (jangan menutupi tombol bayar) --}}
+        @unless (request()->routeIs('tanya', 'tiket.*', 'checkout', 'pesanan*'))
             @include('partials.asisten-melayang')
         @endunless
     @endif

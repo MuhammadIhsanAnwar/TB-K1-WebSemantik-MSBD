@@ -177,10 +177,19 @@
                 @foreach ($benang as $i => $b)
                     <div class="mv-benang__panel" role="tabpanel" id="panel-benang-{{ $i }}" aria-labelledby="tab-benang-{{ $i }}" data-panel-benang="{{ $i }}" @if ($i) hidden @endif>
                         <p class="mv-benang__tanya">Bagaimana {{ $b['dari']['nama'] }} terhubung dengan {{ $b['ke']['nama'] }}?</p>
-                        <ol class="mv-benang__langkah">
-                            @foreach ($b['langkah'] as $l)
-                                <li>{{ $l['kalimat'] }}</li>
+                        {{-- rantai digambar sebagai benang yang melewati manik-manik, sama dengan panel di /jelajah --}}
+                        <ol class="mv-rantai mv-benang__rantai">
+                            @foreach ($b['langkah'] as $j => $l)
+                                @php $simpul = Katalog::get($l['dari']); @endphp
+                                <li>
+                                    <a href="{{ \App\Http\Controllers\SitusController::urlEntitas($simpul) ?? route('jelajah', ['dari' => $l['dari']]) }}"><span class="mv-graf__titik" data-kelas="{{ $simpul['jenis'] }}"></span>{{ $simpul['nama'] }}</a>
+                                    <span class="mv-rantai__kata">{{ Katalog::labelRelasi($l['relasi'], $l['dari']) }}</span>
+                                </li>
                             @endforeach
+                            @php $akhir = Katalog::get(end($b['langkah'])['ke']); @endphp
+                            <li>
+                                <a href="{{ \App\Http\Controllers\SitusController::urlEntitas($akhir) ?? route('jelajah') }}"><span class="mv-graf__titik" data-kelas="{{ $akhir['jenis'] }}"></span>{{ $akhir['nama'] }}</a>
+                            </li>
                         </ol>
                     </div>
                 @endforeach
@@ -208,30 +217,24 @@
                 </figure>
             </div>
 
+            {{-- daftar harga ala menu: satu baris per tempat, dikelompokkan per kategori; rincian tarif ada di halaman tiket --}}
             <div class="mv-menu-tiket__daftar">
-                @foreach ($bertiket as $t)
-                    <article class="mv-baris-tiket">
-                        <div class="mv-baris-tiket__atas">
-                            <a class="mv-baris-tiket__judul" href="{{ route('tempat', $t['slug']) }}">{{ $t['nama'] }}</a>
-                            <span class="mv-baris-tiket__mulai">Mulai {{ Katalog::rupiah(Katalog::hargaTermurah($t)) }}</span>
-                        </div>
-                        <p>{{ $t['ringkas'] }}</p>
-                        <div class="mv-baris-tiket__tarif nums">
-                            @foreach ($t['tiket'] as $jenis => $harga)
-                                <span>{{ $jenis }}: <b>{{ Katalog::rupiah($harga) }}</b></span>
+                @foreach (collect($bertiket)->groupBy('kategori') as $kode => $grup)
+                    <section class="mv-menu-harga" aria-labelledby="harga-{{ $kode }}">
+                        <h3 id="harga-{{ $kode }}">{{ Katalog::KATEGORI[$kode] }}</h3>
+                        <ul>
+                            @foreach ($grup->sortBy(fn ($t) => Katalog::hargaTermurah($t)) as $t)
+                                <li class="mv-menu-harga__baris">
+                                    <span class="mv-menu-harga__nama">
+                                        <a href="{{ route('tempat', $t['slug']) }}">{{ $t['nama'] }}</a>
+                                        <span>{{ $t['kecamatan'] }}, {{ collect($t['tiket'])->map(fn ($h, $j) => $j.' '.Katalog::rupiah($h))->implode(' · ') }}@if (! empty($t['harga_contoh'])) <span class="contoh">contoh</span>@endif</span>
+                                    </span>
+                                    <span class="mv-menu-harga__harga nums">{{ Katalog::rupiah(Katalog::hargaTermurah($t)) }}</span>
+                                    <a class="mv-btn mv-btn--utama mv-btn--kecil" href="{{ route('tiket.pilih', $t['slug']) }}" aria-label="Pesan tiket {{ $t['nama'] }}">Pesan</a>
+                                </li>
                             @endforeach
-                            @if (! empty($t['harga_contoh']))
-                                <span class="contoh">harga contoh</span>
-                            @endif
-                        </div>
-                        <div class="mv-baris-tiket__bawah">
-                            <span class="mv-meta-garis kecil redup">
-                                <span>{{ $t['kecamatan'] }}</span>
-                                <span>Buka {{ $t['jam'] }} @if (! empty($t['jam_contoh']))<span class="contoh">contoh</span>@endif</span>
-                            </span>
-                            <a class="mv-btn mv-btn--utama mv-btn--kecil" href="{{ route('tiket.pilih', $t['slug']) }}" aria-label="Pesan tiket {{ $t['nama'] }}">Pesan tiket</a>
-                        </div>
-                    </article>
+                        </ul>
+                    </section>
                 @endforeach
             </div>
         </div>

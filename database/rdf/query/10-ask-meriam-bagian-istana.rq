@@ -1,0 +1,5 @@
+# ASK: apakah Meriam Puntung bagian dari Istana Maimun? (jawaban true/false)
+PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+PREFIX res: <https://medanvisit.neoverse.my.id/id/>
+
+ASK { res:meriam-puntung mv:bagianDari res:istana-maimun }

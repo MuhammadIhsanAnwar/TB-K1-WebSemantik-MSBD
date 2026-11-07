@@ -1,0 +1,253 @@
+# Ontologi MedanVisit (TBox): kelas dan properti untuk data wisata Kota Medan.
+# Standar W3C: RDF, RDFS, OWL 2. Kosakata yang dipakai ulang: schema.org, WGS84 (geo), Dublin Core (dcterms).
+# Data (ABox) ada di medanvisit-data.ttl, dibuat dengan `php artisan rdf:ekspor`.
+
+@prefix mv:      <https://medanvisit.neoverse.my.id/ontologi#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:  <https://schema.org/> .
+@prefix geo:     <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://medanvisit.neoverse.my.id/ontologi>
+    a owl:Ontology ;
+    dcterms:title "Ontologi MedanVisit"@id ;
+    rdfs:comment "Kelas dan properti untuk tempat wisata, tokoh, peristiwa, budaya, kuliner, dan transportasi di Kota Medan, beserta hubungan di antaranya."@id ;
+    dcterms:created "2026-11-06"^^xsd:date ;
+    owl:versionInfo "1.0" .
+
+# ======================================================================
+# Kelas
+# ======================================================================
+
+mv:Entitas a owl:Class ;
+    rdfs:label "Entitas"@id ;
+    rdfs:comment "Segala sesuatu yang dibahas MedanVisit: tempat, tokoh, kerajaan, peristiwa, budaya, kuliner, transportasi, dan wilayah."@id .
+
+mv:TempatWisata a owl:Class ;
+    rdfs:subClassOf mv:Entitas, schema:TouristAttraction ;
+    rdfs:label "Tempat wisata"@id .
+
+# tujuh kategori tempat, sama dengan tabel kategori di PostgreSQL
+mv:SitusSejarah a owl:Class ;
+    rdfs:subClassOf mv:TempatWisata, schema:LandmarksOrHistoricalBuildings ;
+    rdfs:label "Sejarah & cagar budaya"@id ;
+    mv:kodeKategori "sejarah" .
+
+mv:Museum a owl:Class ;
+    rdfs:subClassOf mv:TempatWisata, schema:Museum ;
+    rdfs:label "Museum"@id ;
+    mv:kodeKategori "museum" .
+
+mv:RumahIbadah a owl:Class ;
+    rdfs:subClassOf mv:TempatWisata, schema:PlaceOfWorship ;
+    rdfs:label "Rumah ibadah"@id ;
+    mv:kodeKategori "religi" .
+
+mv:TempatKuliner a owl:Class ;
+    rdfs:subClassOf mv:TempatWisata, schema:FoodEstablishment ;
+    rdfs:label "Kuliner"@id ;
+    mv:kodeKategori "kuliner" .
+
+mv:RuangPublik a owl:Class ;
+    rdfs:subClassOf mv:TempatWisata, schema:CivicStructure ;
+    rdfs:label "Taman & ruang publik"@id ;
+    mv:kodeKategori "ruang-publik" .
+
+mv:PusatBelanja a owl:Class ;
+    rdfs:subClassOf mv:TempatWisata, schema:ShoppingCenter ;
+    rdfs:label "Belanja"@id ;
+    mv:kodeKategori "belanja" .
+
+mv:RekreasiAir a owl:Class ;
+    rdfs:subClassOf mv:TempatWisata, schema:SportsActivityLocation ;
+    rdfs:label "Rekreasi air"@id ;
+    mv:kodeKategori "rekreasi-air" .
+
+# setiap tempat hanya masuk satu kategori
+[] a owl:AllDisjointClasses ;
+    owl:members ( mv:SitusSejarah mv:Museum mv:RumahIbadah mv:TempatKuliner mv:RuangPublik mv:PusatBelanja mv:RekreasiAir ) .
+
+mv:Tokoh a owl:Class ;
+    rdfs:subClassOf mv:Entitas, schema:Person ;
+    rdfs:label "Tokoh"@id .
+
+mv:Kerajaan a owl:Class ;
+    rdfs:subClassOf mv:Entitas, schema:Organization ;
+    rdfs:label "Kerajaan"@id .
+
+mv:Peristiwa a owl:Class ;
+    rdfs:subClassOf mv:Entitas, schema:Event ;
+    rdfs:label "Peristiwa"@id .
+
+mv:Budaya a owl:Class ;
+    rdfs:subClassOf mv:Entitas ;
+    rdfs:label "Budaya"@id ;
+    rdfs:comment "Komunitas budaya, gaya arsitektur, dan tradisi."@id .
+
+mv:Kuliner a owl:Class ;
+    rdfs:subClassOf mv:Entitas ;
+    rdfs:label "Kuliner"@id ;
+    rdfs:comment "Jenis makanan khas, bukan tempat makannya. Tempat makan masuk kelas mv:TempatKuliner."@id .
+
+mv:ModaTransportasi a owl:Class ;
+    rdfs:subClassOf mv:Entitas ;
+    rdfs:label "Transportasi"@id .
+
+mv:Kecamatan a owl:Class ;
+    rdfs:subClassOf mv:Entitas, schema:AdministrativeArea ;
+    rdfs:label "Kecamatan"@id .
+
+mv:JalurTematik a owl:Class ;
+    rdfs:subClassOf schema:TouristTrip ;
+    rdfs:label "Jalur tematik"@id .
+
+mv:Persinggahan a owl:Class ;
+    rdfs:label "Persinggahan"@id ;
+    rdfs:comment "Satu titik singgah dalam jalur tematik, beserta urutannya."@id .
+
+mv:Kedekatan a owl:Class ;
+    rdfs:label "Kedekatan dua tempat"@id ;
+    rdfs:comment "Dua tempat yang berdekatan beserta jaraknya dalam meter, dihitung dari koordinat."@id .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( mv:TempatWisata mv:Tokoh mv:Kerajaan mv:Peristiwa mv:Budaya mv:Kuliner mv:ModaTransportasi mv:Kecamatan ) .
+
+# ======================================================================
+# Properti objek (hubungan antarentitas), sama dengan tabel predikat di PostgreSQL
+# ======================================================================
+
+mv:dibangunOleh a owl:ObjectProperty ;
+    rdfs:label "dibangun oleh"@id ;
+    rdfs:domain mv:TempatWisata ; rdfs:range mv:Tokoh ;
+    owl:inverseOf mv:membangun .
+mv:membangun a owl:ObjectProperty ; rdfs:label "membangun"@id .
+
+mv:memimpin a owl:ObjectProperty ;
+    rdfs:label "memimpin"@id ;
+    rdfs:domain mv:Tokoh ; rdfs:range mv:Kerajaan ;
+    owl:inverseOf mv:dipimpinOleh .
+mv:dipimpinOleh a owl:ObjectProperty ; rdfs:label "dipimpin oleh"@id .
+
+mv:terlibatDalam a owl:ObjectProperty ;
+    rdfs:label "terlibat dalam"@id ;
+    rdfs:domain mv:Tokoh ; rdfs:range mv:Peristiwa ;
+    owl:inverseOf mv:melibatkan .
+mv:melibatkan a owl:ObjectProperty ; rdfs:label "melibatkan"@id .
+
+mv:merepresentasikan a owl:ObjectProperty ;
+    rdfs:label "mencerminkan"@id ;
+    rdfs:domain mv:TempatWisata ; rdfs:range mv:Budaya .
+
+mv:khasDari a owl:ObjectProperty ;
+    rdfs:label "khas dari"@id ;
+    rdfs:domain mv:Kuliner ; rdfs:range mv:Budaya .
+
+mv:bergaya a owl:ObjectProperty ;
+    rdfs:label "bergaya"@id ;
+    rdfs:domain mv:TempatWisata ; rdfs:range mv:Budaya .
+
+mv:memilikiSejarah a owl:ObjectProperty ;
+    rdfs:label "punya sejarah"@id ;
+    rdfs:domain mv:TempatWisata ; rdfs:range mv:Peristiwa .
+
+mv:menjual a owl:ObjectProperty ;
+    rdfs:label "menjual"@id ;
+    rdfs:domain mv:TempatWisata ; rdfs:range mv:Kuliner ;
+    owl:inverseOf mv:dijualDi .
+mv:dijualDi a owl:ObjectProperty ; rdfs:label "dijual di"@id .
+
+mv:dilayaniOleh a owl:ObjectProperty ;
+    rdfs:label "dilayani oleh"@id ;
+    rdfs:domain mv:TempatWisata ; rdfs:range mv:ModaTransportasi .
+
+mv:bagianDari a owl:ObjectProperty, owl:TransitiveProperty ;
+    rdfs:label "bagian dari"@id ;
+    rdfs:subPropertyOf schema:containedInPlace ;
+    rdfs:domain mv:TempatWisata ; rdfs:range mv:TempatWisata .
+
+mv:beradaDi a owl:ObjectProperty ;
+    rdfs:label "berada di"@id ;
+    rdfs:subPropertyOf schema:containedInPlace ;
+    rdfs:domain mv:TempatWisata ; rdfs:range mv:Kecamatan .
+
+mv:dekatDengan a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:label "dekat dengan"@id ;
+    rdfs:domain mv:TempatWisata ; rdfs:range mv:TempatWisata .
+
+mv:berkaitanDengan a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:label "berkaitan dengan"@id .
+
+# properti pendukung jalur tematik dan kedekatan
+mv:persinggahan a owl:ObjectProperty ;
+    rdfs:label "persinggahan"@id ;
+    rdfs:domain mv:JalurTematik ; rdfs:range mv:Persinggahan .
+
+mv:tempatSinggah a owl:ObjectProperty ;
+    rdfs:label "tempat singgah"@id ;
+    rdfs:domain mv:Persinggahan ; rdfs:range mv:TempatWisata .
+
+mv:antara a owl:ObjectProperty ;
+    rdfs:label "antara"@id ;
+    rdfs:domain mv:Kedekatan ; rdfs:range mv:TempatWisata .
+
+# ======================================================================
+# Properti data
+# ======================================================================
+
+mv:hargaTiketMulai a owl:DatatypeProperty ;
+    rdfs:label "harga tiket mulai (Rp)"@id ;
+    rdfs:domain mv:TempatWisata ; rdfs:range xsd:integer .
+
+mv:jamBuka a owl:DatatypeProperty ;
+    rdfs:label "jam buka"@id ; rdfs:domain mv:TempatWisata ; rdfs:range xsd:time .
+
+mv:jamTutup a owl:DatatypeProperty ;
+    rdfs:label "jam tutup"@id ; rdfs:domain mv:TempatWisata ; rdfs:range xsd:time .
+
+mv:keteranganJam a owl:DatatypeProperty ;
+    rdfs:label "keterangan jam buka"@id ; rdfs:domain mv:TempatWisata ; rdfs:range xsd:string .
+
+mv:kelurahan a owl:DatatypeProperty ;
+    rdfs:label "kelurahan"@id ; rdfs:domain mv:TempatWisata ; rdfs:range xsd:string .
+
+mv:radiusCheckin a owl:DatatypeProperty ;
+    rdfs:label "radius check-in (meter)"@id ; rdfs:domain mv:TempatWisata ; rdfs:range xsd:integer .
+
+mv:durasiSinggah a owl:DatatypeProperty ;
+    rdfs:label "durasi singgah (menit)"@id ; rdfs:domain mv:TempatWisata ; rdfs:range xsd:integer .
+
+mv:fasilitas a owl:DatatypeProperty ;
+    rdfs:label "fasilitas"@id ; rdfs:domain mv:TempatWisata ; rdfs:range xsd:string .
+
+mv:caraMenuju a owl:DatatypeProperty ;
+    rdfs:label "cara menuju"@id ; rdfs:domain mv:TempatWisata ; rdfs:range xsd:string .
+
+mv:cerita a owl:DatatypeProperty ;
+    rdfs:label "cerita"@id ; rdfs:range rdf:langString .
+
+mv:koordinatPerkiraan a owl:DatatypeProperty ;
+    rdfs:label "koordinat masih perkiraan"@id ; rdfs:range xsd:boolean .
+
+mv:jamContoh a owl:DatatypeProperty ;
+    rdfs:label "jam buka belum dicek ke pengelola"@id ; rdfs:range xsd:boolean .
+
+mv:hargaContoh a owl:DatatypeProperty ;
+    rdfs:label "harga belum dicek ke pengelola"@id ; rdfs:range xsd:boolean .
+
+mv:masa a owl:DatatypeProperty ;
+    rdfs:label "masa"@id ; rdfs:range xsd:string .
+
+mv:urutan a owl:DatatypeProperty ;
+    rdfs:label "urutan"@id ; rdfs:domain mv:Persinggahan ; rdfs:range xsd:positiveInteger .
+
+mv:jarakMeter a owl:DatatypeProperty ;
+    rdfs:label "jarak (meter)"@id ; rdfs:range xsd:integer .
+
+mv:kalimat a owl:DatatypeProperty ;
+    rdfs:label "kalimat relasi"@id ; rdfs:domain rdf:Statement ; rdfs:range rdf:langString .
+
+mv:kodeKategori a owl:AnnotationProperty ;
+    rdfs:label "kode kategori di PostgreSQL"@id .

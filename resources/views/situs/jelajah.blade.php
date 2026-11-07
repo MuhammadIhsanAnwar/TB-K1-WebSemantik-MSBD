@@ -9,13 +9,13 @@
 @section('tanpa-kaki', '1')
 
 @section('isi')
-<div class="mv-graf" data-ui data-graf data-sumber="{{ route('jelajah.graf') }}" data-jalur="{{ json_encode($jalurSimpul) }}">
+<div class="mv-graf" data-graf data-sumber="{{ route('jelajah.graf') }}" data-jalur="{{ json_encode($jalurSimpul) }}">
     <form class="mv-graf__cari" action="{{ route('jelajah') }}" method="get">
         <div class="mv-graf__judul">
             <h1>Benang merah</h1>
             <p>Pilih dua hal di Medan, lalu lihat rantai hubungan terpendek di antara keduanya.</p>
         </div>
-        <div class="mv-graf__pasangan">
+        <div class="mv-graf__pasangan" data-ui>
             <label for="dari">Dari</label>
             <select id="dari" name="dari">
                 @foreach ($pilihan as $p)<option value="{{ $p['slug'] }}" @selected($p['slug'] === $dari)>{{ $p['nama'] }}</option>@endforeach
@@ -28,7 +28,7 @@
         </div>
     </form>
 
-    <aside class="mv-graf__saring" aria-label="Atur graf">
+    <aside class="mv-graf__saring" data-ui aria-label="Atur graf">
         <div class="mv-graf__kelompok">
             <label class="mv-graf__label" for="cari-simpul">Cari simpul</label>
             <input id="cari-simpul" type="search" list="daftar-simpul" placeholder="Ketik nama simpul" data-cari-simpul>
@@ -66,7 +66,7 @@
                 @endforeach
             </ul>
         </div>
-        <div class="mv-graf__kontrol">
+        <div class="mv-graf__kontrol" data-ui>
             <button class="mv-graf__alih" type="button" data-tampilan-daftar aria-pressed="false">Tampilan daftar</button>
             <button type="button" data-zoom="masuk" aria-label="Perbesar">+</button>
             <button type="button" data-zoom="keluar" aria-label="Perkecil">−</button>

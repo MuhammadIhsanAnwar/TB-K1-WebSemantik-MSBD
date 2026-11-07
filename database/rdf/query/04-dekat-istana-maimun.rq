@@ -1,0 +1,11 @@
+# Tempat dalam 1 km dari Istana Maimun, dari node mv:Kedekatan (jarak dihitung dari koordinat).
+PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+PREFIX res: <https://medanvisit.neoverse.my.id/id/>
+PREFIX schema: <https://schema.org/>
+
+SELECT ?tempat ?jarak_m WHERE {
+  ?k a mv:Kedekatan ; mv:antara res:istana-maimun, ?t ; mv:jarakMeter ?jarak_m .
+  ?t schema:name ?tempat .
+  FILTER (?t != res:istana-maimun && ?jarak_m <= 1000)
+}
+ORDER BY ?jarak_m

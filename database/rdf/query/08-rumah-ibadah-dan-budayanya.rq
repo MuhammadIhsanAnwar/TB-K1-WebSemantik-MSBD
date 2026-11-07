@@ -1,0 +1,10 @@
+# Rumah ibadah beserta budaya yang dicerminkannya (OPTIONAL: tetap tampil walau belum punya relasi budaya).
+PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+PREFIX res: <https://medanvisit.neoverse.my.id/id/>
+PREFIX schema: <https://schema.org/>
+
+SELECT ?rumah_ibadah ?budaya WHERE {
+  ?t a mv:RumahIbadah ; schema:name ?rumah_ibadah .
+  OPTIONAL { ?t mv:merepresentasikan|mv:berkaitanDengan ?b . ?b a mv:Budaya ; schema:name ?budaya . }
+}
+ORDER BY ?rumah_ibadah

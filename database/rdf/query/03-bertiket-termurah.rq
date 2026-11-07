@@ -1,0 +1,10 @@
+# Tempat bertiket, urut dari harga termurah, beserta setiap jenis tiketnya.
+PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+PREFIX res: <https://medanvisit.neoverse.my.id/id/>
+PREFIX schema: <https://schema.org/>
+
+SELECT ?tempat ?jenis ?harga WHERE {
+  ?t a mv:TempatWisata ; schema:name ?tempat ; mv:hargaTiketMulai ?mulai ;
+     schema:offers [ schema:name ?jenis ; schema:price ?harga ] .
+}
+ORDER BY ?mulai ?tempat ?harga

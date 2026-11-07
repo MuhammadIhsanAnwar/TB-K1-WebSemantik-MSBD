@@ -1,0 +1,11 @@
+# Benang merah dengan property path: dari Istana Maimun ke tokoh pembangunnya, ke peristiwa yang ia
+# jalani, ke tokoh lain di peristiwa yang sama, lalu ke tempat yang dibangun tokoh itu.
+PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+PREFIX res: <https://medanvisit.neoverse.my.id/id/>
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?tempat WHERE {
+  res:istana-maimun mv:dibangunOleh/mv:terlibatDalam/^mv:terlibatDalam/mv:membangun ?t .
+  ?t schema:name ?tempat .
+  FILTER (?t != res:istana-maimun)
+}
