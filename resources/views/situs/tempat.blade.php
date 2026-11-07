@@ -82,8 +82,18 @@
                     <span>{{ $t['foto_keterangan'] ?? $t['nama'] }}, {{ $t['kecamatan'] }}</span>
                     <button type="button" class="mv-perbesar-btn" data-buka-lightbox data-src="{{ Foto::url($t['foto']) }}" data-judul="{{ $t['nama'] }}" data-kredit="{{ $kreditUtama ? 'Foto: '.$kreditUtama : '' }}">Perbesar foto</button>
                 </div>
-            @elseif ($posisi)
-                <img src="{{ asset('images/foto/peta-medan-1930.webp') }}" width="1422" height="1600" fetchpriority="high" alt="Letak {{ $t['nama'] }} pada peta Kota Medan tahun 1930">
+            @else
+                {{-- belum ada foto berlisensi: tampilkan lokasi sebenarnya, area check-in, dan tempat terdekat --}}
+                @php
+                    $lokasi = [
+                        'nama' => $t['nama'], 'lat' => $t['lat'], 'lng' => $t['lng'], 'kategori' => $t['kategori'], 'radius' => $t['radius_checkin'],
+                        'sekitar' => collect($dekat)->map(fn ($d) => ['nama' => $d['nama'], 'lat' => $d['lat'], 'lng' => $d['lng'], 'kategori' => $d['kategori'], 'url' => route('tempat', $d['slug']), 'jarak' => $d['jarak']])->values(),
+                    ];
+                    $osm = 'https://www.openstreetmap.org/?mlat='.$t['lat'].'&mlon='.$t['lng'].'#map=17/'.$t['lat'].'/'.$t['lng'];
+                @endphp
+                <div class="mv-tempat-peta" data-ui data-peta data-peta-mode="lokasi" data-lokasi="{{ json_encode($lokasi) }}" tabindex="0" aria-label="Peta lokasi {{ $t['nama'] }} dan tempat di sekitarnya">
+                    <p class="peta-diam">Peta lokasi dimuat di sini.</p>
+                </div>
                 <div class="mv-tempat-media__bilah">
                     <span>Letak kawasan {{ $t['nama'] }} pada peta Medan tahun 1930</span>
                     <span>{{ $t['kecamatan'] }}</span>
