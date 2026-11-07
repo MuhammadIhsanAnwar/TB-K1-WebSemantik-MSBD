@@ -2284,7 +2284,6 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
   gap: 12px 32px;
   padding: 14px var(--mv-margin);
   background: var(--mv-krem);
-  border-bottom: 1px solid var(--mv-krem-2);
 }
 .mv-graf__judul h1 { font-size: 1.625rem; }
 .mv-graf__judul p {
