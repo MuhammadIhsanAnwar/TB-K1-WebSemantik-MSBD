@@ -184,7 +184,24 @@ document.querySelectorAll('[data-cari-cepat]').forEach((form, nomor) => {
     }));
 
     input.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') sembunyi();
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            if (kotak.hidden || !pilihan().length) return;
+            e.preventDefault();
+            tandai(aktif + (e.key === 'ArrowDown' ? 1 : -1));
+        } else if (e.key === 'Enter' && aktif > -1) {
+            e.preventDefault();
+            const o = pilihan()[aktif];
+            catatRiwayat({ nama: o.dataset.nama, url: o.getAttribute('href'), jenis: o.dataset.jenis });
+            window.location.href = o.href;
+        } else if (e.key === 'Escape' && !kotak.hidden) {
+            e.preventDefault(); // Esc pertama menutup saran, Esc kedua menutup dialog
+            sembunyi();
+        }
+    });
+
+    kotak.addEventListener('click', (e) => {
+        const o = e.target.closest('[role="option"]');
+        if (o) catatRiwayat({ nama: o.dataset.nama, url: o.getAttribute('href'), jenis: o.dataset.jenis });
     });
     document.addEventListener('click', (e) => {
         if (!form.contains(e.target)) sembunyi();
