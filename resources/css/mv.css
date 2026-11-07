@@ -1187,13 +1187,15 @@
   font-size: var(--mv-s-meta);
   color: var(--mv-redup);
 }
-.mv-baris-tiket__bawah {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding-top: 4px;
+.mv-menu-harga__harga {
+  font: 700 1.125rem/1 var(--font-text);
+  color: var(--mv-hijau);
+  white-space: nowrap;
+}
+@media (max-width: 580px) {
+  .mv-menu-harga { padding: 18px 16px 6px; }
+  .mv-menu-harga__baris { grid-template-columns: minmax(0, 1fr) auto; }
+  .mv-menu-harga__baris .mv-btn { grid-column: 1 / -1; }
 }
 
 /* 5. Work: Jalur siap jalan (Loose scatter with pauses) */
