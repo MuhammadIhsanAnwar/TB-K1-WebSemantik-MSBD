@@ -2477,7 +2477,6 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
   overflow-y: auto;
   padding: 24px 24px 104px;
   background: var(--mv-putih);
-  border-left: 1px solid var(--mv-kertas-2);
 }
 .mv-graf__panel h2 { font-size: var(--mv-s-h3); line-height: 1.2; }
 .mv-graf__hasil > p { margin-top: 10px; }
