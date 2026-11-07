@@ -28,7 +28,7 @@
         </div>
     </form>
 
-    <aside class="mv-graf__saring" aria-label="Atur graf">
+    <aside class="mv-graf__saring" data-ui aria-label="Atur graf">
         <div class="mv-graf__kelompok">
             <label class="mv-graf__label" for="cari-simpul">Cari simpul</label>
             <input id="cari-simpul" type="search" list="daftar-simpul" placeholder="Ketik nama simpul" data-cari-simpul>
