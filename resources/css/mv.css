@@ -457,6 +457,9 @@
   text-decoration: none;
 }
 .mv-saran-butir:hover, .mv-saran-butir:focus-visible { background: var(--mv-krem); }
+/* butir yang dipilih lewat panah keyboard: latar dan garis kiri tebal, bukan warna saja */
+.mv-saran-butir[aria-selected="true"] { background: var(--mv-krem); box-shadow: inset 4px 0 0 var(--mv-hijau); }
+.mv-saran-status { padding: 12px 14px; font-size: var(--mv-s-ui); color: var(--mv-redup); }
 .mv-saran-butir b { display: block; color: var(--mv-hijau); font-size: var(--mv-s-ui); }
 .mv-saran-butir span { display: block; font-size: var(--mv-s-meta); color: var(--mv-redup); }
 .mv-saran-butir__jenis {
