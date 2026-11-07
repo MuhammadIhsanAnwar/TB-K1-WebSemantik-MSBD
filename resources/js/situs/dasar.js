@@ -117,7 +117,21 @@ document.querySelectorAll('[data-cari-cepat]').forEach((form, nomor) => {
     let tunda = null;
     let aktif = -1;
 
-    const sembunyi = () => { kotak.hidden = true; };
+    const pilihan = () => [...kotak.querySelectorAll('[role="option"]')];
+    const sembunyi = () => {
+        kotak.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+        input.removeAttribute('aria-activedescendant');
+        aktif = -1;
+    };
+    const tandai = (i) => {
+        const daftar = pilihan();
+        if (!daftar.length) return;
+        aktif = (i + daftar.length) % daftar.length;
+        daftar.forEach((o, n) => o.setAttribute('aria-selected', n === aktif ? 'true' : 'false'));
+        input.setAttribute('aria-activedescendant', daftar[aktif].id);
+        daftar[aktif].scrollIntoView({ block: 'nearest' });
+    };
 
     input.addEventListener('input', () => {
         clearTimeout(tunda);
