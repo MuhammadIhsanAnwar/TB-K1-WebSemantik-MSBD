@@ -176,6 +176,13 @@ document.querySelectorAll('[data-cari-cepat]').forEach((form, nomor) => {
         tunda = setTimeout(muat, 180);
     });
 
+    tombolJenis.forEach((b) => b.addEventListener('click', () => {
+        jenis = b.dataset.jenisCari;
+        tombolJenis.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+        muat();
+        input.focus();
+    }));
+
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') sembunyi();
     });
