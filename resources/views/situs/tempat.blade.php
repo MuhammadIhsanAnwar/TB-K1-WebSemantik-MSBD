@@ -280,6 +280,15 @@
             </div>
             <a class="mv-btn mv-btn--utama mv-btn--lebar" href="{{ route('tiket.pilih', $t['slug']) }}">Pesan tiket masuk</a>
         @else
+            @php
+                // tempat tanpa tiket berbeda maknanya per kategori: restoran tetap berbayar, rumah ibadah punya aturan kunjungan
+                [$judulMasuk, $ketMasuk] = match ($t['kategori']) {
+                    'kuliner', 'belanja' => ['Tanpa tiket masuk', 'Bayar sesuai yang dibeli di tempat.'],
+                    'religi' => ['Masuk gratis', 'Datang di luar jam ibadah dan berpakaian sopan.'],
+                    'ruang-publik' => ['Masuk gratis', 'Ruang terbuka untuk umum.'],
+                    default => ['Tidak dijual di sini', 'Biaya masuk, bila ada, dibayar di lokasi.'],
+                };
+            @endphp
             <div class="mv-kartu-samping__harga">
                 <div class="mv-kartu-samping__angka">Tanpa tiket</div>
                 <p class="kecil redup" style="margin-top:4px">Terbuka tanpa biaya tiket masuk pada jam kunjungan.</p>
