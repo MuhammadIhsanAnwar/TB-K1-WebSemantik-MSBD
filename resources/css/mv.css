@@ -2499,7 +2499,7 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
   width: 4px;
   background: var(--mv-kuning);
 }
-.mv-rantai button {
+.mv-rantai :is(button, a) {
   display: flex;
   align-items: flex-start;
   min-height: 44px;
@@ -2510,7 +2510,7 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
   font: 700 1rem/1.3 var(--font-text);
   text-align: left;
 }
-.mv-rantai button:hover,
+.mv-rantai :is(button, a):hover,
 .mv-rantai button[aria-current="true"] {
   text-decoration: underline;
   text-decoration-thickness: 2px;
