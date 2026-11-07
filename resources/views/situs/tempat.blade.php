@@ -107,7 +107,7 @@
     <div class="mv-wadah mv-lompat-seksi__dalam">
         <a href="#info">Info kunjungan</a>
         <a href="#cerita">Cerita sejarah</a>
-        @if ($posisi && $t['foto'])
+        @if ($posisi)
             <a href="#peta-1930">Peta 1930</a>
         @endif
         <a href="#terhubung">Terhubung dengan</a>
