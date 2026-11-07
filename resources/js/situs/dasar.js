@@ -417,7 +417,7 @@ const tandaiOtomatis = [
     'main .tempat-populer > a > *', 'main .strip-foto > a', 'main .rekomendasi > a',
     'main .kepala-halaman > *', 'main .detail__kepala > *', 'main .detail__seksi > *',
     'main .tiket-blok', 'main .isi-halaman > *',
-    '.mv-kartu-tempat', '.mv-baris-tiket', '.mv-jalur-item', '.mv-paspor-butir',
+    '.mv-kartu-tempat', '.mv-menu-harga', '.mv-jalur-item', '.mv-paspor-butir',
     '.mv-faq-daftar details', '.mv-seksi-detail > *', '.mv-kepala-seksi > *',
     '.mv-tempat-kepala__teks > *', '.mv-tempat-media', '.mv-kartu-samping > *',
 ].join(', ');
