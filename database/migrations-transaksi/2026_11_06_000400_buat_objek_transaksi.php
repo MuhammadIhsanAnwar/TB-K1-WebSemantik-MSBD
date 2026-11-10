@@ -14,7 +14,7 @@ return new class extends Migration
 
     public function up(): void
     {
-        DB::unprepared(<<<'SQL'
+        DB::connection($this->connection)->unprepared(<<<'SQL'
             -- ---------- index ----------
             CREATE INDEX ix_pesanan_pengguna   ON pesanan (id_pengguna);
             CREATE INDEX ix_pesanan_menunggu   ON pesanan (batas_bayar) WHERE status = 'menunggu';
@@ -40,14 +40,12 @@ return new class extends Migration
 
             -- ---------- view ----------
             CREATE OR REPLACE VIEW v_saldo_poin AS
-                SELECT u.id AS id_pengguna, u.name AS nama, u.email,
+                SELECT r.id_pengguna,
                        COALESCE(sum(r.poin) FILTER (WHERE r.poin > 0), 0) AS poin_didapat,
                        COALESCE(-sum(r.poin) FILTER (WHERE r.poin < 0), 0) AS poin_dipakai,
                        COALESCE(sum(r.poin), 0) AS saldo
-                FROM users u
-                LEFT JOIN riwayat_poin r ON r.id_pengguna = u.id
-                WHERE u.peran = 'wisatawan'
-                GROUP BY u.id, u.name, u.email;
+                FROM riwayat_poin r
+                GROUP BY r.id_pengguna;
 
             CREATE OR REPLACE VIEW v_penjualan_tiket AS
                 SELECT p.id_tempat, date_trunc('month', p.tanggal_kunjungan)::date AS bulan,
@@ -227,7 +225,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        DB::unprepared(<<<'SQL'
+        DB::connection($this->connection)->unprepared(<<<'SQL'
             DROP PROCEDURE IF EXISTS sp_kedaluwarsakan_pesanan();
             DROP PROCEDURE IF EXISTS sp_bayar_pesanan(varchar, varchar, varchar);
             DROP PROCEDURE IF EXISTS sp_buat_pesanan(bigint, varchar, varchar, varchar, integer, date, varchar, jsonb, varchar);

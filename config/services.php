@@ -28,10 +28,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    // endpoint SPARQL Apache Jena Fuseki (Web Semantik), misalnya http://localhost:3030/medanvisit/sparql
+    // Database 3: AllegroGraph repository untuk data semantik tempat wisata.
     'sparql' => [
+        'driver' => env('SPARQL_DRIVER', 'allegrograph'),
+        'host' => env('SPARQL_HOST'),
+        'database' => env('SPARQL_DATABASE'),
+        'username' => env('SPARQL_USERNAME'),
+        'password' => env('SPARQL_PASSWORD'),
         'endpoint' => env('SPARQL_ENDPOINT'),
-        'timeout' => env('SPARQL_TIMEOUT', 8),
+        'timeout' => (int) env('SPARQL_TIMEOUT', 30),
     ],
 
     'slack' => [

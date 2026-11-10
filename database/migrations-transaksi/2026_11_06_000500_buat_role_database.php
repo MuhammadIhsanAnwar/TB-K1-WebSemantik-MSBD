@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
  * Role (kelompok hak akses) untuk kedua database. Role dibuat NOLOGIN: akun login sungguhan
  * cukup diberi salah satu role ini, misalnya GRANT medanvisit_baca TO akun_web.
  *
- *   medanvisit_baca     DB 1  hanya membaca katalog (web publik, laporan)
+ *   medanvisit_baca     DB 1  membaca akun, konfigurasi Laravel, dan katalog (web publik, laporan)
  *   medanvisit_kurator  DB 1  membaca dan mengubah isi katalog (tempat, tiket, entitas, relasi, jalur)
  *   medanvisit_aplikasi DB 2  membaca dan menulis transaksi, menjalankan procedure
  *   medanvisit_laporan  DB 2  hanya membaca view ringkasan (poin, penjualan, celah konten)

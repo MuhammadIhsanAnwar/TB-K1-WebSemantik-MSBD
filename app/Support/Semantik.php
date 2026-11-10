@@ -5,8 +5,8 @@ namespace App\Support;
 use Illuminate\Http\Client\ConnectionException;
 
 /**
- * Lapisan web semantik: unduhan RDF Turtle dan JSON-LD, serta query SPARQL ke Apache Jena Fuseki
- * (SPARQL_ENDPOINT). Kelas dan properti ada di database/rdf/medanvisit-ontologi.ttl. Bila Fuseki tidak
+ * Lapisan web semantik: unduhan RDF Turtle dan JSON-LD, serta query SPARQL ke Database 3
+ * (SPARQL_ENDPOINT). Kelas dan properti ada di database/rdf/medanvisit-ontologi.ttl. Bila Database 3 tidak
  * bisa dihubungi, query contoh dijawab dari salinan data lokal.
  */
 class Semantik
@@ -42,17 +42,17 @@ class Semantik
     }
 
     /**
-     * Jalankan query di Fuseki bila SPARQL_ENDPOINT diisi dan bisa dihubungi. Bila tidak, query contoh
+     * Jalankan query di Database 3 bila SPARQL_ENDPOINT diisi dan bisa dihubungi. Bila tidak, query contoh
      * tetap dijawab dari salinan data lokal supaya halaman /data tidak kosong.
      */
     public static function jalankan(string $query): array
     {
-        $alasan = 'Endpoint SPARQL (Apache Jena Fuseki) belum diatur';
+        $alasan = 'Endpoint SPARQL Database 3 belum diatur';
         if (SparqlService::endpoint()) {
             try {
                 return SparqlService::jalankan($query);
             } catch (ConnectionException) {
-                $alasan = 'Fuseki tidak bisa dihubungi';
+                $alasan = 'Database 3 tidak bisa dihubungi';
             }
         }
 
@@ -64,7 +64,7 @@ class Semantik
 
         return [
             'ok' => false,
-            'pesan' => "$alasan, jadi hanya query contoh yang bisa dijalankan sekarang. Jalankan Fuseki dengan database/rdf/fuseki-medanvisit.ttl dan isi SPARQL_ENDPOINT untuk query lain.",
+            'pesan' => "$alasan, jadi hanya query contoh yang bisa dijalankan sekarang. Pastikan Database 3 aktif dan SPARQL_ENDPOINT terisi untuk query lain.",
         ];
     }
 
@@ -114,7 +114,7 @@ class Semantik
     }
 
     /**
-     * Ontologi dan data dalam satu dokumen Turtle, persis file yang dimuat ke Fuseki
+     * Ontologi dan data dalam satu dokumen Turtle, persis file yang dimuat ke Database 3
      * (database/rdf/medanvisit-ontologi.ttl dan medanvisit-data.ttl, dibuat ulang dengan `php artisan rdf:ekspor`).
      */
     public static function turtle(): string

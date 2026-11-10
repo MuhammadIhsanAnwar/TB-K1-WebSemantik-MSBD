@@ -41,7 +41,7 @@
     <div class="ps">
         <nav class="ps__samping" aria-label="Menu {{ $u['peran'] }}">
             <div class="ps__merek">
-                <img src="{{ asset('images/logo/tanpa-tagline-terang.svg') }}" alt="MedanVisit" width="736" height="256">
+                <img src="{{ asset('storage/logo_app/svg/MedanVisit_logo_tanpa-tagline_terang.svg') }}" alt="MedanVisit" width="736" height="256">
                 <button class="ps__menu" type="button" data-tutup-samping style="margin-left:auto">Tutup</button>
             </div>
             <div class="ps__lingkup">

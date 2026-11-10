@@ -6,31 +6,33 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    // akun pengguna disimpan di database transaksi (DB 2)
-    protected $connection = 'transaksi';
+    // akun pengguna disimpan di database aplikasi (DB 1)
+    protected $connection = 'katalog';
 
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('peran', 12)->default('wisatawan');
+            $table->string('no_hp', 20)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
 
-        Schema::create('sessions', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
             $table->string('ip_address', 45)->nullable();
@@ -38,6 +40,10 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        Schema::connection($this->connection)->getConnection()->statement(
+            "ALTER TABLE users ADD CONSTRAINT ck_users_peran CHECK (peran IN ('wisatawan', 'mitra', 'kurator'))"
+        );
     }
 
     /**
@@ -45,8 +51,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
+        Schema::connection($this->connection)->dropIfExists('users');
+        Schema::connection($this->connection)->dropIfExists('password_reset_tokens');
+        Schema::connection($this->connection)->dropIfExists('sessions');
     }
 };

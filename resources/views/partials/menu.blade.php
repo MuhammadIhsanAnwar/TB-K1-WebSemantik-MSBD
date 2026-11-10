@@ -13,7 +13,7 @@
 <dialog class="lembar-menu" id="lembar-menu" data-ui aria-label="Menu navigasi">
     <div class="lembar-menu__isi">
         <div class="lembar-menu__atas">
-            <img src="{{ asset('images/logo/tanpa-tagline-gelap.svg') }}" alt="MedanVisit" width="736" height="256" style="width:144px;height:auto">
+            <img src="{{ asset('storage/logo_app/svg/MedanVisit_logo_tanpa-tagline_gelap.svg') }}" alt="MedanVisit" width="736" height="256" style="width:144px;height:auto">
             <button type="button" data-tutup-menu>Tutup</button>
         </div>
 

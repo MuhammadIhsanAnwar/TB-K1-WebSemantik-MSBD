@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Mengisi DB 2 (koneksi "transaksi") dengan akun uji coba dan contoh transaksi.
+ * Mengisi DB 1 dengan akun uji coba dan DB 2 (koneksi "transaksi") dengan contoh transaksi.
  * Semua transaksi di sini DATA UJI COBA, bukan transaksi sungguhan. Pesanan, pembayaran, check-in,
  * dan penukaran sengaja dibuat lewat procedure dan trigger supaya objek database ikut teruji.
  * Seeder ini bisa diulang: isi lama dikosongkan dulu.
@@ -18,19 +18,21 @@ class TransaksiSeeder extends Seeder
     {
         $db = DB::connection('transaksi');
         $katalog = DB::connection('katalog');
+        $akun = DB::connection('katalog');
         // id_tempat merujuk ke DB 1; bila katalog belum diisi, pakai id urutan ekspor JSON
         $idTempat = fn (string $slug, int $cadangan) => rescue(fn () => $katalog->table('tempat')->where('slug', $slug)->value('id_tempat'), null, false) ?? $cadangan;
 
-        $db->statement('TRUNCATE log_pencarian, rencana_minat, rencana, penukaran, voucher, ringkasan_ulasan, ulasan, riwayat_poin, checkin, e_tiket, pembayaran, pesanan_item, pesanan, menu_usaha, usaha_mitra, users RESTART IDENTITY CASCADE');
+        $db->statement('TRUNCATE log_pencarian, rencana_minat, rencana, penukaran, voucher, ringkasan_ulasan, ulasan, riwayat_poin, checkin, e_tiket, pembayaran, pesanan_item, pesanan, menu_usaha, usaha_mitra RESTART IDENTITY CASCADE');
+        $akun->table('users')->truncate();
 
         // akun uji coba yang sama dengan yang dipakai saat pengujian prototipe (sandi: rahasia123)
         $sandi = Hash::make('rahasia123');
         $sekarang = now();
         foreach ([['Rina', 'rina@contoh.id', 'wisatawan'], ['Usaha Contoh', 'usaha@contoh.id', 'mitra'], ['Kurator MedanVisit', 'kurator@contoh.id', 'kurator']] as [$nama, $email, $peran]) {
-            $db->table('users')->insert(['name' => $nama, 'email' => $email, 'password' => $sandi, 'peran' => $peran, 'created_at' => $sekarang, 'updated_at' => $sekarang]);
+            $akun->table('users')->insert(['name' => $nama, 'email' => $email, 'password' => $sandi, 'peran' => $peran, 'created_at' => $sekarang, 'updated_at' => $sekarang]);
         }
-        $rina = $db->table('users')->where('email', 'rina@contoh.id')->value('id');
-        $mitra = $db->table('users')->where('email', 'usaha@contoh.id')->value('id');
+        $rina = $akun->table('users')->where('email', 'rina@contoh.id')->value('id');
+        $mitra = $akun->table('users')->where('email', 'usaha@contoh.id')->value('id');
 
         $usaha = $db->table('usaha_mitra')->insertGetId([
             'id_pengguna' => $mitra, 'nama_usaha' => 'Kedai Contoh MedanVisit', 'jenis' => 'kuliner',

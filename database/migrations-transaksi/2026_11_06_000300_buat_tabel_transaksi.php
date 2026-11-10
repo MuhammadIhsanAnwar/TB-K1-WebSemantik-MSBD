@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /*
- * DB 2 (koneksi "transaksi"): akun, pesanan tiket, check-in, poin, ulasan, voucher, rencana, log pencarian.
+ * DB 2 (koneksi "transaksi"): pesanan tiket, check-in, poin, ulasan, voucher, rencana, log pencarian.
  * Menggantikan penyimpanan sementara di App\Support\Penyimpanan (cache berkas).
  *
- * Kolom id_tempat dan kode_kategori merujuk ke DB 1 (katalog). Foreign key tidak bisa melintasi
- * database, jadi kecocokannya dijaga aplikasi; di sini hanya dicek nilainya positif.
+ * Kolom id_pengguna, id_tempat, dan kode_kategori merujuk ke DB 1 (katalog).
+ * Foreign key tidak bisa melintasi database, jadi kecocokannya dijaga aplikasi.
  */
 return new class extends Migration
 {
@@ -18,14 +18,9 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $t) {
-            $t->string('peran', 12)->default('wisatawan')->after('email');
-            $t->string('no_hp', 20)->nullable()->after('peran');
-        });
-
-        Schema::create('usaha_mitra', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('usaha_mitra', function (Blueprint $t) {
             $t->increments('id_usaha');
-            $t->foreignId('id_pengguna')->unique()->constrained('users')->cascadeOnDelete();
+            $t->foreignId('id_pengguna')->unique();
             $t->string('nama_usaha', 80);
             $t->string('jenis', 20);
             $t->string('alamat', 160);
@@ -34,7 +29,7 @@ return new class extends Migration
             $t->timestampsTz();
         });
 
-        Schema::create('menu_usaha', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('menu_usaha', function (Blueprint $t) {
             $t->increments('id_menu');
             $t->integer('id_usaha');
             $t->string('nama_menu', 60);
@@ -42,10 +37,10 @@ return new class extends Migration
             $t->foreign('id_usaha')->references('id_usaha')->on('usaha_mitra')->cascadeOnDelete();
         });
 
-        Schema::create('pesanan', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('pesanan', function (Blueprint $t) {
             $t->bigIncrements('id_pesanan');
             $t->string('kode', 20)->unique();
-            $t->foreignId('id_pengguna')->nullable()->constrained('users')->nullOnDelete();
+            $t->foreignId('id_pengguna')->nullable();
             $t->string('nama_pemesan', 80);
             $t->string('email_pemesan', 120);
             $t->string('hp_pemesan', 20);
@@ -58,7 +53,7 @@ return new class extends Migration
             $t->timestampsTz();
         });
 
-        Schema::create('pesanan_item', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('pesanan_item', function (Blueprint $t) {
             $t->bigIncrements('id_item');
             $t->bigInteger('id_pesanan');
             $t->string('jenis_pengunjung', 60);
@@ -68,7 +63,7 @@ return new class extends Migration
             $t->foreign('id_pesanan')->references('id_pesanan')->on('pesanan')->cascadeOnDelete();
         });
 
-        Schema::create('pembayaran', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('pembayaran', function (Blueprint $t) {
             $t->bigIncrements('id_pembayaran');
             $t->bigInteger('id_pesanan')->unique();
             $t->string('metode', 10);
@@ -78,7 +73,7 @@ return new class extends Migration
             $t->foreign('id_pesanan')->references('id_pesanan')->on('pesanan')->cascadeOnDelete();
         });
 
-        Schema::create('e_tiket', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('e_tiket', function (Blueprint $t) {
             $t->bigIncrements('id_etiket');
             $t->bigInteger('id_pesanan')->unique();
             $t->string('kode_qr', 40)->unique();
@@ -87,9 +82,9 @@ return new class extends Migration
             $t->foreign('id_pesanan')->references('id_pesanan')->on('pesanan')->cascadeOnDelete();
         });
 
-        Schema::create('checkin', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('checkin', function (Blueprint $t) {
             $t->bigIncrements('id_checkin');
-            $t->foreignId('id_pengguna')->constrained('users')->cascadeOnDelete();
+            $t->foreignId('id_pengguna');
             $t->integer('id_tempat');
             $t->smallInteger('jarak_m');
             $t->date('tanggal')->default(DB::raw("((now() AT TIME ZONE 'Asia/Jakarta')::date)"));
@@ -97,9 +92,9 @@ return new class extends Migration
             $t->unique(['id_pengguna', 'id_tempat', 'tanggal']);
         });
 
-        Schema::create('riwayat_poin', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('riwayat_poin', function (Blueprint $t) {
             $t->bigIncrements('id_riwayat');
-            $t->foreignId('id_pengguna')->constrained('users')->cascadeOnDelete();
+            $t->foreignId('id_pengguna');
             $t->integer('poin');
             $t->string('sumber', 12);
             $t->bigInteger('id_sumber')->nullable();
@@ -107,9 +102,9 @@ return new class extends Migration
             $t->timestampTz('waktu')->useCurrent();
         });
 
-        Schema::create('ulasan', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('ulasan', function (Blueprint $t) {
             $t->bigIncrements('id_ulasan');
-            $t->foreignId('id_pengguna')->constrained('users')->cascadeOnDelete();
+            $t->foreignId('id_pengguna');
             $t->integer('id_tempat');
             $t->smallInteger('bintang');
             $t->string('teks', 600);
@@ -118,14 +113,14 @@ return new class extends Migration
         });
 
         // diisi trigger dari tabel ulasan; hanya ulasan berstatus "tayang" yang dihitung
-        Schema::create('ringkasan_ulasan', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('ringkasan_ulasan', function (Blueprint $t) {
             $t->integer('id_tempat')->primary();
             $t->integer('jumlah_ulasan')->default(0);
             $t->decimal('rata_rata_bintang', 3, 2)->nullable();
             $t->timestampTz('diperbarui_pada')->useCurrent();
         });
 
-        Schema::create('voucher', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('voucher', function (Blueprint $t) {
             $t->increments('id_voucher');
             $t->integer('id_usaha');
             $t->string('nama', 60);
@@ -137,9 +132,9 @@ return new class extends Migration
             $t->foreign('id_usaha')->references('id_usaha')->on('usaha_mitra')->cascadeOnDelete();
         });
 
-        Schema::create('penukaran', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('penukaran', function (Blueprint $t) {
             $t->bigIncrements('id_penukaran');
-            $t->foreignId('id_pengguna')->constrained('users')->cascadeOnDelete();
+            $t->foreignId('id_pengguna');
             $t->integer('id_voucher');
             $t->smallInteger('poin');
             $t->string('kode', 12)->unique();
@@ -149,10 +144,10 @@ return new class extends Migration
             $t->foreign('id_voucher')->references('id_voucher')->on('voucher')->restrictOnDelete();
         });
 
-        Schema::create('rencana', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('rencana', function (Blueprint $t) {
             $t->bigIncrements('id_rencana');
             $t->string('kode', 12)->unique();
-            $t->foreignId('id_pengguna')->constrained('users')->cascadeOnDelete();
+            $t->foreignId('id_pengguna');
             $t->string('judul', 80);
             $t->smallInteger('durasi_jam');
             $t->boolean('moda_jalan')->default(true);
@@ -161,22 +156,21 @@ return new class extends Migration
             $t->timestampsTz();
         });
 
-        Schema::create('rencana_minat', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('rencana_minat', function (Blueprint $t) {
             $t->bigInteger('id_rencana');
             $t->string('kode_kategori', 20);
             $t->primary(['id_rencana', 'kode_kategori']);
             $t->foreign('id_rencana')->references('id_rencana')->on('rencana')->cascadeOnDelete();
         });
 
-        Schema::create('log_pencarian', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('log_pencarian', function (Blueprint $t) {
             $t->bigIncrements('id_log');
             $t->string('kata_kunci', 120);
             $t->smallInteger('jumlah_hasil');
             $t->timestampTz('waktu')->useCurrent();
         });
 
-        DB::unprepared(<<<'SQL'
-            ALTER TABLE users        ADD CONSTRAINT ck_users_peran     CHECK (peran IN ('wisatawan', 'mitra', 'kurator'));
+        DB::connection($this->connection)->unprepared(<<<'SQL'
             ALTER TABLE usaha_mitra  ADD CONSTRAINT ck_usaha_jenis     CHECK (jenis IN ('kuliner', 'oleh-oleh', 'kerajinan', 'penginapan'));
             ALTER TABLE menu_usaha   ADD CONSTRAINT ck_menu_harga      CHECK (harga >= 0);
             ALTER TABLE pesanan
@@ -205,9 +199,7 @@ return new class extends Migration
     public function down(): void
     {
         foreach (['log_pencarian', 'rencana_minat', 'rencana', 'penukaran', 'voucher', 'ringkasan_ulasan', 'ulasan', 'riwayat_poin', 'checkin', 'e_tiket', 'pembayaran', 'pesanan_item', 'pesanan', 'menu_usaha', 'usaha_mitra'] as $tabel) {
-            Schema::dropIfExists($tabel);
+            Schema::connection($this->connection)->dropIfExists($tabel);
         }
-        DB::unprepared('ALTER TABLE users DROP CONSTRAINT IF EXISTS ck_users_peran');
-        Schema::table('users', fn (Blueprint $t) => $t->dropColumn(['peran', 'no_hp']));
     }
 };

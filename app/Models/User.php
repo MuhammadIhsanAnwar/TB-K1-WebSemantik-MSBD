@@ -17,8 +17,8 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /** Akun pengguna ada di database transaksi (DB 2), bukan di database katalog. */
-    protected $connection = 'transaksi';
+    /** Akun pengguna ada di database aplikasi (DB 1), bukan di database transaksi. */
+    protected $connection = 'katalog';
 
     /**
      * Get the attributes that should be cast.

@@ -13,7 +13,7 @@ return new class extends Migration
 
     public function up(): void
     {
-        DB::unprepared(<<<'SQL'
+        DB::connection($this->connection)->unprepared(<<<'SQL'
             -- ---------- index ----------
             CREATE INDEX ix_tempat_kategori  ON tempat (id_kategori);
             CREATE INDEX ix_tempat_kecamatan ON tempat (id_kecamatan);
@@ -187,7 +187,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        DB::unprepared(<<<'SQL'
+        DB::connection($this->connection)->unprepared(<<<'SQL'
             DROP PROCEDURE IF EXISTS sp_hitung_relasi_dekat(integer);
             DROP TRIGGER IF EXISTS tempat_updated_at ON tempat;
             DROP TRIGGER IF EXISTS kecamatan_ikut_ganti ON kecamatan;

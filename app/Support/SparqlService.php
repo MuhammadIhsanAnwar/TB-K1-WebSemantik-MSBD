@@ -6,9 +6,8 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Mengirim query SPARQL 1.1 ke endpoint Apache Jena Fuseki (SPARQL_ENDPOINT) lewat protokol SPARQL W3C
+ * Mengirim query SPARQL 1.1 ke Database 3 lewat protokol SPARQL W3C
  * dan mengubah hasilnya ke bentuk tabel yang dipakai halaman /data: ['ok', 'kolom', 'baris', 'catatan'].
- * Endpoint Fuseki MedanVisit hanya menerima query (lihat database/rdf/fuseki-medanvisit.ttl).
  */
 class SparqlService
 {
@@ -58,7 +57,7 @@ class SparqlService
     }
 
     /**
-     * @throws ConnectionException bila Fuseki tidak bisa dihubungi
+     * @throws ConnectionException bila Database 3 tidak bisa dihubungi
      */
     public static function jalankan(string $query): array
     {
@@ -68,18 +67,25 @@ class SparqlService
         }
 
         $grafik = in_array($jenis, ['CONSTRUCT', 'DESCRIBE'], true);
-        $jawab = Http::timeout((int) config('services.sparql.timeout', 8))
+        $http = Http::timeout((int) config('services.sparql.timeout', 30));
+        $username = config('services.sparql.username');
+        $password = config('services.sparql.password');
+        if ($username !== null && $password !== null) {
+            $http = $http->withBasicAuth($username, $password);
+        }
+
+        $jawab = $http
             ->accept($grafik ? 'application/n-triples' : 'application/sparql-results+json')
             ->asForm()
             ->post(self::endpoint(), ['query' => $query]);
 
         if (! $jawab->successful()) {
-            $pesan = trim(strtok($jawab->body(), "\n")) ?: 'Fuseki menolak query ini.';
+            $pesan = trim(strtok($jawab->body(), "\n")) ?: 'Database 3 menolak query ini.';
 
             return ['ok' => false, 'pesan' => 'Query tidak valid: '.mb_substr($pesan, 0, 300)];
         }
 
-        $catatan = 'dijalankan di Apache Jena Fuseki ('.parse_url(self::endpoint(), PHP_URL_HOST).').';
+        $catatan = 'dijalankan di Database 3 '.config('services.sparql.driver').' ('.parse_url(self::endpoint(), PHP_URL_HOST).').';
 
         if ($grafik) {
             $baris = [];

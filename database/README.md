@@ -17,11 +17,11 @@ Kalau data tempat berubah: ubah `Katalog.php` atau `app/Support/data/tempat-tamb
 | `data/*.json` | 9 file sumber: kategori, kecamatan, tempat, tiket, entitas, predikat, relasi, jalur, jalur_singgah |
 | `migrations/2026_11_06_000100_buat_tabel_katalog.php` | tabel DB 1 |
 | `migrations/2026_11_06_000200_buat_objek_katalog.php` | index, view, function, trigger, procedure DB 1 |
-| `migrations/2026_11_06_000300_buat_tabel_transaksi.php` | tabel DB 2 |
-| `migrations/2026_11_06_000400_buat_objek_transaksi.php` | index, view, function, trigger, procedure DB 2 |
-| `migrations/2026_11_06_000500_buat_role_database.php` | role hak akses kedua database |
+| `migrations-transaksi/2026_11_06_000300_buat_tabel_transaksi.php` | tabel DB 2, ditunda |
+| `migrations-transaksi/2026_11_06_000400_buat_objek_transaksi.php` | index, view, function, trigger, procedure DB 2, ditunda |
+| `migrations-transaksi/2026_11_06_000500_buat_role_database.php` | role hak akses kedua database, ditunda |
 | `seeders/KatalogSeeder.php` | isi DB 1 dari `data/*.json` |
-| `seeders/TransaksiSeeder.php` | akun uji coba dan contoh transaksi di DB 2 (data uji coba) |
+| `seeders/TransaksiSeeder.php` | akun uji coba di DB 1 dan contoh transaksi di DB 2 (data uji coba) |
 | `sql/00_role.sql`, `sql/01_medanvisit_katalog.sql`, `sql/02_medanvisit_transaksi.sql` | dump kedua database (struktur + data, perintah `INSERT` biasa). Bisa dijalankan di psql, DBeaver, atau SQL Editor Supabase tanpa Laravel; jalankan `00_role.sql` dulu |
 | `rdf/medanvisit-ontologi.ttl` (`.owl`) | ontologi (TBox): kelas dan properti, RDFS/OWL 2 |
 | `rdf/medanvisit-data.ttl` (`.jsonld`) | data (ABox), dibuat `rdf:ekspor` |
@@ -43,10 +43,15 @@ Membuka database lewat DBeaver: koneksi PostgreSQL baru, host `localhost`, port 
 
 | Koneksi | Variabel `.env` | Isi |
 |---|---|---|
-| `katalog` (DB 1) | `DB_*` | data master: kategori, kecamatan, tempat, fasilitas_tempat, cara_menuju, tiket, entitas, predikat, relasi, jalur, jalur_singgah |
-| `transaksi` (DB 2) | `DB2_*` | users, usaha_mitra, menu_usaha, pesanan, pesanan_item, pembayaran, e_tiket, checkin, riwayat_poin, ulasan, ringkasan_ulasan, voucher, penukaran, rencana, rencana_minat, log_pencarian |
+| `katalog` (DB 1) | `DB_*` | users, password_reset_tokens, sessions, cache, jobs, failed_jobs, serta data master: kategori, kecamatan, tempat, fasilitas_tempat, cara_menuju, tiket, entitas, predikat, relasi, jalur, jalur_singgah |
+| `transaksi` (DB 2) | `DB2_*` | usaha_mitra, menu_usaha, pesanan, pesanan_item, pembayaran, e_tiket, checkin, riwayat_poin, ulasan, ringkasan_ulasan, voucher, penukaran, rencana, rencana_minat, log_pencarian |
 
 `id_tempat` di DB 2 merujuk ke DB 1. Foreign key tidak bisa melintasi database, jadi kecocokannya dijaga aplikasi.
+
+Saat ini Laravel hanya memuat migration di `database/migrations`; migration DB 2
+disimpan sementara di `database/migrations-transaksi` dan belum dijalankan.
+Untuk mengulang tahap awal pada database pengembangan, gunakan `php artisan migrate:fresh`
+setelah memastikan database yang dituju memang aman untuk dihapus.
 
 ```bash
 php artisan migrate      # membuat tabel dan objek di kedua database

@@ -218,7 +218,7 @@ class AdminController extends Controller
         $hasil = null;
         if ($request->boolean('periksa')) {
             $hasil = [];
-            foreach (['pgsql' => 'PostgreSQL 1 (atribut & transaksi)', 'supabase2' => 'PostgreSQL 2 (tiket & pembayaran)'] as $koneksi => $label) {
+            foreach (['katalog' => 'PostgreSQL Database 1 (akun, Laravel, katalog)', 'transaksi' => 'PostgreSQL Database 2 (transaksi)'] as $koneksi => $label) {
                 config(["database.connections.$koneksi.connect_timeout" => 4]);
                 $mulai = microtime(true);
                 try {
@@ -229,15 +229,21 @@ class AdminController extends Controller
                     $hasil[] = ['label' => $label, 'ok' => false, 'teks' => str($pesan)->before(' (Connection:')->limit(180)->toString()];
                 }
             }
-            $endpoint = env('SPARQL_ENDPOINT');
+            $endpoint = config('services.sparql.endpoint');
             if (! $endpoint) {
-                $hasil[] = ['label' => 'Apache Jena Fuseki (SPARQL)', 'ok' => false, 'teks' => 'SPARQL_ENDPOINT belum diisi di .env.'];
+                $hasil[] = ['label' => 'Database 3 ('.config('services.sparql.driver').'/SPARQL)', 'ok' => false, 'teks' => 'SPARQL_ENDPOINT belum diisi di .env.'];
             } else {
                 try {
-                    $res = Http::timeout(4)->asForm()->post($endpoint, ['query' => 'ASK { ?s ?p ?o }']);
-                    $hasil[] = ['label' => 'Apache Jena Fuseki (SPARQL)', 'ok' => $res->successful(), 'teks' => $res->successful() ? 'Endpoint menjawab.' : 'Endpoint menjawab dengan status '.$res->status().'.'];
+                    $http = Http::timeout((int) config('services.sparql.timeout', 30));
+                    $username = config('services.sparql.username');
+                    $password = config('services.sparql.password');
+                    if ($username !== null && $password !== null) {
+                        $http = $http->withBasicAuth($username, $password);
+                    }
+                    $res = $http->asForm()->post($endpoint, ['query' => 'ASK { ?s ?p ?o }']);
+                    $hasil[] = ['label' => 'Database 3 ('.config('services.sparql.driver').'/SPARQL)', 'ok' => $res->successful(), 'teks' => $res->successful() ? 'Endpoint menjawab.' : 'Endpoint menjawab dengan status '.$res->status().'.'];
                 } catch (\Throwable $e) {
-                    $hasil[] = ['label' => 'Apache Jena Fuseki (SPARQL)', 'ok' => false, 'teks' => 'Tidak bisa dihubungi: '.str($e->getMessage())->limit(120)];
+                    $hasil[] = ['label' => 'Database 3 ('.config('services.sparql.driver').'/SPARQL)', 'ok' => false, 'teks' => 'Tidak bisa dihubungi: '.str($e->getMessage())->limit(120)];
                 }
             }
             $hasil[] = ['label' => 'Penyimpanan sementara (cache berkas)', 'ok' => true, 'teks' => count(Penyimpanan::pesanan()).' pesanan, '.count(Penyimpanan::checkin()).' check-in, '.count(Penyimpanan::ulasan()).' ulasan tersimpan.'];

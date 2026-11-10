@@ -17,20 +17,20 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('kategori', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('kategori', function (Blueprint $t) {
             $t->smallIncrements('id_kategori');
             $t->string('kode', 20)->unique();
             $t->string('nama_kategori', 60);
         });
 
-        Schema::create('kecamatan', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('kecamatan', function (Blueprint $t) {
             $t->smallIncrements('id_kecamatan');
             $t->string('slug', 60)->unique();
             $t->string('nama_kecamatan', 60)->unique();
             $t->string('kota', 40)->default('Medan');
         });
 
-        Schema::create('tempat', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('tempat', function (Blueprint $t) {
             $t->increments('id_tempat');
             $t->smallInteger('id_kategori');
             $t->smallInteger('id_kecamatan');
@@ -60,7 +60,7 @@ return new class extends Migration
             $t->foreign('id_kecamatan')->references('id_kecamatan')->on('kecamatan')->restrictOnDelete();
         });
 
-        Schema::create('fasilitas_tempat', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('fasilitas_tempat', function (Blueprint $t) {
             $t->increments('id_fasilitas');
             $t->integer('id_tempat');
             $t->smallInteger('urutan');
@@ -69,7 +69,7 @@ return new class extends Migration
             $t->foreign('id_tempat')->references('id_tempat')->on('tempat')->cascadeOnDelete();
         });
 
-        Schema::create('cara_menuju', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('cara_menuju', function (Blueprint $t) {
             $t->increments('id_cara');
             $t->integer('id_tempat');
             $t->smallInteger('urutan');
@@ -78,7 +78,7 @@ return new class extends Migration
             $t->foreign('id_tempat')->references('id_tempat')->on('tempat')->cascadeOnDelete();
         });
 
-        Schema::create('tiket', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('tiket', function (Blueprint $t) {
             $t->increments('id_tiket');
             $t->integer('id_tempat');
             $t->string('jenis_pengunjung', 60);
@@ -87,7 +87,7 @@ return new class extends Migration
             $t->foreign('id_tempat')->references('id_tempat')->on('tempat')->cascadeOnDelete();
         });
 
-        Schema::create('entitas', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('entitas', function (Blueprint $t) {
             $t->increments('id_entitas');
             $t->string('slug', 80)->unique();
             $t->string('jenis', 20);
@@ -97,7 +97,7 @@ return new class extends Migration
             $t->string('image', 160)->nullable();
         });
 
-        Schema::create('predikat', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('predikat', function (Blueprint $t) {
             $t->string('kode', 30)->primary();
             $t->string('label', 40);
             $t->string('label_balik', 40);
@@ -106,7 +106,7 @@ return new class extends Migration
             $t->boolean('simetris')->default(false);
         });
 
-        Schema::create('relasi', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('relasi', function (Blueprint $t) {
             $t->increments('id_relasi');
             $t->string('subjek', 80);
             $t->string('predikat', 30);
@@ -117,7 +117,7 @@ return new class extends Migration
             $t->foreign('predikat')->references('kode')->on('predikat')->restrictOnDelete();
         });
 
-        Schema::create('jalur', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('jalur', function (Blueprint $t) {
             $t->smallIncrements('id_jalur');
             $t->string('slug', 80)->unique();
             $t->string('nama_jalur', 120);
@@ -125,7 +125,7 @@ return new class extends Migration
             $t->string('image', 160)->nullable();
         });
 
-        Schema::create('jalur_singgah', function (Blueprint $t) {
+        Schema::connection($this->connection)->create('jalur_singgah', function (Blueprint $t) {
             $t->smallInteger('id_jalur');
             $t->integer('id_tempat');
             $t->smallInteger('urutan');
@@ -136,7 +136,7 @@ return new class extends Migration
         });
 
         // aturan nilai yang tidak bisa ditulis lewat Blueprint
-        DB::unprepared(<<<'SQL'
+        DB::connection($this->connection)->unprepared(<<<'SQL'
             ALTER TABLE tempat
                 ADD CONSTRAINT ck_tempat_latitude  CHECK (latitude  BETWEEN -90  AND 90),
                 ADD CONSTRAINT ck_tempat_longitude CHECK (longitude BETWEEN -180 AND 180),
@@ -154,7 +154,7 @@ return new class extends Migration
     public function down(): void
     {
         foreach (['jalur_singgah', 'jalur', 'relasi', 'predikat', 'entitas', 'tiket', 'cara_menuju', 'fasilitas_tempat', 'tempat', 'kecamatan', 'kategori'] as $tabel) {
-            Schema::dropIfExists($tabel);
+            Schema::connection($this->connection)->dropIfExists($tabel);
         }
     }
 };

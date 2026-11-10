@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'katalog'),
 
     /*
     |--------------------------------------------------------------------------
@@ -113,8 +113,8 @@ return [
             'sslmode' => 'require',
         ],
 
-        // Dua database MedanVisit (tugas MSBD). katalog = data master tempat & relasi (variabel DB_*),
-        // transaksi = akun, pesanan, check-in, ulasan, poin (variabel DB2_*).
+        // Dua database MedanVisit. katalog = akun, Laravel, dan data master (variabel DB_*),
+        // transaksi = pesanan, check-in, ulasan, poin, dan data bisnis lain (variabel DB2_*).
         'katalog' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),

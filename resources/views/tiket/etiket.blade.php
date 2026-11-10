@@ -17,7 +17,7 @@
 
     <article class="mv-etiket" aria-labelledby="judul-etiket">
         <div class="mv-etiket__atas">
-            <img src="{{ asset('images/logo/tanpa-tagline-gelap.svg') }}" alt="MedanVisit" width="736" height="256">
+            <img src="{{ asset('storage/logo_app/svg/MedanVisit_logo_tanpa-tagline_gelap.svg') }}" alt="MedanVisit" width="736" height="256">
             <p class="mv-etiket__jenis">E-TIKET RESMI MEDANVISIT</p>
             <h2 id="judul-etiket">{{ $t['nama'] }}</h2>
         </div>

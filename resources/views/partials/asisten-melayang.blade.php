@@ -1,6 +1,6 @@
 <div class="mv-asisten-widget tidak-dicetak" data-ui data-asisten-widget data-url="{{ route('tanya.jawab') }}">
     <button class="mv-asisten-widget__pemicu" type="button" data-buka-asisten aria-expanded="false" aria-controls="panel-asisten-melayang">
-        <img src="{{ asset('images/logo/ikon.svg') }}" alt="" width="24" height="24">
+        <img src="{{ asset('storage/logo_app/svg/MedanVisit_ikon.svg') }}" alt="" width="24" height="24">
         <span>Tanya asisten</span>
     </button>
 
@@ -8,7 +8,7 @@
         <header class="mv-asisten-panel__kepala">
             <div class="mv-asisten-panel__identitas">
                 <span class="mv-asisten-panel__avatar" aria-hidden="true">
-                    <img src="{{ asset('images/logo/ikon.svg') }}" alt="" width="24" height="24">
+                    <img src="{{ asset('storage/logo_app/svg/MedanVisit_ikon.svg') }}" alt="" width="24" height="24">
                 </span>
                 <div>
                     <b>Asisten MedanVisit</b>

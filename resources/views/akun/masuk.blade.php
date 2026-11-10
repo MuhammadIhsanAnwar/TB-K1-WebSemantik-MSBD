@@ -14,7 +14,7 @@
 
         <div class="mv-otentik__visual-atas" data-naik style="--i:0">
             <a class="mv-otentik__logo" href="{{ route('beranda') }}" aria-label="MedanVisit, kembali ke beranda">
-                <img src="{{ asset('images/logo/horizontal-gelap.svg') }}" alt="MedanVisit" width="736" height="256">
+                <img src="{{ asset('storage/logo_app/svg/MedanVisit_logo_horizontal_gelap.svg') }}" alt="MedanVisit" width="736" height="256">
             </a>
         </div>
 
