@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use RuntimeException;
 
 class KirimRdf extends Command
@@ -55,6 +56,7 @@ class KirimRdf extends Command
             return self::FAILURE;
         }
 
+        Cache::forget('database3.catalog.triples.v2');
         $this->info('Data wisata berhasil dikirim ke Database 3.');
 
         return self::SUCCESS;

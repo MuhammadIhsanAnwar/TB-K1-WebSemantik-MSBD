@@ -111,7 +111,7 @@
                 @endphp
                 <a class="mv-kartu-tempat {{ $adalahLebar ? 'mv-kartu-tempat--lebar' : '' }}" href="{{ route('tempat', $t['slug']) }}" data-kategori="{{ $t['kategori'] }}">
                     <div class="mv-kartu-tempat__media">
-                        <x-foto :berkas="$berkasFoto" :alt="$t['nama']" :kecil="! $adalahLebar" />
+                        <x-foto :berkas="$berkasFoto" :alt="$t['nama']" :kecil="true" />
                     </div>
                     <div class="mv-kartu-tempat__pita mv-kartu-tempat__pita--{{ $nadaPita }}">
                         <span>{{ Katalog::KATEGORI[$t['kategori']] }}</span>

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
  */
 class SparqlService
 {
-    private const BATAS_BARIS = 500;
+    private const BATAS_BARIS = 2000;
 
     /** IRI panjang disingkat dengan prefix yang sama seperti di file Turtle */
     private const PREFIX = [

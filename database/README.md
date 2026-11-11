@@ -23,8 +23,7 @@ lalu jalankan `rdf:kirim` ke Database 3.
 | `migrations-transaksi/2026_11_06_000500_buat_role_database.php` | role hak akses kedua database, ditunda |
 | `app/Console/Commands/KirimRdf.php` | mengirim RDF wisata ke Database 3 |
 | `migrations/2026_11_11_000200_kirim_rdf_ke_database3.php` | migration SPARQL untuk ontologi dan data RDF Database 3 |
-| `seeders/KatalogSeeder.php` | deprecated, tidak menulis PostgreSQL |
-| `seeders/TransaksiSeeder.php` | akun uji coba di DB 1 dan contoh transaksi di DB 2 (data uji coba) |
+| `seeders/` | tidak digunakan; data wisata dimuat ke Database 3 dan transaksi dibuat melalui alur aplikasi |
 | `sql/00_role.sql`, `sql/01_medanvisit_katalog.sql`, `sql/02_medanvisit_transaksi.sql` | dump kedua database (struktur + data, perintah `INSERT` biasa). Bisa dijalankan di psql, DBeaver, atau SQL Editor Supabase tanpa Laravel; jalankan `00_role.sql` dulu |
 | `rdf/medanvisit-ontologi.ttl` (`.owl`) | ontologi (TBox): kelas dan properti, RDFS/OWL 2 |
 | `rdf/medanvisit-data.ttl` (`.jsonld`) | data (ABox), dibuat `rdf:ekspor` |

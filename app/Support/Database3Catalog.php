@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use RuntimeException;
+use Illuminate\Support\Facades\Cache;
 
 final class Database3Catalog
 {
@@ -77,7 +78,7 @@ final class Database3Catalog
                     'alamat' => self::address($properties, $bySubject),
                     'lat' => (float) self::first($properties, 'geo:lat', 0),
                     'lng' => (float) self::first($properties, 'geo:long', 0),
-                    'foto' => self::first($properties, 'schema:image', null),
+                    'foto' => self::imageName(self::first($properties, 'schema:image', null)),
                     'tiket' => self::offers($properties, $bySubject),
                     'harga_contoh' => self::boolean($properties, 'mv:hargaContoh'),
                     'jam' => self::first($properties, 'mv:keteranganJam', ''),
@@ -127,23 +128,37 @@ final class Database3Catalog
             return self::$triples;
         }
 
-        $triples = [];
-        for ($offset = 0; ; $offset += 500) {
-            $result = SparqlService::jalankan(
-                'SELECT ?s ?p ?o WHERE { ?s ?p ?o } ORDER BY ?s ?p ?o OFFSET '.$offset
-            );
+        return self::$triples = Cache::remember('database3.catalog.triples.v2', now()->addMinutes(5), function (): array {
+            $result = SparqlService::jalankan(<<<'SPARQL'
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX schema: <https://schema.org/>
+                PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+                PREFIX mv: <https://medanvisit.neoverse.my.id/ontologi#>
+                PREFIX dcterms: <http://purl.org/dc/terms/>
+                SELECT ?s ?p ?o WHERE {
+                    ?s ?p ?o .
+                    FILTER (?p IN (
+                        rdf:type, rdfs:label, schema:name, schema:description, schema:address,
+                        schema:image, schema:offers, owl:sameAs, geo:lat, geo:long,
+                        schema:streetAddress, mv:cerita, mv:kelurahan, mv:keteranganJam,
+                        mv:jamContoh, mv:radiusCheckin, mv:durasiSinggah, mv:jamBuka,
+                        mv:jamTutup, mv:fasilitas, mv:caraMenuju, mv:hargaContoh,
+                        dcterms:source, mv:dibangunOleh, mv:memimpin, mv:terlibatDalam,
+                        mv:merepresentasikan, mv:khasDari, mv:dekatDengan, mv:bergaya,
+                        mv:bagianDari, mv:berkaitanDengan, mv:memilikiSejarah,
+                        mv:menjual, mv:dilayaniOleh, mv:beradaDi, schema:price,
+                        schema:priceCurrency
+                    ))
+                }
+                SPARQL);
             if (! ($result['ok'] ?? false)) {
                 throw new RuntimeException($result['pesan'] ?? 'Database 3 tidak mengembalikan data RDF.');
             }
 
-            $page = $result['baris'] ?? [];
-            $triples = array_merge($triples, $page);
-            if (count($page) < 500) {
-                break;
-            }
-        }
-
-        return self::$triples = $triples;
+            return $result['baris'] ?? [];
+        });
     }
 
     private static function first(array $properties, string $key, mixed $default): mixed
@@ -159,6 +174,18 @@ final class Database3Catalog
     private static function wikidata(string $value): ?string
     {
         return str_starts_with($value, 'wd:') ? substr($value, 3) : null;
+    }
+
+    private static function imageName(mixed $value): ?string
+    {
+        if (! is_string($value) || $value === '') {
+            return null;
+        }
+
+        $path = parse_url($value, PHP_URL_PATH);
+        $name = $path ? basename($path) : basename($value);
+
+        return $name === '.' || $name === DIRECTORY_SEPARATOR ? null : $name;
     }
 
     private static function kecamatan(string $value): string
