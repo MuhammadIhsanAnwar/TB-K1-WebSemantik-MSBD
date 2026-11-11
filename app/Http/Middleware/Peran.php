@@ -13,13 +13,13 @@ class Peran
 {
     public function handle(Request $request, Closure $next, ?string $peran = null): Response
     {
-        $pengguna = $request->user();
+        $pengguna = $request->session()->get('pengguna');
         $roles = $peran ? explode(',', $peran) : [];
         if (! $pengguna) {
             return redirect()->route('masuk', ['kembali' => $request->getRequestUri()]);
         }
 
-        if ($roles && ! in_array($pengguna->peran, $roles, true)) {
+        if ($roles && ! in_array($pengguna['peran'], $roles, true)) {
             abort(403, 'Akun ini tidak memiliki akses ke halaman tersebut.');
         }
 

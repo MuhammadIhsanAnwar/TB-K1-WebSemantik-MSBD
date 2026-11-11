@@ -17,6 +17,7 @@
         "@laravel/multiplex": "^0.4.1"
     },
     "dependencies": {
+        "@supabase/server": "^1.9.2",
         "cytoscape": "^3.30.2",
         "leaflet": "^1.9.4",
         "qrcode": "^1.5.4"

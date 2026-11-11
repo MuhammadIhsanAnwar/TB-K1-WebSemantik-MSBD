@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Support\Katalog;
 use App\Support\Penyimpanan;
+use App\Support\SupabaseApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class AdminController extends Controller
@@ -218,11 +218,10 @@ class AdminController extends Controller
         $hasil = null;
         if ($request->boolean('periksa')) {
             $hasil = [];
-            foreach (['katalog' => 'PostgreSQL Database 1 (akun, Laravel, katalog)', 'transaksi' => 'PostgreSQL Database 2 (transaksi)'] as $koneksi => $label) {
-                config(["database.connections.$koneksi.connect_timeout" => 4]);
+            foreach (['katalog' => ['users', 'PostgreSQL Database 1 (akun, Laravel, katalog)'], 'transaksi' => ['pesanan', 'PostgreSQL Database 2 (transaksi)']] as $koneksi => [$tabel, $label]) {
                 $mulai = microtime(true);
                 try {
-                    DB::connection($koneksi)->getPdo();
+                    (new SupabaseApi($koneksi))->ping($tabel);
                     $hasil[] = ['label' => $label, 'ok' => true, 'teks' => 'Tersambung dalam '.round((microtime(true) - $mulai) * 1000).' ms.'];
                 } catch (\Throwable $e) {
                     $pesan = preg_replace('/password=[^\s]+/i', 'password=***', $e->getMessage());

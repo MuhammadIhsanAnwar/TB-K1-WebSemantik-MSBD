@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Support\Katalog;
 use App\Support\Penyimpanan;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Support\SupabaseApi;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,14 +14,7 @@ class AkunController extends Controller
 {
     private function pengguna(Request $r): array
     {
-        $user = $r->user();
-        abort_unless($user, 401);
-
-        return [
-            'email' => $user->email,
-            'nama' => $user->name,
-            'peran' => $user->peran,
-        ];
+        return $r->session()->get('pengguna', []);
     }
 
     private function aman(?string $kembali): ?string
@@ -37,7 +30,7 @@ class AkunController extends Controller
     public function prosesMasuk(Request $request)
     {
         $data = $request->validate([
-            'email' => ['required', 'email', 'unique:users,email'],
+            'email' => ['required', 'email'],
             'password' => ['required'],
         ], [
             'email.required' => 'Isi alamat email.',
@@ -45,15 +38,16 @@ class AkunController extends Controller
             'password.required' => 'Isi kata sandi.',
         ]);
 
-        if (! Auth::attempt(['email' => strtolower($data['email']), 'password' => $data['password']])) {
+        $user = (new SupabaseApi)->findUserByEmail($data['email']);
+        if (! $user || ! Hash::check($data['password'], $user['password'])) {
             return back()->withErrors(['email' => 'Email atau kata sandi tidak cocok.'])->withInput($request->only('email'));
         }
 
         $request->session()->regenerate();
-        $this->simpanSesiPengguna($request, Auth::user());
+        $this->simpanSesiPengguna($request, $user);
 
-        return redirect($this->aman($request->input('kembali')) ?? $this->tujuan(Auth::user()->peran))
-            ->with('pesan', 'Halo, '.Auth::user()->name.'.');
+        return redirect($this->aman($request->input('kembali')) ?? $this->tujuan($user['peran']))
+            ->with('pesan', 'Halo, '.$user['name'].'.');
     }
 
     private function tujuan(string $peran): string
@@ -64,12 +58,13 @@ class AkunController extends Controller
         };
     }
 
-    private function simpanSesiPengguna(Request $request, User $user): void
+    private function simpanSesiPengguna(Request $request, array $user): void
     {
         $request->session()->put('pengguna', [
-            'email' => $user->email,
-            'nama' => $user->name,
-            'peran' => $user->peran,
+            'id' => $user['id'] ?? null,
+            'email' => $user['email'],
+            'nama' => $user['name'],
+            'peran' => $user['peran'],
         ]);
     }
 
@@ -96,14 +91,17 @@ class AkunController extends Controller
             'setuju.accepted' => 'Setujui ketentuan untuk membuat akun.',
         ]);
 
-        $user = User::create([
+        $api = new SupabaseApi;
+        if ($api->findUserByEmail($data['email'])) {
+            return back()->withErrors(['email' => 'Email tersebut sudah terdaftar.'])->withInput();
+        }
+        $user = $api->createUser([
             'name' => $data['nama'],
             'email' => strtolower($data['email']),
             'tanggal_lahir' => $data['tanggal_lahir'],
-            'password' => $data['password'],
+            'password' => Hash::make($data['password']),
             'peran' => 'wisatawan',
         ]);
-        Auth::login($user);
         $request->session()->regenerate();
         $this->simpanSesiPengguna($request, $user);
 
@@ -113,7 +111,6 @@ class AkunController extends Controller
 
     public function keluar(Request $request)
     {
-        Auth::logout();
         $request->session()->forget('pengguna');
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -154,13 +151,23 @@ class AkunController extends Controller
         ])->throw()->json();
         $profile = Http::withToken($token['access_token'])->get('https://openidconnect.googleapis.com/v1/userinfo')->throw()->json();
         abort_unless(($profile['email_verified'] ?? false) && ! empty($profile['email']) && ! empty($profile['sub']), 422, 'Akun Google belum terverifikasi.');
-        $user = User::firstOrCreate(['email' => strtolower($profile['email'])], [
-            'name' => $profile['name'] ?? Str::before($profile['email'], '@'),
-            'google_id' => $profile['sub'], 'email_verified_at' => now(), 'peran' => 'wisatawan',
-            'password' => Str::random(40),
-        ]);
-        $user->forceFill(['google_id' => $profile['sub'], 'email_verified_at' => now()])->save();
-        Auth::login($user, true);
+        $api = new SupabaseApi;
+        $user = $api->findUserByEmail($profile['email']);
+        if (! $user) {
+            $user = $api->createUser([
+                'name' => $profile['name'] ?? Str::before($profile['email'], '@'),
+                'email' => strtolower($profile['email']),
+                'google_id' => $profile['sub'],
+                'email_verified_at' => now()->toDateTimeString(),
+                'peran' => 'wisatawan',
+                'password' => Hash::make(Str::random(40)),
+            ]);
+        } elseif (($user['google_id'] ?? null) !== $profile['sub']) {
+            $user = $api->updateUser($user['id'], [
+                'google_id' => $profile['sub'],
+                'email_verified_at' => now()->toDateTimeString(),
+            ]);
+        }
         $request->session()->regenerate();
         $this->simpanSesiPengguna($request, $user);
 
