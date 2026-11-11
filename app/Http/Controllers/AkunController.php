@@ -226,9 +226,15 @@ class AkunController extends Controller
         abort_unless($user, 404, 'Akun tidak ditemukan.');
         $user = $api->updateUser($user['id'], ['email_verified_at' => now()->toDateTimeString()]);
         $api->deleteVerificationToken($record['id']);
-        $request->session()->forget('pengguna');
+        $request->session()->regenerate();
+        $this->simpanSesiPengguna($request, $user);
 
-        return redirect()->route('masuk')->with('pesan', 'Email berhasil dikonfirmasi. Silakan masuk.');
+        if (! empty($user['google_id'])) {
+            return redirect()->route('akun.pengaturan')
+                ->with('pesan', 'Email berhasil dikonfirmasi. Lengkapi tanggal lahir dan nomor HP akun Google kamu.');
+        }
+
+        return redirect()->route('beranda')->with('pesan', 'Email berhasil dikonfirmasi. Selamat datang di MedanVisit.');
     }
 
     public function kirimUlangVerifikasi(Request $request)

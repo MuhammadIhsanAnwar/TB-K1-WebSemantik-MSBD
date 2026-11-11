@@ -1359,7 +1359,7 @@
   font-weight: 600;
 }
 body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
-  border-radius: 0;
+  border-radius: 8px;
 }
 @media (max-width: 580px) {
   .mv-jalur-spek { gap: 6px; }

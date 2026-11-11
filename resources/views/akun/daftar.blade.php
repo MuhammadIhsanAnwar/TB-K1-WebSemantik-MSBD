@@ -59,7 +59,6 @@
                 <div class="isian" data-naik style="--i:5">
                     <label for="email">Alamat email</label>
                     <input id="email" type="email" name="email" value="{{ old('email') }}" autocomplete="email" placeholder="nama@email.com" required aria-describedby="bantu-email @error('email') galat-email @enderror" @error('email') aria-invalid="true" @enderror>
-                    <p class="isian__bantuan" id="bantu-email">Salinan e-tiket dikirim ke alamat ini.</p>
                     @error('email')<p class="isian__galat" id="galat-email">{{ $message }}</p>@enderror
                 </div>
 
