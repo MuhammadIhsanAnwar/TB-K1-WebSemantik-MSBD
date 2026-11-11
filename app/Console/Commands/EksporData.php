@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 
 /**
  * Ekspor isi App\Support\Katalog ke database/data/*.json, satu file per tabel.
- * File ini sumber tunggal untuk seeder PostgreSQL (MSBD) dan ekspor RDF (Web Semantik).
+ * File ini menjadi payload antara data aplikasi dan ekspor RDF Database 3.
  */
 class EksporData extends Command
 {

@@ -113,7 +113,7 @@ return [
             'sslmode' => 'require',
         ],
 
-        // Dua database MedanVisit. katalog = akun, Laravel, dan data master (variabel DB_*),
+        // Dua database PostgreSQL MedanVisit. katalog = akun dan Laravel (variabel DB_*),
         // transaksi = pesanan, check-in, ulasan, poin, dan data bisnis lain (variabel DB2_*).
         'katalog' => [
             'driver' => 'pgsql',

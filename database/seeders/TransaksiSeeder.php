@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Support\Katalog;
 
 /**
  * Mengisi DB 1 dengan akun uji coba dan DB 2 (koneksi "transaksi") dengan contoh transaksi.
@@ -17,10 +18,13 @@ class TransaksiSeeder extends Seeder
     public function run(): void
     {
         $db = DB::connection('transaksi');
-        $katalog = DB::connection('katalog');
         $akun = DB::connection('katalog');
-        // id_tempat merujuk ke DB 1; bila katalog belum diisi, pakai id urutan ekspor JSON
-        $idTempat = fn (string $slug, int $cadangan) => rescue(fn () => $katalog->table('tempat')->where('slug', $slug)->value('id_tempat'), null, false) ?? $cadangan;
+        // id_tempat adalah ID deterministik dari sumber RDF, bukan foreign key PostgreSQL.
+        $idTempat = function (string $slug, int $cadangan): int {
+            $id = array_search($slug, array_keys(Katalog::tempat()), true);
+
+            return $id === false ? $cadangan : $id + 1;
+        };
 
         $db->statement('TRUNCATE log_pencarian, rencana_minat, rencana, penukaran, voucher, ringkasan_ulasan, ulasan, riwayat_poin, checkin, e_tiket, pembayaran, pesanan_item, pesanan, menu_usaha, usaha_mitra RESTART IDENTITY CASCADE');
         $akun->table('users')->truncate();

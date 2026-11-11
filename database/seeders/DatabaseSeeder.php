@@ -10,10 +10,11 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Isi kedua database MedanVisit: DB 1 katalog dari database/data/*.json, lalu DB 2 transaksi uji coba.
+     * Seeder database transaksi dijalankan terpisah setelah migration DB 2 diaktifkan.
+     * Data wisata dikirim ke Database 3 melalui perintah rdf:kirim, bukan melalui seeder PostgreSQL.
      */
     public function run(): void
     {
-        $this->call([KatalogSeeder::class, TransaksiSeeder::class]);
+        $this->command?->info('Tidak ada seeder PostgreSQL untuk data wisata. Gunakan php artisan rdf:kirim untuk Database 3.');
     }
 }

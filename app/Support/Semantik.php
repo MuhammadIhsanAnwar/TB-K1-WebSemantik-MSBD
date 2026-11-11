@@ -6,8 +6,7 @@ use Illuminate\Http\Client\ConnectionException;
 
 /**
  * Lapisan web semantik: unduhan RDF Turtle dan JSON-LD, serta query SPARQL ke Database 3
- * (SPARQL_ENDPOINT). Kelas dan properti ada di database/rdf/medanvisit-ontologi.ttl. Bila Database 3 tidak
- * bisa dihubungi, query contoh dijawab dari salinan data lokal.
+ * (SPARQL_ENDPOINT). Kelas dan properti ada di database/rdf/medanvisit-ontologi.ttl.
  */
 class Semantik
 {
@@ -41,31 +40,18 @@ class Semantik
         return preg_replace('/\s+/', ' ', trim($q));
     }
 
-    /**
-     * Jalankan query di Database 3 bila SPARQL_ENDPOINT diisi dan bisa dihubungi. Bila tidak, query contoh
-     * tetap dijawab dari salinan data lokal supaya halaman /data tidak kosong.
-     */
+    /** Jalankan query hanya di Database 3; salinan lokal tidak digunakan sebagai sumber jawaban. */
     public static function jalankan(string $query): array
     {
-        $alasan = 'Endpoint SPARQL Database 3 belum diatur';
-        if (SparqlService::endpoint()) {
-            try {
-                return SparqlService::jalankan($query);
-            } catch (ConnectionException) {
-                $alasan = 'Database 3 tidak bisa dihubungi';
-            }
+        if (! SparqlService::endpoint()) {
+            return ['ok' => false, 'pesan' => 'Endpoint SPARQL Database 3 belum diatur.'];
         }
 
-        foreach (self::CONTOH as $id => $c) {
-            if (self::rapikan($c['query']) === self::rapikan($query)) {
-                return ['ok' => true, 'kolom' => $c['kolom'], 'baris' => self::hasil($id), 'catatan' => "dijalankan pada salinan data lokal MedanVisit ($alasan)."];
-            }
+        try {
+            return SparqlService::jalankan($query);
+        } catch (ConnectionException $e) {
+            return ['ok' => false, 'pesan' => 'Database 3 tidak bisa dihubungi: '.$e->getMessage()];
         }
-
-        return [
-            'ok' => false,
-            'pesan' => "$alasan, jadi hanya query contoh yang bisa dijalankan sekarang. Pastikan Database 3 aktif dan SPARQL_ENDPOINT terisi untuk query lain.",
-        ];
     }
 
     private static function hasil(string $id): array

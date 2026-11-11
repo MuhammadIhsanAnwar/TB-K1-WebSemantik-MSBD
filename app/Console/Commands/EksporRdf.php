@@ -6,15 +6,14 @@ use App\Support\Semantik;
 use Illuminate\Console\Command;
 
 /**
- * Ekspor data MedanVisit (ABox) ke RDF Turtle, dari database/data/*.json: sumber yang sama dengan
- * seeder PostgreSQL, supaya isi tugas Web Semantik dan MSBD tidak pernah berbeda.
+ * Ekspor data MedanVisit (ABox) ke RDF Turtle sebagai payload Database 3.
  * Kelas dan properti (TBox) ada di database/rdf/medanvisit-ontologi.ttl.
  */
 class EksporRdf extends Command
 {
     protected $signature = 'rdf:ekspor';
 
-    protected $description = 'Ekspor database/data/*.json ke database/rdf/medanvisit-data.ttl';
+    protected $description = 'Ekspor data wisata ke RDF Turtle untuk Database 3';
 
     private const KELAS_KATEGORI = [
         'sejarah' => 'mv:SitusSejarah', 'museum' => 'mv:Museum', 'religi' => 'mv:RumahIbadah', 'kuliner' => 'mv:TempatKuliner',

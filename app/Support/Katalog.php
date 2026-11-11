@@ -3,14 +3,14 @@
 namespace App\Support;
 
 /**
- * Data contoh MedanVisit untuk prototipe tampilan.
+ * Facade katalog wisata yang membaca data RDF dari Database 3.
  *
  * Fakta sejarah (tahun, tokoh, relasi) diambil dari dokumen rancangan Simpul Medan dan sumber publik
  * yang dicantumkan di setiap relasi. Yang belum terverifikasi ditandai:
  *  - 'harga_contoh' => true  : harga tiket contoh, belum dicek ke pengelola.
  *  - 'jam_contoh'   => true  : jam buka contoh.
  *  - 'koordinat_perkiraan' => true : titik peta diperkirakan, perlu dicek ulang ke OpenStreetMap.
- * Nanti diganti oleh data dari PostgreSQL (atribut) dan SPARQL (relasi).
+ * PostgreSQL tidak menjadi penyimpanan katalog tempat wisata.
  */
 class Katalog
 {
@@ -95,9 +95,7 @@ class Katalog
 
     public static function entitas(): array
     {
-        static $data = null;
-
-        return $data ??= self::bangun();
+        return Database3Catalog::entities();
     }
 
     private static function bangun(): array
@@ -312,9 +310,7 @@ class Katalog
 
     public static function relasi(): array
     {
-        static $r = null;
-
-        return $r ??= self::bangunRelasi();
+        return Database3Catalog::relations();
     }
 
     private static function bangunRelasi(): array

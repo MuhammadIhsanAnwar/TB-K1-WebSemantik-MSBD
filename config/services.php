@@ -36,6 +36,7 @@ return [
         'username' => env('SPARQL_USERNAME'),
         'password' => env('SPARQL_PASSWORD'),
         'endpoint' => env('SPARQL_ENDPOINT'),
+        'statements_endpoint' => env('SPARQL_STATEMENTS_ENDPOINT', env('SPARQL_HOST').'/repositories/'.env('SPARQL_DATABASE').'/statements'),
         'timeout' => (int) env('SPARQL_TIMEOUT', 30),
     ],
 

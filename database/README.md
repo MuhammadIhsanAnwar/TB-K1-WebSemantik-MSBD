@@ -1,26 +1,29 @@
-# Data MedanVisit: PostgreSQL (MSBD) dan RDF (Web Semantik)
+# Data MedanVisit: PostgreSQL akun/transaksi dan Database 3 RDF
 
-Satu sumber data, dua tujuan:
+Data wisata hanya dikirim ke Database 3. PostgreSQL hanya menyimpan akun,
+konfigurasi Laravel, dan transaksi:
 
 ```
-database/data/*.json  ← php artisan data:ekspor (dari app/Support/Katalog.php)
-   ├─► php artisan migrate + db:seed ─► PostgreSQL DB 1 "katalog" + DB 2 "transaksi"
-   └─► php artisan rdf:ekspor          ─► database/rdf/*.ttl ─► Apache Jena Fuseki (SPARQL)
+database/rdf/medanvisit-data.ttl
+  └─► php artisan rdf:kirim ─► Database 3 AllegroGraph (SPARQL)
 ```
 
-Kalau data tempat berubah: ubah `Katalog.php` atau `app/Support/data/tempat-tambahan.php`, lalu jalankan `data:ekspor`, `rdf:ekspor`, dan `db:seed` lagi.
+Kalau data tempat berubah: ubah RDF sumber di `database/rdf/medanvisit-data.ttl`,
+lalu jalankan `rdf:kirim` ke Database 3.
 
 ## Isi folder
 
 | Folder / file | Isi |
 |---|---|
 | `data/*.json` | 9 file sumber: kategori, kecamatan, tempat, tiket, entitas, predikat, relasi, jalur, jalur_singgah |
-| `migrations/2026_11_06_000100_buat_tabel_katalog.php` | tabel DB 1 |
-| `migrations/2026_11_06_000200_buat_objek_katalog.php` | index, view, function, trigger, procedure DB 1 |
-| `migrations-transaksi/2026_11_06_000300_buat_tabel_transaksi.php` | tabel DB 2, ditunda |
-| `migrations-transaksi/2026_11_06_000400_buat_objek_transaksi.php` | index, view, function, trigger, procedure DB 2, ditunda |
+| `migrations-semantic/2026_11_06_000100_buat_tabel_katalog.php` | arsip migration katalog PostgreSQL, tidak aktif |
+| `migrations-semantic/2026_11_06_000200_buat_objek_katalog.php` | arsip objek katalog PostgreSQL, tidak aktif |
+| `migrations/2026_11_06_000300_buat_tabel_transaksi.php` | tabel DB 2, aktif |
+| `migrations/2026_11_06_000400_buat_objek_transaksi.php` | index, view, function, trigger, procedure DB 2, aktif |
 | `migrations-transaksi/2026_11_06_000500_buat_role_database.php` | role hak akses kedua database, ditunda |
-| `seeders/KatalogSeeder.php` | isi DB 1 dari `data/*.json` |
+| `app/Console/Commands/KirimRdf.php` | mengirim RDF wisata ke Database 3 |
+| `migrations/2026_11_11_000200_kirim_rdf_ke_database3.php` | migration SPARQL untuk ontologi dan data RDF Database 3 |
+| `seeders/KatalogSeeder.php` | deprecated, tidak menulis PostgreSQL |
 | `seeders/TransaksiSeeder.php` | akun uji coba di DB 1 dan contoh transaksi di DB 2 (data uji coba) |
 | `sql/00_role.sql`, `sql/01_medanvisit_katalog.sql`, `sql/02_medanvisit_transaksi.sql` | dump kedua database (struktur + data, perintah `INSERT` biasa). Bisa dijalankan di psql, DBeaver, atau SQL Editor Supabase tanpa Laravel; jalankan `00_role.sql` dulu |
 | `rdf/medanvisit-ontologi.ttl` (`.owl`) | ontologi (TBox): kelas dan properti, RDFS/OWL 2 |
@@ -43,19 +46,22 @@ Membuka database lewat DBeaver: koneksi PostgreSQL baru, host `localhost`, port 
 
 | Koneksi | Variabel `.env` | Isi |
 |---|---|---|
-| `katalog` (DB 1) | `DB_*` | users, password_reset_tokens, sessions, cache, jobs, failed_jobs, serta data master: kategori, kecamatan, tempat, fasilitas_tempat, cara_menuju, tiket, entitas, predikat, relasi, jalur, jalur_singgah |
+| `katalog` (DB 1) | `DB_*` | users, password_reset_tokens, sessions, cache, jobs, failed_jobs |
 | `transaksi` (DB 2) | `DB2_*` | usaha_mitra, menu_usaha, pesanan, pesanan_item, pembayaran, e_tiket, checkin, riwayat_poin, ulasan, ringkasan_ulasan, voucher, penukaran, rencana, rencana_minat, log_pencarian |
+| Database 3 | `SPARQL_*` | tempat wisata, kategori, kecamatan, tiket, entitas, relasi, dan jalur dalam RDF |
 
-`id_tempat` di DB 2 merujuk ke DB 1. Foreign key tidak bisa melintasi database, jadi kecocokannya dijaga aplikasi.
+`id_tempat` di DB 2 merujuk ke resource RDF di Database 3. Kecocokannya dijaga aplikasi.
 
-Saat ini Laravel hanya memuat migration di `database/migrations`; migration DB 2
-disimpan sementara di `database/migrations-transaksi` dan belum dijalankan.
+Laravel memuat schema dan objek DB 2 dari `database/migrations`; migration tersebut
+memakai koneksi `transaksi` dan tidak menyimpan data wisata.
 Untuk mengulang tahap awal pada database pengembangan, gunakan `php artisan migrate:fresh`
 setelah memastikan database yang dituju memang aman untuk dihapus.
 
 ```bash
-php artisan migrate      # membuat tabel dan objek di kedua database
-php artisan db:seed      # KatalogSeeder lalu TransaksiSeeder (bisa diulang)
+php artisan migrate      # akun/Laravel di DB 1 dan transaksi di DB 2
+php artisan data:ekspor
+php artisan rdf:ekspor
+php artisan rdf:kirim --replace
 ```
 
 Akun uji coba (sandi `rahasia123`): `rina@contoh.id` (wisatawan), `usaha@contoh.id` (mitra), `kurator@contoh.id` (kurator).
@@ -95,7 +101,7 @@ Menjalankan Fuseki (Java 17+), dari folder Fuseki:
 fuseki-server --config=<path repo>/database/rdf/fuseki-medanvisit.ttl
 ```
 
-Buka `http://localhost:3030`, dataset `medanvisit`. Endpoint SPARQL: `http://localhost:3030/medanvisit/sparql` (isi `SPARQL_ENDPOINT` di `.env`). Halaman `/data` di web memakai endpoint ini; bila Fuseki mati, query contoh dijawab dari salinan lokal.
+Buka `http://localhost:3030`, dataset `medanvisit`. Endpoint SPARQL: `http://localhost:3030/medanvisit/sparql` (isi `SPARQL_ENDPOINT` di `.env`). Halaman `/data` di web memakai endpoint ini; jika Database 3 mati, web menampilkan error koneksi dan tidak memakai data lokal.
 
 Menguji contoh query dari terminal:
 
