@@ -47,6 +47,11 @@
   --mv-potong-kecil: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
 }
 
+/* Sudut komponen dibuat lembut tanpa mengubah elemen yang memang berbentuk lingkaran. */
+:where(button, input, select, textarea, summary, dialog, img, video, [data-ui]) {
+  border-radius: 6px;
+}
+
 .mv-wadah {
   width: min(100%, var(--mv-lebar));
   margin-inline: auto;
@@ -85,6 +90,7 @@
 .mv-btn--bahaya:hover { background: #efc5be; }
 .mv-btn--kecil { min-height: 44px; padding: 8px 16px; font-size: var(--mv-s-ui); }
 .mv-btn--lebar { width: 100%; }
+.mv-google-logo { width: 20px; height: 20px; flex: none; }
 .mv-btn:disabled, .mv-btn[aria-disabled="true"] { background: var(--mv-kertas-2); color: var(--mv-redup); transform: none; }
 
 .mv-tautan {
@@ -1062,7 +1068,7 @@
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--mv-hijau);
-  clip-path: var(--mv-potong);
+  border-radius: 12px;
 }
 .mv-benang__plat img {
   width: 100%;
@@ -1176,7 +1182,7 @@
   margin: 6px 0 0;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  clip-path: var(--mv-potong);
+  border-radius: 12px;
 }
 .mv-menu-tiket__potret img { width: 100%; height: 100%; object-fit: cover; }
 .mv-menu-tiket__daftar {
@@ -1189,7 +1195,7 @@
 .mv-menu-harga {
   padding: 22px 24px 10px;
   background: var(--mv-kertas);
-  clip-path: var(--mv-potong-kecil);
+  border-radius: 10px;
 }
 .mv-menu-harga:nth-child(2) { background: var(--mv-krem); }
 .mv-menu-harga h3 {
@@ -1258,7 +1264,7 @@
   grid-column: 8 / -1;
   background: var(--mv-putih);
   padding: clamp(1.5rem, 3vw, 2.5rem);
-  clip-path: var(--mv-potong);
+  border-radius: 12px;
   display: grid;
   gap: 14px;
 }
@@ -2071,7 +2077,7 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
   margin-inline: auto;
   background: var(--mv-putih);
   border: 2px solid var(--mv-hijau);
-  clip-path: var(--mv-potong);
+  border-radius: 12px;
 }
 .mv-etiket__atas {
   padding: 24px 28px;
@@ -2201,7 +2207,7 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
 .mv-otentik__galeri figure {
   margin: 0;
   background: rgba(15, 59, 46, 0.88);
-  clip-path: var(--mv-potong-kecil);
+  border-radius: 10px;
 }
 .mv-otentik__galeri img {
   display: block;
@@ -2256,18 +2262,61 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
 .mv-otentik .isian__galat {
   font-size: var(--mv-s-ui);
 }
+.mv-input-tanggal {
+  color-scheme: light;
+  accent-color: var(--mv-hijau);
+  padding-right: 48px !important;
+  background-color: var(--mv-putih) !important;
+}
+.mv-input-tanggal::-webkit-calendar-picker-indicator {
+  width: 22px;
+  height: 22px;
+  margin-right: 2px;
+  padding: 5px;
+  border-radius: 6px;
+  background-color: var(--mv-krem);
+  cursor: pointer;
+  opacity: 0.9;
+  transition: background-color 180ms ease, opacity 180ms ease;
+}
+.mv-input-tanggal::-webkit-calendar-picker-indicator:hover {
+  background-color: var(--mv-kuning);
+  opacity: 1;
+}
+.mv-input-tanggal:focus-visible::-webkit-calendar-picker-indicator {
+  background-color: var(--mv-kuning);
+}
 .mv-sandi-bungkus {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 6px;
+  position: relative;
 }
 .mv-sandi-toggle {
-  min-height: 52px;
-  padding: 0 14px;
-  border: 2px solid var(--mv-hijau);
-  background: var(--mv-putih);
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border: 0;
+  background: transparent;
   color: var(--mv-hijau);
-  font: 600 var(--mv-s-ui)/1 var(--font-text);
+  transform: translateY(-50%);
+}
+.mv-sandi-bungkus input {
+  padding-right: 52px;
+}
+.mv-sandi-toggle svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mv-sandi-toggle:focus-visible {
+  outline: 2px solid var(--mv-kuning);
+  outline-offset: -2px;
 }
 .mv-kekuatan {
   display: flex;
@@ -2294,6 +2343,7 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
 .mv-kekuatan__isi[data-status="cukup"] { background: #b26b00 !important; }
 .mv-kekuatan__isi[data-status="kuat"] { background: #1e6b3a !important; }
 .mv-kekuatan__isi[data-status="sangat-kuat"] { background: #0f3b2e !important; }
+.mv-kekuatan__isi { display: block; min-width: 0; }
 .mv-kotak-proto {
   margin-top: 20px;
   padding: 16px;

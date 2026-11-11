@@ -1,8 +1,6 @@
 @extends('layouts.panel')
 @php
     use App\Support\Katalog;
-    $maks = max(1, max($perKecamatan));
-    $tingkat = fn ($n) => $n === 0 ? 0 : min(4, (int) ceil($n / $maks * 4));
     $kerja = count($ulasanMenunggu) + count($celah) + $tanpaSumber->count();
 @endphp
 @section('judul', 'Ringkasan')
@@ -22,10 +20,7 @@
 </div>
 
 <div class="p-kpi">
-    <div><div class="label">Check-in</div><div class="nilai">{{ number_format($checkin, 0, ',', '.') }}</div><div class="ket">{{ $periode }} hari terakhir</div></div>
-    <div><div class="label">Wisatawan aktif</div><div class="nilai">{{ number_format($pengguna, 0, ',', '.') }}</div><div class="ket">pernah check-in dalam periode ini</div></div>
     <div><div class="label">Tiket terjual</div><div class="nilai">{{ number_format($tiket, 0, ',', '.') }}</div><div class="ket">{{ Katalog::rupiah($pendapatan) }} dari pesanan lunas</div></div>
-    <div><div class="label">Voucher ditukar</div><div class="nilai">{{ number_format($penukaran, 0, ',', '.') }}</div><div class="ket">di semua mitra</div></div>
 </div>
 
 <div class="p-grid rata">
@@ -57,24 +52,6 @@
                 <div><span>{{ Katalog::kalimat($r, $r[0]) }}</span><a class="p-tautan-kartu kanan" href="{{ route('admin.relasi', ['predikat' => $r[1]]) }}">Buka</a></div>
             @endforeach
         </div>
-    </section>
-
-    <section class="p-panel s5" aria-labelledby="judul-sebaran">
-        <header><h2 id="judul-sebaran">Check-in per kecamatan</h2><span class="meta">{{ $periode }} hari</span></header>
-        <div class="p-sebaran" role="img" aria-label="Peta petak 21 kecamatan Kota Medan, warna makin gelap makin banyak check-in">
-            @foreach ($perKecamatan as $k => $n)
-                <span data-tingkat="{{ $tingkat($n) }}" title="{{ $k }}: {{ $n }} check-in">{{ str_replace('Medan ', '', $k) }}</span>
-            @endforeach
-        </div>
-        <div class="p-batang" style="margin-top:16px">
-            @foreach (array_slice($perKecamatan, 0, 6, true) as $k => $n)
-                <div class="p-batang__baris {{ $n ? '' : 'nol' }}">
-                    <span class="p-batang__isi" style="width: {{ $n ? max(4, $n / $maks * 88) : 0 }}%"></span>
-                    <span>{{ $k }}</span><span>{{ $n }}</span>
-                </div>
-            @endforeach
-        </div>
-        @if (! $checkin)<p class="kecil" style="color:var(--p-muted);margin-top:8px">Belum ada check-in dalam {{ $periode }} hari. Angka muncul setelah wisatawan check-in di lokasi.</p>@endif
     </section>
 
     <section class="p-panel s7" aria-labelledby="judul-lengkapi">

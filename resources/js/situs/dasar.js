@@ -434,7 +434,10 @@ document.querySelectorAll('[data-toggle-sandi]').forEach((b) => {
         if (!inp) return;
         const tampil = inp.type === 'password';
         inp.type = tampil ? 'text' : 'password';
-        b.textContent = tampil ? 'Sembunyikan' : 'Tampilkan';
+        b.setAttribute('aria-label', tampil ? 'Sembunyikan password' : 'Tampilkan password');
+        b.innerHTML = tampil
+            ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A10.7 10.7 0 0 1 12 6c6 0 9.5 6 9.5 6a17 17 0 0 1-3.2 3.8M6.2 6.2C3.9 7.7 2.5 12 2.5 12s3.5 6 9.5 6c1.1 0 2.1-.2 3-.5"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>'
+            : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>';
         b.setAttribute('aria-pressed', tampil ? 'true' : 'false');
     });
 });
@@ -468,7 +471,6 @@ document.querySelectorAll('[data-kekuatan-sandi]').forEach((wadah) => {
                         : 'sangat-kuat';
         bar.dataset.status = status;
         bar.style.width = v.length < 8 && v.length > 0 ? '20%' : peta[0];
-        bar.style.backgroundColor = peta[1];
         teks.textContent = v.length > 0 && v.length < 8 ? `Kurang ${8 - v.length} karakter lagi` : peta[2];
     };
     inp.addEventListener('input', perbaruiKekuatan);

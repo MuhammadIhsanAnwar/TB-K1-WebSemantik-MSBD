@@ -45,7 +45,6 @@
 
         <div class="mv-otentik__kotak">
             <h1 data-naik style="--i:2">Buat akun baru</h1>
-            <p class="mv-otentik__pengantar" data-naik style="--i:3">Buat akun untuk menyimpan tiket masuk dan rencana kunjunganmu di Medan.</p>
 
             <form method="post" action="{{ route('daftar') }}" novalidate style="margin-top:28px">
                 @csrf
@@ -72,7 +71,7 @@
 
                 <div class="isian" data-naik style="--i:7">
                     <label for="tanggal_lahir">Tanggal lahir</label>
-                    <input id="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" autocomplete="bday" required @error('tanggal_lahir') aria-invalid="true" @enderror>
+                    <input id="tanggal_lahir" class="mv-input-tanggal" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" autocomplete="bday" required @error('tanggal_lahir') aria-invalid="true" @enderror>
                     @error('tanggal_lahir')<p class="isian__galat">{{ $message }}</p>@enderror
                 </div>
 
@@ -80,11 +79,13 @@
                     <label for="password">Kata sandi</label>
                     <div class="mv-sandi-bungkus">
                         <input id="password" type="password" name="password" autocomplete="new-password" required aria-describedby="bantu-password @error('password') galat-password @enderror" @error('password') aria-invalid="true" @enderror>
-                        <button type="button" class="mv-sandi-toggle" data-toggle-sandi="password" aria-pressed="false">Tampilkan</button>
+                        <button type="button" class="mv-sandi-toggle" data-toggle-sandi="password" aria-label="Tampilkan password" aria-pressed="false">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                        </button>
                     </div>
                     <div class="mv-kekuatan" data-kekuatan-sandi="password" id="bantu-password">
-                        <span class="mv-kekuatan__bar" aria-hidden="true"><span class="mv-kekuatan__isi" data-bar-sandi></span></span>
-                        <span data-teks-sandi>Minimal 8 karakter, huruf kecil, huruf kapital, angka, dan simbol.</span>
+                        <span class="mv-kekuatan__bar" aria-hidden="true"><span class="mv-kekuatan__isi" data-bar-sandi data-status="kosong"></span></span>
+                        <span data-teks-sandi aria-live="polite">Minimal 8 karakter, huruf kecil, huruf kapital, angka, dan simbol.</span>
                     </div>
                     @error('password')<p class="isian__galat" id="galat-password">{{ $message }}</p>@enderror
                 </div>
@@ -105,7 +106,10 @@
 
                 <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px; --i:11" data-naik>Daftar</button>
             </form>
-            <a class="mv-btn mv-btn--lebar" href="{{ route('masuk.google', ['kembali' => $kembali]) }}" style="margin-top:12px">Daftar dengan Google</a>
+            <a class="mv-btn mv-btn--lebar" href="{{ route('masuk.google', ['kembali' => $kembali]) }}" style="margin-top:12px">
+                <svg class="mv-google-logo" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.35 12.27c0-.72-.06-1.42-.18-2.09H12v3.96h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.69 2.91-4.18 2.91-7.26Z"/><path fill="#34A853" d="M12 21.7c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.7-1.72-5.47-4.03H3.29v2.53A9.74 9.74 0 0 0 12 21.7Z"/><path fill="#FBBC05" d="M6.53 13.78A5.85 5.85 0 0 1 6.23 12c0-.62.11-1.23.3-1.78V7.69H3.29A9.74 9.74 0 0 0 2.26 12c0 1.56.37 3.03 1.03 4.31l3.24-2.53Z"/><path fill="#EA4335" d="M12 6.19c1.43 0 2.71.49 3.72 1.46l2.79-2.79C16.83 3.27 14.63 2.3 12 2.3a9.74 9.74 0 0 0-8.71 5.39l3.24 2.53C7.3 7.91 9.46 6.19 12 6.19Z"/></svg>
+                Daftar dengan Google
+            </a>
             <script>
                 const password = document.getElementById('password');
                 const confirmation = document.getElementById('password_confirmation');

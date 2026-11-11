@@ -167,7 +167,7 @@ class AkunController extends Controller
             'password' => ['required', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/'],
             'setuju' => ['accepted'],
         ], [
-            'nama.required' => 'Isi nama yang akan tampil di paspor.',
+            'nama.required' => 'Isi nama yang akan tampil di akun.',
             'email.required' => 'Isi alamat email.',
             'email.email' => 'Alamat email belum benar.',
             'no_hp.required' => 'Isi nomor HP.',
@@ -294,15 +294,20 @@ class AkunController extends Controller
                 'name' => $profile['name'] ?? Str::before($profile['email'], '@'),
                 'email' => strtolower($profile['email']),
                 'google_id' => $profile['sub'],
-                'email_verified_at' => now()->toDateTimeString(),
+                'email_verified_at' => null,
                 'peran' => 'wisatawan',
                 'password' => Hash::make(Str::random(40)),
             ]);
         } elseif (($user['google_id'] ?? null) !== $profile['sub']) {
             $user = $api->updateUser($user['id'], [
                 'google_id' => $profile['sub'],
-                'email_verified_at' => now()->toDateTimeString(),
             ]);
+        }
+        if (empty($user['email_verified_at'])) {
+            $this->kirimVerifikasi($user);
+
+            return redirect()->route('verifikasi', ['email' => $user['email']])
+                ->with('pesan', 'Periksa email untuk mengonfirmasi akun Google sebelum masuk.');
         }
         $request->session()->regenerate();
         $this->simpanSesiPengguna($request, $user);
@@ -380,110 +385,10 @@ class AkunController extends Controller
 
         return view('akun.akun', [
             'u' => $u,
-            'poin' => Penyimpanan::poin($u['email']),
-            'stempel' => collect(Penyimpanan::checkin($u['email']))->unique('tempat')->count(),
             'pesanan' => count(Penyimpanan::pesanan($u['email'])),
             'rencana' => count(Penyimpanan::rencana($u['email'])),
             'ulasan' => count(array_filter(Penyimpanan::ulasan(), fn ($x) => $x['email'] === $u['email'])),
         ]);
-    }
-
-    public function paspor(Request $request)
-    {
-        $u = $this->pengguna($request);
-        $checkin = Penyimpanan::checkin($u['email']);
-        $stempel = collect($checkin)->sortBy('waktu')->unique('tempat')->values()->all();
-        $poin = Penyimpanan::poin($u['email']);
-        $awalMinggu = now('Asia/Jakarta')->startOfWeek()->toDateString();
-        $ibadahMingguIni = collect($checkin)->filter(fn ($c) => $c['waktu'] >= $awalMinggu && (Katalog::get($c['tempat'])['kategori'] ?? '') === 'religi')->unique('tempat')->count();
-
-        return view('akun.paspor', [
-            'u' => $u,
-            'stempel' => $stempel,
-            'jumlahTempat' => count(Katalog::tempat()),
-            'poin' => $poin,
-            'gelar' => Katalog::gelar($poin['total']),
-            'tantangan' => ['judul' => 'Kunjungi 3 rumah ibadah berbeda minggu ini', 'kini' => min(3, $ibadahMingguIni), 'target' => 3],
-            'voucher' => array_filter(Penyimpanan::voucher(), fn ($v) => $v['stok'] > 0),
-            'belumDikunjungi' => array_slice(array_values(array_filter(Katalog::tempat(), fn ($t) => ! collect($stempel)->contains('tempat', $t['slug']))), 0, 3),
-        ]);
-    }
-
-    public function checkin(Request $request, string $slug)
-    {
-        $t = Katalog::get($slug);
-        abort_unless($t && $t['jenis'] === 'tempat', 404);
-        $data = $request->validate(['lat' => ['required', 'numeric', 'between:-90,90'], 'lng' => ['required', 'numeric', 'between:-180,180'], 'akurasi' => ['nullable', 'numeric']], [
-            'lat.required' => 'Lokasimu belum terbaca. Izinkan akses lokasi lalu coba lagi.',
-        ]);
-        $u = $this->pengguna($request);
-        $jarak = Katalog::jarakMeter(['lat' => (float) $data['lat'], 'lng' => (float) $data['lng']], $t);
-
-        if ($jarak > $t['radius_checkin']) {
-            return redirect()->route('tempat', $slug)->with('checkin_gagal', [
-                'jarak' => $jarak,
-                'radius' => $t['radius_checkin'],
-            ]);
-        }
-        if (Penyimpanan::sudahCheckinHariIni($u['email'], $slug)) {
-            return redirect()->route('tempat', $slug)->with('checkin_gagal', ['sudah' => true]);
-        }
-
-        $sebelum = Penyimpanan::poin($u['email']);
-        $c = Penyimpanan::catatCheckin($u['email'], $u['nama'], $slug, $jarak);
-        $sesudah = Penyimpanan::poin($u['email']);
-        $request->session()->flash('badge_baru', array_values(array_udiff($sesudah['badge'], $sebelum['badge'], fn ($a, $b) => strcmp($a['nama'], $b['nama']))));
-
-        return redirect()->route('checkin.hasil', $c['id']);
-    }
-
-    public function checkinHasil(Request $request, string $id)
-    {
-        $u = $this->pengguna($request);
-        $c = collect(Penyimpanan::checkin($u['email']))->firstWhere('id', $id);
-        abort_unless($c, 404);
-
-        return view('akun.checkin', [
-            'c' => $c,
-            't' => Katalog::get($c['tempat']),
-            'poin' => Penyimpanan::poin($u['email']),
-            'badgeBaru' => $request->session()->get('badge_baru', []),
-        ]);
-    }
-
-    public function tukar(Request $request, string $id)
-    {
-        $u = $this->pengguna($request);
-        $v = Penyimpanan::voucher()[$id] ?? null;
-        abort_unless($v, 404);
-        $poin = Penyimpanan::poin($u['email'])['total'];
-
-        if ($v['stok'] < 1) {
-            return back()->with('galat', 'Voucher '.$v['nama'].' sudah habis.');
-        }
-        if ($poin < $v['poin']) {
-            return back()->with('galat', 'Poinmu '.$poin.', voucher ini butuh '.$v['poin'].' poin.');
-        }
-        $p = Penyimpanan::tukar($u['email'], $v);
-
-        return redirect()->route('voucher')->with('pesan', 'Voucher '.$p['nama'].' sudah jadi milikmu. Kodenya '.$p['kode'].'.');
-    }
-
-    public function voucher(Request $request)
-    {
-        return view('akun.voucher', ['penukaran' => Penyimpanan::penukaran($this->pengguna($request)['email'])]);
-    }
-
-    public function peringkat(Request $request)
-    {
-        $awal = now('Asia/Jakarta')->startOfWeek();
-        $papan = collect(Penyimpanan::checkin())
-            ->filter(fn ($c) => $c['waktu'] >= $awal->toIso8601String())
-            ->groupBy('email')
-            ->map(fn ($cs, $email) => ['email' => $email, 'nama' => $cs->first()['nama'] ?? Str::before($email, '@'), 'poin' => $cs->count() * 10, 'stempel' => $cs->unique('tempat')->count()])
-            ->sortByDesc('poin')->values()->all();
-
-        return view('akun.peringkat', ['papan' => $papan, 'u' => $this->pengguna($request), 'awal' => $awal, 'akhir' => $awal->copy()->endOfWeek()]);
     }
 
     public function ulasanSaya(Request $request)

@@ -28,25 +28,14 @@ class AdminController extends Controller
         $periode = in_array($periode, [7, 30, 90], true) ? $periode : 30;
         $sejak = now('Asia/Jakarta')->subDays($periode)->toIso8601String();
 
-        $checkin = collect(Penyimpanan::checkin())->filter(fn ($c) => $c['waktu'] >= $sejak);
-        $perKecamatan = collect(self::KECAMATAN_MEDAN)->mapWithKeys(fn ($k) => [$k => 0])->all();
-        foreach ($checkin as $c) {
-            $perKecamatan[Katalog::get($c['tempat'])['kecamatan']]++;
-        }
-        arsort($perKecamatan);
-
         $lunas = collect(Penyimpanan::pesanan())->filter(fn ($p) => $p['status'] === 'lunas' && ($p['dibayar'] ?? '') >= $sejak);
         $tanpaSumber = collect(Katalog::relasi())->filter(fn ($r) => str_contains($r['sumber'], 'perlu verifikasi'));
         $tanpaFoto = collect(Katalog::tempat())->filter(fn ($t) => empty($t['foto']));
 
         return view('admin.ringkasan', [
             'periode' => $periode,
-            'checkin' => $checkin->count(),
-            'pengguna' => $checkin->pluck('email')->unique()->count(),
             'tiket' => $lunas->sum(fn ($p) => array_sum(array_column($p['item'], 'jumlah'))),
             'pendapatan' => $lunas->sum('total'),
-            'penukaran' => collect(Penyimpanan::penukaran())->filter(fn ($p) => $p['waktu'] >= $sejak)->count(),
-            'perKecamatan' => $perKecamatan,
             'ulasanMenunggu' => Penyimpanan::ulasan(null, 'menunggu'),
             'celah' => Penyimpanan::celahKonten(),
             'jumlahCari' => Penyimpanan::jumlahCari(),
@@ -171,20 +160,6 @@ class AdminController extends Controller
         Penyimpanan::moderasi($id, $data['keputusan']);
 
         return back()->with('pesan', $data['keputusan'] === 'tayang' ? 'Ulasan ditayangkan.' : 'Ulasan ditolak.');
-    }
-
-    public function mitra()
-    {
-        $voucher = collect(Penyimpanan::voucher());
-        $penukaran = collect(Penyimpanan::penukaran());
-
-        return view('admin.mitra', [
-            'mitra' => $voucher->groupBy('usaha')->map(fn ($vs, $usaha) => [
-                'usaha' => $usaha, 'voucher' => $vs->count(), 'stok' => $vs->sum('stok'),
-                'ditukar' => $penukaran->whereIn('voucher', $vs->pluck('id'))->count(),
-            ])->values(),
-            'voucher' => $voucher->sortByDesc('waktu')->values(),
-        ]);
     }
 
     public function tiket(Request $request)

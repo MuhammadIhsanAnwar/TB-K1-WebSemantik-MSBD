@@ -118,7 +118,7 @@ class SitusController extends Controller
 
         return view('situs.tempat', $this->dataEntitas($t) + [
             'ulasan' => Penyimpanan::ulasan($slug, 'tayang'),
-            'ramai' => count(array_filter(Penyimpanan::checkin(), fn ($c) => $c['tempat'] === $slug && now()->diffInHours($c['waktu'], true) < 3)),
+            'ramai' => 0,
             'dekat' => $this->terdekat($t, 4),
         ]);
     }

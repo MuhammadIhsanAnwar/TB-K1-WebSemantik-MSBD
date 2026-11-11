@@ -5,7 +5,7 @@
 
 @section('isi')
 <div class="alat">
-    <div class="alat__judul"><div><h1>Ketentuan & privasi</h1><p>Berlaku untuk pembelian tiket, check-in, dan akun MedanVisit.</p></div></div>
+    <div class="alat__judul"><div><h1>Ketentuan & privasi</h1><p>Berlaku untuk pembelian tiket dan akun MedanVisit.</p></div></div>
     <div class="ketentuan p-panel">
         <div class="pesan ketentuan__catatan" role="note">MedanVisit masih prototipe tugas besar. Pembayaran belum tersambung ke payment gateway, dan harga tiket bertanda “contoh” belum dicek ke pengelola tempat.</div>
 
@@ -20,19 +20,10 @@
             </ol>
         </section>
 
-        <section class="ketentuan__bagian" aria-labelledby="k-checkin">
-            <h2 id="k-checkin">Check-in dan Paspor Digital</h2>
-            <ul>
-                <li>Check-in membaca lokasi GPS ponselmu sekali saat tombol ditekan, untuk menghitung jarakmu ke tempat itu. Lokasi tidak dilacak terus-menerus.</li>
-                <li>Yang disimpan hanya tempat, waktu, dan jarak check-in, bukan koordinat lengkapmu.</li>
-                <li>Satu tempat memberi satu check-in per hari. Poin tidak bisa diuangkan, hanya ditukar voucher mitra.</li>
-            </ul>
-        </section>
-
         <section class="ketentuan__bagian" aria-labelledby="k-akun">
             <h2 id="k-akun">Data akun</h2>
             <ul>
-                <li>Nama dan email dipakai untuk paspor, ulasan, dan pengiriman e-tiket.</li>
+                <li>Nama dan email dipakai untuk ulasan dan pengiriman e-tiket.</li>
                 <li>Nomor HP hanya dipakai untuk pesanan tiket.</li>
                 <li>Ulasan tayang setelah diperiksa kurator, dengan nama yang kamu isi.</li>
                 <li>Kata kunci pencarian yang tidak menemukan hasil dicatat tanpa identitas, supaya kurator tahu tempat apa yang perlu ditambahkan.</li>

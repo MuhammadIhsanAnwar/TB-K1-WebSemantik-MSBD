@@ -46,12 +46,6 @@ Route::controller(AkunController::class)->group(function () {
         Route::get('/akun', 'akun')->name('akun');
         Route::get('/akun/pengaturan', 'pengaturan')->name('akun.pengaturan');
         Route::post('/akun/pengaturan', 'simpanPengaturan');
-        Route::get('/paspor', 'paspor')->name('paspor');
-        Route::post('/tempat/{slug}/checkin', 'checkin')->name('checkin');
-        Route::get('/checkin/{id}', 'checkinHasil')->name('checkin.hasil');
-        Route::post('/paspor/tukar/{id}', 'tukar')->name('paspor.tukar');
-        Route::get('/voucher', 'voucher')->name('voucher');
-        Route::get('/peringkat', 'peringkat')->name('peringkat');
         Route::get('/ulasan-saya', 'ulasanSaya')->name('ulasan.saya');
         Route::post('/tempat/{slug}/ulasan', 'tulisUlasan')->name('ulasan.tulis');
         Route::get('/rencana/saya', 'rencanaSaya')->name('rencana.saya');
@@ -84,7 +78,6 @@ Route::controller(AdminController::class)->middleware('peran:admin,superadmin')-
     Route::post('/cerita', 'simpanCerita');
     Route::get('/ulasan', 'ulasan')->name('ulasan');
     Route::post('/ulasan/{id}', 'moderasi')->name('ulasan.moderasi');
-    Route::get('/mitra', 'mitra')->name('mitra');
     Route::get('/tiket', 'tiket')->name('tiket');
     Route::post('/tiket/validasi', 'validasi')->name('tiket.validasi');
     Route::get('/sinkronisasi', 'sinkronisasi')->name('sinkronisasi');

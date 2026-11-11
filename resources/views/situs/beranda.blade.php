@@ -44,7 +44,7 @@
     <div class="mv-hero__isi">
         <div class="mv-hero__utama">
             <h1 id="judul-utama" data-naik style="--i:0">Jelajahi Medan lewat ceritanya</h1>
-            <p class="mv-hero__sub" data-naik style="--i:1">Panduan wisata Kota Medan yang menautkan {{ count($semuaTempat) }} tempat, tokoh sejarah, budaya, dan kuliner khas. Cari tujuan, pesan tiket masuk, dan kumpulkan stempel di lokasi.</p>
+            <p class="mv-hero__sub" data-naik style="--i:1">Panduan wisata Kota Medan yang menautkan {{ count($semuaTempat) }} tempat, tokoh sejarah, budaya, dan kuliner khas. Cari tujuan dan pesan tiket masuk dengan mudah.</p>
 
             <div class="mv-hero__cari-bungkus" data-naik style="--i:2">
                 <form action="{{ route('cari') }}" method="get" role="search" data-cari-cepat>
@@ -298,12 +298,12 @@
     </div>
 </section>
 
-{{-- 6. FEATURES: Statement cell, dark rows (Peta dan paspor) --}}
+{{-- 6. FEATURES: Peta kota --}}
 <section class="mv-seksi-paspor" aria-labelledby="judul-peta-paspor">
     <div class="mv-wadah">
         <div class="mv-paspor-grid">
             <div class="mv-paspor-peta">
-                <h2 id="judul-peta-paspor">Peta kota dan paspor</h2>
+                <h2 id="judul-peta-paspor">Peta kota</h2>
                 <p style="color:var(--mv-redup)">Lihat sebaran ke-{{ count($semuaTempat) }} titik wisata di atas peta Kota Medan.</p>
                 <div class="mv-paspor-peta__kanvas" data-peta data-peta-mode="ringkas" data-pusat="istana-maimun" data-tempat="{{ json_encode($petaJson) }}">
                     <p class="peta-diam" style="padding:20px">Peta interaktif tempat wisata Medan dimuat di sini.</p>
