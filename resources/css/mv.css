@@ -2264,6 +2264,11 @@ body:not(.panel-app) :where(.p-btn, .p-seg, .p-seg button, .p-panel, .p-pill) {
   background: var(--mv-hijau);
   transition: width 200ms var(--ease-out), background-color 200ms ease;
 }
+.mv-kekuatan__isi[data-status="kosong"] { background: var(--mv-kertas-2) !important; }
+.mv-kekuatan__isi[data-status="lemah"] { background: #a3221b !important; }
+.mv-kekuatan__isi[data-status="cukup"] { background: #b26b00 !important; }
+.mv-kekuatan__isi[data-status="kuat"] { background: #1e6b3a !important; }
+.mv-kekuatan__isi[data-status="sangat-kuat"] { background: #0f3b2e !important; }
 .mv-kotak-proto {
   margin-top: 20px;
   padding: 16px;

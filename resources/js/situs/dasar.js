@@ -391,7 +391,7 @@ document.querySelectorAll('[data-kekuatan-sandi]').forEach((wadah) => {
     const bar = wadah.querySelector('[data-bar-sandi]');
     const teks = wadah.querySelector('[data-teks-sandi]');
     if (!inp || !bar || !teks) return;
-    inp.addEventListener('input', () => {
+    const perbaruiKekuatan = () => {
         const v = inp.value;
         let skor = 0;
         if (v.length >= 8) skor += 1;
@@ -405,10 +405,22 @@ document.querySelectorAll('[data-kekuatan-sandi]').forEach((wadah) => {
             ['85%', '#0f3b2e', 'Kuat'],
             ['100%', '#0f3b2e', 'Sangat kuat'],
         ][v.length === 0 ? 0 : Math.max(1, skor)];
+        const status = v.length === 0
+            ? 'kosong'
+            : v.length < 8
+                ? 'lemah'
+                : skor < 2
+                    ? 'cukup'
+                    : skor < 4
+                        ? 'kuat'
+                        : 'sangat-kuat';
+        bar.dataset.status = status;
         bar.style.width = v.length < 8 && v.length > 0 ? '20%' : peta[0];
-        bar.style.backgroundColor = v.length < 8 && v.length > 0 ? '#a3221b' : peta[1];
+        bar.style.backgroundColor = peta[1];
         teks.textContent = v.length > 0 && v.length < 8 ? `Kurang ${8 - v.length} karakter lagi` : peta[2];
-    });
+    };
+    inp.addEventListener('input', perbaruiKekuatan);
+    perbaruiKekuatan();
 });
 
 // ---- Kemunculan bertahap saat masuk layar ----
