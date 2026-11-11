@@ -44,12 +44,40 @@ class SupabaseApi
         return $rows[0] ?? throw new RuntimeException('Supabase tidak menemukan akun untuk diperbarui.');
     }
 
+    public function createVerificationToken(array $token): array
+    {
+        return $this->insert('email_verification_tokens', $token);
+    }
+
+    public function findVerificationToken(string $hash): ?array
+    {
+        return $this->getRows('email_verification_tokens', ['token_hash' => 'eq.'.$hash])[0] ?? null;
+    }
+
+    public function deleteVerificationToken(int|string $id): void
+    {
+        $this->request()
+            ->delete($this->url('email_verification_tokens').'?'.http_build_query(['id' => 'eq.'.$id]))
+            ->throw();
+    }
+
     private function getRows(string $table, array $filters = []): array
     {
         return $this->request()
             ->get($this->url($table), array_merge(['select' => '*'], $filters))
             ->throw()
             ->json();
+    }
+
+    private function insert(string $table, array $attributes): array
+    {
+        $rows = $this->request()
+            ->withHeaders(['Prefer' => 'return=representation'])
+            ->post($this->url($table), $attributes)
+            ->throw()
+            ->json();
+
+        return $rows[0] ?? throw new RuntimeException('Supabase tidak mengembalikan data yang dibuat.');
     }
 
     private function request(): PendingRequest

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Support\Katalog;
 use App\Support\Penyimpanan;
 use App\Support\SupabaseApi;
+use App\Mail\VerifikasiEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -41,6 +43,11 @@ class AkunController extends Controller
         $user = (new SupabaseApi)->findUserByEmail($data['email']);
         if (! $user || ! Hash::check($data['password'], $user['password'])) {
             return back()->withErrors(['email' => 'Email atau kata sandi tidak cocok.'])->withInput($request->only('email'));
+        }
+        if (empty($user['email_verified_at'])) {
+            $this->kirimVerifikasi($user);
+            return redirect()->route('verifikasi', ['email' => $user['email']])
+                ->with('pesan', 'Email belum dikonfirmasi. Kami mengirimkan link verifikasi baru.');
         }
 
         $request->session()->regenerate();
@@ -102,11 +109,10 @@ class AkunController extends Controller
             'password' => Hash::make($data['password']),
             'peran' => 'wisatawan',
         ]);
-        $request->session()->regenerate();
-        $this->simpanSesiPengguna($request, $user);
+        $this->kirimVerifikasi($user);
 
-        return redirect($this->aman($request->input('kembali')) ?? route('akun'))
-            ->with('pesan', 'Akun berhasil dibuat. Halo, '.$user->name.'.');
+        return redirect()->route('verifikasi', ['email' => $user['email']])
+            ->with('pesan', 'Akun dibuat. Periksa email untuk mengonfirmasi akun.');
     }
 
     public function keluar(Request $request)
@@ -116,6 +122,55 @@ class AkunController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('beranda');
+    }
+
+    public function verifikasi(Request $request)
+    {
+        return view('akun.verifikasi', [
+            'email' => $request->query('email'),
+            'pesan' => 'Periksa kotak masuk emailmu dan klik link konfirmasi untuk mengaktifkan akun.',
+        ]);
+    }
+
+    public function konfirmasiEmail(Request $request, string $token)
+    {
+        $record = (new SupabaseApi)->findVerificationToken(hash('sha256', $token));
+        abort_unless($record && now()->lessThan(\Carbon\Carbon::parse($record['expires_at'])), 410, 'Link verifikasi sudah kedaluwarsa.');
+
+        $api = new SupabaseApi;
+        $user = $api->findUserByEmail($record['email']);
+        abort_unless($user, 404, 'Akun tidak ditemukan.');
+        $user = $api->updateUser($user['id'], ['email_verified_at' => now()->toDateTimeString()]);
+        $api->deleteVerificationToken($record['id']);
+        $request->session()->put('pengguna', [
+            'id' => $user['id'], 'email' => $user['email'],
+            'nama' => $user['name'], 'peran' => $user['peran'],
+        ]);
+
+        return redirect()->route('masuk')->with('pesan', 'Email berhasil dikonfirmasi. Silakan masuk.');
+    }
+
+    public function kirimUlangVerifikasi(Request $request)
+    {
+        $data = $request->validate(['email' => ['required', 'email']]);
+        $user = (new SupabaseApi)->findUserByEmail($data['email']);
+        if ($user && empty($user['email_verified_at'])) {
+            $this->kirimVerifikasi($user);
+        }
+
+        return redirect()->route('verifikasi', ['email' => $data['email']])
+            ->with('pesan', 'Jika akun ditemukan dan belum terverifikasi, link baru sudah dikirim.');
+    }
+
+    private function kirimVerifikasi(array $user): void
+    {
+        $token = Str::random(64);
+        (new SupabaseApi)->createVerificationToken([
+            'email' => $user['email'],
+            'token_hash' => hash('sha256', $token),
+            'expires_at' => now()->addHours(24)->toDateTimeString(),
+        ]);
+        Mail::to($user['email'])->send(new VerifikasiEmail(route('verifikasi.konfirmasi', ['token' => $token])));
     }
 
     public function google(Request $request)

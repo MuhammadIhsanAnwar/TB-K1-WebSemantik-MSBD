@@ -33,6 +33,9 @@ Route::controller(AkunController::class)->group(function () {
     Route::get('/masuk/google/callback', 'googleCallback')->name('masuk.google.callback');
     Route::get('/daftar', 'daftar')->name('daftar');
     Route::post('/daftar', 'prosesDaftar');
+    Route::get('/verifikasi-email', 'verifikasi')->name('verifikasi');
+    Route::get('/verifikasi-email/{token}', 'konfirmasiEmail')->name('verifikasi.konfirmasi');
+    Route::post('/verifikasi-email/kirim-ulang', 'kirimUlangVerifikasi')->name('verifikasi.kirim');
     Route::post('/keluar', 'keluar')->name('keluar');
 
     Route::middleware('peran')->group(function () {

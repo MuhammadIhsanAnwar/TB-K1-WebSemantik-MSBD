@@ -63,6 +63,37 @@ php artisan rdf:ekspor
 php artisan rdf:kirim --replace
 ```
 
+### Migration Supabase dari server hosting
+
+`php artisan migrate` membutuhkan koneksi PostgreSQL langsung ke port 5432
+(atau host pooler Supabase). Supabase REST API yang dipakai aplikasi saat
+runtime tidak dapat menjalankan migration SQL. Jika server hosting tidak dapat
+me-resolve atau menjangkau `db.<project-ref>.supabase.co`, jangan mengganti
+hostname dengan tebakan dan jangan menjalankan `migrate` dari server tersebut.
+
+Gunakan salah satu cara berikut:
+
+1. Jalankan migration dari komputer/development environment yang dapat
+   menjangkau PostgreSQL Supabase.
+2. Salin nilai **Session pooler** atau **Transaction pooler** dari Supabase
+   Dashboard → Connect, lalu isi `DB_HOST`, `DB_PORT`, `DB_USERNAME`, dan
+   `DB_PASSWORD` dengan nilai tersebut pada environment yang menjalankan
+   migration. Gunakan `DB_SSLMODE=require`.
+3. Jalankan SQL migration melalui Supabase SQL Editor jika akses PostgreSQL
+   langsung memang diblokir oleh hosting.
+
+Setelah `.env` diubah, bersihkan konfigurasi Laravel sebelum mengulang:
+
+```bash
+php artisan config:clear
+php artisan migrate --database=katalog
+```
+
+Migration yang memiliki `protected $connection = 'transaksi'` tetap dijalankan
+ke DB 2, sedangkan tabel pelacak migration tetap berada di DB 1.
+
+Jangan menaruh password database atau secret key Supabase di repository.
+
 Akun pengguna disimpan di DB 1 dengan role `wisatawan`, `admin`, atau `superadmin`. Pembuatan akun dilakukan melalui halaman daftar atau oleh superadmin; tidak ada seeder akun bawaan.
 
 ### Objek database
