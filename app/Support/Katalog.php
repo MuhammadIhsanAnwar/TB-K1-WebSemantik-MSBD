@@ -2,6 +2,9 @@
 
 namespace App\Support;
 
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Log;
+
 /**
  * Facade katalog wisata yang membaca data RDF dari Database 3.
  *
@@ -95,7 +98,16 @@ class Katalog
 
     public static function entitas(): array
     {
-        return Database3Catalog::entities();
+        try {
+            return Database3Catalog::entities();
+        } catch (ConnectionException $e) {
+            Log::warning('Database 3 tidak tersedia; menggunakan katalog lokal.', [
+                'exception' => $e::class,
+                'message' => $e->getMessage(),
+            ]);
+
+            return self::bangun();
+        }
     }
 
     private static function bangun(): array
@@ -310,7 +322,16 @@ class Katalog
 
     public static function relasi(): array
     {
-        return Database3Catalog::relations();
+        try {
+            return Database3Catalog::relations();
+        } catch (ConnectionException $e) {
+            Log::warning('Database 3 tidak tersedia; menggunakan relasi katalog lokal.', [
+                'exception' => $e::class,
+                'message' => $e->getMessage(),
+            ]);
+
+            return self::bangunRelasi();
+        }
     }
 
     private static function bangunRelasi(): array
