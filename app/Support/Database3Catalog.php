@@ -112,7 +112,7 @@ final class Database3Catalog
 
             $relations[] = [
                 substr($subject, 4),
-                substr($predicate, 4),
+                substr($predicate, 3),
                 substr($object, 4),
                 'sumber' => 'Database 3',
             ];
