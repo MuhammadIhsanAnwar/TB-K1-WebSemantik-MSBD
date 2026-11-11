@@ -46,6 +46,12 @@ return new class extends Migration
         Schema::connection($this->connection)->getConnection()->statement(
             "ALTER TABLE users ADD CONSTRAINT ck_users_peran CHECK (peran IN ('wisatawan', 'admin', 'superadmin'))"
         );
+
+        $connection = Schema::connection($this->connection)->getConnection();
+        $connection->statement('ALTER TABLE users ENABLE ROW LEVEL SECURITY');
+        $connection->statement('CREATE POLICY "server can insert users" ON users FOR INSERT TO anon, authenticated WITH CHECK (true)');
+        $connection->statement('CREATE POLICY "server can read users by email" ON users FOR SELECT TO anon, authenticated USING (true)');
+        $connection->statement('CREATE POLICY "server can update users" ON users FOR UPDATE TO anon, authenticated USING (true) WITH CHECK (true)');
     }
 
     /**

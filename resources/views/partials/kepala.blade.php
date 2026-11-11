@@ -1,5 +1,6 @@
 @php
     use App\Support\Katalog;
+    use App\Support\Penyimpanan;
     $u = session('pengguna');
     $adalahBeranda = request()->routeIs('beranda');
     $menu = [
