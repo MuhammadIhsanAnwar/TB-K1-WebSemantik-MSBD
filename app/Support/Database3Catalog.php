@@ -128,7 +128,7 @@ final class Database3Catalog
             return self::$triples;
         }
 
-        return self::$triples = Cache::remember('database3.catalog.triples.v2', now()->addMinutes(5), function (): array {
+        return self::$triples = Cache::remember('database3.catalog.triples.v3', now()->addMinutes(10), function (): array {
             $result = SparqlService::jalankan(<<<'SPARQL'
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -139,6 +139,7 @@ final class Database3Catalog
                 PREFIX dcterms: <http://purl.org/dc/terms/>
                 SELECT ?s ?p ?o WHERE {
                     ?s ?p ?o .
+                    FILTER (STRSTARTS(STR(?s), "https://medanvisit.neoverse.my.id/id/"))
                     FILTER (?p IN (
                         rdf:type, rdfs:label, schema:name, schema:description, schema:address,
                         schema:image, schema:offers, owl:sameAs, geo:lat, geo:long,
