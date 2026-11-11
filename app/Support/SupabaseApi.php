@@ -58,8 +58,7 @@ class SupabaseApi
         abort_unless($config['url'] && $config['secret_key'], 503, 'Konfigurasi Supabase belum lengkap.');
 
         return Http::acceptJson()
-            ->withToken($config['secret_key'])
-            ->withHeaders(['apikey' => $config['secret_key']])
+            ->withHeaders(['apikey' => $config['publishable_key']])
             ->timeout(15);
     }
 
