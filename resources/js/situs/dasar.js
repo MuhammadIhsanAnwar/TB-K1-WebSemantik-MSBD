@@ -46,7 +46,7 @@ if (pemuatan && !document.documentElement.classList.contains('mv-pemuatan-selesa
         window.setTimeout(() => {
             pemuatan.classList.add('mv-pemuatan--selesai');
             document.documentElement.classList.add('mv-pemuatan-selesai');
-            try { localStorage.setItem('mv-beranda-siap', '1'); } catch { /* lanjut tanpa penyimpanan */ }
+            try { localStorage.setItem('mv-beranda-siap-v2', '1'); } catch { /* lanjut tanpa penyimpanan */ }
             window.setTimeout(() => pemuatan.remove(), 420);
         }, 280);
     }, { once: true });

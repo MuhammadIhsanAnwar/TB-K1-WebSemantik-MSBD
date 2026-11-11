@@ -73,6 +73,7 @@
   text-decoration: none;
   white-space: nowrap;
   transition: background-color 180ms ease, color 180ms ease, transform 140ms var(--ease-out);
+  border-radius: 8px;
 }
 .mv-btn:hover { background: var(--mv-kuning-hover); }
 .mv-btn:active { transform: translateY(1px) scale(0.99); }
@@ -91,6 +92,7 @@
 .mv-btn--kecil { min-height: 44px; padding: 8px 16px; font-size: var(--mv-s-ui); }
 .mv-btn--lebar { width: 100%; }
 .mv-google-logo { width: 20px; height: 20px; flex: none; }
+.mv-btn--google { border-radius: 8px; }
 .mv-btn:disabled, .mv-btn[aria-disabled="true"] { background: var(--mv-kertas-2); color: var(--mv-redup); transform: none; }
 
 .mv-tautan {

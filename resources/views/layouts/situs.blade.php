@@ -12,7 +12,7 @@
     <script>
         document.documentElement.classList.add('js');
         try {
-            if (localStorage.getItem('mv-beranda-siap') === '1') {
+            if (localStorage.getItem('mv-beranda-siap-v2') === '1') {
                 document.documentElement.classList.add('mv-pemuatan-selesai');
             }
         } catch { /* localStorage tidak tersedia, loader tetap berjalan */ }
