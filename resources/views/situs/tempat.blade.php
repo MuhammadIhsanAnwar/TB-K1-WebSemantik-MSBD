@@ -8,7 +8,6 @@
     $gagal = session('checkin_gagal');
     $kategori = Katalog::KATEGORI[$t['kategori']];
     $posisi = Katalog::posisi1930($t);
-    $kreditFoto = collect([$t['foto'] ?? null, $t['foto_lama'] ?? null, $t['foto_arsip'] ?? null])->filter()->map(fn ($f) => Katalog::kredit($f))->filter();
     $tingkatRamai = $ramai >= 8 ? 'Ramai' : ($ramai >= 3 ? 'Sedang' : ($ramai > 0 ? 'Lengang' : null));
     $kreditUtama = ! empty($t['foto']) ? Katalog::kredit($t['foto']) : null;
 @endphp
@@ -49,17 +48,6 @@
                 <a class="mv-btn mv-btn--garis" href="{{ route('rencana', ['minat' => ['sejarah', 'religi', 'kuliner'], 'durasi' => 4, 'moda' => ['jalan', 'becak'], 'mulai' => $t['slug']]) }}">Rute dari sini</a>
             </div>
         </div>
-
-        @if ($gagal)
-            <div class="pesan pesan--galat" role="alert" style="margin-top:20px">
-                @if (! empty($gagal['sudah']))
-                    Kamu sudah check-in di {{ $t['nama'] }} hari ini. Stempelnya sudah tersimpan di Paspor Digitalmu.
-                @else
-                    Jarakmu saat ini {{ number_format($gagal['jarak'], 0, ',', '.') }} m dari {{ $t['nama'] }}. Check-in diterima dalam radius {{ $gagal['radius'] }} m, jadi mendekatlah ke area pintu masuk lalu coba lagi.
-                @endif
-            </div>
-        @endif
-        @error('lat')<p class="isian__galat" role="alert" style="margin-top:12px">{{ $message }}</p>@enderror
 
         <div class="mv-tempat-media">
             @if (! empty($t['foto_lama']))
@@ -257,9 +245,6 @@
                 </p>
             @endif
 
-            @if ($kreditFoto->isNotEmpty())
-                <p class="kecil redup" style="margin-top:28px">Kredit foto: {{ $kreditFoto->implode('; ') }}</p>
-            @endif
         </section>
     </article>
 
@@ -294,21 +279,6 @@
                 <p class="kecil redup" style="margin-top:4px">{{ $ketMasuk }}</p>
             </div>
         @endif
-
-        <div class="mv-kartu-samping__blok">
-            <b>Stempel Paspor Digital</b>
-            <p class="kecil redup">Berada dalam radius <span class="nums">{{ $t['radius_checkin'] }}</span> m dari lokasi untuk klaim stempel dan +10 poin.</p>
-            @if ($u)
-                <form method="post" action="{{ route('checkin', $t['slug']) }}" data-checkin>
-                    @csrf
-                    <input type="hidden" name="lat"><input type="hidden" name="lng"><input type="hidden" name="akurasi">
-                    <button class="mv-btn {{ $t['tiket'] ? 'mv-btn--hijau' : 'mv-btn--utama' }} mv-btn--lebar" type="submit">Check-in di lokasi ini</button>
-                    <p class="kecil" data-pesan-checkin role="status" aria-live="polite" style="margin-top:8px"></p>
-                </form>
-            @else
-                <a class="mv-btn {{ $t['tiket'] ? 'mv-btn--hijau' : 'mv-btn--utama' }} mv-btn--lebar" href="{{ route('masuk', ['kembali' => route('tempat', $t['slug'], false)]) }}">Masuk untuk check-in</a>
-            @endif
-        </div>
 
         <div class="mv-kartu-samping__blok">
             <a class="mv-btn mv-btn--garis mv-btn--kecil mv-btn--lebar" href="https://www.openstreetmap.org/?mlat={{ $t['lat'] }}&mlon={{ $t['lng'] }}#map=18/{{ $t['lat'] }}/{{ $t['lng'] }}" rel="noopener">Petunjuk arah di peta</a>

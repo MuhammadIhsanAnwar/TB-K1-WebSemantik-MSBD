@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Support\Asisten;
 use App\Support\Katalog;
 use App\Support\Penyimpanan;
-use App\Support\Semantik;
 use Illuminate\Http\Request;
 
 class SitusController extends Controller
@@ -263,33 +262,6 @@ class SitusController extends Controller
             'hasil' => Katalog::susunRute($r['minat'], $r['durasi'], $r['moda'], $r['mulai']),
             'pref' => $r, 'tempat' => Katalog::tempat(), 'dibagikan' => $r,
         ]);
-    }
-
-    public function data()
-    {
-        return view('situs.data', ['contoh' => Semantik::CONTOH, 'jumlah' => collect(Katalog::entitas())->countBy('jenis')->all(), 'relasi' => count(Katalog::relasi())]);
-    }
-
-    public function sparql(Request $request)
-    {
-        $data = $request->validate(['query' => ['required', 'string', 'max:4000']]);
-
-        return response()->json(Semantik::jalankan($data['query']));
-    }
-
-    public function turtle()
-    {
-        return response(Semantik::turtle(), 200, ['Content-Type' => 'text/turtle; charset=utf-8', 'Content-Disposition' => 'inline; filename="medanvisit.ttl"']);
-    }
-
-    public function jsonld()
-    {
-        return response()->json(Semantik::jsonld(), 200, ['Content-Type' => 'application/ld+json'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    }
-
-    public function kredit()
-    {
-        return view('situs.kredit', ['kredit' => Katalog::kredit()]);
     }
 
     public function ketentuan()

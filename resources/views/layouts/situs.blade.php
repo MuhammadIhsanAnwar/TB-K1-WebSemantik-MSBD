@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('judul', 'Jelajahi Medan lewat ceritanya') | MedanVisit</title>
-    <meta name="description" content="@yield('deskripsi', 'MedanVisit menghubungkan istana, rumah ibadah, kuliner, dan tokoh Kota Medan. Cari tempat, pesan tiket masuk, dan kumpulkan stempel di Paspor Digital.')">
+    <meta name="description" content="@yield('deskripsi', 'MedanVisit menghubungkan istana, rumah ibadah, kuliner, dan tokoh Kota Medan. Cari tempat dan pesan tiket masuk.')">
     <meta name="theme-color" content="#0f3b2e">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">

@@ -23,7 +23,7 @@
     <div class="p-baris">
         <div><span class="dua"><b>PostgreSQL 1</b><span>Atribut tempat, akun, check-in, poin, voucher</span></span></div>
         <div><span class="dua"><b>PostgreSQL 2</b><span>Jenis tiket, pesanan, pembayaran</span></span></div>
-        <div><span class="dua"><b>Apache Jena Fuseki</b><span>Ontologi dan relasi dalam RDF, dijawab lewat SPARQL; ekspor tersedia di <a href="{{ route('data.turtle') }}" style="text-decoration:underline">medanvisit.ttl</a></span></span></div>
+        <div><span class="dua"><b>Database 3</b><span>Ontologi dan relasi wisata tersimpan pada penyimpanan semantik internal.</span></span></div>
         <div><span class="dua"><b>Penyimpanan sementara</b><span>Selama basis data belum tersambung, pesanan, check-in, dan ulasan prototipe disimpan di cache berkas</span></span></div>
     </div>
 </section>

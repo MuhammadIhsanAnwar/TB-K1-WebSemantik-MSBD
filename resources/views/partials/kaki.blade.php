@@ -1,4 +1,3 @@
-@php $kredit = \App\Support\Katalog::kredit($fotoKaki); @endphp
 <footer class="mv-kaki {{ $ringkas ? 'mv-kaki--ringkas' : '' }} tidak-dicetak">
     <x-foto :berkas="$fotoKaki" alt="" class="mv-kaki__foto" />
     <div class="mv-kaki__lapisan" aria-hidden="true"></div>
@@ -10,8 +9,6 @@
                 <a href="{{ route('rencana') }}">Perencana rute</a>
                 <a href="{{ route('jelajah') }}">Cerita Medan (Graf)</a>
                 <a href="{{ route('tanya') }}">Tanya asisten</a>
-                <a href="{{ route('data') }}">Data terbuka &amp; SPARQL</a>
-                <a href="{{ route('kredit') }}">Kredit foto</a>
                 <a href="{{ route('ketentuan') }}">Ketentuan &amp; privasi</a>
             </nav>
             <div class="mv-kaki__catatan">
@@ -30,15 +27,7 @@
         <div class="mv-kaki__legal">
             <span class="mv-meta-garis">
                 <span>© {{ date('Y') }} MedanVisit</span>
-                <span>Peta © kontributor OpenStreetMap</span>
-                <span>Data tertaut ke Wikidata</span>
             </span>
-            @if ($kredit)
-                <span class="mv-meta-garis">
-                    <span>Foto latar: {{ $kredit }}</span>
-                    <a href="{{ route('kredit') }}">Daftar lengkap kredit</a>
-                </span>
-            @endif
         </div>
     </div>
 </footer>

@@ -8,20 +8,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Memastikan pengguna sudah masuk (dan punya peran yang diminta).
- * Prototipe: identitas disimpan di sesi karena database akun belum tersambung.
  */
 class Peran
 {
     public function handle(Request $request, Closure $next, ?string $peran = null): Response
     {
-        $pengguna = $request->session()->get('pengguna');
-
+        $pengguna = $request->user();
+        $roles = $peran ? explode(',', $peran) : [];
         if (! $pengguna) {
             return redirect()->route('masuk', ['kembali' => $request->getRequestUri()]);
         }
 
-        if ($peran && $pengguna['peran'] !== $peran) {
-            abort(403, 'Halaman ini khusus akun '.$peran.'.');
+        if ($roles && ! in_array($pengguna->peran, $roles, true)) {
+            abort(403, 'Akun ini tidak memiliki akses ke halaman tersebut.');
         }
 
         return $next($request);

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Support\Katalog;
 use App\Support\Penyimpanan;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -11,7 +14,14 @@ class AkunController extends Controller
 {
     private function pengguna(Request $r): array
     {
-        return $r->session()->get('pengguna');
+        $user = $r->user();
+        abort_unless($user, 401);
+
+        return [
+            'email' => $user->email,
+            'nama' => $user->name,
+            'peran' => $user->peran,
+        ];
     }
 
     private function aman(?string $kembali): ?string
@@ -27,32 +37,40 @@ class AkunController extends Controller
     public function prosesMasuk(Request $request)
     {
         $data = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'min:8'],
-            'peran' => ['required', 'in:wisatawan,mitra,kurator'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required'],
         ], [
             'email.required' => 'Isi alamat email.',
             'email.email' => 'Alamat email belum benar.',
             'password.required' => 'Isi kata sandi.',
-            'password.min' => 'Kata sandi minimal 8 karakter.',
         ]);
 
-        return $this->masukkan($request, $data['email'], null, $data['peran']);
+        if (! Auth::attempt(['email' => strtolower($data['email']), 'password' => $data['password']])) {
+            return back()->withErrors(['email' => 'Email atau kata sandi tidak cocok.'])->withInput($request->only('email'));
+        }
+
+        $request->session()->regenerate();
+        $this->simpanSesiPengguna($request, Auth::user());
+
+        return redirect($this->aman($request->input('kembali')) ?? $this->tujuan(Auth::user()->peran))
+            ->with('pesan', 'Halo, '.Auth::user()->name.'.');
     }
 
-    private function masukkan(Request $request, string $email, ?string $nama, string $peran)
+    private function tujuan(string $peran): string
     {
-        $nama ??= Str::of(Str::before($email, '@'))->replace(['.', '_', '-'], ' ')->title()->toString();
-        $request->session()->regenerate();
-        $request->session()->put('pengguna', ['email' => strtolower($email), 'nama' => $nama, 'peran' => $peran]);
-
-        $tujuan = $this->aman($request->input('kembali')) ?? match ($peran) {
-            'mitra' => route('mitra.listing'),
-            'kurator' => route('admin.ringkasan'),
-            default => route('paspor'),
+        return match ($peran) {
+            'admin', 'superadmin' => route('admin.ringkasan'),
+            default => route('akun'),
         };
+    }
 
-        return redirect($tujuan)->with('pesan', 'Halo, '.$nama.'.');
+    private function simpanSesiPengguna(Request $request, User $user): void
+    {
+        $request->session()->put('pengguna', [
+            'email' => $user->email,
+            'nama' => $user->name,
+            'peran' => $user->peran,
+        ]);
     }
 
     public function daftar(Request $request)
@@ -65,26 +83,88 @@ class AkunController extends Controller
         $data = $request->validate([
             'nama' => ['required', 'string', 'max:60'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'min:8', 'confirmed'],
+            'tanggal_lahir' => ['required', 'date', 'before:today'],
+            'password' => ['required', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/'],
             'setuju' => ['accepted'],
         ], [
             'nama.required' => 'Isi nama yang akan tampil di paspor.',
             'email.required' => 'Isi alamat email.',
             'email.email' => 'Alamat email belum benar.',
-            'password.min' => 'Kata sandi minimal 8 karakter.',
+            'tanggal_lahir.required' => 'Isi tanggal lahir.',
+            'password.regex' => 'Password minimal 8 karakter dan harus memiliki huruf kecil, huruf kapital, angka, dan simbol.',
             'password.confirmed' => 'Ulangi kata sandi yang sama.',
             'setuju.accepted' => 'Setujui ketentuan untuk membuat akun.',
         ]);
 
-        return $this->masukkan($request, $data['email'], $data['nama'], 'wisatawan');
+        $user = User::create([
+            'name' => $data['nama'],
+            'email' => strtolower($data['email']),
+            'tanggal_lahir' => $data['tanggal_lahir'],
+            'password' => $data['password'],
+            'peran' => 'wisatawan',
+        ]);
+        Auth::login($user);
+        $request->session()->regenerate();
+        $this->simpanSesiPengguna($request, $user);
+
+        return redirect($this->aman($request->input('kembali')) ?? route('akun'))
+            ->with('pesan', 'Akun berhasil dibuat. Halo, '.$user->name.'.');
     }
 
     public function keluar(Request $request)
     {
+        Auth::logout();
         $request->session()->forget('pengguna');
+        $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return redirect()->route('beranda');
+    }
+
+    public function google(Request $request)
+    {
+        $config = config('services.google');
+        abort_unless($config['client_id'] && $config['client_secret'] && $config['redirect'], 503, 'Login Google belum dikonfigurasi.');
+        $state = Str::random(40);
+        $request->session()->put('google_oauth_state', $state);
+        $request->session()->put('google_oauth_kembali', $this->aman($request->query('kembali')));
+        $query = http_build_query([
+            'client_id' => $config['client_id'], 'redirect_uri' => $config['redirect'],
+            'response_type' => 'code', 'scope' => 'openid email profile',
+            'state' => $state, 'access_type' => 'online', 'prompt' => 'select_account',
+        ]);
+
+        return redirect('https://accounts.google.com/o/oauth2/v2/auth?'.$query);
+    }
+
+    public function googleCallback(Request $request)
+    {
+        if ($request->filled('error')) {
+            return redirect()->route('masuk')->withErrors(['email' => 'Login Google dibatalkan.']);
+        }
+
+        $expectedState = $request->session()->pull('google_oauth_state');
+        $kembali = $request->session()->pull('google_oauth_kembali');
+        abort_unless($request->filled('code') && $request->filled('state') && is_string($expectedState) && hash_equals($expectedState, $request->input('state')), 419);
+        $config = config('services.google');
+        $token = Http::asForm()->post('https://oauth2.googleapis.com/token', [
+            'code' => $request->string('code')->toString(), 'client_id' => $config['client_id'],
+            'client_secret' => $config['client_secret'], 'redirect_uri' => $config['redirect'],
+            'grant_type' => 'authorization_code',
+        ])->throw()->json();
+        $profile = Http::withToken($token['access_token'])->get('https://openidconnect.googleapis.com/v1/userinfo')->throw()->json();
+        abort_unless(($profile['email_verified'] ?? false) && ! empty($profile['email']) && ! empty($profile['sub']), 422, 'Akun Google belum terverifikasi.');
+        $user = User::firstOrCreate(['email' => strtolower($profile['email'])], [
+            'name' => $profile['name'] ?? Str::before($profile['email'], '@'),
+            'google_id' => $profile['sub'], 'email_verified_at' => now(), 'peran' => 'wisatawan',
+            'password' => Str::random(40),
+        ]);
+        $user->forceFill(['google_id' => $profile['sub'], 'email_verified_at' => now()])->save();
+        Auth::login($user, true);
+        $request->session()->regenerate();
+        $this->simpanSesiPengguna($request, $user);
+
+        return redirect($kembali ?? $this->tujuan($user->peran))->with('pesan', 'Login Google berhasil.');
     }
 
     public function akun(Request $request)

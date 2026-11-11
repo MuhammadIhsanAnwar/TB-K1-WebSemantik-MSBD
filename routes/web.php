@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AkunController;
-use App\Http\Controllers\MitraController;
 use App\Http\Controllers\SitusController;
 use App\Http\Controllers\TiketController;
 use Illuminate\Support\Facades\Route;
@@ -22,11 +21,6 @@ Route::controller(SitusController::class)->group(function () {
     Route::get('/jalur/{slug}', 'jalurDetail')->name('jalur.detail');
     Route::get('/rencana', 'rencana')->name('rencana');
     Route::get('/r/{kode}', 'rencanaBagikan')->name('rencana.bagikan');
-    Route::get('/data', 'data')->name('data');
-    Route::post('/data/sparql', 'sparql')->name('data.sparql');
-    Route::get('/data/medanvisit.ttl', 'turtle')->name('data.turtle');
-    Route::get('/data/medanvisit.jsonld', 'jsonld')->name('data.jsonld');
-    Route::get('/kredit-foto', 'kredit')->name('kredit');
     Route::get('/ketentuan', 'ketentuan')->name('ketentuan');
     Route::get('/{jenis}/{slug}', 'entitas')->whereIn('jenis', ['tokoh', 'budaya', 'kuliner', 'peristiwa', 'kerajaan', 'transportasi'])->name('entitas');
 });
@@ -35,6 +29,8 @@ Route::controller(SitusController::class)->group(function () {
 Route::controller(AkunController::class)->group(function () {
     Route::get('/masuk', 'masuk')->name('masuk');
     Route::post('/masuk', 'prosesMasuk');
+    Route::get('/masuk/google', 'google')->name('masuk.google');
+    Route::get('/masuk/google/callback', 'googleCallback')->name('masuk.google.callback');
     Route::get('/daftar', 'daftar')->name('daftar');
     Route::post('/daftar', 'prosesDaftar');
     Route::post('/keluar', 'keluar')->name('keluar');
@@ -67,19 +63,8 @@ Route::controller(TiketController::class)->middleware('peran')->group(function (
     Route::get('/tiket/{kode}', 'eTiket')->name('tiket.e');
 });
 
-// ---------- mitra UMKM ----------
-Route::controller(MitraController::class)->middleware('peran:mitra')->prefix('mitra')->name('mitra.')->group(function () {
-    Route::get('/', 'listing')->name('listing');
-    Route::post('/', 'simpanListing');
-    Route::get('/voucher', 'voucher')->name('voucher');
-    Route::post('/voucher', 'buatVoucher');
-    Route::get('/penukaran', 'penukaran')->name('penukaran');
-    Route::post('/penukaran', 'verifikasi');
-    Route::get('/statistik', 'statistik')->name('statistik');
-});
-
 // ---------- kurator & admin ----------
-Route::controller(AdminController::class)->middleware('peran:kurator')->prefix('admin')->name('admin.')->group(function () {
+Route::controller(AdminController::class)->middleware('peran:admin,superadmin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', 'ringkasan')->name('ringkasan');
     Route::get('/entitas', 'entitas')->name('entitas');
     Route::get('/entitas/{slug}', 'ubahEntitas')->name('entitas.ubah');

@@ -71,7 +71,7 @@
                     @endif
                     <div class="slip__baris"><span>{{ Katalog::jamTeks($s['mulai']) }} <a href="{{ route('tempat', $s['tempat']['slug']) }}">{{ $s['tempat']['nama'] }}</a></span><span class="titik-titik"></span><span class="kanan">{{ $s['tempat']['singgah'] }} mnt</span></div>
                 @endforeach
-                <div class="slip__akhir"><span>Selesai {{ Katalog::jamTeks($hasil['selesai']) }}, {{ count($hasil['singgah']) }} stempel</span><span>{{ Katalog::rupiah($hasil['biaya']) }}</span></div>
+                <div class="slip__akhir"><span>Selesai {{ Katalog::jamTeks($hasil['selesai']) }}, {{ count($hasil['singgah']) }} tempat</span><span>{{ Katalog::rupiah($hasil['biaya']) }}</span></div>
                 <p class="kecil redup" style="margin-top:12px">Perkiraan tiket masuk dan becak per orang. Harga tiket dan tarif becak masih contoh.</p>
             </div>
             @if (count($hasil['singgah']) === 1)

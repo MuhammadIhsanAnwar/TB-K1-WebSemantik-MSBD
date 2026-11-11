@@ -720,7 +720,7 @@
 .mv-kaki__jujur { font-size: var(--mv-s-ui); color: var(--mv-di-hijau-redup) !important; }
 .mv-kaki__merek svg {
   display: block;
-  width: 100%;
+  width: min(45%, 420px);
   height: auto;
 }
 .mv-kaki__merek text {

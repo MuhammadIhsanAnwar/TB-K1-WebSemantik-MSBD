@@ -7,7 +7,6 @@
         [route('rencana'), 'Perencana rute', ['rencana', 'rencana.bagikan']],
         [route('jelajah'), 'Cerita Medan (Graf)', ['jelajah*']],
         [route('tanya'), 'Tanya asisten', ['tanya', 'cari']],
-        [route('data'), 'Data terbuka & SPARQL', ['data']],
     ];
 @endphp
 <dialog class="lembar-menu" id="lembar-menu" data-ui aria-label="Menu navigasi">
@@ -32,9 +31,6 @@
         @if ($u && $u['peran'] === 'wisatawan')
             <nav class="lembar-menu__sub" aria-label="Menu akun">
                 <a href="{{ route('tiket.saya') }}">Tiket saya</a>
-                <a href="{{ route('paspor') }}">Paspor Digital</a>
-                <a href="{{ route('voucher') }}">Voucher UMKM</a>
-                <a href="{{ route('peringkat') }}">Peringkat</a>
                 <a href="{{ route('rencana.saya') }}">Rencana tersimpan</a>
                 <a href="{{ route('akun') }}">Akun {{ $u['nama'] }}</a>
             </nav>

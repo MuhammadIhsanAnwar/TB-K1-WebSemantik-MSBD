@@ -63,7 +63,7 @@ php artisan rdf:ekspor
 php artisan rdf:kirim --replace
 ```
 
-Akun uji coba (sandi `rahasia123`): `rina@contoh.id` (wisatawan), `usaha@contoh.id` (mitra), `kurator@contoh.id` (kurator).
+Akun pengguna disimpan di DB 1 dengan role `wisatawan`, `admin`, atau `superadmin`. Pembuatan akun dilakukan melalui halaman daftar atau oleh superadmin; tidak ada seeder akun bawaan.
 
 ### Objek database
 

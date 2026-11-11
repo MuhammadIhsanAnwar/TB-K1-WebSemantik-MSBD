@@ -304,13 +304,12 @@
         <div class="mv-paspor-grid">
             <div class="mv-paspor-peta">
                 <h2 id="judul-peta-paspor">Peta kota dan paspor</h2>
-                <p style="color:var(--mv-redup)">Lihat sebaran ke-{{ count($semuaTempat) }} titik di atas peta Kota Medan, lalu kumpulkan stempel resmi setiap kali tiba di lokasi.</p>
+                <p style="color:var(--mv-redup)">Lihat sebaran ke-{{ count($semuaTempat) }} titik wisata di atas peta Kota Medan.</p>
                 <div class="mv-paspor-peta__kanvas" data-peta data-peta-mode="ringkas" data-pusat="istana-maimun" data-tempat="{{ json_encode($petaJson) }}">
                     <p class="peta-diam" style="padding:20px">Peta interaktif tempat wisata Medan dimuat di sini.</p>
                 </div>
                 <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
                     <a class="mv-btn mv-btn--hijau" href="{{ route('peta') }}">Buka peta lengkap</a>
-                    <a class="mv-tautan" href="{{ route('paspor') }}">Lihat Paspor Digital</a>
                 </div>
             </div>
 
@@ -319,27 +318,6 @@
                     <div>
                         <h3>Peta {{ count($semuaTempat) }} titik</h3>
                         <p>Saring berdasarkan kategori, tempat yang sedang buka sekarang, ketersediaan tiket, atau urutkan dari jarak terdekat.</p>
-                    </div>
-                </div>
-                <div class="mv-paspor-butir">
-                    <div>
-                        <h3>Check-in di lokasi</h3>
-                        <p>Stempel hanya terbit dalam radius 60 sampai 150 meter di pelataran tempat wisata, masing-masing bernilai 10 poin.</p>
-                    </div>
-                </div>
-                <div class="mv-paspor-butir">
-                    <div>
-                        <h3>Stempel &amp; gelar</h3>
-                        <p>Kumpulkan stempel berdesain khusus tiap tempat dan naikkan gelarmu dari Pendatang Baru hingga Duta Wisata Medan.</p>
-                    </div>
-                    <div class="mv-paspor-butir__stempel">
-                        <x-stempel :tempat="$istana" />
-                    </div>
-                </div>
-                <div class="mv-paspor-butir">
-                    <div>
-                        <h3>Voucher mitra UMKM</h3>
-                        <p>Gunakan poin perjalananmu untuk potongan kuliner, oleh-oleh bika ambon, dan kedai kopi lokal yang bekerja sama.</p>
                     </div>
                 </div>
             </div>
@@ -355,7 +333,6 @@
                 <h2 id="judul-tanya" data-muncul>Sebelum berangkat</h2>
                 <ul class="mv-faq-fakta" data-muncul style="--i:1">
                     <li>Pembayaran tiket mendukung QRIS, virtual account, dan dompet digital.</li>
-                    <li>Check-in GPS diverifikasi langsung dalam radius 60 sampai 150 meter di lokasi.</li>
                     <li>Masjid dan rumah ibadah dikunjungi dengan pakaian sopan di luar waktu ibadah.</li>
                 </ul>
 
@@ -369,20 +346,12 @@
                         <p>Bisa. Pada halaman e-tiket, tekan tombol <strong>Simpan PDF</strong> sebelum berangkat agar kode QR tersimpan di ponsel dan siap dipindai tanpa koneksi internet.</p>
                     </details>
                     <details>
-                        <summary>Mengapa check-in saya belum berhasil?</summary>
-                        <p>Sistem memeriksa jarak koordinat GPS ponselmu terhadap titik tempat wisata. Jika berada di dalam ruangan tebal yang menghalangi sinyal, cobalah kembali dari halaman terbuka dekat pintu masuk.</p>
-                    </details>
-                    <details>
-                        <summary>Poin dari Paspor Digital bisa ditukar dengan apa?</summary>
-                        <p>Setiap check-in menambah 10 poin dan lencana jalur memberi poin tambahan. Poin dapat ditukarkan dengan kode voucher potongan harga dari mitra UMKM Medan di halaman Voucher.</p>
-                    </details>
-                    <details>
                         <summary>Cerita wisata tersedia dalam bahasa apa saja?</summary>
                         <p>Seluruh cerita saat ini ditulis dalam bahasa Indonesia. Terjemahan bahasa Inggris, Mandarin, dan Melayu sedang disiapkan secara bertahap oleh tim kurator.</p>
                     </details>
                     <details>
                         <summary>Dari mana asal foto arsip dan rujukan sejarahnya?</summary>
-                        <p>Foto berasal dari Wikimedia Commons dan koleksi arsip Universitas Leiden (KITLV) berlisensi terbuka. Rujukan tiap hubungan sejarah dapat diperiksa di halaman tempat maupun <a class="mv-tautan" href="{{ route('data') }}" style="min-height:0">data terbuka</a>.</p>
+                        <p>Rujukan hubungan sejarah dapat diperiksa pada halaman tempat terkait.</p>
                     </details>
                 </div>
 

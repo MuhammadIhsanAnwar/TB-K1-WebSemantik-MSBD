@@ -1,6 +1,5 @@
 @php
     use App\Support\Katalog;
-    use App\Support\Penyimpanan;
     $u = session('pengguna');
     $adalahBeranda = request()->routeIs('beranda');
     $menu = [
@@ -10,7 +9,6 @@
         [route('tanya'), 'Tanya', ['tanya', 'cari']],
         [$u && $u['peran'] === 'wisatawan' ? route('tiket.saya') : route('beranda').'#tiket', 'Tiket', ['tiket.*', 'checkout', 'pesanan']],
     ];
-    $poinHeader = ($u && $u['peran'] === 'wisatawan') ? Penyimpanan::poin($u['email']) : null;
     $tiketAktif = ($u && $u['peran'] === 'wisatawan')
         ? collect(Penyimpanan::pesanan($u['email']))->filter(fn ($p) => in_array($p['status'], ['menunggu', 'lunas'], true) && empty($p['dipakai']) && $p['tanggal'] >= now('Asia/Jakarta')->toDateString())->count()
         : 0;
@@ -37,10 +35,10 @@
             </button>
 
             @if ($u)
-                @if ($u['peran'] === 'mitra')
-                    <a class="mv-btn mv-btn--krem mv-btn--kecil" href="{{ route('mitra.listing') }}">Ruang Mitra</a>
-                @elseif ($u['peran'] === 'kurator')
-                    <a class="mv-btn mv-btn--krem mv-btn--kecil" href="{{ route('admin.ringkasan') }}">Ruang Kurator</a>
+                @if ($u['peran'] === 'admin')
+                    <a class="mv-btn mv-btn--krem mv-btn--kecil" href="{{ route('admin.ringkasan') }}">Ruang Admin</a>
+                @elseif (in_array($u['peran'], ['superadmin'], true))
+                    <a class="mv-btn mv-btn--krem mv-btn--kecil" href="{{ route('admin.ringkasan') }}">Ruang Superadmin</a>
                 @else
                     <details class="mv-akun-menu" data-ui data-akun-menu>
                         <summary aria-label="Menu akun {{ $u['nama'] }}">
@@ -53,13 +51,9 @@
                         <div class="mv-akun-menu__panel">
                             <div class="mv-akun-menu__info">
                                 <b>{{ $u['nama'] }}</b>
-                                <span>{{ Katalog::gelar($poinHeader['total'] ?? 0)['nama'] }} (<span class="nums">{{ $poinHeader['total'] ?? 0 }}</span> poin)</span>
                             </div>
                             <nav aria-label="Menu akun wisatawan">
                                 <a href="{{ route('tiket.saya') }}"><span>Tiket saya</span>@if ($tiketAktif > 0)<span class="nums">{{ $tiketAktif }}</span>@endif</a>
-                                <a href="{{ route('paspor') }}"><span>Paspor Digital</span></a>
-                                <a href="{{ route('voucher') }}"><span>Voucher saya</span></a>
-                                <a href="{{ route('peringkat') }}"><span>Peringkat mingguan</span></a>
                                 <a href="{{ route('rencana.saya') }}"><span>Rencana saya</span></a>
                                 <a href="{{ route('ulasan.saya') }}"><span>Ulasan saya</span></a>
                                 <a href="{{ route('akun') }}"><span>Ringkasan akun</span></a>

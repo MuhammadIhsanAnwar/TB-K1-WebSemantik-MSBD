@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('peran', 12)->default('wisatawan');
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('google_id')->nullable()->unique();
             $table->string('no_hp', 20)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -42,7 +44,7 @@ return new class extends Migration
         });
 
         Schema::connection($this->connection)->getConnection()->statement(
-            "ALTER TABLE users ADD CONSTRAINT ck_users_peran CHECK (peran IN ('wisatawan', 'mitra', 'kurator'))"
+            "ALTER TABLE users ADD CONSTRAINT ck_users_peran CHECK (peran IN ('wisatawan', 'admin', 'superadmin'))"
         );
     }
 

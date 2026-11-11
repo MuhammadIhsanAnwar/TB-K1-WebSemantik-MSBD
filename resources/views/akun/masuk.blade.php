@@ -1,7 +1,4 @@
 @extends('layouts.situs')
-@php
-    $kreditFoto = \App\Support\Katalog::kredit('kesawan-arsip.jpg');
-@endphp
 @section('judul', 'Masuk')
 @section('tanpa-kepala', '1')
 @section('tanpa-kaki', '1')
@@ -22,7 +19,6 @@
             <p class="mv-otentik__tajuk-sisi" data-naik style="--i:1">Satu akun wisata Medan.</p>
             <ul class="mv-otentik__manfaat" data-naik style="--i:2">
                 <li>Simpan e-tiket ber-QR dan buka kapan saja di loket masuk</li>
-                <li>Klaim stempel GPS di 13 tempat dan kumpulkan poin UMKM</li>
                 <li>Simpan dan bagikan rencana perjalanan setengah hari</li>
             </ul>
             <div class="mv-otentik__galeri" data-naik style="--i:3" aria-label="Tempat wisata di MedanVisit">
@@ -39,9 +35,6 @@
                     <figcaption>Tjong A Fie</figcaption>
                 </figure>
             </div>
-            @if ($kreditFoto)
-                <p class="mv-otentik__kredit" data-naik style="--i:4">Foto latar: {{ $kreditFoto }}</p>
-            @endif
         </div>
     </div>
 
@@ -53,7 +46,7 @@
 
         <div class="mv-otentik__kotak">
             <h1 data-naik style="--i:2">Masuk ke akun</h1>
-            <p class="mv-otentik__pengantar" data-naik style="--i:3">Buka kembali e-tiket aktif, koleksi stempel Paspor Digital, dan rencana kunjunganmu di Medan.</p>
+            <p class="mv-otentik__pengantar" data-naik style="--i:3">Buka kembali e-tiket aktif dan rencana kunjunganmu di Medan.</p>
 
             <form method="post" action="{{ route('masuk') }}" novalidate style="margin-top:28px">
                 @csrf
@@ -71,23 +64,12 @@
                         <input id="password" type="password" name="password" autocomplete="current-password" required aria-describedby="bantu-password @error('password') galat-password @enderror" @error('password') aria-invalid="true" @enderror>
                         <button type="button" class="mv-sandi-toggle" data-toggle-sandi="password" aria-pressed="false">Tampilkan</button>
                     </div>
-                    <p class="isian__bantuan" id="bantu-password">Minimal 8 karakter.</p>
                     @error('password')<p class="isian__galat" id="galat-password">{{ $message }}</p>@enderror
                 </div>
 
-                <fieldset class="isian mv-kotak-proto" data-naik style="--i:6">
-                    <legend>Peran sesi prototipe</legend>
-                    <p class="isian__bantuan">Database autentikasi belum disambungkan, sehingga peran dipilih langsung untuk pengujian antarmuka.</p>
-                    <div class="pilih-banyak" style="margin-top:8px">
-                        @foreach (['wisatawan' => 'Wisatawan', 'mitra' => 'Mitra UMKM', 'kurator' => 'Kurator'] as $v => $l)
-                            <label><input type="radio" name="peran" value="{{ $v }}" @checked(old('peran', 'wisatawan') === $v)>{{ $l }}</label>
-                        @endforeach
-                    </div>
-                    @error('peran')<p class="isian__galat">{{ $message }}</p>@enderror
-                </fieldset>
-
                 <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px" data-naik style="--i:7">Masuk</button>
             </form>
+            <a class="mv-btn mv-btn--lebar" href="{{ route('masuk.google', ['kembali' => $kembali]) }}" style="margin-top:12px">Masuk dengan Google</a>
         </div>
 
         <div class="mv-otentik__panel-bawah" data-naik style="--i:8">

@@ -16,11 +16,10 @@
         'situs' => '<path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/>',
     ];
     $svg = fn ($k) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'.$ikon[$k].'</svg>';
-    $menuMitra = [['mitra.listing', 'Listing usaha', 'listing'], ['mitra.voucher', 'Voucher & stok', 'voucher'], ['mitra.penukaran', 'Penukaran', 'tukar'], ['mitra.statistik', 'Statistik', 'statistik']];
     $antre = count(\App\Support\Penyimpanan::ulasan(null, 'menunggu'));
     $menuKurator = [
         ['admin.ringkasan', 'Ringkasan', 'ringkasan', null], ['admin.entitas', 'Entitas', 'entitas', null], ['admin.relasi', 'Editor relasi', 'relasi', null],
-        ['admin.cerita', 'Cerita dan audio', 'cerita', null], ['admin.ulasan', 'Ulasan menunggu', 'ulasan', $antre ?: null], ['admin.mitra', 'Mitra dan voucher', 'mitra', null],
+        ['admin.cerita', 'Cerita dan audio', 'cerita', null], ['admin.ulasan', 'Ulasan menunggu', 'ulasan', $antre ?: null],
         ['admin.tiket', 'Tiket dan transaksi', 'tiket', null], ['admin.sinkronisasi', 'Sinkronisasi', 'sinkron', null],
     ];
 @endphp
@@ -29,7 +28,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('judul') | MedanVisit {{ $u['peran'] === 'mitra' ? 'Mitra' : 'Kurator' }}</title>
+    <title>@yield('judul') | MedanVisit {{ $u['peran'] === 'admin' ? 'Admin' : 'Superadmin' }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <script>document.documentElement.classList.add('js')</script>
@@ -45,11 +44,11 @@
                 <button class="ps__menu" type="button" data-tutup-samping style="margin-left:auto">Tutup</button>
             </div>
             <div class="ps__lingkup">
-                <span>{{ $u['peran'] === 'mitra' ? 'Ruang mitra UMKM' : 'Ruang kurator' }}</span>
-                <b>{{ $u['peran'] === 'mitra' ? ($usaha['nama'] ?? '') ?: 'Usaha belum dilengkapi' : 'Kota Medan, 21 kecamatan' }}</b>
+                <span>Ruang {{ $u['peran'] === 'admin' ? 'admin' : 'superadmin' }}</span>
+                <b>Kota Medan, 21 kecamatan</b>
             </div>
             <div class="ps__nav">
-                @foreach ($u['peran'] === 'mitra' ? $menuMitra : $menuKurator as $m)
+                @foreach ($menuKurator as $m)
                     <a href="{{ route($m[0]) }}" @if (request()->routeIs($m[0].'*')) aria-current="page" @endif>{!! $svg($m[2]) !!}<span>{{ $m[1] }}</span>@if (! empty($m[3]))<span class="hitung">{{ $m[3] }}</span>@endif</a>
                 @endforeach
             </div>
@@ -64,7 +63,7 @@
         </nav>
         <header class="ps__atas">
             <button class="ps__menu" type="button" data-buka-samping aria-expanded="false">Menu</button>
-            @if ($u['peran'] === 'kurator')
+            @if (in_array($u['peran'], ['admin', 'superadmin'], true))
                 <form action="{{ route('admin.entitas') }}" method="get" role="search">
                     <label class="sr-only" for="cari-panel">Cari entitas</label>
                     <input id="cari-panel" type="search" name="q" placeholder="Cari tempat, tokoh, kuliner…" value="{{ request('q') }}">
