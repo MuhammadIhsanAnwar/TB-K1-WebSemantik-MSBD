@@ -14,14 +14,13 @@
             <div class="mv-kaki__catatan">
                 <p>Jelajahi Medan, bawa pulang ceritanya. Panduan wisata berbasis jaringan cerita yang menautkan tempat, tokoh, budaya, dan kuliner Kota Medan.</p>
                 <p><a href="mailto:administrator@medanvisit.neoverse.my.id">administrator@medanvisit.neoverse.my.id</a></p>
-                <p class="mv-kaki__jujur">Keterangan bertanda “contoh” pada harga, jam buka, dan koordinat masih dalam tahap verifikasi pengelola.</p>
             </div>
         </div>
 
-        <div class="mv-kaki__merek" aria-hidden="true">
-            <svg viewBox="0 0 1000 185" preserveAspectRatio="xMidYMax meet">
-                <text x="0" y="162" textLength="1000" lengthAdjust="spacingAndGlyphs" font-size="192">MedanVisit</text>
-            </svg>
+        <div class="mv-kaki__merek">
+            <a href="{{ route('beranda') }}" aria-label="Kembali ke beranda">
+                <img src="{{ asset('storage/logo_app/svg/MedanVisit_logo_horizontal_gelap.svg') }}" alt="MedanVisit" width="736" height="256">
+            </a>
         </div>
 
         <div class="mv-kaki__legal">

@@ -61,6 +61,25 @@ class SupabaseApi
             ->throw();
     }
 
+    public function createPasswordResetToken(array $token): array
+    {
+        $this->deletePasswordResetToken($token['email']);
+
+        return $this->insert('password_reset_tokens', $token);
+    }
+
+    public function findPasswordResetToken(string $hash): ?array
+    {
+        return $this->getRows('password_reset_tokens', ['token' => 'eq.'.$hash])[0] ?? null;
+    }
+
+    public function deletePasswordResetToken(string $email): void
+    {
+        $this->request()
+            ->delete($this->url('password_reset_tokens').'?'.http_build_query(['email' => 'eq.'.strtolower($email)]))
+            ->throw();
+    }
+
     private function getRows(string $table, array $filters = []): array
     {
         return $this->request()

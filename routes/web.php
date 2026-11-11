@@ -31,6 +31,10 @@ Route::controller(AkunController::class)->group(function () {
     Route::post('/masuk', 'prosesMasuk');
     Route::get('/masuk/google', 'google')->name('masuk.google');
     Route::get('/masuk/google/callback', 'googleCallback')->name('masuk.google.callback');
+    Route::get('/lupa-password', 'lupaPassword')->name('password.request');
+    Route::post('/lupa-password', 'kirimLinkPassword')->name('password.email');
+    Route::get('/reset-password/{token}', 'formulirResetPassword')->name('password.reset');
+    Route::post('/reset-password', 'ubahPassword')->name('password.update');
     Route::get('/daftar', 'daftar')->name('daftar');
     Route::post('/daftar', 'prosesDaftar');
     Route::get('/verifikasi-email', 'verifikasi')->name('verifikasi');

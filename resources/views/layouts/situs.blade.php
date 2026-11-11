@@ -9,12 +9,22 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
-    <script>document.documentElement.classList.add('js')</script>
+    <script>
+        document.documentElement.classList.add('js');
+        try {
+            if (localStorage.getItem('mv-beranda-siap') === '1') {
+                document.documentElement.classList.add('mv-pemuatan-selesai');
+            }
+        } catch { /* localStorage tidak tersedia, loader tetap berjalan */ }
+    </script>
     @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('kepala')
 </head>
 <body class="situs @yield('kelas-body') @hasSection('tanpa-kaki') situs--alat @endif">
+    @if (request()->routeIs('beranda'))
+        @include('partials.pemuatan-beranda')
+    @endif
     <a class="lewati" href="#isi">Lewati ke isi utama</a>
     @hasSection('tanpa-kepala')
     @else

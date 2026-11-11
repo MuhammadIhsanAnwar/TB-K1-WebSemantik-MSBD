@@ -7,8 +7,7 @@
 <div class="mv-otentik">
     <div class="mv-otentik__visual">
         <x-foto berkas="istana-maimun-1900.jpg" alt="" :utama="true" />
-        <div class="mv-otentik__lapisan" aria-hidden="true">            <a class="mv-btn mv-btn--lebar" href="{{ route('masuk.google', ['kembali' => $kembali]) }}" style="margin-top:12px">Daftar dengan Google</a>
-        </div>
+        <div class="mv-otentik__lapisan" aria-hidden="true"></div>
 
         <div class="mv-otentik__visual-atas" data-naik style="--i:0">
             <a class="mv-otentik__logo" href="{{ route('beranda') }}" aria-label="MedanVisit, kembali ke beranda">
@@ -98,7 +97,7 @@
                     @error('setuju')<p class="isian__galat">{{ $message }}</p>@enderror
                 </div>
 
-                <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px" data-naik style="--i:10">Daftar</button>
+                <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px; --i:10" data-naik>Daftar</button>
             </form>
             <a class="mv-btn mv-btn--lebar" href="{{ route('masuk.google', ['kembali' => $kembali]) }}" style="margin-top:12px">Daftar dengan Google</a>
             <script>

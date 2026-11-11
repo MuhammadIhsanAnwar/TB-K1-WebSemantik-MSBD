@@ -3,6 +3,58 @@
 
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
+// ---- Pemuatan beranda pada kunjungan pertama ----
+const pemuatan = document.querySelector('[data-pemuatan-beranda]');
+if (pemuatan && !document.documentElement.classList.contains('mv-pemuatan-selesai')) {
+    const status = pemuatan.querySelector('[data-pemuatan-status]');
+    const bar = pemuatan.querySelector('[data-pemuatan-bar]');
+    const persen = pemuatan.querySelector('[data-pemuatan-persen]');
+    const progressbar = pemuatan.querySelector('[role="progressbar"]');
+    const gambar = [...document.images].filter((img) => img !== pemuatan.querySelector('img'));
+    const total = Math.max(1, gambar.length + 1);
+    let selesai = gambar.filter((img) => img.complete).length;
+    let target = Math.min(96, Math.round((selesai / total) * 100));
+    let nilai = 0;
+    const koneksi = navigator.connection;
+    const cepat = typeof koneksi?.downlink === 'number' && koneksi.downlink >= 5;
+    const teks = [
+        [0, 'Menyiapkan beranda…'],
+        [35, 'Memuat cerita Medan…'],
+        [70, cepat ? 'Menghubungkan fitur wisata…' : 'Menyesuaikan dengan jaringanmu…'],
+        [96, 'Beranda siap ditampilkan.'],
+    ];
+    const perbarui = (nilaiBaru) => {
+        nilai = Math.max(nilai, Math.min(100, nilaiBaru));
+        bar.style.width = `${nilai}%`;
+        persen.textContent = `${Math.round(nilai)}%`;
+        progressbar.setAttribute('aria-valuenow', String(Math.round(nilai)));
+        status.textContent = [...teks].reverse().find(([ambang]) => nilai >= ambang)?.[1] ?? teks[0][1];
+    };
+    const naikkan = () => {
+        target = Math.min(96, target + (100 - target > 20 ? 8 : 2));
+        perbarui(target);
+    };
+    gambar.forEach((img) => {
+        if (!img.complete) {
+            img.addEventListener('load', naikkan, { once: true });
+            img.addEventListener('error', naikkan, { once: true });
+        }
+    });
+    document.fonts?.ready.then(naikkan).catch(() => {});
+    window.addEventListener('load', () => {
+        perbarui(100);
+        window.setTimeout(() => {
+            pemuatan.classList.add('mv-pemuatan--selesai');
+            document.documentElement.classList.add('mv-pemuatan-selesai');
+            try { localStorage.setItem('mv-beranda-siap', '1'); } catch { /* lanjut tanpa penyimpanan */ }
+            window.setTimeout(() => pemuatan.remove(), 420);
+        }, 280);
+    }, { once: true });
+    perbarui(target);
+} else {
+    pemuatan?.remove();
+}
+
 // ---- Menu navigasi ponsel ----
 const menu = document.getElementById('lembar-menu');
 document.querySelectorAll('[data-buka-menu]').forEach((b) => {

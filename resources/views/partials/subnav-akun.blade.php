@@ -1,5 +1,5 @@
 @php
-    $item = [['akun', 'Ringkasan'], ['tiket.saya', 'Tiket saya'], ['rencana.saya', 'Rencana'], ['ulasan.saya', 'Ulasan']];
+    $item = [['akun', 'Akun saya'], ['tiket.saya', 'Tiket saya'], ['rencana.saya', 'Rencana perjalanan'], ['ulasan.saya', 'Ulasan saya']];
 @endphp
 <nav class="alat-subnav" aria-label="Akun">
     @foreach ($item as [$r, $l])

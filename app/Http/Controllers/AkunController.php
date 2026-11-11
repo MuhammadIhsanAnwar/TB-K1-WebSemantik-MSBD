@@ -6,6 +6,7 @@ use App\Support\Katalog;
 use App\Support\Penyimpanan;
 use App\Support\SupabaseApi;
 use App\Mail\VerifikasiEmail;
+use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -55,6 +56,81 @@ class AkunController extends Controller
 
         return redirect($this->aman($request->input('kembali')) ?? $this->tujuan($user['peran']))
             ->with('pesan', 'Halo, '.$user['name'].'.');
+    }
+
+    public function lupaPassword()
+    {
+        return view('akun.lupa-password');
+    }
+
+    public function kirimLinkPassword(Request $request)
+    {
+        $data = $request->validate(['email' => ['required', 'email']]);
+        $api = new SupabaseApi;
+        $user = $api->findUserByEmail($data['email']);
+
+        if ($user && empty($user['google_id'])) {
+            $token = Str::random(64);
+            $api->createPasswordResetToken([
+                'email' => strtolower($user['email']),
+                'token' => hash('sha256', $token),
+                'created_at' => now()->toDateTimeString(),
+            ]);
+            Mail::to($user['email'])->send(new ResetPasswordEmail(
+                route('password.reset', ['token' => $token, 'email' => $user['email']])
+            ));
+        }
+
+        return redirect()->route('password.request')->with(
+            'pesan',
+            'Jika email tersebut terdaftar sebagai akun manual, tautan reset password sudah dikirim.'
+        );
+    }
+
+    public function formulirResetPassword(Request $request, string $token)
+    {
+        $email = $request->query('email');
+        abort_unless(is_string($email) && filter_var($email, FILTER_VALIDATE_EMAIL), 404);
+
+        $record = (new SupabaseApi)->findPasswordResetToken(hash('sha256', $token));
+        abort_unless(
+            $record
+                && strcasecmp($record['email'], $email) === 0
+                && now()->lessThan(\Carbon\Carbon::parse($record['created_at'])->addMinutes(60)),
+            410,
+            'Tautan reset password sudah kedaluwarsa.'
+        );
+
+        return view('akun.reset-password', ['token' => $token, 'email' => $email]);
+    }
+
+    public function ubahPassword(Request $request)
+    {
+        $data = $request->validate([
+            'email' => ['required', 'email'],
+            'token' => ['required', 'string'],
+            'password' => ['required', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/'],
+        ], [
+            'password.regex' => 'Password minimal 8 karakter dan harus memiliki huruf kecil, huruf kapital, angka, dan simbol.',
+            'password.confirmed' => 'Ulangi kata sandi yang sama.',
+        ]);
+
+        $api = new SupabaseApi;
+        $record = $api->findPasswordResetToken(hash('sha256', $data['token']));
+        abort_unless(
+            $record
+                && strcasecmp($record['email'], $data['email']) === 0
+                && now()->lessThan(\Carbon\Carbon::parse($record['created_at'])->addMinutes(60)),
+            410,
+            'Tautan reset password sudah kedaluwarsa.'
+        );
+
+        $user = $api->findUserByEmail($data['email']);
+        abort_unless($user && empty($user['google_id']), 404, 'Akun manual tidak ditemukan.');
+        $api->updateUser($user['id'], ['password' => Hash::make($data['password'])]);
+        $api->deletePasswordResetToken($user['email']);
+
+        return redirect()->route('masuk')->with('pesan', 'Password berhasil diubah. Silakan masuk.');
     }
 
     private function tujuan(string $peran): string
@@ -108,7 +184,9 @@ class AkunController extends Controller
             'tanggal_lahir' => $data['tanggal_lahir'],
             'password' => Hash::make($data['password']),
             'peran' => 'wisatawan',
+            'email_verified_at' => null,
         ]);
+        $request->session()->forget('pengguna');
         $this->kirimVerifikasi($user);
 
         return redirect()->route('verifikasi', ['email' => $user['email']])
@@ -142,10 +220,7 @@ class AkunController extends Controller
         abort_unless($user, 404, 'Akun tidak ditemukan.');
         $user = $api->updateUser($user['id'], ['email_verified_at' => now()->toDateTimeString()]);
         $api->deleteVerificationToken($record['id']);
-        $request->session()->put('pengguna', [
-            'id' => $user['id'], 'email' => $user['email'],
-            'nama' => $user['name'], 'peran' => $user['peran'],
-        ]);
+        $request->session()->forget('pengguna');
 
         return redirect()->route('masuk')->with('pesan', 'Email berhasil dikonfirmasi. Silakan masuk.');
     }

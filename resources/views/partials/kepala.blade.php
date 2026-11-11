@@ -53,15 +53,15 @@
                             <div class="mv-akun-menu__info">
                                 <b>{{ $u['nama'] }}</b>
                             </div>
-                            <nav aria-label="Menu akun wisatawan">
+                            <nav aria-label="Menu akun">
                                 <a href="{{ route('tiket.saya') }}"><span>Tiket saya</span>@if ($tiketAktif > 0)<span class="nums">{{ $tiketAktif }}</span>@endif</a>
-                                <a href="{{ route('rencana.saya') }}"><span>Rencana saya</span></a>
+                                <a href="{{ route('rencana.saya') }}"><span>Rencana perjalanan</span></a>
                                 <a href="{{ route('ulasan.saya') }}"><span>Ulasan saya</span></a>
-                                <a href="{{ route('akun') }}"><span>Ringkasan akun</span></a>
+                                <a href="{{ route('akun') }}"><span>Akun saya</span></a>
                             </nav>
                             <form method="post" action="{{ route('keluar') }}">
                                 @csrf
-                                <button type="submit" class="mv-akun-menu__keluar">Keluar dari akun</button>
+                                <button type="submit" class="mv-akun-menu__keluar">Keluar</button>
                             </form>
                         </div>
                     </details>

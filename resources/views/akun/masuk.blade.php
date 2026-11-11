@@ -66,8 +66,9 @@
                     </div>
                     @error('password')<p class="isian__galat" id="galat-password">{{ $message }}</p>@enderror
                 </div>
+                <p style="margin-top:12px"><a class="mv-tautan" href="{{ route('password.request') }}">Lupa Password?</a></p>
 
-                <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px" data-naik style="--i:7">Masuk</button>
+                <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px; --i:7" data-naik>Masuk</button>
             </form>
             <a class="mv-btn mv-btn--lebar" href="{{ route('masuk.google', ['kembali' => $kembali]) }}" style="margin-top:12px">Masuk dengan Google</a>
         </div>

@@ -32,7 +32,7 @@
             <nav class="lembar-menu__sub" aria-label="Menu akun">
                 <a href="{{ route('tiket.saya') }}">Tiket saya</a>
                 <a href="{{ route('rencana.saya') }}">Rencana tersimpan</a>
-                <a href="{{ route('akun') }}">Akun {{ $u['nama'] }}</a>
+                <a href="{{ route('akun') }}">Akun saya</a>
             </nav>
         @endif
 
