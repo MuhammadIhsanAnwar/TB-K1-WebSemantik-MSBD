@@ -10,6 +10,7 @@ use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -33,7 +34,7 @@ class AkunController extends Controller
     public function prosesMasuk(Request $request)
     {
         $data = $request->validate([
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email:rfc'],
             'password' => ['required'],
         ], [
             'email.required' => 'Isi alamat email.',
@@ -160,7 +161,8 @@ class AkunController extends Controller
     {
         $data = $request->validate([
             'nama' => ['required', 'string', 'max:60'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email:rfc'],
+            'no_hp' => ['required', 'digits_between:10,15', 'regex:/^08[0-9]+$/'],
             'tanggal_lahir' => ['required', 'date', 'before:today'],
             'password' => ['required', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/'],
             'setuju' => ['accepted'],
@@ -168,6 +170,9 @@ class AkunController extends Controller
             'nama.required' => 'Isi nama yang akan tampil di paspor.',
             'email.required' => 'Isi alamat email.',
             'email.email' => 'Alamat email belum benar.',
+            'no_hp.required' => 'Isi nomor HP.',
+            'no_hp.digits_between' => 'Nomor HP harus terdiri dari 10 sampai 15 angka.',
+            'no_hp.regex' => 'Nomor HP harus berupa angka dan diawali 08.',
             'tanggal_lahir.required' => 'Isi tanggal lahir.',
             'password.regex' => 'Password minimal 8 karakter dan harus memiliki huruf kecil, huruf kapital, angka, dan simbol.',
             'password.confirmed' => 'Ulangi kata sandi yang sama.',
@@ -181,6 +186,7 @@ class AkunController extends Controller
         $user = $api->createUser([
             'name' => $data['nama'],
             'email' => strtolower($data['email']),
+            'no_hp' => $data['no_hp'] ?? null,
             'tanggal_lahir' => $data['tanggal_lahir'],
             'password' => Hash::make($data['password']),
             'peran' => 'wisatawan',
@@ -301,7 +307,71 @@ class AkunController extends Controller
         $request->session()->regenerate();
         $this->simpanSesiPengguna($request, $user);
 
-        return redirect($kembali ?? $this->tujuan($user->peran))->with('pesan', 'Login Google berhasil.');
+        if ($this->profilBelumLengkap($user)) {
+            return redirect()->route('akun.pengaturan')
+                ->with('pesan', 'Lengkapi nomor HP dan tanggal lahir untuk menyelesaikan akun Google.');
+        }
+
+        return redirect($kembali ?? $this->tujuan($user['peran']))->with('pesan', 'Login Google berhasil.');
+    }
+
+    public function pengaturan(Request $request)
+    {
+        $u = $this->pengguna($request);
+        $user = (new SupabaseApi)->findUserByEmail($u['email']);
+        abort_unless($user, 404, 'Akun tidak ditemukan.');
+
+        return view('akun.pengaturan', ['user' => $user]);
+    }
+
+    public function simpanPengaturan(Request $request)
+    {
+        $u = $this->pengguna($request);
+        $data = $request->validate([
+            'nama' => ['required', 'string', 'max:60'],
+            'tanggal_lahir' => ['required', 'date', 'before:today'],
+            'no_hp' => ['required', 'digits_between:10,15', 'regex:/^08[0-9]+$/'],
+            'foto_profil' => ['nullable', 'image', 'max:2048'],
+            'password' => ['nullable', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/'],
+        ], [
+            'nama.required' => 'Isi nama.',
+            'tanggal_lahir.required' => 'Isi tanggal lahir.',
+            'no_hp.required' => 'Isi nomor HP.',
+            'no_hp.digits_between' => 'Nomor HP harus terdiri dari 10 sampai 15 angka.',
+            'no_hp.regex' => 'Nomor HP harus berupa angka dan diawali 08.',
+            'foto_profil.image' => 'Foto profil harus berupa gambar.',
+            'foto_profil.max' => 'Foto profil maksimal 2 MB.',
+            'password.regex' => 'Password minimal 8 karakter dan harus memiliki huruf kecil, huruf kapital, angka, dan simbol.',
+            'password.confirmed' => 'Ulangi kata sandi yang sama.',
+        ]);
+
+        $api = new SupabaseApi;
+        $user = $api->findUserByEmail($u['email']);
+        abort_unless($user, 404, 'Akun tidak ditemukan.');
+        $attributes = [
+            'name' => $data['nama'],
+            'tanggal_lahir' => $data['tanggal_lahir'],
+            'no_hp' => $data['no_hp'],
+        ];
+        if (! empty($data['password'])) {
+            $attributes['password'] = Hash::make($data['password']);
+        }
+        if ($request->hasFile('foto_profil')) {
+            if (! empty($user['foto_profil'])) {
+                Storage::disk('public')->delete($user['foto_profil']);
+            }
+            $attributes['foto_profil'] = $request->file('foto_profil')->store('profil', 'public');
+        }
+
+        $updated = $api->updateUser($user['id'], $attributes);
+        $this->simpanSesiPengguna($request, $updated);
+
+        return redirect()->route('akun.pengaturan')->with('pesan', 'Pengaturan akun berhasil disimpan.');
+    }
+
+    private function profilBelumLengkap(array $user): bool
+    {
+        return empty($user['no_hp']) || empty($user['tanggal_lahir']);
     }
 
     public function akun(Request $request)

@@ -65,12 +65,18 @@
                 </div>
 
                 <div class="isian" data-naik style="--i:6">
+                    <label for="no_hp">Nomor HP</label>
+                    <input id="no_hp" type="tel" name="no_hp" value="{{ old('no_hp') }}" autocomplete="tel" inputmode="numeric" pattern="08[0-9]{8,13}" maxlength="15" placeholder="Contoh: 081234567890" required @error('no_hp') aria-invalid="true" aria-describedby="galat-no-hp" @enderror>
+                    @error('no_hp')<p class="isian__galat" id="galat-no-hp">{{ $message }}</p>@enderror
+                </div>
+
+                <div class="isian" data-naik style="--i:7">
                     <label for="tanggal_lahir">Tanggal lahir</label>
                     <input id="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" autocomplete="bday" required @error('tanggal_lahir') aria-invalid="true" @enderror>
                     @error('tanggal_lahir')<p class="isian__galat">{{ $message }}</p>@enderror
                 </div>
 
-                <div class="isian" data-naik style="--i:7">
+                <div class="isian" data-naik style="--i:8">
                     <label for="password">Kata sandi</label>
                     <div class="mv-sandi-bungkus">
                         <input id="password" type="password" name="password" autocomplete="new-password" required aria-describedby="bantu-password @error('password') galat-password @enderror" @error('password') aria-invalid="true" @enderror>
@@ -83,13 +89,13 @@
                     @error('password')<p class="isian__galat" id="galat-password">{{ $message }}</p>@enderror
                 </div>
 
-                <div class="isian" data-naik style="--i:8">
+                <div class="isian" data-naik style="--i:9">
                     <label for="password_confirmation">Ulangi kata sandi</label>
                     <input id="password_confirmation" type="password" name="password_confirmation" autocomplete="new-password" required aria-describedby="kecocokan-password">
                     <p class="isian__bantuan mv-kecocokan-password" id="kecocokan-password" data-kecocokan-password></p>
                 </div>
 
-                <div class="isian" data-naik style="--i:9">
+                <div class="isian" data-naik style="--i:10">
                     <label class="centang">
                         <input type="checkbox" name="setuju" value="1" @checked(old('setuju'))>
                         <span>Saya menyetujui <a class="mv-tautan" href="{{ route('ketentuan') }}" style="min-height:0">ketentuan layanan &amp; kebijakan privasi</a>.</span>
@@ -97,7 +103,7 @@
                     @error('setuju')<p class="isian__galat">{{ $message }}</p>@enderror
                 </div>
 
-                <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px; --i:10" data-naik>Daftar</button>
+                <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px; --i:11" data-naik>Daftar</button>
             </form>
             <a class="mv-btn mv-btn--lebar" href="{{ route('masuk.google', ['kembali' => $kembali]) }}" style="margin-top:12px">Daftar dengan Google</a>
             <script>
@@ -115,7 +121,7 @@
             </script>
         </div>
 
-        <div class="mv-otentik__panel-bawah" data-naik style="--i:9">
+        <div class="mv-otentik__panel-bawah" data-naik style="--i:12">
             <a class="mv-tautan" href="{{ route('ketentuan') }}">Ketentuan &amp; privasi</a>
             <span>MedanVisit, Kota Medan</span>
         </div>

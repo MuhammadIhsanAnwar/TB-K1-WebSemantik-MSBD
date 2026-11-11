@@ -7,7 +7,10 @@
 <div class="alat">
     <div class="alat__judul">
         <div><h1>{{ $u['nama'] }}</h1><p class="mv-meta-garis"><span>{{ $u['email'] }}</span><span>{{ $gelar['nama'] }}</span></p></div>
-        <form method="post" action="{{ route('keluar') }}">@csrf<button class="p-btn" type="submit">Keluar</button></form>
+        <div style="display:flex;gap:8px;align-items:center">
+            <a class="p-btn" href="{{ route('akun.pengaturan') }}">Pengaturan akun</a>
+            <form method="post" action="{{ route('keluar') }}">@csrf<button class="p-btn" type="submit">Keluar</button></form>
+        </div>
     </div>
     @include('partials.subnav-akun')
     <div class="p-kpi">

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('tanggal_lahir')->nullable();
             $table->string('google_id')->nullable()->unique();
             $table->string('no_hp', 20)->nullable();
+            $table->string('foto_profil')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

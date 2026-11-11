@@ -44,6 +44,8 @@ Route::controller(AkunController::class)->group(function () {
 
     Route::middleware('peran')->group(function () {
         Route::get('/akun', 'akun')->name('akun');
+        Route::get('/akun/pengaturan', 'pengaturan')->name('akun.pengaturan');
+        Route::post('/akun/pengaturan', 'simpanPengaturan');
         Route::get('/paspor', 'paspor')->name('paspor');
         Route::post('/tempat/{slug}/checkin', 'checkin')->name('checkin');
         Route::get('/checkin/{id}', 'checkinHasil')->name('checkin.hasil');
