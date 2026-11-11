@@ -2,8 +2,9 @@
 
 namespace App\Support;
 
-use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * Facade katalog wisata yang membaca data RDF dari Database 3.
@@ -98,9 +99,14 @@ class Katalog
 
     public static function entitas(): array
     {
+        if (Cache::has('database3.unavailable')) {
+            return self::bangun();
+        }
+
         try {
             return Database3Catalog::entities();
-        } catch (ConnectionException $e) {
+        } catch (Throwable $e) {
+            Cache::put('database3.unavailable', true, now()->addMinute());
             Log::warning('Database 3 tidak tersedia; menggunakan katalog lokal.', [
                 'exception' => $e::class,
                 'message' => $e->getMessage(),
@@ -322,9 +328,14 @@ class Katalog
 
     public static function relasi(): array
     {
+        if (Cache::has('database3.unavailable')) {
+            return self::bangunRelasi();
+        }
+
         try {
             return Database3Catalog::relations();
-        } catch (ConnectionException $e) {
+        } catch (Throwable $e) {
+            Cache::put('database3.unavailable', true, now()->addMinute());
             Log::warning('Database 3 tidak tersedia; menggunakan relasi katalog lokal.', [
                 'exception' => $e::class,
                 'message' => $e->getMessage(),
