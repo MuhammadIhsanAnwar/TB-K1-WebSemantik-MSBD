@@ -720,13 +720,20 @@
 .mv-kaki__jujur { font-size: var(--mv-s-ui); color: var(--mv-di-hijau-redup) !important; }
 .mv-kaki__merek svg {
   display: block;
-  width: min(45%, 420px);
+  width: 240px !important;
+  max-width: 100%;
   height: auto;
 }
 .mv-kaki__merek text {
   fill: var(--mv-di-hijau);
   font-family: var(--font-display);
   font-weight: 600;
+}
+.mv-kecocokan-password[data-status="cocok"] {
+  color: #1e6b3a;
+}
+.mv-kecocokan-password[data-status="tidak-cocok"] {
+  color: #a3221b;
 }
 .mv-kaki__legal {
   display: flex;

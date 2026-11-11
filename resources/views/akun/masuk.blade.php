@@ -41,7 +41,7 @@
     <div class="mv-otentik__panel">
         <nav class="mv-otentik__panel-atas" aria-label="Navigasi autentikasi" data-naik style="--i:1">
             <a class="mv-tautan" href="{{ route('beranda') }}">Kembali ke beranda</a>
-            <span>Belum punya akun? <a class="mv-tautan" href="{{ route('daftar', ['kembali' => $kembali]) }}">Daftar gratis</a></span>
+            <span>Belum punya akun? <a class="mv-tautan" href="{{ route('daftar', ['kembali' => $kembali]) }}">Daftar</a></span>
         </nav>
 
         <div class="mv-otentik__kotak">

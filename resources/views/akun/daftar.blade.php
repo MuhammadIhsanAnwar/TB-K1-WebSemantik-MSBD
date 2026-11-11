@@ -87,7 +87,7 @@
                 <div class="isian" data-naik style="--i:8">
                     <label for="password_confirmation">Ulangi kata sandi</label>
                     <input id="password_confirmation" type="password" name="password_confirmation" autocomplete="new-password" required aria-describedby="kecocokan-password">
-                    <p class="isian__bantuan" id="kecocokan-password" data-kecocokan-password></p>
+                    <p class="isian__bantuan mv-kecocokan-password" id="kecocokan-password" data-kecocokan-password></p>
                 </div>
 
                 <div class="isian" data-naik style="--i:9">
@@ -98,16 +98,18 @@
                     @error('setuju')<p class="isian__galat">{{ $message }}</p>@enderror
                 </div>
 
-                <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px" data-naik style="--i:10">Daftar gratis</button>
+                <button class="mv-btn mv-btn--utama mv-btn--lebar" type="submit" style="margin-top:24px" data-naik style="--i:10">Daftar</button>
             </form>
+            <a class="mv-btn mv-btn--lebar" href="{{ route('masuk.google', ['kembali' => $kembali]) }}" style="margin-top:12px">Daftar dengan Google</a>
             <script>
                 const password = document.getElementById('password');
                 const confirmation = document.getElementById('password_confirmation');
                 const match = document.querySelector('[data-kecocokan-password]');
                 const updateMatch = () => {
                     if (! confirmation.value) { match.textContent = ''; return; }
-                    match.textContent = password.value === confirmation.value ? 'Password cocok.' : 'Password belum cocok.';
-                    match.dataset.status = password.value === confirmation.value ? 'cocok' : 'tidak-cocok';
+                    const cocok = password.value === confirmation.value;
+                    match.textContent = cocok ? 'Password cocok.' : 'Password belum cocok.';
+                    match.dataset.status = cocok ? 'cocok' : 'tidak-cocok';
                 };
                 password.addEventListener('input', updateMatch);
                 confirmation.addEventListener('input', updateMatch);
