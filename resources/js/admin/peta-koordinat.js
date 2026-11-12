@@ -9,21 +9,30 @@ const BATAS = {
     maxLng: 98.8,
 };
 
+const PUSAT = [3.5826, 98.6790];
+
 document.querySelectorAll('[data-peta-koordinat]').forEach((root) => {
     const form = root.closest('form');
+
     const latInput = form?.querySelector('[name="lat"]');
     const lngInput = form?.querySelector('[name="lng"]');
+    const alamatInput = form?.querySelector('[name="alamat"]');
+
     const mapElement = root.querySelector('[data-peta-admin]');
     const searchInput = root.querySelector('[data-cari-alamat]');
     const resultsElement = root.querySelector('[data-hasil-alamat]');
     const statusElement = root.querySelector('[data-status-peta]');
 
-    if (!latInput || !lngInput || !mapElement || !searchInput) return;
-
-    const parseKoordinat = () => ({
-        lat: Number(latInput.value),
-        lng: Number(lngInput.value),
-    });
+    if (
+        !latInput ||
+        !lngInput ||
+        !mapElement ||
+        !searchInput ||
+        !statusElement
+    ) {
+        console.error('Elemen peta admin tidak lengkap.');
+        return;
+    }
 
     const valid = (lat, lng) =>
         Number.isFinite(lat) &&
@@ -33,13 +42,22 @@ document.querySelectorAll('[data-peta-koordinat]').forEach((root) => {
         lng >= BATAS.minLng &&
         lng <= BATAS.maxLng;
 
-    const awal = parseKoordinat();
-    const punyaKoordinat = valid(awal.lat, awal.lng);
+    const status = (pesan) => {
+        statusElement.textContent = pesan;
+    };
+
+    const latAwal = Number(latInput.value);
+    const lngAwal = Number(lngInput.value);
+
+    const punyaKoordinat =
+        latInput.value.trim() !== '' &&
+        lngInput.value.trim() !== '' &&
+        valid(latAwal, lngAwal);
 
     const peta = L.map(mapElement, {
         scrollWheelZoom: false,
     }).setView(
-        punyaKoordinat ? [awal.lat, awal.lng] : [3.5826, 98.6790],
+        punyaKoordinat ? [latAwal, lngAwal] : PUSAT,
         punyaKoordinat ? 16 : 12
     );
 
@@ -57,21 +75,14 @@ document.querySelectorAll('[data-peta-koordinat]').forEach((root) => {
     });
 
     let marker = null;
+    let posisiTerakhir = null;
 
     function perbaruiInput(lat, lng) {
         latInput.value = Number(lat).toFixed(7);
         lngInput.value = Number(lng).toFixed(7);
     }
 
-    function pilihKoordinat(lat, lng) {
-        if (!valid(lat, lng)) {
-            statusElement.textContent =
-                'Pilih lokasi yang masih berada di wilayah Medan.';
-            return false;
-        }
-
-        perbaruiInput(lat, lng);
-
+    function buatMarker(lat, lng) {
         if (!marker) {
             marker = L.marker([lat, lng], {
                 draggable: true,
@@ -82,44 +93,72 @@ document.querySelectorAll('[data-peta-koordinat]').forEach((root) => {
                 const posisi = marker.getLatLng();
 
                 if (!valid(posisi.lat, posisi.lng)) {
-                    marker.setLatLng([latInput.value, lngInput.value]);
-                    statusElement.textContent =
-                        'Koordinat harus berada di wilayah Medan.';
+                    marker.setLatLng(posisiTerakhir);
+                    status('Koordinat harus berada di wilayah Medan.');
                     return;
                 }
 
+                posisiTerakhir = marker.getLatLng();
                 perbaruiInput(posisi.lat, posisi.lng);
-                statusElement.textContent = 'Koordinat berhasil diperbarui.';
+                status('Koordinat berhasil diperbarui.');
             });
         } else {
             marker.setLatLng([lat, lng]);
         }
 
-        statusElement.textContent =
-            `Latitude: ${Number(lat).toFixed(6)}, Longitude: ${Number(lng).toFixed(6)}`;
+        posisiTerakhir = L.latLng(lat, lng);
+    }
+
+    function pilihKoordinat(lat, lng, geserPeta = false) {
+        if (!valid(lat, lng)) {
+            status('Pilih lokasi yang masih berada di wilayah Medan.');
+            return false;
+        }
+
+        perbaruiInput(lat, lng);
+        buatMarker(lat, lng);
+
+        if (geserPeta) {
+            peta.flyTo([lat, lng], 17);
+        }
+
+        status(
+            `Latitude: ${lat.toFixed(6)}, Longitude: ${lng.toFixed(6)}`
+        );
 
         return true;
     }
 
     if (punyaKoordinat) {
-        pilihKoordinat(awal.lat, awal.lng);
+        pilihKoordinat(latAwal, lngAwal);
+    } else {
+        status(
+            'Koordinat belum valid. Klik peta atau cari alamat untuk menentukan lokasi.'
+        );
     }
 
     peta.on('click', (event) => {
-        const { lat, lng } = event.latlng;
-
-        if (pilihKoordinat(lat, lng)) {
-            peta.panTo([lat, lng]);
-        }
+        pilihKoordinat(
+            event.latlng.lat,
+            event.latlng.lng
+        );
     });
 
     function sinkronisasiManual() {
-        const { lat, lng } = parseKoordinat();
+        if (
+            latInput.value.trim() === '' ||
+            lngInput.value.trim() === ''
+        ) {
+            status('Isi latitude dan longitude terlebih dahulu.');
+            return;
+        }
 
-        if (!valid(lat, lng)) return;
+        const lat = Number(latInput.value);
+        const lng = Number(lngInput.value);
 
-        pilihKoordinat(lat, lng);
-        peta.panTo([lat, lng]);
+        if (!pilihKoordinat(lat, lng, true)) {
+            status('Koordinat tidak valid atau di luar wilayah Medan.');
+        }
     }
 
     latInput.addEventListener('change', sinkronisasiManual);
@@ -133,14 +172,15 @@ document.querySelectorAll('[data-peta-koordinat]').forEach((root) => {
         controller?.abort();
 
         const query = searchInput.value.trim();
-        resultsElement.replaceChildren();
+
+        resultsElement?.replaceChildren();
 
         if (query.length < 3) return;
 
         debounce = setTimeout(async () => {
             controller = new AbortController();
 
-            statusElement.textContent = 'Mencari alamat...';
+            status('Mencari alamat...');
 
             try {
                 const params = new URLSearchParams({
@@ -154,15 +194,23 @@ document.querySelectorAll('[data-peta-koordinat]').forEach((root) => {
                 );
 
                 if (!response.ok) {
-                    throw new Error('Pencarian alamat gagal.');
+                    throw new Error('Pencarian gagal.');
                 }
 
                 const data = await response.json();
-                resultsElement.replaceChildren();
+                const features = data.features ?? [];
 
-                data.features.forEach((feature) => {
-                    const props = feature.properties;
-                    const [lng, lat] = feature.geometry.coordinates;
+                resultsElement?.replaceChildren();
+
+                let jumlahValid = 0;
+
+                features.forEach((feature) => {
+                    const props = feature.properties ?? {};
+                    const coordinates = feature.geometry?.coordinates;
+
+                    if (!coordinates || coordinates.length < 2) return;
+
+                    const [lng, lat] = coordinates;
 
                     if (!valid(lat, lng)) return;
 
@@ -173,48 +221,50 @@ document.querySelectorAll('[data-peta-koordinat]').forEach((root) => {
                         props.city,
                     ].filter(Boolean);
 
+                    const alamat = [...new Set(nama)].join(', ');
+
                     const button = document.createElement('button');
+
                     button.type = 'button';
-                    button.textContent = [...new Set(nama)].join(', ');
+                    button.textContent = alamat || 'Lokasi tanpa nama';
+                    button.className = 'p-btn';
+                    button.style.marginBottom = '6px';
 
                     button.addEventListener('click', () => {
-                        if (pilihKoordinat(lat, lng)) {
-                            peta.flyTo([lat, lng], 17);
-                            resultsElement.replaceChildren();
-                            searchInput.value = button.textContent;
+                        if (pilihKoordinat(lat, lng, true)) {
+                            if (alamatInput) {
+                                alamatInput.value = alamat;
+                            }
+
+                            searchInput.value = alamat;
+                            resultsElement?.replaceChildren();
+                            status('Lokasi berhasil dipilih.');
                         }
                     });
 
-                    resultsElement.appendChild(button);
+                    resultsElement?.appendChild(button);
+                    jumlahValid++;
                 });
 
-                if (!resultsElement.children.length) {
-                    statusElement.textContent =
-                        'Tidak ditemukan lokasi di wilayah Medan.';
+                if (jumlahValid === 0) {
+                    status('Tidak ditemukan lokasi di wilayah Medan.');
                 } else {
-                    statusElement.textContent =
-                        'Pilih alamat untuk menentukan koordinat.';
+                    status(`${jumlahValid} lokasi ditemukan. Pilih salah satu.`);
                 }
             } catch (error) {
                 if (error.name !== 'AbortError') {
-                    statusElement.textContent =
-                        'Pencarian gagal. Periksa koneksi internetmu.';
+                    console.error('Photon error:', error);
+                    status('Pencarian gagal. Periksa koneksi internet.');
                 }
             }
         }, 500);
     });
 
-    petaElementResize();
+    const observer = new ResizeObserver(() => {
+        peta.invalidateSize();
+    });
 
-    function petaElementResize() {
-        setTimeout(() => peta.invalidateSize(), 250);
+    observer.observe(mapElement);
 
-        if ('ResizeObserver' in window) {
-            const observer = new ResizeObserver(() => {
-                peta.invalidateSize();
-            });
-
-            observer.observe(mapElement);
-        }
-    }
+    setTimeout(() => peta.invalidateSize(), 300);
 });
