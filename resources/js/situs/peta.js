@@ -46,13 +46,130 @@ function modeRingkas(el) {
     return { peta, grup };
 }
 
-function modeRute(el) {
+
+async function modeRute(el) {
     const titik = JSON.parse(el.dataset.rute);
     const peta = buatPeta(el);
-    const garis = L.polyline(titik.map((t) => [t.lat, t.lng]), { color: '#0f3b2e', weight: 4, dashArray: '2 8', lineCap: 'round' }).addTo(peta);
-    titik.forEach((t, i) => L.marker([t.lat, t.lng], { icon: ikon('#e3a51c', i + 1), title: t.nama, alt: `${i + 1}. ${t.nama}` }).bindPopup(popup(t)).addTo(peta));
-    peta.fitBounds(garis.getBounds().pad(0.25));
+
+    const valid = titik.filter((t) =>
+        Number.isFinite(Number(t.lat)) &&
+        Number.isFinite(Number(t.lng)) &&
+        Number(t.lat) >= -90 &&
+        Number(t.lat) <= 90 &&
+        Number(t.lng) >= -180 &&
+        Number(t.lng) <= 180
+    );
+
+    const posisi = valid.map((t) => [
+        Number(t.lat),
+        Number(t.lng),
+    ]);
+
+    const penanda = L.featureGroup().addTo(peta);
+
+    valid.forEach((t, i) => {
+        L.marker(
+            [Number(t.lat), Number(t.lng)],
+            {
+                icon: ikon('#e3a51c', i + 1),
+                title: t.nama,
+                alt: `${i + 1}. ${t.nama}`,
+            }
+        )
+        .bindPopup(popup(t))
+        .addTo(penanda);
+    });
+
+    const info = L.control({ position: 'bottomleft' });
+
+    info.onAdd = () => {
+        const div = L.DomUtil.create('div', 'leaflet-control-attribution');
+        div.textContent = 'Memuat jalur jalan...';
+        return div;
+    };
+
+    info.addTo(peta);
+
+    if (posisi.length < 2) {
+        info.getContainer().textContent = 'Minimal dua tempat diperlukan.';
+        if (posisi.length === 1) peta.setView(posisi[0], 16);
+        return;
+    }
+
+    const garisCadangan = () => {
+        return L.polyline(posisi, {
+            color: '#0f3b2e',
+            weight: 4,
+            dashArray: '2 8',
+            lineCap: 'round',
+        }).addTo(peta);
+    };
+
+    try {
+        const koordinat = valid
+            .map((t) => `${Number(t.lng)},${Number(t.lat)}`)
+            .join(';');
+
+        const url = `https://router.project-osrm.org/route/v1/driving/${koordinat}?overview=full&geometries=geojson&steps=false`;
+
+        const controller = new AbortController();
+        const batasWaktu = setTimeout(() => controller.abort(), 15000);
+
+        let response;
+
+        try {
+            response = await fetch(url, {
+                signal: controller.signal,
+                headers: { Accept: 'application/json' },
+            });
+        } finally {
+            clearTimeout(batasWaktu);
+        }
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (
+            data.code !== 'Ok' ||
+            !data.routes?.length ||
+            !data.routes[0].geometry?.coordinates?.length
+        ) {
+            throw new Error('Jalur jalan tidak ditemukan.');
+        }
+
+        const jalur = data.routes[0].geometry.coordinates.map(
+            ([lng, lat]) => [lat, lng]
+        );
+
+        const garis = L.polyline(jalur, {
+            color: '#0f3b2e',
+            weight: 5,
+            opacity: 0.9,
+            lineCap: 'round',
+            lineJoin: 'round',
+        }).addTo(peta);
+
+        info.getContainer().textContent = 'Jalur jalan kendaraan dari OSRM.';
+
+        peta.fitBounds(garis.getBounds().pad(0.15));
+
+    } catch (error) {
+        console.warn('OSRM tidak tersedia:', error);
+
+        const garis = garisCadangan();
+
+        info.getContainer().textContent =
+            'Jalur jalan tidak tersedia. Garis putus-putus hanya penghubung tempat.';
+
+        peta.fitBounds(garis.getBounds().pad(0.25));
+    }
+
+    setTimeout(() => peta.invalidateSize(), 200);
 }
+
 
 // Satu tempat beserta area check-in (lingkaran seluas radius aslinya) dan tempat lain dalam 1,5 km.
 // Dipakai sebagai gambar utama halaman tempat yang belum punya foto berlisensi.
