@@ -70,6 +70,48 @@ class AdminDataTest extends TestCase
         ]])->get('/admin/akun')->assertForbidden();
     }
 
+    public function test_admin_role_is_refreshed_from_database_before_denying_admin_dashboard(): void
+    {
+        Cache::setDefaultDriver('array');
+        Cache::store('array')->flush();
+        config(['services.sparql.endpoint' => 'https://sparql.test/query']);
+        config([
+            'services.supabase.katalog.url' => 'https://supabase.test',
+            'services.supabase.katalog.publishable_key' => 'test-key',
+            'services.supabase.katalog.secret_key' => 'test-secret',
+        ]);
+        Http::fake([
+            'https://supabase.test/rest/v1/users*' => Http::response([[
+                'id' => 3,
+                'name' => 'Super Admin',
+                'email' => 'superadmin@example.test',
+                'peran' => 'superadmin',
+                'foto_profil' => null,
+            ]], 200),
+            '*' => Http::response([
+                'head' => ['vars' => ['s', 'p', 'o']],
+                'results' => ['bindings' => []],
+            ], 200),
+        ]);
+
+        $response = $this->withSession(['pengguna' => [
+            'id' => 3,
+            'nama' => 'Super Admin',
+            'email' => 'superadmin@example.test',
+            'peran' => 'wisatawan',
+        ]])->get('/admin');
+
+        Http::assertSent(fn (Request $request) => str_contains($request->url(), '/rest/v1/users'));
+        $response->assertOk()->assertSee('Ringkasan');
+
+        $this->withSession(['pengguna' => [
+            'id' => 3,
+            'nama' => 'Super Admin',
+            'email' => 'superadmin@example.test',
+            'peran' => 'superadmin',
+        ]])->get('/admin')->assertOk()->assertSee('Ringkasan');
+    }
+
     public function test_superadmin_insight_and_place_creation_pages_render(): void
     {
         Cache::setDefaultDriver('array');
