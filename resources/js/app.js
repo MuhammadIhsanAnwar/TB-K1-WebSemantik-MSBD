@@ -3,6 +3,15 @@ import './situs/dasar.js';
 
 const ada = (sel) => document.querySelector(sel);
 
+if (ada('[data-peta-koordinat]')) {
+    import('./admin/peta-koordinat.js')
+        .catch((error) => {
+            console.error(
+                'Gagal memuat modul peta admin:',
+                error
+            );
+        });
+}
 if (ada('[data-panggung]')) import('./situs/panggung.js');
 if (ada('[data-benang]')) import('./situs/benang.js');
 if (ada('[data-jalur-pin]')) import('./situs/jalur-pin.js');

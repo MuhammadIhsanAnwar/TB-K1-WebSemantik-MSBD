@@ -19,6 +19,25 @@
     "file": "assets/fraunces-600-normal-DL5QCzvS.woff",
     "src": "_fraunces-600-normal-DL5QCzvS.woff"
   },
+  "_leaflet-1DTFk8zz.css": {
+    "file": "assets/leaflet-1DTFk8zz.css",
+    "src": "_leaflet-1DTFk8zz.css"
+  },
+  "_leaflet-Bb8NY-5q.js": {
+    "file": "assets/leaflet-Bb8NY-5q.js",
+    "name": "leaflet",
+    "imports": [
+      "_rolldown-runtime-CbXtAM7H.js"
+    ],
+    "css": [
+      "assets/leaflet-1DTFk8zz.css"
+    ],
+    "assets": [
+      "assets/layers-BWBAp2CZ.png",
+      "assets/layers-2x-Bpkbi35X.png",
+      "assets/marker-icon-hN30_KVU.png"
+    ]
+  },
   "_plus-jakarta-sans-400-normal-BDKaGhyp.woff": {
     "file": "assets/plus-jakarta-sans-400-normal-BDKaGhyp.woff",
     "src": "_plus-jakarta-sans-400-normal-BDKaGhyp.woff"
@@ -76,12 +95,23 @@
     "src": "resources/css/app.css",
     "isEntry": true
   },
+  "resources/js/admin/peta-koordinat.js": {
+    "file": "assets/peta-koordinat-Dnhs7c-x.js",
+    "name": "peta-koordinat",
+    "src": "resources/js/admin/peta-koordinat.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-CbXtAM7H.js",
+      "_leaflet-Bb8NY-5q.js"
+    ]
+  },
   "resources/js/app.js": {
-    "file": "assets/app-9Nv4gqOp.js",
+    "file": "assets/app-BKzUaegq.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
+      "resources/js/admin/peta-koordinat.js",
       "resources/js/situs/panggung.js",
       "resources/js/situs/benang.js",
       "resources/js/situs/jalur-pin.js",
@@ -138,20 +168,13 @@
     "isDynamicEntry": true
   },
   "resources/js/situs/peta.js": {
-    "file": "assets/peta-CxxZNYMP.js",
+    "file": "assets/peta-DBaSK0VD.js",
     "name": "peta",
     "src": "resources/js/situs/peta.js",
     "isDynamicEntry": true,
     "imports": [
-      "_rolldown-runtime-CbXtAM7H.js"
-    ],
-    "css": [
-      "assets/peta-1DTFk8zz.css"
-    ],
-    "assets": [
-      "assets/layers-BWBAp2CZ.png",
-      "assets/layers-2x-Bpkbi35X.png",
-      "assets/marker-icon-hN30_KVU.png"
+      "_rolldown-runtime-CbXtAM7H.js",
+      "_leaflet-Bb8NY-5q.js"
     ]
   },
   "resources/js/situs/sparql.js": {
