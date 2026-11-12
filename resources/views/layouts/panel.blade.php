@@ -61,7 +61,7 @@
                 @endforeach
             </div>
             <div class="ps__bawah">
-                <a class="ps__nav" href="{{ route('beranda') }}" style="display:flex;align-items:center;gap:10px;height:32px;padding:0 8px;color:var(--p-muted)">{!! $svg('situs') !!}<span>Lihat situs publik</span></a>
+                <a class="ps__tautan-situs" href="{{ route('beranda') }}">{!! $svg('situs') !!}<span>Lihat situs publik</span></a>
                 <div class="ps__pengguna">
                     <span class="ps__inisial" aria-hidden="true">{{ mb_substr($u['nama'], 0, 1) }}</span>
                     <span><b>{{ $u['nama'] }}</b><br><span style="font-size:12px;color:var(--p-muted)">{{ $u['email'] }}</span></span>
