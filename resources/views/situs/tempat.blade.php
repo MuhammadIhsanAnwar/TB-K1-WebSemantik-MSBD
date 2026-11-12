@@ -49,17 +49,60 @@
             </div>
         </div>
 
-        <div class="mv-tempat-media">
-            @if (! empty($t['foto_lama']))
-                <div class="lorong" data-lorong>
-                    <x-foto :berkas="$t['foto']" :alt="$t['nama'].' masa kini'" :utama="true" style="object-position: {{ $t['foto_posisi'] ?? '50% 50%' }}" />
-                    <x-foto :berkas="$t['foto_lama']" :alt="$t['nama'].' tahun '.$t['tahun_foto_lama']" class="lorong__lama" :utama="true" style="object-position: {{ $t['foto_lama_posisi'] ?? '50% 50%' }}" />
-                    <span class="lorong__label lorong__label--kiri">Dulu, {{ $t['tahun_foto_lama'] }}</span>
-                    <span class="lorong__label lorong__label--kanan">Kini</span>
-                    <label class="sr-only" for="geser-lorong">Geser untuk membandingkan foto dulu dan kini</label>
-                    <input class="lorong__geser" id="geser-lorong" type="range" min="0" max="100" value="50">
-                    <span class="lorong__pegangan" aria-hidden="true"></span>
-                </div>
+
+<div class="mv-tempat-media">
+    @if (! empty($t['foto_lama']))
+        <div class="lorong" data-lorong>
+            <x-foto :berkas="$t['foto']" :alt="$t['nama'].' masa kini'" :utama="true" style="object-position: {{ $t['foto_posisi'] ?? '50% 50%' }}" />
+            <x-foto :berkas="$t['foto_lama']" :alt="$t['nama'].' tahun '.$t['tahun_foto_lama']" class="lorong__lama" :utama="true" style="object-position: {{ $t['foto_lama_posisi'] ?? '50% 50%' }}" />
+            <span class="lorong__label lorong__label--kiri">Dulu, {{ $t['tahun_foto_lama'] }}</span>
+            <span class="lorong__label lorong__label--kanan">Kini</span>
+            <label class="sr-only" for="geser-lorong">Geser untuk membandingkan foto dulu dan kini</label>
+            <input class="lorong__geser" id="geser-lorong" type="range" min="0" max="100" value="50">
+            <span class="lorong__pegangan" aria-hidden="true"></span>
+        </div>
+        <div class="mv-tempat-media__bilah">
+            <span>Lorong Waktu: geser pengatur di tengah foto untuk membandingkan wajah {{ $t['tahun_foto_lama'] }} dan masa kini</span>
+            <button type="button" class="mv-perbesar-btn" data-buka-lightbox data-src="{{ Foto::url($t['foto']) }}" data-judul="{{ $t['nama'] }}" data-kredit="{{ $kreditUtama ? 'Foto: '.$kreditUtama : '' }}">Perbesar foto</button>
+        </div>
+    @elseif ($t['foto'])
+        <x-foto :berkas="$t['foto']" :alt="$t['foto_keterangan'] ?? $t['nama']" :utama="true" style="object-position: {{ $t['foto_posisi'] ?? '50% 50%' }}" />
+        <div class="mv-tempat-media__bilah">
+            <span>{{ $t['foto_keterangan'] ?? $t['nama'] }}, {{ $t['kecamatan'] }}</span>
+            <button type="button" class="mv-perbesar-btn" data-buka-lightbox data-src="{{ Foto::url($t['foto']) }}" data-judul="{{ $t['nama'] }}" data-kredit="{{ $kreditUtama ? 'Foto: '.$kreditUtama : '' }}">Perbesar foto</button>
+        </div>
+    @endif
+
+    @php
+        $lokasi = [
+            'nama' => $t['nama'],
+            'lat' => $t['lat'],
+            'lng' => $t['lng'],
+            'kategori' => $t['kategori'],
+            'radius' => $t['radius_checkin'],
+            'sekitar' => collect($dekat)->map(fn ($d) => [
+                'nama' => $d['nama'],
+                'lat' => $d['lat'],
+                'lng' => $d['lng'],
+                'kategori' => $d['kategori'],
+                'url' => route('tempat', $d['slug']),
+                'jarak' => $d['jarak']
+            ])->values(),
+        ];
+
+        $osm = 'https://www.openstreetmap.org/?mlat='.$t['lat'].'&mlon='.$t['lng'].'#map=17/'.$t['lat'].'/'.$t['lng'];
+    @endphp
+
+    <div class="mv-tempat-peta" data-ui data-peta data-peta-mode="lokasi" data-lokasi="{{ json_encode($lokasi) }}" tabindex="0" aria-label="Peta lokasi {{ $t['nama'] }} dan tempat di sekitarnya">
+        <p class="peta-diam">Peta lokasi dimuat di sini.</p>
+    </div>
+
+    <div class="mv-tempat-media__bilah">
+        <span>Lingkaran kuning: area check-in {{ $t['radius_checkin'] }} m dari {{ $t['nama'] }}.@if (! empty($t['koordinat_perkiraan'])) Titiknya masih perkiraan.@endif</span>
+        <a class="mv-perbesar-btn" href="{{ $osm }}" rel="noopener">Buka di OpenStreetMap</a>
+    </div>
+</div>
+
                 <div class="mv-tempat-media__bilah">
                     <span>Lorong Waktu: geser pengatur di tengah foto untuk membandingkan wajah {{ $t['tahun_foto_lama'] }} dan masa kini</span>
                     <button type="button" class="mv-perbesar-btn" data-buka-lightbox data-src="{{ Foto::url($t['foto']) }}" data-judul="{{ $t['nama'] }}" data-kredit="{{ $kreditUtama ? 'Foto: '.$kreditUtama : '' }}">Perbesar foto</button>
