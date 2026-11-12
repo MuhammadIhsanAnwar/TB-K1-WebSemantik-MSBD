@@ -34,6 +34,7 @@ final class Database3Catalog
     private static ?array $triples = null;
     private static ?array $entities = null;
     private static ?array $relations = null;
+    private static ?array $routes = null;
 
     public static function entities(): array
     {
@@ -52,7 +53,8 @@ final class Database3Catalog
                 continue;
             }
 
-            $type = collect($properties['rdf:type'] ?? [])
+            $types = $properties['rdf:type'] ?? [];
+            $type = collect($types)
                 ->map(fn ($value) => self::TYPES[$value] ?? null)
                 ->filter()
                 ->first();
@@ -67,20 +69,25 @@ final class Database3Catalog
                 'jenis' => $type,
                 'nama' => $nama,
                 'ringkas' => self::first($properties, 'schema:description', ''),
+                'foto' => self::imageName(self::first($properties, 'schema:image', null)),
+                'masa' => self::first($properties, 'mv:masa', null),
             ];
 
             if ($type === 'tempat') {
                 $entity += [
                     'wikidata' => self::wikidata(self::first($properties, 'owl:sameAs', '')),
-                    'kategori' => self::category(self::first($properties, 'rdf:type', '')),
-                    'kecamatan' => self::kecamatan(self::first($properties, 'schema:containedInPlace', '')),
+                    'kategori' => self::category($types),
+                    'kecamatan' => self::kecamatan(
+                        self::first($properties, 'mv:beradaDi', self::first($properties, 'schema:containedInPlace', '')),
+                        $bySubject,
+                    ),
                     'kelurahan' => self::first($properties, 'mv:kelurahan', ''),
                     'alamat' => self::address($properties, $bySubject),
                     'lat' => (float) self::first($properties, 'geo:lat', 0),
                     'lng' => (float) self::first($properties, 'geo:long', 0),
-                    'foto' => self::imageName(self::first($properties, 'schema:image', null)),
                     'tiket' => self::offers($properties, $bySubject),
                     'harga_contoh' => self::boolean($properties, 'mv:hargaContoh'),
+                    'koordinat_perkiraan' => self::boolean($properties, 'mv:koordinatPerkiraan'),
                     'jam' => self::first($properties, 'mv:keteranganJam', ''),
                     'jam_buka' => self::timeRange($properties),
                     'jam_contoh' => self::boolean($properties, 'mv:jamContoh'),
@@ -105,6 +112,27 @@ final class Database3Catalog
             return self::$relations;
         }
 
+        $bySubject = [];
+        foreach (self::triples() as [$subject, $predicate, $object]) {
+            $bySubject[$subject][$predicate][] = $object;
+        }
+
+        $sources = [];
+        foreach ($bySubject as $properties) {
+            if (! in_array('rdf:Statement', $properties['rdf:type'] ?? [], true)) {
+                continue;
+            }
+            $key = implode('|', [
+                self::first($properties, 'rdf:subject', ''),
+                self::first($properties, 'rdf:predicate', ''),
+                self::first($properties, 'rdf:object', ''),
+            ]);
+            $sources[$key] = [
+                'sumber' => self::first($properties, 'dcterms:source', 'Database 3'),
+                'kalimat' => self::first($properties, 'mv:kalimat', null),
+            ];
+        }
+
         $relations = [];
         foreach (self::triples() as [$subject, $predicate, $object]) {
             if (! in_array($predicate, self::RELATIONS, true) || ! str_starts_with($subject, 'res:') || ! str_starts_with($object, 'res:')) {
@@ -115,11 +143,51 @@ final class Database3Catalog
                 substr($subject, 4),
                 substr($predicate, 3),
                 substr($object, 4),
-                'sumber' => 'Database 3',
+                'sumber' => $sources[implode('|', [$subject, $predicate, $object])]['sumber'] ?? 'Database 3',
+                'kalimat' => $sources[implode('|', [$subject, $predicate, $object])]['kalimat'] ?? null,
             ];
         }
 
         return self::$relations = $relations;
+    }
+
+    public static function routes(): array
+    {
+        if (self::$routes !== null) {
+            return self::$routes;
+        }
+
+        $bySubject = [];
+        foreach (self::triples() as [$subject, $predicate, $object]) {
+            $bySubject[$subject][$predicate][] = $object;
+        }
+
+        $routes = [];
+        foreach ($bySubject as $subject => $properties) {
+            if (! in_array('mv:JalurTematik', $properties['rdf:type'] ?? [], true)) {
+                continue;
+            }
+
+            $stops = [];
+            foreach ($properties['mv:persinggahan'] ?? [] as $stop) {
+                $stopProperties = $bySubject[$stop] ?? [];
+                $place = self::first($stopProperties, 'mv:tempatSinggah', null);
+                if ($place !== null) {
+                    $stops[(int) self::first($stopProperties, 'mv:urutan', count($stops) + 1)] = substr($place, 4);
+                }
+            }
+            ksort($stops);
+            $slug = substr($subject, 4);
+            $routes[$slug] = [
+                'slug' => $slug,
+                'nama' => self::first($properties, 'schema:name', $slug),
+                'ringkas' => self::first($properties, 'schema:description', ''),
+                'foto' => self::imageName(self::first($properties, 'schema:image', null)),
+                'singgah' => array_values($stops),
+            ];
+        }
+
+        return self::$routes = $routes;
     }
 
     private static function triples(): array
@@ -128,7 +196,7 @@ final class Database3Catalog
             return self::$triples;
         }
 
-        return self::$triples = Cache::remember('database3.catalog.triples.v3', now()->addMinutes(10), function (): array {
+        return self::$triples = Cache::remember('database3.catalog.triples.v4', now()->addMinutes(10), function (): array {
             $result = SparqlService::jalankan(<<<'SPARQL'
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -139,13 +207,18 @@ final class Database3Catalog
                 PREFIX dcterms: <http://purl.org/dc/terms/>
                 SELECT ?s ?p ?o WHERE {
                     ?s ?p ?o .
-                    FILTER (STRSTARTS(STR(?s), "https://medanvisit.neoverse.my.id/id/"))
+                    FILTER (
+                        STRSTARTS(STR(?s), "https://medanvisit.neoverse.my.id/id/")
+                        || isBlank(?s)
+                    )
                     FILTER (?p IN (
-                        rdf:type, rdfs:label, schema:name, schema:description, schema:address,
+                        rdf:type, rdf:subject, rdf:predicate, rdf:object, rdfs:label,
+                        schema:name, schema:description, schema:address, schema:containedInPlace,
                         schema:image, schema:offers, owl:sameAs, geo:lat, geo:long,
                         schema:streetAddress, mv:cerita, mv:kelurahan, mv:keteranganJam,
                         mv:jamContoh, mv:radiusCheckin, mv:durasiSinggah, mv:jamBuka,
-                        mv:jamTutup, mv:fasilitas, mv:caraMenuju, mv:hargaContoh,
+                        mv:jamTutup, mv:fasilitas, mv:caraMenuju, mv:hargaContoh, mv:koordinatPerkiraan,
+                        mv:masa, mv:kalimat, mv:persinggahan, mv:urutan, mv:tempatSinggah,
                         dcterms:source, mv:dibangunOleh, mv:memimpin, mv:terlibatDalam,
                         mv:merepresentasikan, mv:khasDari, mv:dekatDengan, mv:bergaya,
                         mv:bagianDari, mv:berkaitanDengan, mv:memilikiSejarah,
@@ -153,7 +226,7 @@ final class Database3Catalog
                         schema:priceCurrency
                     ))
                 }
-                SPARQL);
+                SPARQL, 10000);
             if (! ($result['ok'] ?? false)) {
                 throw new RuntimeException($result['pesan'] ?? 'Database 3 tidak mengembalikan data RDF.');
             }
@@ -189,14 +262,18 @@ final class Database3Catalog
         return $name === '.' || $name === DIRECTORY_SEPARATOR ? null : $name;
     }
 
-    private static function kecamatan(string $value): string
+    private static function kecamatan(string $value, array $bySubject): string
     {
-        return str_starts_with($value, 'res:kec-') ? ucwords(str_replace('-', ' ', substr($value, 8))) : $value;
+        if (isset($bySubject[$value])) {
+            return self::first($bySubject[$value], 'schema:name', self::first($bySubject[$value], 'rdfs:label', $value));
+        }
+
+        return $value;
     }
 
-    private static function category(string $type): ?string
+    private static function category(array $types): ?string
     {
-        return [
+        $categories = [
             'mv:SitusSejarah' => 'sejarah',
             'mv:Museum' => 'museum',
             'mv:RumahIbadah' => 'religi',
@@ -204,7 +281,15 @@ final class Database3Catalog
             'mv:RuangPublik' => 'ruang-publik',
             'mv:PusatBelanja' => 'belanja',
             'mv:RekreasiAir' => 'rekreasi-air',
-        ][$type] ?? null;
+        ];
+
+        foreach ($types as $type) {
+            if (isset($categories[$type])) {
+                return $categories[$type];
+            }
+        }
+
+        return null;
     }
 
     private static function address(array $properties, array $bySubject): string

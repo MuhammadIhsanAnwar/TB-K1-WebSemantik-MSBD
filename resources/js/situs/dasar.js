@@ -3,9 +3,10 @@
 
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
-// ---- Pemuatan beranda pada kunjungan pertama ----
+// ---- Pemuatan beranda pada setiap kunjungan ----
 const pemuatan = document.querySelector('[data-pemuatan-beranda]');
-if (pemuatan && !document.documentElement.classList.contains('mv-pemuatan-selesai')) {
+if (pemuatan) {
+    const mulai = performance.now();
     const status = pemuatan.querySelector('[data-pemuatan-status]');
     const bar = pemuatan.querySelector('[data-pemuatan-bar]');
     const persen = pemuatan.querySelector('[data-pemuatan-persen]');
@@ -41,15 +42,18 @@ if (pemuatan && !document.documentElement.classList.contains('mv-pemuatan-selesa
         }
     });
     document.fonts?.ready.then(naikkan).catch(() => {});
-    window.addEventListener('load', () => {
+    const selesaikanPemuatan = () => {
         perbarui(100);
         window.setTimeout(() => {
             pemuatan.classList.add('mv-pemuatan--selesai');
-            document.documentElement.classList.add('mv-pemuatan-selesai');
-            try { localStorage.setItem('mv-beranda-siap-v2', '1'); } catch { /* lanjut tanpa penyimpanan */ }
             window.setTimeout(() => pemuatan.remove(), 420);
-        }, 280);
-    }, { once: true });
+        }, Math.max(500 - (performance.now() - mulai), 0));
+    };
+    if (document.readyState === 'complete') {
+        selesaikanPemuatan();
+    } else {
+        window.addEventListener('load', selesaikanPemuatan, { once: true });
+    }
     perbarui(target);
 } else {
     pemuatan?.remove();
@@ -376,16 +380,15 @@ if (lightbox) {
     });
 }
 
-// ---- Hero Beranda Crossfade (dengan tombol Jeda untuk aksesibilitas) ----
+// ---- Hero Beranda Crossfade ----
 const hero = document.querySelector('[data-hero-crossfade]');
 if (hero) {
     const slides = [...hero.querySelectorAll('[data-hero-slide]')];
     const titik = [...hero.querySelectorAll('[data-hero-ke]')];
-    const jedaBtn = hero.querySelector('[data-hero-jeda]');
     const labelNama = hero.querySelector('[data-hero-nama]');
     const labelSub = hero.querySelector('[data-hero-sub]');
     let idx = 0;
-    let dijeda = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gerakDikurangi = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const tampil = (n) => {
         idx = (n + slides.length) % slides.length;
@@ -397,16 +400,11 @@ if (hero) {
     };
 
     titik.forEach((t, i) => t.addEventListener('click', () => tampil(i)));
-    const interval = setInterval(() => {
-        if (!dijeda && document.visibilityState === 'visible') tampil(idx + 1);
-    }, 6000);
-
-    jedaBtn?.addEventListener('click', () => {
-        dijeda = !dijeda;
-        jedaBtn.setAttribute('aria-pressed', dijeda ? 'true' : 'false');
-        jedaBtn.textContent = dijeda ? 'Putar' : 'Jeda';
-        if (dijeda) clearInterval(interval);
-    });
+    if (!gerakDikurangi) {
+        window.setInterval(() => {
+            if (document.visibilityState === 'visible') tampil(idx + 1);
+        }, 6000);
+    }
 }
 
 // ---- Saringan Instan Tempat di Beranda ----

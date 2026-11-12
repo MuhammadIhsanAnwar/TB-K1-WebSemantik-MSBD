@@ -4,7 +4,7 @@
     $fmtMenit = fn ($m) => intdiv($m, 60) ? intdiv($m, 60).' jam '.($m % 60).' mnt' : $m.' mnt';
 @endphp
 @section('judul', 'Jalur tematik')
-@section('foto-kaki', 'istana-maimun-1900.jpg')
+@section('foto-kaki', collect($jalur)->first()['foto'] ?? '')
 
 @section('isi')
 <header class="kepala-halaman kepala-halaman--besar">

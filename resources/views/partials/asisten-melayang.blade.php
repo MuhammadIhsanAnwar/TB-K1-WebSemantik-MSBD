@@ -1,3 +1,8 @@
+@php
+    $contohTiket = array_values(\App\Support\Katalog::bertiket())[0] ?? null;
+    $contohTempat = array_values(\App\Support\Katalog::tempat())[0] ?? null;
+    $contohKuliner = array_values(\App\Support\Katalog::tempat('kuliner'))[0] ?? null;
+@endphp
 <div class="mv-asisten-widget tidak-dicetak" data-ui data-asisten-widget data-url="{{ route('tanya.jawab') }}">
     <button class="mv-asisten-widget__pemicu" type="button" data-buka-asisten aria-expanded="false" aria-controls="panel-asisten-melayang">
         <img src="{{ asset('storage/logo_app/svg/MedanVisit_ikon.svg') }}" alt="" width="24" height="24">
@@ -30,10 +35,16 @@
                 <p>Halo! Aku bisa bantu cari tempat wisata, kuliner khas, rute jalan kaki, dan info harga tiket di Medan. Mau mulai dari mana?</p>
             </div>
             <div class="mv-asisten-panel__saran" data-widget-saran>
-                <button type="button">Berapa harga tiket Istana Maimun?</button>
-                <button type="button">Kuliner khas Melayu Deli</button>
-                <button type="button">Rute setengah hari di Medan lama</button>
-                <button type="button">Rumah ibadah bersejarah yang gratis</button>
+                @if ($contohTiket)
+                    <button type="button">Berapa harga tiket {{ $contohTiket['nama'] }}?</button>
+                @endif
+                @if ($contohKuliner)
+                    <button type="button">Info kuliner {{ $contohKuliner['nama'] }}</button>
+                @endif
+                @if ($contohTempat)
+                    <button type="button">Rute setengah hari dari {{ $contohTempat['nama'] }}</button>
+                    <button type="button">Tempat wisata dekat {{ $contohTempat['nama'] }}</button>
+                @endif
             </div>
         </div>
 

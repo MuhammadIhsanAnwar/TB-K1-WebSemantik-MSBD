@@ -3,16 +3,20 @@
     use App\Support\Katalog;
     $pref ??= null;
     $dibagikan ??= null;
-    $minat = $pref['minat'] ?? ['sejarah', 'religi', 'kuliner'];
+    $kategoriTempat = array_values(array_unique(array_filter(array_column($tempat, 'kategori'))));
+    $minat = $pref['minat'] ?? $kategoriTempat;
     $durasi = (int) ($pref['durasi'] ?? 4);
     $moda = $pref['moda'] ?? ['jalan', 'becak'];
-    $mulai = $pref['mulai'] ?? 'istana-maimun';
+    $mulai = $pref['mulai'] ?? (array_key_first($tempat) ?? null);
+    $fotoRute = collect(Katalog::entitas())->first(fn ($entity) => $entity['jenis'] === 'transportasi' && ! empty($entity['foto']))
+        ?? collect($tempat)->first(fn ($entity) => ! empty($entity['foto']))
+        ?? [];
     $rute = $hasil ? collect($hasil['singgah'])->map(fn ($s) => ['nama' => $s['tempat']['nama'], 'lat' => $s['tempat']['lat'], 'lng' => $s['tempat']['lng'], 'url' => route('tempat', $s['tempat']['slug']), 'harga' => Katalog::rupiah(Katalog::hargaTermurah($s['tempat'])), 'tiket' => ! empty($s['tempat']['tiket']) ? route('tiket.pilih', $s['tempat']['slug']) : null])->values() : null;
-    $judulRute = $dibagikan['judul'] ?? (($durasi <= 4 ? 'Setengah hari' : 'Sehari').' dari '.Katalog::get($mulai)['nama']);
+    $judulRute = $dibagikan['judul'] ?? (($durasi <= 4 ? 'Setengah hari' : 'Sehari').' dari '.(Katalog::get($mulai)['nama'] ?? 'tempat pilihan'));
     $bertiket = $hasil ? collect($hasil['singgah'])->pluck('tempat')->filter(fn ($t) => ! empty($t['tiket'])) : collect();
 @endphp
 @section('judul', $dibagikan ? $judulRute : 'Perencana rute')
-@section('foto-kaki', 'becak-medan.jpg')
+@section('foto-kaki', $fotoRute['foto'] ?? 'peta-medan-1930-kota-lama.jpg')
 
 @section('isi')
 <div class="rencana">
@@ -101,8 +105,8 @@
             </div>
         @else
             <h2 id="judul-hasil" style="font-size:2.25rem">Rutemu muncul di sini</h2>
-            <p style="margin-top:12px">Contoh: mulai dari Istana Maimun pukul 08.30, empat jam, jalan kaki dan becak motor, lima tempat bersejarah, religi, dan kuliner.</p>
-            <x-foto berkas="becak-medan.jpg" alt="Becak motor Medan" style="margin-top:28px;width:100%;aspect-ratio:16/10;object-fit:cover" />
+            <p style="margin-top:12px">Pilih tempat awal, minat, durasi, dan cara berpindah untuk menyusun rute dari data tempat wisata.</p>
+            <x-foto :berkas="$fotoRute['foto'] ?? 'peta-medan-1930-kota-lama.jpg'" :alt="$fotoRute['nama'] ?? 'Tempat wisata di Medan'" style="margin-top:28px;width:100%;aspect-ratio:16/10;object-fit:cover" />
         @endif
     </section>
 </div>

@@ -2,6 +2,11 @@
     use App\Support\Katalog;
     use App\Support\Penyimpanan;
     $u = session('pengguna');
+    $jalurFotoProfil = $u['foto_profil'] ?? null;
+    $berkasFotoProfil = $jalurFotoProfil ? public_path('storage/'.$jalurFotoProfil) : null;
+    $urlFotoProfil = $berkasFotoProfil && is_file($berkasFotoProfil)
+        ? asset('storage/'.$jalurFotoProfil).'?v='.filemtime($berkasFotoProfil)
+        : null;
     $adalahBeranda = request()->routeIs('beranda');
     $menu = [
         [route('peta'), 'Tempat & Peta', ['peta', 'tempat', 'entitas']],
@@ -37,13 +42,23 @@
 
             @if ($u)
                 @if ($u['peran'] === 'admin')
+                    @if ($urlFotoProfil)
+                        <img class="mv-kepala__foto" src="{{ $urlFotoProfil }}" alt="">
+                    @endif
                     <a class="mv-btn mv-btn--krem mv-btn--kecil" href="{{ route('admin.ringkasan') }}">Ruang Admin</a>
                 @elseif (in_array($u['peran'], ['superadmin'], true))
+                    @if ($urlFotoProfil)
+                        <img class="mv-kepala__foto" src="{{ $urlFotoProfil }}" alt="">
+                    @endif
                     <a class="mv-btn mv-btn--krem mv-btn--kecil" href="{{ route('admin.ringkasan') }}">Ruang Superadmin</a>
                 @else
                     <details class="mv-akun-menu" data-ui data-akun-menu>
                         <summary aria-label="Menu akun {{ $u['nama'] }}">
-                            <span class="mv-akun-menu__inisial" aria-hidden="true">{{ mb_substr($u['nama'], 0, 1) }}</span>
+                            @if ($urlFotoProfil)
+                                <img class="mv-kepala__foto" src="{{ $urlFotoProfil }}" alt="">
+                            @else
+                                <span class="mv-akun-menu__inisial" aria-hidden="true">{{ mb_substr($u['nama'], 0, 1) }}</span>
+                            @endif
                             <span class="mv-akun-menu__nama">{{ \Illuminate\Support\Str::words($u['nama'], 1, '') }}</span>
                             @if ($tiketAktif > 0)
                                 <span class="mv-akun-menu__lencana nums" title="{{ $tiketAktif }} tiket aktif">{{ $tiketAktif }}</span>

@@ -11,12 +11,14 @@
     <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
     <script>
         document.documentElement.classList.add('js');
-        try {
-            if (localStorage.getItem('mv-beranda-siap-v2') === '1') {
-                document.documentElement.classList.add('mv-pemuatan-selesai');
-            }
-        } catch { /* localStorage tidak tersedia, loader tetap berjalan */ }
     </script>
+    @if (request()->routeIs('beranda'))
+        <script>
+            window.addEventListener('pageshow', (event) => {
+                if (event.persisted) window.location.reload();
+            });
+        </script>
+    @endif
     @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('kepala')
@@ -36,7 +38,14 @@
     </main>
     @hasSection('tanpa-kaki')
     @else
-        @include('partials.kaki', ['ringkas' => ! request()->routeIs('beranda'), 'fotoKaki' => trim($__env->yieldContent('foto-kaki')) ?: 'kesawan-arsip.jpg'])
+        @php
+            $fotoKaki = trim($__env->yieldContent('foto-kaki'));
+            if (! $fotoKaki) {
+                $fotoKaki = collect(\App\Support\Katalog::tempat())
+                    ->first(fn ($tempat) => ! empty($tempat['foto']))['foto'] ?? 'peta-medan-1930-kota-lama.jpg';
+            }
+        @endphp
+        @include('partials.kaki', ['ringkas' => ! request()->routeIs('beranda'), 'fotoKaki' => $fotoKaki])
     @endif
     @hasSection('tanpa-kepala')
     @else

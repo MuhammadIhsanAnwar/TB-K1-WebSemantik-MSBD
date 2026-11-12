@@ -9,20 +9,24 @@ use Illuminate\Http\Request;
 
 class SitusController extends Controller
 {
-    /** Pasangan Benang Merah di beranda: semuanya punya jalur di graf. */
-    private const PASANGAN = [
-        ['istana-maimun', 'tjong-a-fie-mansion'],
-        ['bubur-pedas', 'masjid-raya-al-mashun'],
-        ['soto-kesawan', 'istana-maimun'],
-    ];
-
     public function beranda()
     {
-        $benang = array_map(fn ($p) => [
-            'dari' => Katalog::get($p[0]),
-            'ke' => Katalog::get($p[1]),
-            'langkah' => Katalog::benangMerah($p[0], $p[1]),
-        ], self::PASANGAN);
+        $tempat = Katalog::tempat();
+        $benang = [];
+        foreach (Katalog::relasi() as $relasi) {
+            $dari = Katalog::get($relasi[0]);
+            $ke = Katalog::get($relasi[2]);
+            if (! $dari || ! $ke || $dari['jenis'] !== 'tempat' || $ke['jenis'] !== 'tempat') {
+                continue;
+            }
+            $langkah = Katalog::benangMerah($dari['slug'], $ke['slug']);
+            if ($langkah) {
+                $benang[] = ['dari' => $dari, 'ke' => $ke, 'langkah' => $langkah];
+            }
+            if (count($benang) === 3) {
+                break;
+            }
+        }
 
         $kategori = [];
         foreach (Katalog::KATEGORI as $k => $label) {
@@ -34,8 +38,7 @@ class SitusController extends Controller
             'kategori' => $kategori,
             'jalur' => Katalog::jalurTematik(),
             'bertiket' => Katalog::bertiket(),
-            'rute' => Katalog::susunRute(['sejarah', 'religi', 'kuliner'], 4, ['jalan', 'becak'], 'istana-maimun'),
-            'petaTempat' => array_values(Katalog::tempat()),
+            'petaTempat' => array_values($tempat),
         ]);
     }
 
@@ -96,7 +99,14 @@ class SitusController extends Controller
 
     public function tanya(Request $request)
     {
-        return view('situs.tanya', ['awal' => (string) $request->query('q', '')]);
+        $tempat = Katalog::tempat();
+
+        return view('situs.tanya', [
+            'awal' => (string) $request->query('q', ''),
+            'contohTempat' => array_slice(array_values($tempat), 0, 3),
+            'contohTiket' => array_values(Katalog::bertiket())[0] ?? null,
+            'contohKuliner' => array_values(Katalog::tempat('kuliner'))[0] ?? null,
+        ]);
     }
 
     public function jawab(Request $request)
@@ -172,13 +182,16 @@ class SitusController extends Controller
 
     public function jelajah(Request $request)
     {
-        $dari = $request->query('dari', 'istana-maimun');
-        $ke = $request->query('ke', 'tjong-a-fie-mansion');
+        $entitas = collect(Katalog::entitas())->reject(fn ($e) => $e['jenis'] === 'wilayah')->sortBy('nama');
+        $defaultDari = $entitas->keys()->first();
+        $defaultKe = $entitas->keys()->skip(1)->first() ?? $defaultDari;
+        $dari = $request->query('dari', $defaultDari);
+        $ke = $request->query('ke', $defaultKe);
         $pilihan = collect(Katalog::entitas())->reject(fn ($e) => $e['jenis'] === 'wilayah')->sortBy('nama')->all();
 
         return view('situs.jelajah', [
-            'dari' => Katalog::get($dari) ? $dari : 'istana-maimun',
-            'ke' => Katalog::get($ke) ? $ke : 'tjong-a-fie-mansion',
+            'dari' => Katalog::get($dari) ? $dari : $defaultDari,
+            'ke' => Katalog::get($ke) ? $ke : $defaultKe,
             'langkah' => Katalog::benangMerah($dari, $ke),
             'pilihan' => $pilihan,
             'jumlah' => collect(Katalog::entitas())->countBy('jenis')->all(),

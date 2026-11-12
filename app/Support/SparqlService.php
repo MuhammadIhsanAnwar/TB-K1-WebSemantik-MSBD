@@ -22,6 +22,7 @@ class SparqlService
         'http://www.w3.org/1999/02/22-rdf-syntax-ns#' => 'rdf:',
         'http://www.w3.org/2000/01/rdf-schema#' => 'rdfs:',
         'http://www.w3.org/2002/07/owl#' => 'owl:',
+        'http://purl.org/dc/terms/' => 'dcterms:',
     ];
 
     public static function endpoint(): ?string
@@ -59,8 +60,9 @@ class SparqlService
     /**
      * @throws ConnectionException bila Database 3 tidak bisa dihubungi
      */
-    public static function jalankan(string $query): array
+    public static function jalankan(string $query, int $batas = self::BATAS_BARIS): array
     {
+        $batas = max(1, $batas);
         $jenis = preg_match('/^\s*(?:(?:PREFIX|BASE)\s[^\n]*\n|#[^\n]*\n|\s)*(SELECT|ASK|CONSTRUCT|DESCRIBE)\b/i', $query, $m) ? strtoupper($m[1]) : null;
         if ($jenis === null) {
             return ['ok' => false, 'pesan' => 'Endpoint ini hanya menerima query SELECT, ASK, CONSTRUCT, atau DESCRIBE.'];
@@ -97,7 +99,7 @@ class SparqlService
                 }
             }
 
-            return ['ok' => true, 'kolom' => ['subjek', 'predikat', 'objek'], 'baris' => array_slice($baris, 0, self::BATAS_BARIS), 'catatan' => $catatan];
+            return ['ok' => true, 'kolom' => ['subjek', 'predikat', 'objek'], 'baris' => array_slice($baris, 0, $batas), 'catatan' => $catatan];
         }
 
         $hasil = $jawab->json();
@@ -108,7 +110,7 @@ class SparqlService
         $kolom = $hasil['head']['vars'] ?? [];
         $baris = array_map(
             fn ($b) => array_map(fn ($k) => isset($b[$k]) ? self::nilai($b[$k]) : '', $kolom),
-            array_slice($hasil['results']['bindings'] ?? [], 0, self::BATAS_BARIS),
+            array_slice($hasil['results']['bindings'] ?? [], 0, $batas),
         );
 
         return ['ok' => true, 'kolom' => $kolom, 'baris' => $baris, 'catatan' => $catatan];

@@ -18,8 +18,8 @@
         @csrf
         <div class="isian">
             <label for="foto_profil">Foto profil</label>
-            @if (!empty($user['foto_profil']))
-                <img src="{{ asset('storage/'.$user['foto_profil']) }}" alt="Foto profil saat ini" width="96" height="96" style="display:block;object-fit:cover;border-radius:50%;margin-bottom:12px">
+            @if (!empty($user['foto_profil']) && is_file(public_path('storage/'.$user['foto_profil'])))
+                <img src="{{ asset('storage/'.$user['foto_profil']) }}?v={{ filemtime(public_path('storage/'.$user['foto_profil'])) }}" alt="Foto profil saat ini" width="96" height="96" style="display:block;object-fit:cover;border-radius:50%;margin-bottom:12px">
             @endif
             <input id="foto_profil" type="file" name="foto_profil" accept="image/*" @error('foto_profil') aria-invalid="true" @enderror>
             <p class="isian__bantuan">JPG, PNG, GIF, atau WEBP; maksimal 2 MB.</p>

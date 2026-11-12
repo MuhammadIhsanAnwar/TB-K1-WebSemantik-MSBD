@@ -6,7 +6,7 @@
 @section('isi')
 <div class="mv-otentik">
     <div class="mv-otentik__visual">
-        <x-foto berkas="istana-maimun-1900.jpg" alt="" :utama="true" />
+        <x-foto :berkas="$tempatSorotan[0]['foto'] ?? 'peta-medan-1930-kota-lama.jpg'" :alt="$tempatSorotan[0]['nama'] ?? 'Medan'" :utama="true" />
         <div class="mv-otentik__lapisan" aria-hidden="true"></div>
 
         <div class="mv-otentik__visual-atas" data-naik style="--i:0">
@@ -18,21 +18,17 @@
         <div class="mv-otentik__visual-bawah">
             <p class="mv-otentik__tajuk-sisi" data-naik style="--i:1">Akun wisata Medan.</p>
             <ul class="mv-otentik__manfaat" data-naik style="--i:2">
-                <li>Pesan e-tiket Istana Maimun, Tjong A Fie Mansion, dan museum</li>
+                <li>Pesan e-tiket tempat wisata yang tercatat di MedanVisit</li>
             </ul>
             <div class="mv-otentik__galeri" data-naik style="--i:3" aria-label="Cuplikan destinasi MedanVisit">
-                <figure>
-                    <x-foto berkas="tjong-a-fie-mansion.jpg" alt="Tjong A Fie Mansion" :kecil="true" />
-                    <figcaption>Kesawan</figcaption>
-                </figure>
-                <figure>
-                    <x-foto berkas="graha-maria-annai-velangkanni.jpg" alt="Graha Maria Annai Velangkanni" :kecil="true" />
-                    <figcaption>Tanjung Selamat</figcaption>
-                </figure>
-                <figure>
-                    <x-foto berkas="soto-medan.jpg" alt="Kuliner Soto Medan" :kecil="true" />
-                    <figcaption>Kuliner Medan</figcaption>
-                </figure>
+                @foreach ($tempatSorotan as $tempat)
+                    @if (!empty($tempat['foto']))
+                        <figure>
+                            <x-foto :berkas="$tempat['foto']" :alt="$tempat['nama']" :kecil="true" />
+                            <figcaption>{{ $tempat['nama'] }}</figcaption>
+                        </figure>
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>

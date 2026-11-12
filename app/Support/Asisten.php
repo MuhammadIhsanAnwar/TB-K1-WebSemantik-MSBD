@@ -54,7 +54,7 @@ class Asisten
         return [
             'teks' => [
                 'Aku belum menemukan jawabannya di data MedanVisit. Aku hanya bisa menjawab soal tempat wisata, kuliner, rute, dan tiket di Kota Medan.',
-                'Coba tanyakan misalnya "kuliner dekat Istana Maimun" atau "berapa harga tiket Tjong A Fie Mansion".',
+                'Coba tanyakan soal harga tiket, jam buka, kuliner, atau tempat yang lokasinya berdekatan.',
             ],
             'tempat' => [],
         ];
@@ -81,13 +81,6 @@ class Asisten
                 }
             }
         }
-        if (! $cocok && preg_match('/\b(istana|maimun)\b/', $p)) {
-            $cocok = Katalog::get('istana-maimun');
-        }
-        if (! $cocok && str_contains($p, 'tjong')) {
-            $cocok = Katalog::get('tjong-a-fie-mansion');
-        }
-
         return $cocok;
     }
 
@@ -141,22 +134,37 @@ class Asisten
 
     private static function rute(): array
     {
-        $r = Katalog::susunRute(['sejarah', 'religi', 'kuliner'], 4, ['jalan', 'becak'], 'istana-maimun');
+        $tempat = Katalog::tempat();
+        $mulai = array_key_first($tempat);
+        if ($mulai === null) {
+            return ['teks' => ['Belum ada tempat wisata untuk menyusun rute.'], 'tempat' => []];
+        }
+        $minat = array_values(array_unique(array_filter(array_column($tempat, 'kategori'))));
+        $r = Katalog::susunRute($minat, 4, ['jalan', 'becak'], $mulai);
         $baris = array_map(fn ($s) => Katalog::jamTeks($s['mulai']).' '.$s['tempat']['nama'], $r['singgah']);
+        $namaMulai = Katalog::get($mulai)['nama'];
 
         return [
-            'teks' => ['Rute setengah hari dari Istana Maimun, jalan kaki dan becak motor:', implode(', lalu ', $baris).'.', 'Perkiraan biaya tiket dan becak '.Katalog::rupiah($r['biaya']).' per orang. Kamu bisa mengubah minat dan durasinya di Perencana Rute.'],
+            'teks' => ['Rute setengah hari dari '.$namaMulai.', jalan kaki dan becak motor:', implode(', lalu ', $baris).'.', 'Perkiraan biaya tiket dan becak '.Katalog::rupiah($r['biaya']).' per orang. Kamu bisa mengubah minat dan durasinya di Perencana Rute.'],
             'tempat' => [],
-            'tautan' => ['label' => 'Buka Perencana Rute', 'url' => route('rencana', ['minat' => ['sejarah', 'religi', 'kuliner'], 'durasi' => 4, 'moda' => ['jalan', 'becak'], 'mulai' => 'istana-maimun'])],
+            'tautan' => ['label' => 'Buka Perencana Rute', 'url' => route('rencana', ['minat' => $minat, 'durasi' => 4, 'moda' => ['jalan', 'becak'], 'mulai' => $mulai])],
         ];
     }
 
     private static function kuliner(string $p): array
     {
         if (str_contains($p, 'melayu')) {
-            $k = array_values(array_filter(Katalog::jenis('kuliner'), fn ($e) => collect(Katalog::tetangga($e['slug']))->contains(fn ($t) => $t['lawan'] === 'melayu-deli')));
+            $budayaMelayu = collect(Katalog::jenis('budaya'))
+                ->first(fn ($entity) => str_contains(mb_strtolower($entity['nama']), 'melayu'));
+            $k = $budayaMelayu
+                ? array_values(array_filter(Katalog::jenis('kuliner'), fn ($entity) => collect(Katalog::tetangga($entity['slug']))->contains(fn ($tetangga) => $tetangga['lawan'] === $budayaMelayu['slug'])))
+                : [];
 
-            return ['teks' => ['Kuliner khas Melayu Deli yang tercatat di MedanVisit:'], 'tempat' => array_map([self::class, 'kartu'], $k)];
+            $pembuka = $budayaMelayu
+                ? 'Kuliner khas '.$budayaMelayu['nama'].' yang tercatat di MedanVisit:'
+                : 'Belum ada data kuliner yang terhubung dengan budaya yang kamu tanyakan.';
+
+            return ['teks' => [$pembuka], 'tempat' => array_map([self::class, 'kartu'], $k)];
         }
 
         return self::daftar('kuliner', 'Tempat makan dan oleh-oleh yang tercatat di MedanVisit:');
@@ -174,7 +182,10 @@ class Asisten
             $teks[] = Katalog::kalimat($t['relasi'], $e['slug']);
         }
         if ($e['jenis'] === 'tempat') {
-            $teks[] = 'Jam buka: '.$e['jam'].(! empty($e['jam_contoh']) ? ' (contoh)' : '').'.';
+            $jam = $e['jam'] ?? '';
+            if ($jam !== '') {
+                $teks[] = 'Jam buka: '.$jam.(! empty($e['jam_contoh']) ? ' (contoh)' : '').'.';
+            }
         }
 
         return ['teks' => $teks, 'tempat' => [self::kartu($e)]];

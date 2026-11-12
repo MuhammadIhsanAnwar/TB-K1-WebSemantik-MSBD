@@ -6,7 +6,7 @@
 @section('isi')
 <div class="mv-otentik">
     <div class="mv-otentik__visual">
-        <x-foto berkas="kesawan-arsip.jpg" alt="" :utama="true" />
+        <x-foto :berkas="$tempatSorotan[0]['foto'] ?? 'peta-medan-1930-kota-lama.jpg'" :alt="$tempatSorotan[0]['nama'] ?? 'Medan'" :utama="true" />
         <div class="mv-otentik__lapisan" aria-hidden="true"></div>
 
         <div class="mv-otentik__visual-atas" data-naik style="--i:0">
@@ -22,18 +22,14 @@
                 <li>Simpan dan bagikan rencana perjalanan setengah hari</li>
             </ul>
             <div class="mv-otentik__galeri" data-naik style="--i:3" aria-label="Tempat wisata di MedanVisit">
-                <figure>
-                    <x-foto berkas="istana-maimun.jpg" alt="Istana Maimun" :kecil="true" />
-                    <figcaption>Istana Maimun</figcaption>
-                </figure>
-                <figure>
-                    <x-foto berkas="masjid-raya.jpg" alt="Masjid Raya Al-Mashun" :kecil="true" />
-                    <figcaption>Masjid Raya</figcaption>
-                </figure>
-                <figure>
-                    <x-foto berkas="tjong-a-fie-mansion.jpg" alt="Tjong A Fie Mansion" :kecil="true" />
-                    <figcaption>Tjong A Fie</figcaption>
-                </figure>
+                @foreach ($tempatSorotan as $tempat)
+                    @if (!empty($tempat['foto']))
+                        <figure>
+                            <x-foto :berkas="$tempat['foto']" :alt="$tempat['nama']" :kecil="true" />
+                            <figcaption>{{ $tempat['nama'] }}</figcaption>
+                        </figure>
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>

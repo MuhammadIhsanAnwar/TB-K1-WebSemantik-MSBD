@@ -233,9 +233,18 @@
   place-items: center;
   width: 32px;
   height: 32px;
+  flex: none;
   background: var(--mv-kuning);
   color: var(--mv-hijau);
   font-weight: 700;
+}
+.mv-kepala__foto {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .mv-akun-menu__lencana {
   display: inline-grid;
@@ -682,7 +691,6 @@
   transition: opacity 420ms ease, visibility 420ms ease;
 }
 .js .mv-pemuatan { display: grid; }
-.mv-pemuatan-selesai .mv-pemuatan { visibility: hidden; opacity: 0; pointer-events: none; }
 .mv-pemuatan--selesai { visibility: hidden; opacity: 0; pointer-events: none; }
 .mv-pemuatan__kotak { width: min(86vw, 360px); text-align: center; }
 .mv-pemuatan__logo {
@@ -853,6 +861,8 @@
   background: var(--mv-putih);
   padding: 6px;
   gap: 6px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 .mv-hero__cari input[type="search"] {
   min-height: 48px;

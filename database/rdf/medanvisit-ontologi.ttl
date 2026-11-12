@@ -1,6 +1,6 @@
 # Ontologi MedanVisit (TBox): kelas dan properti untuk data wisata Kota Medan.
 # Standar W3C: RDF, RDFS, OWL 2. Kosakata yang dipakai ulang: schema.org, WGS84 (geo), Dublin Core (dcterms).
-# Data (ABox) ada di medanvisit-data.ttl, dibuat dengan `php artisan rdf:ekspor`.
+# Data (ABox) ada di medanvisit-data.ttl dan dikirim bersama ontologi ke Database 3.
 
 @prefix mv:      <https://medanvisit.neoverse.my.id/ontologi#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .

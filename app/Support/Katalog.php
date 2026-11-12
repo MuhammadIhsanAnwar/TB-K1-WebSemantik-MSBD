@@ -2,19 +2,10 @@
 
 namespace App\Support;
 
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Throwable;
+use RuntimeException;
 
 /**
- * Facade katalog wisata yang membaca data RDF dari Database 3.
- *
- * Fakta sejarah (tahun, tokoh, relasi) diambil dari dokumen rancangan Simpul Medan dan sumber publik
- * yang dicantumkan di setiap relasi. Yang belum terverifikasi ditandai:
- *  - 'harga_contoh' => true  : harga tiket contoh, belum dicek ke pengelola.
- *  - 'jam_contoh'   => true  : jam buka contoh.
- *  - 'koordinat_perkiraan' => true : titik peta diperkirakan, perlu dicek ulang ke OpenStreetMap.
- * PostgreSQL tidak menjadi penyimpanan katalog tempat wisata.
+ * Facade katalog. Seluruh entitas, relasi, dan jalur dibaca dari Database 3 SPARQL.
  */
 class Katalog
 {
@@ -39,7 +30,6 @@ class Katalog
         'rekreasi-air' => 'Rekreasi air',
     ];
 
-    /** Kalimat per predikat: [arah maju, arah balik]. {a} subjek, {b} objek. */
     public const KALIMAT = [
         'dibangunOleh' => ['{a} dibangun oleh {b}.', '{a} membangun {b}.'],
         'memimpin' => ['{a} memimpin {b}.', '{a} dipimpin oleh {b}.'],
@@ -72,7 +62,6 @@ class Katalog
         'beradaDi' => 'berada di',
     ];
 
-    /** Label relasi dibaca dari sisi objek (arah balik), untuk rantai Benang merah dan daftar tetangga di graf. */
     public const LABEL_BALIK = [
         'dibangunOleh' => 'membangun',
         'memimpin' => 'dipimpin oleh',
@@ -89,320 +78,34 @@ class Katalog
         'beradaDi' => 'menjadi tempat',
     ];
 
-    /** Label pendek satu relasi, dibaca dari entitas $sudut, lengkap dengan jarak bila ada. */
-    public static function labelRelasi(array $relasi, string $sudut): string
-    {
-        $label = $relasi[0] === $sudut ? self::LABEL_RELASI[$relasi[1]] : self::LABEL_BALIK[$relasi[1]];
-
-        return $label.(isset($relasi['jarak_m']) ? ' '.$relasi['jarak_m'].' m' : '');
-    }
+    private static ?array $entities = null;
+    private static ?array $relations = null;
+    private static ?array $routes = null;
 
     public static function entitas(): array
     {
-        if (Cache::has('database3.unavailable')) {
-            return self::bangun();
-        }
-
-        try {
-            return Database3Catalog::entities();
-        } catch (Throwable $e) {
-            Cache::put('database3.unavailable', true, now()->addMinute());
-            Log::warning('Database 3 tidak tersedia; menggunakan katalog lokal.', [
-                'exception' => $e::class,
-                'message' => $e->getMessage(),
-            ]);
-
-            return self::bangun();
-        }
-    }
-
-    private static function bangun(): array
-    {
-        $tempat = [
-            [
-                'slug' => 'istana-maimun', 'wikidata' => 'Q1674833', 'nama' => 'Istana Maimun', 'kategori' => 'sejarah',
-                'ringkas' => 'Istana Kesultanan Deli, dibangun 1888–1891 oleh Sultan Ma\'moen Al Rasyid.',
-                'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Aur', 'alamat' => 'Jl. Brigjend Katamso No. 66',
-                'lat' => 3.57529, 'lng' => 98.68405,
-                'foto' => 'istana-maimun.jpg', 'foto_lama' => 'istana-maimun-1900.jpg', 'tahun_foto_lama' => 'sekitar 1900',
-                'tiket' => ['Dewasa' => 10000, 'Anak' => 5000], 'harga_contoh' => true,
-                'jam' => 'Setiap hari, 08.00–17.00', 'jam_buka' => [8, 17], 'jam_contoh' => true,
-                'fasilitas' => ['Parkir', 'Toilet', 'Mushola', 'Sewa baju adat Melayu (Rp20.000–50.000)', 'Balita di bawah 5 tahun gratis'],
-                'radius_checkin' => 150, 'singgah' => 60,
-                'cara' => ['Becak motor dari Kesawan, tawar ongkos sebelum naik (sekitar Rp20.000–30.000)', 'Bus Listrik Medan koridor K1 melintas di depan istana', 'Jalan kaki dari Masjid Raya Al-Mashun, sekitar 6 menit'],
-                'cerita' => [
-                    'Istana Maimun dibangun Sultan Ma\'moen Al Rasyid Perkasa Alamsyah, sultan Deli kesembilan, dan rampung pada 1891. Bangunannya memadukan unsur Melayu, Islam, India, dan Eropa.',
-                    'Warna kuning yang mendominasi istana adalah warna kebesaran Melayu. Sampai sekarang sebagian ruangan masih ditinggali kerabat kesultanan, dan pengunjung bisa berfoto memakai baju adat Melayu di balairung.',
-                    'Di halaman istana ada bangunan kecil yang menyimpan Meriam Puntung, yang dalam cerita rakyat dikaitkan dengan legenda Putri Hijau.',
-                ],
-            ],
-            [
-                'slug' => 'masjid-raya-al-mashun', 'wikidata' => 'Q12497331', 'nama' => 'Masjid Raya Al-Mashun', 'kategori' => 'religi',
-                'ringkas' => 'Masjid Kesultanan Deli, dibangun 1906–1909 dengan denah segi delapan.',
-                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja',
-                'lat' => 3.57517, 'lng' => 98.68730,
-                'foto' => 'masjid-raya.jpg', 'foto_potret' => 'masjid-raya-potret.jpg',
-                'tiket' => null, 'jam' => 'Terbuka di luar waktu salat', 'jam_buka' => [5, 21], 'jam_contoh' => true,
-                'fasilitas' => ['Parkir', 'Tempat wudu', 'Peminjaman kain penutup'],
-                'radius_checkin' => 100, 'singgah' => 45,
-                'cara' => ['Jalan kaki dari Istana Maimun, sekitar 6 menit'],
-                'cerita' => [
-                    'Masjid Raya Al-Mashun dibangun oleh Sultan Ma\'moen Al Rasyid, sultan yang sama yang membangun Istana Maimun, dan selesai pada 1909.',
-                    'Denahnya segi delapan dengan kubah utama dikelilingi empat serambi. Masjid ini masih dipakai untuk salat berjamaah, jadi pengunjung datang di luar waktu salat dan berpakaian sopan.',
-                ],
-            ],
-            [
-                'slug' => 'tjong-a-fie-mansion', 'wikidata' => 'Q7810631', 'nama' => 'Tjong A Fie Mansion', 'kategori' => 'sejarah',
-                'ringkas' => 'Rumah saudagar Tjong A Fie di Kesawan, kini museum rumah.',
-                'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Jend. Ahmad Yani No. 105',
-                'lat' => 3.58543, 'lng' => 98.68037,
-                'foto' => 'tjong-a-fie-mansion.jpg', 'foto_lama' => 'tjong-a-fie-arsip.jpg', 'tahun_foto_lama' => 'awal 1900-an',
-                'tiket' => ['Umum, termasuk pemandu' => 35000],
-                'jam' => 'Setiap hari, 09.00–17.00 (masuk terakhir 16.30), tutup saat Imlek', 'jam_buka' => [9, 17],
-                'fasilitas' => ['Pemandu', 'Toilet', 'Kafe'],
-                'radius_checkin' => 80, 'singgah' => 60,
-                'cara' => ['Jalan kaki dari Lapangan Merdeka, sekitar 8 menit', 'Becak motor dari Istana Maimun, sekitar 10 menit'],
-                'cerita' => [
-                    'Tjong A Fie adalah saudagar Hakka yang datang ke Deli pada masa kejayaan tembakau dan menjadi pemimpin komunitas Tionghoa Medan. Rumahnya di Kesawan selesai dibangun sekitar 1900.',
-                    'Arsitekturnya memadukan rumah Tionghoa, Eropa, dan Melayu. Kamar, perabot, dan foto keluarga masih tersimpan, sehingga pengunjung bisa melihat bagaimana sebuah keluarga saudagar hidup di Medan awal abad ke-20.',
-                ],
-            ],
-            [
-                'slug' => 'meriam-puntung', 'nama' => 'Meriam Puntung', 'kategori' => 'sejarah',
-                'ringkas' => 'Meriam di halaman Istana Maimun yang dikaitkan dengan legenda Putri Hijau.',
-                'kecamatan' => 'Medan Maimun', 'kelurahan' => 'Aur', 'alamat' => 'Kompleks Istana Maimun',
-                'lat' => 3.57493, 'lng' => 98.68405,
-                'foto' => 'meriam-puntung.jpg', 'foto_keterangan' => 'Rumah Meriam Puntung di halaman Istana Maimun', 'tiket' => null, 'jam' => 'Mengikuti jam buka Istana Maimun', 'jam_buka' => [8, 17], 'jam_contoh' => true,
-                'fasilitas' => [], 'radius_checkin' => 60, 'singgah' => 15, 'cara' => ['Di halaman Istana Maimun'],
-                'cerita' => [
-                    'Menurut cerita rakyat, meriam ini adalah penjelmaan saudara Putri Hijau yang menembak tanpa henti saat kerajaan diserang hingga patah. Satu potongannya ada di Istana Maimun, potongan lainnya di Tanah Karo.',
-                ],
-            ],
-            [
-                'slug' => 'kuil-shri-mariamman', 'wikidata' => 'Q12492840', 'nama' => 'Kuil Shri Mariamman', 'kategori' => 'religi',
-                'ringkas' => 'Kuil Hindu tertua di Medan, berdiri sejak 1884 di Kampung Madras.',
-                'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Teuku Umar No. 18',
-                'lat' => 3.58397, 'lng' => 98.67102,
-                'foto' => 'kuil-shri-mariamman.jpg',
-                'tiket' => null, 'jam' => 'Setiap hari, 06.00–12.00 dan 16.00–20.00', 'jam_buka' => [6, 20], 'jam_contoh' => true,
-                'fasilitas' => ['Lepas alas kaki di gerbang'], 'radius_checkin' => 80, 'singgah' => 30,
-                'cara' => ['Becak motor dari Lapangan Merdeka, sekitar 10 menit'],
-                'cerita' => [
-                    'Kuil ini dibangun komunitas Tamil pada 1884 dan menjadi pusat Kampung Madras, kawasan yang juga dikenal sebagai Little India Medan. Menara gerbangnya dipenuhi patung dewa berwarna cerah.',
-                ],
-            ],
-            [
-                'slug' => 'vihara-gunung-timur', 'wikidata' => 'Q14933726', 'nama' => 'Vihara Gunung Timur', 'kategori' => 'religi',
-                'ringkas' => 'Kelenteng Tionghoa di tepi Sungai Babura, dikenal dengan atap naga dan lampionnya.',
-                'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Hang Tuah No. 16',
-                'lat' => 3.57801, 'lng' => 98.66899,
-                'foto' => 'vihara-gunung-timur.jpg',
-                'tiket' => null, 'jam' => 'Setiap hari, 09.00–16.00', 'jam_buka' => [9, 16], 'jam_contoh' => true,
-                'fasilitas' => ['Parkir', 'Wajib berpakaian rapi dan tertutup'], 'radius_checkin' => 80, 'singgah' => 30,
-                'cara' => ['Becak motor dari Kampung Madras, sekitar 5 menit'],
-                'cerita' => [
-                    'Vihara Gunung Timur adalah salah satu kelenteng terbesar di Medan. Menjelang Imlek, halaman dan atapnya dipenuhi lampion merah.',
-                ],
-            ],
-            [
-                'slug' => 'graha-maria-annai-velangkanni', 'wikidata' => 'Q4349197', 'nama' => 'Graha Maria Annai Velangkanni', 'kategori' => 'religi',
-                'ringkas' => 'Gereja Katolik bergaya Indo-Mughal di Tanjung Selamat, diresmikan 2005.',
-                'kecamatan' => 'Medan Tuntungan', 'kelurahan' => 'Tanjung Selamat', 'alamat' => 'Jl. Sakura III No. 7–10, Taman Sakura Indah',
-                'lat' => 3.54763, 'lng' => 98.60870,
-                'foto' => 'graha-maria-annai-velangkanni.jpg',
-                'tiket' => null, 'jam' => 'Setiap hari, 08.00–18.00; misa Senin–Sabtu pukul 18.00', 'jam_buka' => [8, 18], 'jam_contoh' => true,
-                'fasilitas' => ['Parkir', 'Toilet'], 'radius_checkin' => 120, 'singgah' => 45,
-                'cara' => ['Taksi atau ojek daring dari pusat kota, sekitar 30 menit'],
-                'cerita' => [
-                    'Graha ini dibangun untuk Bunda Maria Annai Velangkanni yang dihormati umat Katolik Tamil. Bangunannya bertingkat seperti candi dengan ornamen India, sehingga sering dikira kuil.',
-                ],
-            ],
-            [
-                'slug' => 'museum-negeri-sumatera-utara', 'wikidata' => 'Q12499672', 'nama' => 'Museum Negeri Sumatera Utara', 'kategori' => 'museum',
-                'ringkas' => 'Museum sejarah dan budaya etnis-etnis Sumatera Utara.',
-                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Teladan Barat', 'alamat' => 'Jl. H. M. Joni No. 51',
-                'lat' => 3.56858, 'lng' => 98.69639,
-                'foto' => 'museum-negeri-sumut.jpg',
-                'tiket' => ['Umum' => 3000], 'harga_contoh' => true,
-                'jam' => 'Selasa–Minggu, 09.00–16.00 (Senin tutup)', 'jam_buka' => [9, 16], 'jam_contoh' => true,
-                'fasilitas' => ['Parkir', 'Toilet'], 'radius_checkin' => 100, 'singgah' => 60,
-                'cara' => ['Bus Listrik Medan koridor K1, turun di halte Simpang HM Joni lalu jalan kaki', 'Becak motor dari Masjid Raya Al-Mashun'],
-                'cerita' => [
-                    'Koleksinya mengenalkan etnis-etnis Sumatera Utara, dari Melayu, Batak, Nias, sampai Tionghoa dan Tamil yang datang pada masa perkebunan.',
-                ],
-            ],
-            [
-                'slug' => 'soto-kesawan', 'nama' => 'Soto Kesawan', 'kategori' => 'kuliner',
-                'ringkas' => 'Warung soto lama di Kesawan, beberapa langkah dari Tjong A Fie Mansion.',
-                'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Jend. Ahmad Yani',
-                'lat' => 3.58498, 'lng' => 98.68026,
-                'foto' => 'soto-medan.jpg', 'foto_keterangan' => 'Soto Medan berkuah santan',
-                'tiket' => null, 'jam' => 'Setiap hari, 08.00–14.30', 'jam_buka' => [8, 14], 'jam_contoh' => true,
-                'fasilitas' => [], 'radius_checkin' => 60, 'singgah' => 40,
-                'cara' => ['Jalan kaki dari Tjong A Fie Mansion'],
-                'cerita' => ['Warung ini berjualan sejak 1950-an. Kuahnya berempah dengan sedikit santan dan agak manis. Soto ayam, soto jeroan sapi, dan soto udang sekitar Rp28.000–32.000, sudah termasuk nasi (2024).'],
-            ],
-            [
-                'slug' => 'bika-ambon-mojopahit', 'nama' => 'Deretan Bika Ambon Jl. Mojopahit', 'kategori' => 'kuliner',
-                'ringkas' => 'Jalan tempat toko-toko bika ambon berjajar, tujuan oleh-oleh khas Medan.',
-                'kecamatan' => 'Medan Petisah', 'kelurahan' => 'Petisah Tengah', 'alamat' => 'Jl. Mojopahit (Bika Ambon Zulaikha No. 70 A-C)',
-                'lat' => 3.58618, 'lng' => 98.66617,
-                'foto' => 'bika-ambon.jpg', 'foto_keterangan' => 'Bika ambon pandan',
-                'tiket' => null, 'jam' => 'Setiap hari, 06.00–21.00', 'jam_buka' => [6, 21], 'jam_contoh' => true,
-                'fasilitas' => [], 'radius_checkin' => 120, 'singgah' => 30,
-                'cara' => ['Becak motor dari Kuil Shri Mariamman, sekitar 5 menit'],
-                'cerita' => ['Bika ambon Medan bertekstur bersarang, beraroma daun jeruk dan pandan. Jl. Mojopahit punya sedikitnya 30 toko; Bika Ambon Zulaikha menjual Rp80.000–150.000 per loyang.'],
-            ],
-            [
-                'slug' => 'lapangan-merdeka', 'wikidata' => 'Q12498196', 'nama' => 'Lapangan Merdeka', 'kategori' => 'ruang-publik',
-                'ringkas' => 'Alun-alun kota yang di peta 1930 masih bernama Esplanade.',
-                'kecamatan' => 'Medan Barat', 'kelurahan' => 'Kesawan', 'alamat' => 'Jl. Balai Kota',
-                'lat' => 3.59038, 'lng' => 98.67860,
-                'foto' => 'lapangan-merdeka.jpg', 'foto_keterangan' => 'Lapangan Merdeka hari ini', 'foto_posisi' => '70% 50%', 'foto_lama' => 'esplanade-medan-arsip.jpg', 'tahun_foto_lama' => 'masa Esplanade', 'tiket' => null, 'jam' => 'Ruang terbuka, jam resmi belum diumumkan', 'jam_buka' => [6, 22], 'jam_contoh' => true,
-                'fasilitas' => [], 'radius_checkin' => 150, 'singgah' => 30,
-                'cara' => ['Stasiun Medan ada di sisi timur lapangan', 'Halte Bus Listrik Lapangan Merdeka, titik transit koridor K3, K4, dan K5'],
-                'cerita' => ['Di peta Medan 1930, lapangan ini tercatat sebagai Esplanade, dikelilingi kantor pos, bank, dan hotel kolonial.'],
-            ],
-            [
-                'slug' => 'taman-sri-deli', 'wikidata' => 'Q12518862', 'nama' => 'Taman Sri Deli', 'kategori' => 'ruang-publik',
-                'ringkas' => 'Taman berkolam di depan Masjid Raya Al-Mashun.',
-                'kecamatan' => 'Medan Kota', 'kelurahan' => 'Mesjid', 'alamat' => 'Jl. Sisingamangaraja / Jl. Mesjid Raya',
-                'lat' => 3.57580, 'lng' => 98.68620,
-                'foto' => 'taman-sri-deli.jpg', 'foto_keterangan' => 'Taman Sri Deli', 'tiket' => null, 'jam' => 'Setiap hari, 07.00–21.00', 'jam_buka' => [7, 21], 'jam_contoh' => true,
-                'fasilitas' => [], 'radius_checkin' => 100, 'singgah' => 20,
-                'cara' => ['Di seberang Masjid Raya Al-Mashun'],
-                'cerita' => ['Taman ini dahulu bagian dari kawasan Kesultanan Deli dan kini jadi tempat warga bersantai sore.'],
-            ],
-            [
-                'slug' => 'gereja-immanuel', 'wikidata' => 'Q113648754', 'nama' => 'GPIB Immanuel Medan', 'kategori' => 'religi',
-                'ringkas' => 'Gereja Protestan berlonceng menara di Jl. Diponegoro.',
-                'kecamatan' => 'Medan Polonia', 'kelurahan' => 'Madras Hulu', 'alamat' => 'Jl. Diponegoro No. 25–27',
-                'lat' => 3.58098, 'lng' => 98.67255,
-                'foto' => 'gereja-immanuel.jpg', 'foto_keterangan' => 'GPIB Immanuel hari ini', 'foto_arsip' => 'gereja-immanuel-arsip.jpg', 'foto_arsip_keterangan' => 'Gereja ini pada masa kolonial. Judul arsipnya menyebut jalan di depannya Mangalaan.', 'tiket' => null, 'jam' => 'Di luar jadwal ibadah', 'jam_buka' => [8, 16], 'jam_contoh' => true,
-                'fasilitas' => [], 'radius_checkin' => 80, 'singgah' => 20,
-                'cara' => ['Jalan kaki dari Kuil Shri Mariamman, sekitar 8 menit'],
-                'cerita' => ['Salah satu gereja tua Medan yang masih dipakai beribadah.'],
-            ],
-        ];
-
-        $lain = [
-            ['slug' => 'sultan-maamun-al-rasyid', 'jenis' => 'tokoh', 'nama' => 'Sultan Ma\'moen Al Rasyid', 'ringkas' => 'Sultan Deli kesembilan, memerintah 1873–1924.', 'masa' => '1873–1924 (masa pemerintahan)'],
-            ['slug' => 'tjong-a-fie', 'jenis' => 'tokoh', 'nama' => 'Tjong A Fie', 'ringkas' => 'Saudagar dan pemimpin komunitas Tionghoa Medan, 1860–1921.', 'masa' => '1860–1921', 'foto' => 'tjong-a-fie-arsip.jpg'],
-            ['slug' => 'jacob-nienhuys', 'jenis' => 'tokoh', 'nama' => 'Jacob Nienhuys', 'ringkas' => 'Pengusaha Belanda yang membuka perkebunan tembakau Deli pada 1863.', 'masa' => '1836–1928'],
-            ['slug' => 'kesultanan-deli', 'jenis' => 'kerajaan', 'nama' => 'Kesultanan Deli', 'ringkas' => 'Kerajaan Melayu yang berpusat di Medan.'],
-            ['slug' => 'pembangunan-istana-maimun', 'jenis' => 'peristiwa', 'nama' => 'Pembangunan Istana Maimun', 'ringkas' => 'Istana dibangun 1888 dan rampung 1891.', 'masa' => '1888–1891'],
-            ['slug' => 'pembangunan-masjid-raya', 'jenis' => 'peristiwa', 'nama' => 'Pembangunan Masjid Raya', 'ringkas' => 'Masjid dibangun 1906 dan rampung 1909.', 'masa' => '1906–1909'],
-            ['slug' => 'era-tembakau-deli', 'jenis' => 'peristiwa', 'nama' => 'Era Tembakau Deli', 'ringkas' => 'Masa perkebunan tembakau yang membuat Medan tumbuh menjadi kota.', 'masa' => 'sejak 1863', 'foto' => 'tembakau-deli-1897.jpg'],
-            ['slug' => 'legenda-putri-hijau', 'jenis' => 'peristiwa', 'nama' => 'Legenda Putri Hijau', 'ringkas' => 'Cerita rakyat Deli tentang putri, naga, dan meriam yang patah.', 'masa' => 'cerita rakyat'],
-            ['slug' => 'melayu-deli', 'jenis' => 'budaya', 'nama' => 'Melayu Deli', 'ringkas' => 'Budaya Melayu pesisir timur Sumatera, budaya Kesultanan Deli.'],
-            ['slug' => 'tionghoa', 'jenis' => 'budaya', 'nama' => 'Tionghoa Medan', 'ringkas' => 'Komunitas Tionghoa yang datang pada masa perkebunan.'],
-            ['slug' => 'tamil', 'jenis' => 'budaya', 'nama' => 'Tamil', 'ringkas' => 'Komunitas Tamil Medan, berpusat di Kampung Madras.'],
-            ['slug' => 'arsitektur-mughal', 'jenis' => 'budaya', 'nama' => 'Arsitektur Mughal', 'ringkas' => 'Gaya bangunan Islam India: kubah, lengkung, dan menara.'],
-            ['slug' => 'bubur-pedas', 'jenis' => 'kuliner', 'nama' => 'Bubur pedas', 'ringkas' => 'Bubur rempah Melayu Deli, biasa disajikan saat Ramadan.', 'foto' => 'bubur-pedas.jpg'],
-            ['slug' => 'roti-jala', 'jenis' => 'kuliner', 'nama' => 'Roti jala', 'ringkas' => 'Roti berbentuk jaring, dimakan dengan kari.', 'foto' => 'roti-jala.jpg'],
-            ['slug' => 'bika-ambon', 'jenis' => 'kuliner', 'nama' => 'Bika ambon', 'ringkas' => 'Kue bersarang beraroma pandan, oleh-oleh khas Medan.', 'foto' => 'bika-ambon.jpg'],
-            ['slug' => 'soto-medan', 'jenis' => 'kuliner', 'nama' => 'Soto Medan', 'ringkas' => 'Soto berkuah santan kuning.', 'foto' => 'soto-medan.jpg'],
-            ['slug' => 'becak-motor', 'jenis' => 'transportasi', 'nama' => 'Becak motor', 'ringkas' => 'Sepeda motor bergandeng kabin, angkutan khas Medan.', 'foto' => 'becak-medan.jpg'],
-            ['slug' => 'bus-listrik-medan', 'jenis' => 'transportasi', 'nama' => 'Bus Listrik Medan', 'ringkas' => 'Bus kota Dishub Kota Medan, pengganti Trans Metro Deli sejak 24 November 2024. Tarif Rp5.000 (pelajar, lansia, disabilitas Rp3.000), bayar nontunai.'],
-        ];
-
-        // tempat tambahan dari daftar tim; field yang tidak diisi memakai nilai bawaan di bawah
-        $tempat = array_merge($tempat, require __DIR__.'/data/tempat-tambahan.php');
-        $bawaan = ['jenis' => 'tempat', 'foto' => null, 'tiket' => null, 'jam_buka' => null, 'fasilitas' => [], 'cara' => [], 'radius_checkin' => 100, 'singgah' => 45];
-
-        $data = [];
-        foreach ($tempat as $t) {
-            $t += $bawaan + ['cerita' => [$t['ringkas']]];
-            $data[$t['slug']] = $t;
-        }
-        foreach ($lain as $e) {
-            $data[$e['slug']] = $e;
-        }
-        foreach (array_unique(array_column($tempat, 'kecamatan')) as $kec) {
-            $slug = 'kec-'.str($kec)->slug();
-            $data[$slug] = ['slug' => $slug, 'jenis' => 'wilayah', 'nama' => $kec, 'ringkas' => 'Kecamatan di Kota Medan.'];
-        }
-
-        return $data;
+        return self::$entities ??= Database3Catalog::entities();
     }
 
     public static function relasi(): array
     {
-        if (Cache::has('database3.unavailable')) {
-            return self::bangunRelasi();
+        if (self::$relations !== null) {
+            return self::$relations;
         }
 
-        try {
-            return Database3Catalog::relations();
-        } catch (Throwable $e) {
-            Cache::put('database3.unavailable', true, now()->addMinute());
-            Log::warning('Database 3 tidak tersedia; menggunakan relasi katalog lokal.', [
-                'exception' => $e::class,
-                'message' => $e->getMessage(),
-            ]);
-
-            return self::bangunRelasi();
-        }
-    }
-
-    private static function bangunRelasi(): array
-    {
-        $wiki = fn ($judul) => 'https://id.wikipedia.org/wiki/'.$judul;
-
-        $r = [
-            ['istana-maimun', 'dibangunOleh', 'sultan-maamun-al-rasyid', 'sumber' => $wiki('Istana_Maimun')],
-            ['masjid-raya-al-mashun', 'dibangunOleh', 'sultan-maamun-al-rasyid', 'sumber' => $wiki('Masjid_Raya_Medan')],
-            ['sultan-maamun-al-rasyid', 'memimpin', 'kesultanan-deli', 'sumber' => $wiki('Kesultanan_Deli')],
-            ['istana-maimun', 'merepresentasikan', 'melayu-deli', 'sumber' => $wiki('Istana_Maimun')],
-            ['istana-maimun', 'bergaya', 'arsitektur-mughal', 'sumber' => $wiki('Istana_Maimun')],
-            ['masjid-raya-al-mashun', 'bergaya', 'arsitektur-mughal', 'sumber' => $wiki('Masjid_Raya_Medan')],
-            ['istana-maimun', 'dekatDengan', 'masjid-raya-al-mashun', 'sumber' => 'Dihitung dari koordinat'],
-            ['istana-maimun', 'memilikiSejarah', 'pembangunan-istana-maimun', 'sumber' => $wiki('Istana_Maimun')],
-            ['masjid-raya-al-mashun', 'memilikiSejarah', 'pembangunan-masjid-raya', 'sumber' => $wiki('Masjid_Raya_Medan')],
-            ['meriam-puntung', 'bagianDari', 'istana-maimun', 'sumber' => $wiki('Meriam_Puntung')],
-            ['meriam-puntung', 'berkaitanDengan', 'legenda-putri-hijau', 'sumber' => $wiki('Putri_Hijau')],
-            ['bubur-pedas', 'khasDari', 'melayu-deli', 'sumber' => $wiki('Bubur_pedas')],
-            ['roti-jala', 'khasDari', 'melayu-deli', 'sumber' => $wiki('Roti_jala')],
-            ['sultan-maamun-al-rasyid', 'terlibatDalam', 'era-tembakau-deli', 'sumber' => $wiki('Kesultanan_Deli')],
-            ['tjong-a-fie', 'terlibatDalam', 'era-tembakau-deli', 'sumber' => $wiki('Tjong_A_Fie')],
-            ['jacob-nienhuys', 'terlibatDalam', 'era-tembakau-deli', 'sumber' => $wiki('Tembakau_Deli')],
-            ['tjong-a-fie-mansion', 'dibangunOleh', 'tjong-a-fie', 'sumber' => $wiki('Rumah_Tjong_A_Fie')],
-            ['tjong-a-fie', 'berkaitanDengan', 'tionghoa', 'sumber' => $wiki('Tjong_A_Fie')],
-            ['vihara-gunung-timur', 'merepresentasikan', 'tionghoa', 'sumber' => $wiki('Vihara_Gunung_Timur')],
-            ['kuil-shri-mariamman', 'merepresentasikan', 'tamil', 'sumber' => $wiki('Kuil_Shri_Mariamman')],
-            ['graha-maria-annai-velangkanni', 'berkaitanDengan', 'tamil', 'sumber' => $wiki('Graha_Maria_Annai_Velangkanni')],
-            ['soto-kesawan', 'dekatDengan', 'tjong-a-fie-mansion', 'sumber' => 'Dihitung dari koordinat'],
-            ['soto-kesawan', 'menjual', 'soto-medan', 'sumber' => 'https://koran-jakarta.com/2024-09-17/ada-racikan-yogyakarta-di-soto-kesawan-medan'],
-            ['bika-ambon-mojopahit', 'menjual', 'bika-ambon', 'sumber' => 'https://www.indonesia.travel/id-id/travel-ideas/gastronomy/bika-ambonn/'],
-            ['istana-maimun', 'dilayaniOleh', 'becak-motor', 'sumber' => 'https://kumparan.com/sumutnews/tips-naik-becak-motor-di-kota-para-ketua-1552205494541583850'],
-            ['museum-negeri-sumatera-utara', 'dilayaniOleh', 'bus-listrik-medan', 'sumber' => $wiki('Bus_Listrik_Medan')],
-            ['masjid-lama-gang-bengkok', 'dibangunOleh', 'tjong-a-fie', 'sumber' => $wiki('Masjid_Lama_Gang_Bengkok')],
-            ['balai-kota-lama', 'berkaitanDengan', 'tjong-a-fie', 'sumber' => 'https://www.detik.com/sumut/berita/d-7045682/sejarah-balai-kota-medan-ada-peran-miliarder-tjong-a-fie'],
-            ['gedung-avros', 'berkaitanDengan', 'era-tembakau-deli', 'sumber' => 'https://www.penang-traveltips.com/indonesia/medan/bks-pps-building.htm'],
-            ['kuil-nagarattar', 'merepresentasikan', 'tamil', 'sumber' => $wiki('Kuil_Sree_Soepramaniem_Nagarattar')],
-            ['seng-hap-1881', 'merepresentasikan', 'tionghoa', 'sumber' => 'https://rri.co.id/medan/iptek/2772486/seng-hap-1881-dari-bangunan-bersejarah-hingga-ruang-umkm-dan-kuliner'],
-            ['tip-top-restaurant', 'dekatDengan', 'tjong-a-fie-mansion', 'sumber' => 'Dihitung dari koordinat'],
-            ['seng-hap-1881', 'dekatDengan', 'lapangan-merdeka', 'sumber' => 'Dihitung dari koordinat'],
-            ['katedral-medan', 'dekatDengan', 'istana-maimun', 'sumber' => 'Dihitung dari koordinat'],
-            ['taman-sri-deli', 'dekatDengan', 'masjid-raya-al-mashun', 'sumber' => 'Dihitung dari koordinat'],
-            ['lapangan-merdeka', 'dekatDengan', 'soto-kesawan', 'sumber' => 'Dihitung dari koordinat'],
-            ['gereja-immanuel', 'dekatDengan', 'kuil-shri-mariamman', 'sumber' => 'Dihitung dari koordinat'],
-        ];
-
-        foreach (self::entitas() as $slug => $e) {
-            if ($e['jenis'] === 'tempat') {
-                $r[] = [$slug, 'beradaDi', 'kec-'.str($e['kecamatan'])->slug(), 'sumber' => 'BPS Kota Medan'];
+        $relations = Database3Catalog::relations();
+        foreach ($relations as &$relation) {
+            if ($relation[1] === 'dekatDengan') {
+                $a = self::get($relation[0]);
+                $b = self::get($relation[2]);
+                if (! $a || ! $b) {
+                    throw new RuntimeException('Relasi SPARQL merujuk entitas yang tidak ditemukan.');
+                }
+                $relation['jarak_m'] = self::jarakMeter($a, $b);
             }
         }
 
-        // Jarak "dekat dengan" satu sumber saja: dihitung dari koordinat, tidak diketik ulang.
-        foreach ($r as &$rel) {
-            if ($rel[1] === 'dekatDengan') {
-                $rel['jarak_m'] = self::jarakMeter(self::get($rel[0]), self::get($rel[2]));
-            }
-        }
-
-        return $r;
+        return self::$relations = $relations;
     }
 
     public static function get(string $slug): ?array
@@ -412,49 +115,55 @@ class Katalog
 
     public static function jenis(string $jenis): array
     {
-        return array_filter(self::entitas(), fn ($e) => $e['jenis'] === $jenis);
+        return array_filter(self::entitas(), fn ($entity) => $entity['jenis'] === $jenis);
     }
 
     public static function tempat(?string $kategori = null): array
     {
-        return array_filter(self::jenis('tempat'), fn ($t) => $kategori === null || $t['kategori'] === $kategori);
+        return array_filter(self::jenis('tempat'), fn ($place) => $kategori === null || $place['kategori'] === $kategori);
     }
 
     public static function bertiket(): array
     {
-        return array_filter(self::tempat(), fn ($t) => ! empty($t['tiket']));
+        return array_filter(self::tempat(), fn ($place) => ! empty($place['tiket']));
     }
 
-    public static function hargaTermurah(array $t): ?int
+    public static function hargaTermurah(array $tempat): ?int
     {
-        return empty($t['tiket']) ? null : min($t['tiket']);
+        return empty($tempat['tiket']) ? null : (int) min($tempat['tiket']);
     }
 
-    /** Relasi yang menyentuh $slug, dengan arah dari sudut pandang $slug. */
     public static function tetangga(string $slug, bool $denganWilayah = true): array
     {
         $hasil = [];
-        foreach (self::relasi() as $i => $r) {
-            [$s, $p, $o] = $r;
-            if ($s !== $slug && $o !== $slug) {
+        foreach (self::relasi() as $i => $relation) {
+            [$subjek, $predikat, $objek] = $relation;
+            if ($subjek !== $slug && $objek !== $slug) {
                 continue;
             }
-            $lawan = $s === $slug ? $o : $s;
-            if (! $denganWilayah && self::get($lawan)['jenis'] === 'wilayah') {
+            $lawan = $subjek === $slug ? $objek : $subjek;
+            $entitasLawan = self::get($lawan);
+            if (! $entitasLawan || (! $denganWilayah && $entitasLawan['jenis'] === 'wilayah')) {
                 continue;
             }
-            $hasil[] = ['id' => $i, 'predikat' => $p, 'maju' => $s === $slug, 'lawan' => $lawan, 'relasi' => $r];
+            $hasil[] = [
+                'id' => $i,
+                'predikat' => $predikat,
+                'maju' => $subjek === $slug,
+                'lawan' => $lawan,
+                'relasi' => $relation,
+            ];
         }
 
         return $hasil;
     }
 
-    /** Jalur terpendek (BFS) antara dua entitas, tanpa lewat simpul wilayah. Mengembalikan daftar langkah. */
     public static function benangMerah(string $dari, string $ke): ?array
     {
         if (! self::get($dari) || ! self::get($ke)) {
             return null;
         }
+
         $antre = [$dari];
         $asal = [$dari => null];
         while ($antre) {
@@ -462,125 +171,154 @@ class Katalog
             if ($kini === $ke) {
                 break;
             }
-            foreach (self::tetangga($kini, false) as $t) {
-                if (! array_key_exists($t['lawan'], $asal)) {
-                    $asal[$t['lawan']] = [$kini, $t];
-                    $antre[] = $t['lawan'];
+            foreach (self::tetangga($kini, false) as $tetangga) {
+                if (! array_key_exists($tetangga['lawan'], $asal)) {
+                    $asal[$tetangga['lawan']] = [$kini, $tetangga];
+                    $antre[] = $tetangga['lawan'];
                 }
             }
         }
         if (! array_key_exists($ke, $asal)) {
             return null;
         }
+
         $langkah = [];
-        for ($n = $ke; $asal[$n] !== null; $n = $asal[$n][0]) {
-            [$sebelum, $t] = $asal[$n];
-            $langkah[] = ['dari' => $sebelum, 'ke' => $n, 'kalimat' => self::kalimat($t['relasi'], $sebelum), 'relasi' => $t['relasi']];
+        for ($node = $ke; $asal[$node] !== null; $node = $asal[$node][0]) {
+            [$sebelum, $tetangga] = $asal[$node];
+            $langkah[] = [
+                'dari' => $sebelum,
+                'ke' => $node,
+                'kalimat' => self::kalimat($tetangga['relasi'], $sebelum),
+                'relasi' => $tetangga['relasi'],
+            ];
         }
 
         return array_reverse($langkah);
     }
 
-    /** Kalimat untuk satu relasi, dibaca dari entitas $sudut. */
+    public static function labelRelasi(array $relasi, string $sudut): string
+    {
+        $labels = $relasi[0] === $sudut ? self::LABEL_RELASI : self::LABEL_BALIK;
+        if (! isset($labels[$relasi[1]])) {
+            throw new RuntimeException('Label relasi SPARQL tidak dikenali: '.$relasi[1]);
+        }
+
+        return $labels[$relasi[1]].(isset($relasi['jarak_m']) ? ' '.$relasi['jarak_m'].' m' : '');
+    }
+
     public static function kalimat(array $relasi, string $sudut): string
     {
-        [$s, $p, $o] = $relasi;
-        $maju = $s === $sudut;
-        $a = self::get($maju ? $s : $o)['nama'];
-        $b = self::get($maju ? $o : $s)['nama'];
-        $pola = self::KALIMAT[$p][$maju ? 0 : 1];
+        [$subjek, $predikat, $objek] = $relasi;
+        if (isset($relasi['kalimat']) && $sudut === $subjek) {
+            return $relasi['kalimat'];
+        }
+        if (! isset(self::KALIMAT[$predikat])) {
+            throw new RuntimeException('Kalimat relasi SPARQL tidak dikenali: '.$predikat);
+        }
 
-        return strtr($pola, ['{a}' => $a, '{b}' => $b, '{jarak}' => number_format($relasi['jarak_m'] ?? 0, 0, ',', '.')]);
+        $maju = $subjek === $sudut;
+        $a = self::get($maju ? $subjek : $objek)['nama'];
+        $b = self::get($maju ? $objek : $subjek)['nama'];
+        $pola = self::KALIMAT[$predikat][$maju ? 0 : 1];
+
+        return strtr($pola, [
+            '{a}' => $a,
+            '{b}' => $b,
+            '{jarak}' => number_format($relasi['jarak_m'] ?? 0, 0, ',', '.'),
+        ]);
     }
 
     public static function jarakMeter(array $a, array $b): int
     {
-        $r = 6371000;
+        $radiusBumi = 6371000;
         $dLat = deg2rad($b['lat'] - $a['lat']);
         $dLng = deg2rad($b['lng'] - $a['lng']);
         $h = sin($dLat / 2) ** 2 + cos(deg2rad($a['lat'])) * cos(deg2rad($b['lat'])) * sin($dLng / 2) ** 2;
 
-        return (int) round(2 * $r * asin(sqrt($h)));
+        return (int) round(2 * $radiusBumi * asin(sqrt($h)));
     }
 
-    /** Perpindahan antar dua tempat: moda dan menit. Becak 18 km/jam, jalan kaki 4,5 km/jam. */
     public static function perpindahan(array $a, array $b, array $moda): array
     {
-        $m = self::jarakMeter($a, $b);
-        if ($m <= 700 && in_array('jalan', $moda, true) || ! in_array('becak', $moda, true)) {
-            return ['moda' => 'Jalan kaki', 'meter' => $m, 'menit' => max(1, (int) round($m / 75)), 'biaya' => 0];
+        $meter = self::jarakMeter($a, $b);
+        if (($meter <= 700 && in_array('jalan', $moda, true)) || ! in_array('becak', $moda, true)) {
+            return ['moda' => 'Jalan kaki', 'meter' => $meter, 'menit' => max(1, (int) round($meter / 75)), 'biaya' => 0];
         }
 
-        return ['moda' => 'Becak motor', 'meter' => $m, 'menit' => max(3, (int) round($m / 300) + 2), 'biaya' => 10000 + (int) (ceil(max(0, $m - 1000) / 1000) * 5000)];
+        return [
+            'moda' => 'Becak motor',
+            'meter' => $meter,
+            'menit' => max(3, (int) round($meter / 300) + 2),
+            'biaya' => 10000 + (int) (ceil(max(0, $meter - 1000) / 1000) * 5000),
+        ];
     }
 
     public static function jalurTematik(): array
     {
-        $jalur = [
-            'jejak-kesultanan-deli' => [
-                'nama' => 'Jejak Kesultanan Deli', 'foto' => 'istana-maimun-1900.jpg',
-                'ringkas' => 'Istana, meriam, masjid, dan taman yang dibangun di masa Sultan Ma\'moen Al Rasyid.',
-                'singgah' => ['istana-maimun', 'meriam-puntung', 'masjid-raya-al-mashun', 'taman-sri-deli'],
-            ],
-            'satu-kota-banyak-rumah-ibadah' => [
-                'nama' => 'Satu kota, banyak rumah ibadah', 'foto' => 'vihara-gunung-timur.jpg',
-                'ringkas' => 'Masjid, kuil, vihara, dan gereja yang berdiri berdekatan di pusat Medan.',
-                'singgah' => ['masjid-raya-al-mashun', 'vihara-gunung-timur', 'kuil-shri-mariamman', 'gereja-immanuel'],
-            ],
-            'kesawan-tempo-dulu' => [
-                'nama' => 'Kesawan tempo dulu', 'foto' => 'kesawan-arsip.jpg',
-                'ringkas' => 'Esplanade, rumah saudagar, dan warung soto di jalan dagang tertua Medan.',
-                'singgah' => ['lapangan-merdeka', 'tjong-a-fie-mansion', 'soto-kesawan'],
-            ],
-        ];
-
-        foreach ($jalur as $slug => &$j) {
-            $j['slug'] = $slug;
-            $meter = 0;
-            $menit = 0;
-            foreach ($j['singgah'] as $i => $s) {
-                $menit += self::get($s)['singgah'];
-                if ($i > 0) {
-                    $p = self::perpindahan(self::get($j['singgah'][$i - 1]), self::get($s), ['jalan', 'becak']);
-                    $meter += $p['meter'];
-                    $menit += $p['menit'];
-                }
-            }
-            $j['meter'] = $meter;
-            $j['menit'] = $menit;
+        if (self::$routes !== null) {
+            return self::$routes;
         }
 
-        return $jalur;
+        $routes = Database3Catalog::routes();
+        foreach ($routes as &$route) {
+            $meter = 0;
+            $menit = 0;
+            $sebelumnya = null;
+            foreach ($route['singgah'] as $slug) {
+                $tempat = self::get($slug);
+                if (! $tempat || $tempat['jenis'] !== 'tempat') {
+                    throw new RuntimeException('Jalur SPARQL merujuk tempat yang tidak ditemukan: '.$slug);
+                }
+                $menit += (int) ($tempat['singgah'] ?? 45);
+                if ($sebelumnya !== null) {
+                    $perpindahan = self::perpindahan($sebelumnya, $tempat, ['jalan', 'becak']);
+                    $meter += $perpindahan['meter'];
+                    $menit += $perpindahan['menit'];
+                }
+                $sebelumnya = $tempat;
+            }
+            $route['meter'] = $meter;
+            $route['menit'] = $menit;
+        }
+
+        return self::$routes = $routes;
     }
 
-    /** Menyusun rute: pilih tempat sesuai minat, urutkan tetangga terdekat dari titik mulai, potong sesuai durasi. */
     public static function susunRute(array $minat, int $durasiJam, array $moda, string $mulai): array
     {
-        $pool = array_filter(self::tempat(), fn ($t) => in_array($t['kategori'], $minat, true) || $t['slug'] === $mulai);
+        $pool = array_filter(
+            self::tempat(),
+            fn ($tempat) => in_array($tempat['kategori'], $minat, true) || $tempat['slug'] === $mulai
+        );
+        $awal = self::get($mulai);
+        if (! $awal || $awal['jenis'] !== 'tempat' || ! $pool) {
+            throw new RuntimeException('Tempat awal atau pilihan minat tidak ditemukan di Database 3.');
+        }
+
         $sisaMenit = $durasiJam * 60;
-        $awal = self::get($mulai) ?? reset($pool);
         $urut = [];
         $kini = $awal;
         $jam = 8 * 60 + 30;
         $total = 0;
         unset($pool[$awal['slug']]);
         $urut[] = ['tempat' => $awal, 'mulai' => $jam, 'pindah' => null];
-        $sisaMenit -= $awal['singgah'];
-        $jam += $awal['singgah'];
+        $sisaMenit -= (int) ($awal['singgah'] ?? 45);
+        $jam += (int) ($awal['singgah'] ?? 45);
         $total += self::hargaTermurah($awal) ?? 0;
 
         while ($pool) {
             uasort($pool, fn ($x, $y) => self::jarakMeter($kini, $x) <=> self::jarakMeter($kini, $y));
             $calon = reset($pool);
-            $p = self::perpindahan($kini, $calon, $moda);
-            if ($p['menit'] + $calon['singgah'] > $sisaMenit || $p['meter'] > 6000) {
+            $perpindahan = self::perpindahan($kini, $calon, $moda);
+            $durasiSinggah = (int) ($calon['singgah'] ?? 45);
+            if ($perpindahan['menit'] + $durasiSinggah > $sisaMenit || $perpindahan['meter'] > 6000) {
                 break;
             }
-            $sisaMenit -= $p['menit'] + $calon['singgah'];
-            $jam += $p['menit'];
-            $urut[] = ['tempat' => $calon, 'mulai' => $jam, 'pindah' => $p];
-            $jam += $calon['singgah'];
-            $total += $p['biaya'] + (self::hargaTermurah($calon) ?? 0);
+            $sisaMenit -= $perpindahan['menit'] + $durasiSinggah;
+            $jam += $perpindahan['menit'];
+            $urut[] = ['tempat' => $calon, 'mulai' => $jam, 'pindah' => $perpindahan];
+            $jam += $durasiSinggah;
+            $total += $perpindahan['biaya'] + (self::hargaTermurah($calon) ?? 0);
             unset($pool[$calon['slug']]);
             $kini = $calon;
         }
@@ -593,32 +331,32 @@ class Katalog
         return sprintf('%02d.%02d', intdiv($menitDariTengahMalam, 60) % 24, $menitDariTengahMalam % 60);
     }
 
-    public static function rupiah(?int $n): string
+    public static function rupiah(?int $nilai): string
     {
-        return $n === null ? 'Gratis' : 'Rp'.number_format($n, 0, ',', '.');
+        return $nilai === null ? 'Gratis' : 'Rp'.number_format($nilai, 0, ',', '.');
     }
 
-    public static function bukaSekarang(array $t, ?int $jam = null): bool
+    public static function bukaSekarang(array $tempat, ?int $jam = null): bool
     {
         $jam ??= (int) now('Asia/Jakarta')->format('G');
 
-        return isset($t['jam_buka']) && $jam >= $t['jam_buka'][0] && $jam < $t['jam_buka'][1];
+        return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
 
-    /** Pencarian toleran salah ketik: cocok kata, lalu kemiripan (similar_text / levenshtein). */
     public static function cari(string $q): array
     {
         $q = mb_strtolower(trim($q));
         if ($q === '') {
             return [];
         }
+
         $hasil = [];
-        foreach (self::entitas() as $slug => $e) {
-            if ($e['jenis'] === 'wilayah') {
+        foreach (self::entitas() as $slug => $entity) {
+            if ($entity['jenis'] === 'wilayah') {
                 continue;
             }
-            $teks = mb_strtolower($e['nama'].' '.($e['ringkas'] ?? '').' '.($e['kecamatan'] ?? '').' '.($e['kategori'] ?? ''));
-            $nama = mb_strtolower($e['nama']);
+            $teks = mb_strtolower($entity['nama'].' '.($entity['ringkas'] ?? '').' '.($entity['kecamatan'] ?? '').' '.($entity['kategori'] ?? ''));
+            $nama = mb_strtolower($entity['nama']);
             $skor = 0;
             foreach (preg_split('/\s+/', $q) as $kata) {
                 if (mb_strlen($kata) < 3) {
@@ -627,8 +365,8 @@ class Katalog
                 if (str_contains($teks, $kata)) {
                     $skor += 2;
                 } else {
-                    foreach (preg_split('/[\s\-]+/', $nama) as $k2) {
-                        if (mb_strlen($k2) >= 4 && levenshtein($kata, $k2) <= 1) {
+                    foreach (preg_split('/[\s\-]+/', $nama) as $bagianNama) {
+                        if (mb_strlen($bagianNama) >= 4 && levenshtein($kata, $bagianNama) <= 1) {
                             $skor += 1.5;
                         }
                     }
@@ -642,90 +380,58 @@ class Katalog
         }
         arsort($hasil);
 
-        return array_map(fn ($s) => self::get($s), array_keys($hasil));
+        return array_map(fn ($slug) => self::get($slug), array_keys($hasil));
     }
 
-    /** Usulan koreksi ejaan: nama entitas paling mirip bila kueri tidak persis. */
     public static function koreksi(string $q): ?string
     {
         $q = mb_strtolower(trim($q));
         $terbaik = null;
         $jarak = PHP_INT_MAX;
-        foreach (self::entitas() as $e) {
-            $d = levenshtein($q, mb_strtolower($e['nama']));
-            if ($d < $jarak) {
-                [$jarak, $terbaik] = [$d, $e['nama']];
+        foreach (self::entitas() as $entity) {
+            $jarakNama = levenshtein($q, mb_strtolower($entity['nama']));
+            if ($jarakNama < $jarak) {
+                [$jarak, $terbaik] = [$jarakNama, $entity['nama']];
             }
         }
 
         return $jarak > 0 && $jarak <= 3 ? $terbaik : null;
     }
 
-    /** Kredit foto dari credits.json (diisi oleh assets.mjs saat foto diunduh). */
     public static function kredit(?string $berkas = null): array|string|null
     {
         static $kredit = null;
         if ($kredit === null) {
             $path = public_path('images/foto/credits.json');
             $kredit = [];
-            foreach (is_file($path) ? json_decode(file_get_contents($path), true) : [] as $k) {
-                $kredit[basename($k['file'])] = $k;
+            foreach (is_file($path) ? json_decode(file_get_contents($path), true) : [] as $item) {
+                $kredit[basename($item['file'])] = $item;
             }
         }
 
         return $berkas === null ? $kredit : ($kredit[$berkas]['credit'] ?? null);
     }
 
-    /**
-     * Posisi sebuah tempat di peta Medan 1930 (piksel pada berkas 1422 × 1600).
-     * Diregistrasi dari dua titik di legenda peta: "15. Palace of the Sultan of Deli" di (818, 1150)
-     * dan Esplanade (kini Lapangan Merdeka) di (643, 680); skalanya ±280 px per km, sesuai 1:20.000.
-     * Mengembalikan null bila tempat berada di luar bingkai peta.
-     */
-    public static function posisi1930(array $t): ?array
+    public static function posisi1930(array $tempat): ?array
     {
-        if (! isset($t['lat'])) {
+        if (! isset($tempat['lat'], $tempat['lng'])) {
             return null;
         }
-        $x = 818 + ($t['lng'] - 98.6837) * 31110;
-        $y = 1150 - ($t['lat'] - 3.5752) * 30960;
+        $x = 818 + ($tempat['lng'] - 98.6837) * 31110;
+        $y = 1150 - ($tempat['lat'] - 3.5752) * 30960;
 
         return ($x > 80 && $x < 1340 && $y > 300 && $y < 1470) ? ['x' => round($x), 'y' => round($y)] : null;
     }
 
-    /** Posisi di potongan "kota lama" (480,630)–(1040,1190), dalam persen. */
-    public static function posisiKotaLama(array $t): ?array
+    public static function posisiKotaLama(array $tempat): ?array
     {
-        $p = self::posisi1930($t);
-        if (! $p) {
+        $posisi = self::posisi1930($tempat);
+        if (! $posisi) {
             return null;
         }
-        $x = ($p['x'] - 480) / 560 * 100;
-        $y = ($p['y'] - 630) / 560 * 100;
+        $x = ($posisi['x'] - 480) / 560 * 100;
+        $y = ($posisi['y'] - 630) / 560 * 100;
 
         return ($x >= 0 && $x <= 100 && $y >= 0 && $y <= 100) ? ['x' => round($x, 2), 'y' => round($y, 2)] : null;
-    }
-
-    public const GELAR = [
-        0 => 'Pendatang Baru',
-        50 => 'Pelancong',
-        200 => 'Pengembara',
-        500 => 'Penjelajah',
-        1000 => 'Datuk Penjelajah',
-    ];
-
-    public static function gelar(int $poin): array
-    {
-        $kini = 'Pendatang Baru';
-        $berikut = null;
-        foreach (self::GELAR as $batas => $nama) {
-            if ($poin >= $batas) {
-                $kini = $nama;
-            } elseif ($berikut === null) {
-                $berikut = ['nama' => $nama, 'batas' => $batas];
-            }
-        }
-
-        return ['nama' => $kini, 'berikut' => $berikut];
     }
 }

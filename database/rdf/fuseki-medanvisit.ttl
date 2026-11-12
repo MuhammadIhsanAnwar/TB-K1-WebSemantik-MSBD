@@ -1,6 +1,6 @@
 # Konfigurasi Apache Jena Fuseki untuk dataset MedanVisit.
 # Jalankan dari folder Fuseki:  fuseki-server --config=<path ke file ini>
-# Endpoint SPARQL: http://localhost:3030/medanvisit/sparql (hanya baca; data diubah lewat JSON lalu rdf:ekspor).
+# Endpoint SPARQL: http://localhost:3030/medanvisit/sparql (hanya baca; data sumber disimpan sebagai Turtle).
 #
 # Ontologi dan data dimuat ulang dari file setiap Fuseki dinyalakan, jadi selalu sama dengan isi repo.
 # Reasoner OWL Micro menurunkan fakta dari ontologi: kelas induk (setiap mv:Museum juga mv:TempatWisata

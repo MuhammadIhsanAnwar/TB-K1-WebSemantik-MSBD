@@ -24,16 +24,6 @@
                 <a href="{{ route('rencana') }}"><span class="dua"><b>Susun rute perjalanan</b><span>Dari minat, waktu, dan cara berpindah</span></span><span class="kanan">Perencana</span></a>
             </div>
         </section>
-        <section class="p-panel s6" aria-labelledby="judul-bahasa">
-            <header><h2 id="judul-bahasa">Bahasa cerita</h2><span class="meta">Untuk cerita dan audio guide</span></header>
-            <div class="p-seg" role="group" aria-label="Bahasa cerita">
-                <button type="button" aria-pressed="true">Indonesia</button>
-                <button type="button" disabled aria-disabled="true" title="Segera">English</button>
-                <button type="button" disabled aria-disabled="true" title="Segera">中文</button>
-                <button type="button" disabled aria-disabled="true" title="Segera">Melayu</button>
-            </div>
-            <p class="kecil redup" style="margin-top:10px">Bahasa lain segera tersedia setelah kurator selesai menerjemahkan cerita.</p>
-        </section>
     </div>
 </div>
 @endsection

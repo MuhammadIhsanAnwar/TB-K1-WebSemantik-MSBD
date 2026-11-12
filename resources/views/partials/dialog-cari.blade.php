@@ -1,3 +1,9 @@
+@php
+    $contohPencarian = array_slice(array_values(array_filter(
+        \App\Support\Katalog::entitas(),
+        fn ($entitas) => $entitas['jenis'] !== 'wilayah'
+    )), 0, 4);
+@endphp
 <dialog class="mv-dialog-cari" id="dialog-cari" data-ui data-dialog-cari data-saran-url="{{ route('cari.saran') }}" aria-label="Pencarian cepat MedanVisit">
     <div class="mv-dialog-cari__kotak">
         <div class="mv-dialog-cari__atas">
@@ -7,7 +13,7 @@
         <form action="{{ route('cari') }}" method="get" role="search" data-cari-cepat>
             <div class="mv-dialog-cari__baris">
                 <label class="sr-only" for="input-dialog-cari">Ketik nama tempat, tokoh, atau kuliner</label>
-                <input id="input-dialog-cari" type="search" name="q" placeholder="Ketik tempat, tokoh, kuliner (coba: istana maimon)" autocomplete="off" required>
+                <input id="input-dialog-cari" type="search" name="q" placeholder="Ketik nama tempat, tokoh, atau kuliner" autocomplete="off" required>
                 <button class="mv-btn mv-btn--utama mv-btn--kecil" type="submit">Cari</button>
             </div>
             <div class="mv-dialog-cari__saring" role="group" aria-label="Jenis hasil">
@@ -25,11 +31,9 @@
         </div>
         <div class="mv-dialog-cari__contoh">
             <span>Pencarian populer:</span>
-            <a href="{{ route('cari', ['q' => 'istana maimon']) }}">istana maimon</a>
-            <a href="{{ route('cari', ['q' => 'tjong a fie']) }}">Tjong A Fie</a>
-            <a href="{{ route('cari', ['q' => 'bubur pedas']) }}">Bubur pedas</a>
-            <a href="{{ route('cari', ['q' => 'rumah ibadah']) }}">Rumah ibadah</a>
+            @foreach ($contohPencarian as $entitas)
+                <a href="{{ route('cari', ['q' => $entitas['nama']]) }}">{{ $entitas['nama'] }}</a>
+            @endforeach
         </div>
     </div>
 </dialog>
-

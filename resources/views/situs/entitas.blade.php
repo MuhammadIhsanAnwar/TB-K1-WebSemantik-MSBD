@@ -27,7 +27,7 @@
                 <span class="kecil">{{ count($tetangga) }} hubungan langsung</span>
             </div>
             <div class="detail__aksi">
-                <a class="tombol tombol--hijau" href="{{ route('jelajah', ['dari' => $e['slug'], 'ke' => $tempatTerkait->first()['slug'] ?? 'istana-maimun']) }}">Buka di jelajah graf</a>
+                <a class="tombol tombol--hijau" href="{{ route('jelajah', ['dari' => $e['slug'], 'ke' => $tempatTerkait->first()['slug'] ?? (array_key_first(Katalog::tempat()) ?? $e['slug'])]) }}">Buka di jelajah graf</a>
                 <a class="tombol tombol--garis" href="{{ route('tanya', ['q' => $e['nama']]) }}">Tanya soal {{ \Illuminate\Support\Str::limit($e['nama'], 18) }}</a>
             </div>
         </header>

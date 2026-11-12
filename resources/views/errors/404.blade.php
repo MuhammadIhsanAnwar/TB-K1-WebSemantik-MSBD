@@ -1,6 +1,6 @@
 @extends('layouts.situs')
 @php
-    $populer = collect(['istana-maimun', 'masjid-raya-al-mashun', 'tjong-a-fie-mansion', 'kuil-shri-mariamman'])->map(fn ($s) => \App\Support\Katalog::get($s));
+    $populer = array_slice(array_values(\App\Support\Katalog::tempat()), 0, 4);
 @endphp
 @section('judul', 'Belum ada di peta')
 @section('foto-kaki', 'peta-medan-1930-kota-lama.jpg')

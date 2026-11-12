@@ -10,6 +10,7 @@ use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,7 +29,10 @@ class AkunController extends Controller
 
     public function masuk(Request $request)
     {
-        return view('akun.masuk', ['kembali' => $this->aman($request->query('kembali'))]);
+        return view('akun.masuk', [
+            'kembali' => $this->aman($request->query('kembali')),
+            'tempatSorotan' => $this->tempatSorotan(),
+        ]);
     }
 
     public function prosesMasuk(Request $request)
@@ -149,12 +153,24 @@ class AkunController extends Controller
             'email' => $user['email'],
             'nama' => $user['name'],
             'peran' => $user['peran'],
+            'foto_profil' => $user['foto_profil'] ?? null,
         ]);
     }
 
     public function daftar(Request $request)
     {
-        return view('akun.daftar', ['kembali' => $this->aman($request->query('kembali'))]);
+        return view('akun.daftar', [
+            'kembali' => $this->aman($request->query('kembali')),
+            'tempatSorotan' => $this->tempatSorotan(),
+        ]);
+    }
+
+    private function tempatSorotan(): array
+    {
+        $tempat = Katalog::tempat();
+        $berfoto = array_filter($tempat, fn ($item) => ! empty($item['foto']));
+
+        return array_slice(array_values($berfoto ?: $tempat), 0, 3);
     }
 
     public function prosesDaftar(Request $request)
@@ -367,14 +383,37 @@ class AkunController extends Controller
         if (! empty($data['password'])) {
             $attributes['password'] = Hash::make($data['password']);
         }
+        $fotoBaru = null;
         if ($request->hasFile('foto_profil')) {
-            if (! empty($user['foto_profil'])) {
-                Storage::disk('public')->delete($user['foto_profil']);
-            }
-            $attributes['foto_profil'] = $request->file('foto_profil')->store('profil', 'public');
+            $direktori = public_path('storage/profil_picture');
+            File::ensureDirectoryExists($direktori);
+
+            $namaFile = Str::slug($data['nama']) ?: 'pengguna';
+            $idAkun = Str::slug((string) ($user['id'] ?? '')) ?: substr(hash('sha256', strtolower($user['email'])), 0, 12);
+            $namaFile .= '-'.$idAkun.'-'.Str::random(8).'.'.$request->file('foto_profil')->extension();
+            $request->file('foto_profil')->move($direktori, $namaFile);
+            $fotoBaru = 'profil_picture/'.$namaFile;
+            $attributes['foto_profil'] = $fotoBaru;
         }
 
-        $updated = $api->updateUser($user['id'], $attributes);
+        try {
+            $updated = $api->updateUser($user['id'], $attributes);
+        } catch (\Throwable $exception) {
+            if ($fotoBaru !== null) {
+                File::delete(public_path('storage/'.$fotoBaru));
+            }
+
+            throw $exception;
+        }
+
+        if ($fotoBaru !== null && ! empty($user['foto_profil']) && $user['foto_profil'] !== $fotoBaru) {
+            $fotoLama = basename($user['foto_profil']);
+            if (str_starts_with($user['foto_profil'], 'profil_picture/')) {
+                File::delete(public_path('storage/profil_picture/'.$fotoLama));
+            } else {
+                Storage::disk('public')->delete($user['foto_profil']);
+            }
+        }
         $this->simpanSesiPengguna($request, $updated);
 
         return redirect()->route('akun.pengaturan')->with('pesan', 'Pengaturan akun berhasil disimpan.');

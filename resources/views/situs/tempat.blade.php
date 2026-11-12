@@ -176,7 +176,7 @@
         <section class="mv-seksi-detail" id="terhubung" aria-labelledby="judul-terhubung">
             <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:18px">
                 <h2 id="judul-terhubung" style="margin-bottom:0">Terhubung di jaringan cerita</h2>
-                <a class="mv-tautan" href="{{ route('jelajah', ['dari' => $t['slug'], 'ke' => $dekat[0]['slug'] ?? 'istana-maimun']) }}">Jelajahi graf penuh</a>
+                <a class="mv-tautan" href="{{ route('jelajah', ['dari' => $t['slug'], 'ke' => $dekat[0]['slug'] ?? (array_key_first(Katalog::tempat()) ?? $t['slug'])]) }}">Jelajahi graf penuh</a>
             </div>
             @include('partials.terhubung', ['pusat' => $t['slug']])
         </section>

@@ -42,13 +42,15 @@ Jika migration sudah selesai dan ingin mengarsipkannya kembali:
 Move-Item database/migrations/2026_11_11_000200_kirim_rdf_ke_database3.php database/migrations-semantic/
 ```
 
-Untuk mengirim ulang data secara manual:
+Untuk mengirim ulang data RDF dari berkas sumber:
 
 ```bash
-php artisan data:ekspor
-php artisan rdf:ekspor
-php artisan rdf:kirim --replace
+php artisan rdf:kirim
 ```
+
+`database/rdf/medanvisit-data.ttl` adalah sumber data katalog; edit berkas RDF
+tersebut lalu kirim ulang. Hindari opsi `--replace` kecuali memang ingin
+menghapus seluruh graph Database 3 sebelum mengirim kedua berkas.
 
 Migration RDF boleh dipindahkan ke `database/migrations` saat diperlukan.
 Migration katalog PostgreSQL lama tetap jangan dipindahkan, karena akan membuat

@@ -11,12 +11,6 @@ use Illuminate\Support\Facades\Http;
 
 class AdminController extends Controller
 {
-    private const KECAMATAN_MEDAN = [
-        'Medan Amplas', 'Medan Area', 'Medan Barat', 'Medan Baru', 'Medan Belawan', 'Medan Deli', 'Medan Denai',
-        'Medan Helvetia', 'Medan Johor', 'Medan Kota', 'Medan Labuhan', 'Medan Maimun', 'Medan Marelan', 'Medan Perjuangan',
-        'Medan Petisah', 'Medan Polonia', 'Medan Selayang', 'Medan Sunggal', 'Medan Tembung', 'Medan Timur', 'Medan Tuntungan',
-    ];
-
     private function usulanRelasi(): array
     {
         return Cache::get('medanvisit.usulan_relasi', []);
@@ -119,7 +113,7 @@ class AdminController extends Controller
 
     public function cerita(Request $request)
     {
-        $slug = $request->query('tempat', 'istana-maimun');
+        $slug = $request->query('tempat', array_key_first(Katalog::tempat()) ?? '');
         $t = Katalog::get($slug);
         abort_unless($t && $t['jenis'] === 'tempat', 404);
         $bahasa = $request->query('bahasa', 'id');

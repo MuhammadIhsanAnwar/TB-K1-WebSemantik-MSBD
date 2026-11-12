@@ -1,5 +1,4 @@
-# Data MedanVisit (ABox), dibuat otomatis oleh `php artisan rdf:ekspor` dari database/data/*.json.
-# Jangan diedit langsung: ubah datanya, lalu jalankan ulang data:ekspor dan rdf:ekspor.
+# Data MedanVisit (ABox), menjadi sumber katalog yang dikirim ke Database 3.
 
 @prefix mv: <https://medanvisit.neoverse.my.id/ontologi#> .
 @prefix res: <https://medanvisit.neoverse.my.id/id/> .
@@ -2524,4 +2523,3 @@ res:kesawan-tempo-dulu-singgah-2 a mv:Persinggahan ;
 res:kesawan-tempo-dulu-singgah-3 a mv:Persinggahan ;
     mv:urutan "3"^^xsd:positiveInteger ;
     mv:tempatSinggah res:soto-kesawan .
-

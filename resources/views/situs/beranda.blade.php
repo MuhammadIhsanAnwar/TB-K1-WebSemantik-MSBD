@@ -1,18 +1,25 @@
 @extends('layouts.situs')
-@section('foto-kaki', 'kesawan-arsip.jpg')
 
 @php
     use App\Support\Katalog;
     $semuaTempat = Katalog::tempat();
     $jumlahKecamatan = collect($semuaTempat)->pluck('kecamatan')->unique()->count();
-    $istana = Katalog::get('istana-maimun');
-    $unggulan = ['istana-maimun', 'masjid-raya-al-mashun', 'tjong-a-fie-mansion'];
-    $heroSlide = [
-        ['berkas' => 'istana-maimun.jpg', 'nama' => 'Istana Maimun', 'sub' => 'Medan Maimun, warisan Kesultanan Deli 1888', 'alt' => 'Fasad kuning Istana Maimun dengan halaman hijau di Medan'],
-        ['berkas' => 'masjid-raya.jpg', 'nama' => 'Masjid Raya Al-Mashun', 'sub' => 'Medan Kota, dibangun Sultan Ma’mun Al Rasyid 1906', 'alt' => 'Masjid Raya Al-Mashun dengan kubah segi delapan dan halaman luas'],
-        ['berkas' => 'tjong-a-fie-mansion.jpg', 'nama' => 'Tjong A Fie Mansion', 'sub' => 'Medan Barat, rumah saudagar Kesawan 1900', 'alt' => 'Halaman depan rumah bersejarah Tjong A Fie Mansion di Kesawan'],
-        ['berkas' => 'graha-maria-annai-velangkanni.jpg', 'nama' => 'Graha Maria Annai Velangkanni', 'sub' => 'Medan Tuntungan, arsitektur Indo-Mogul', 'alt' => 'Menara bertingkat Graha Maria Annai Velangkanni di Medan'],
-    ];
+    $heroSlide = collect($semuaTempat)->filter(fn ($t) => ! empty($t['foto']))->take(4)->values();
+    if ($heroSlide->isEmpty()) {
+        $heroSlide = collect($semuaTempat)->take(4)->values();
+    }
+    $heroSlide = $heroSlide->map(fn ($t) => [
+        'slug' => $t['slug'],
+        'berkas' => $t['foto'] ?: 'peta-medan-1930-kota-lama.jpg',
+        'nama' => $t['nama'],
+        'sub' => trim(($t['kecamatan'] ?? '').(! empty($t['ringkas']) ? ' · '.$t['ringkas'] : '')),
+        'alt' => $t['nama'],
+    ])->all();
+    $unggulan = array_column(array_slice($heroSlide, 0, 3), 'slug');
+    $pusatPeta = array_key_first($semuaTempat) ?? '';
+    $fotoPilihan = collect($semuaTempat)->filter(fn ($t) => ! empty($t['foto']))->values();
+    $saranCari = collect($semuaTempat)->take(3);
+    $potretTiket = collect($bertiket)->first() ?? collect($semuaTempat)->first() ?? [];
     $petaJson = collect($petaTempat)->map(fn ($t) => [
         'slug' => $t['slug'],
         'nama' => $t['nama'],
@@ -24,9 +31,9 @@
         'tiket' => ! empty($t['tiket']) ? route('tiket.pilih', $t['slug']) : null,
     ])->values();
     $fmtMenit = fn ($m) => intdiv($m, 60) ? intdiv($m, 60).' jam'.($m % 60 ? ' '.($m % 60).' mnt' : '') : $m.' mnt';
-    // galeri hanya memuat tempat yang sudah punya foto berlisensi; sisanya ada di peta dan pencarian
-    $urutTempat = collect($semuaTempat)->filter(fn ($t) => $t['foto'])->sortBy(fn ($t) => ($pos = array_search($t['slug'], $unggulan, true)) !== false ? $pos : 10)->values();
+    $urutTempat = collect($semuaTempat)->sortBy('nama')->values();
     $jumlahGaleri = $urutTempat->countBy('kategori');
+    $minatRute = array_values(array_unique(array_filter(array_column($semuaTempat, 'kategori'))));
 @endphp
 
 @section('isi')
@@ -57,9 +64,9 @@
                 </form>
                 <div class="mv-hero__saran-cepat">
                     <span>Coba ketik:</span>
-                    <a href="{{ route('cari', ['q' => 'istana maimon']) }}">istana maimon</a>
-                    <a href="{{ route('cari', ['q' => 'tjong a fie']) }}">Tjong A Fie</a>
-                    <a href="{{ route('cari', ['q' => 'soto kesawan']) }}">Soto Kesawan</a>
+                    @foreach ($saranCari as $tempat)
+                        <a href="{{ route('cari', ['q' => $tempat['nama']]) }}">{{ $tempat['nama'] }}</a>
+                    @endforeach
                     <a href="{{ route('tanya') }}">Tanya asisten</a>
                 </div>
             </div>
@@ -79,7 +86,6 @@
                 @foreach ($heroSlide as $idx => $s)
                     <button type="button" class="mv-hero__titik nums" data-hero-ke="{{ $idx }}" aria-label="Foto {{ $s['nama'] }}" aria-current="{{ $idx === 0 ? 'true' : 'false' }}">{{ $idx + 1 }}</button>
                 @endforeach
-                <button type="button" class="mv-hero__titik" data-hero-jeda aria-pressed="false" aria-label="Jeda pergantian foto otomatis" style="width:auto;padding-inline:12px">Jeda</button>
             </div>
         </div>
     </div>
@@ -90,7 +96,7 @@
     <div class="mv-wadah">
         <div class="mv-kepala-seksi">
             <h2 id="judul-tempat">Tempat pilihan</h2>
-            <p>{{ $urutTempat->count() }} tempat berfoto dari {{ count($semuaTempat) }} tujuan di {{ $jumlahKecamatan }} kecamatan Medan. <a class="mv-tautan" href="{{ route('peta') }}">Lihat semua di peta</a></p>
+            <p>{{ count($semuaTempat) }} tempat wisata dari {{ $jumlahKecamatan }} kecamatan Medan. <a class="mv-tautan" href="{{ route('peta') }}">Lihat semua di peta</a></p>
         </div>
 
         <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
@@ -136,7 +142,7 @@
     <div class="mv-wadah">
         <div class="mv-benang__grid">
             <figure class="mv-benang__plat">
-                <x-foto berkas="peta-medan-1930-kota-lama.jpg" alt="Potongan peta Medan 1930: Esplanade di utara hingga Istana Sultan Deli di selatan" />
+                <x-foto berkas="peta-medan-1930-kota-lama.jpg" alt="Peta historis kawasan Medan" />
                 @foreach ($benang as $i => $b)
                     @php
                         $titik = collect($b['langkah'])->flatMap(fn ($l) => [$l['dari'], $l['ke']])->unique()
@@ -157,7 +163,7 @@
                         @endforeach
                     </svg>
                 @endforeach
-                <figcaption>Peta kota lama Medan, 1930</figcaption>
+                <figcaption>Jejaring cerita tempat di Medan</figcaption>
             </figure>
 
             <div class="mv-benang__sisi">
@@ -213,7 +219,7 @@
                 <h2 id="judul-tiket" data-muncul>Tiket masuk tanpa antre</h2>
                 <p style="color:var(--mv-redup)" data-muncul style="--i:1">Pilih tanggal kunjungan dan jumlah pengunjung, bayar dengan QRIS atau virtual account, lalu tunjukkan e-tiket ber-QR di loket masuk.</p>
                 <figure class="mv-menu-tiket__potret" data-muncul style="--i:2">
-                    <x-foto berkas="istana-maimun.jpg" alt="Arsitektur kuning khas Melayu Deli di Istana Maimun" :kecil="true" />
+                    <x-foto :berkas="$potretTiket['foto'] ?? 'peta-medan-1930-kota-lama.jpg'" :alt="$potretTiket['nama'] ?? 'Peta wisata Medan'" :kecil="true" />
                 </figure>
             </div>
 
@@ -293,7 +299,7 @@
                 <b style="font-family:var(--font-display);font-size:1.375rem;color:var(--mv-kuning)">Ingin urutan singgah sesuai waktumu sendiri?</b>
                 <p style="margin-top:4px">Perencana Rute menyusun jadwal jalan kaki atau becak motor dari minat dan durasi kunjunganmu, lengkap dengan estimasi biaya.</p>
             </div>
-            <a class="mv-btn mv-btn--utama" href="{{ route('rencana', ['minat' => ['sejarah', 'religi', 'kuliner'], 'durasi' => 4, 'moda' => ['jalan', 'becak'], 'mulai' => 'istana-maimun']) }}">Susun rute sendiri</a>
+            <a class="mv-btn mv-btn--utama" href="{{ route('rencana', ['minat' => $minatRute, 'durasi' => 4, 'moda' => ['jalan', 'becak'], 'mulai' => $pusatPeta]) }}">Susun rute sendiri</a>
         </div>
     </div>
 </section>
@@ -305,7 +311,7 @@
             <div class="mv-paspor-peta">
                 <h2 id="judul-peta-paspor">Peta kota</h2>
                 <p style="color:var(--mv-redup)">Lihat sebaran ke-{{ count($semuaTempat) }} titik wisata di atas peta Kota Medan.</p>
-                <div class="mv-paspor-peta__kanvas" data-peta data-peta-mode="ringkas" data-pusat="istana-maimun" data-tempat="{{ json_encode($petaJson) }}">
+                <div class="mv-paspor-peta__kanvas" data-peta data-peta-mode="ringkas" data-pusat="{{ $pusatPeta }}" data-tempat="{{ json_encode($petaJson) }}">
                     <p class="peta-diam" style="padding:20px">Peta interaktif tempat wisata Medan dimuat di sini.</p>
                 </div>
                 <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
@@ -362,8 +368,8 @@
             </div>
 
             <div class="mv-faq-kanan">
-                <x-foto berkas="becak-medan.jpg" alt="Deretan becak motor khas Medan di tepi jalan kota" class="mv-faq-kanan__tinggi" />
-                <x-foto berkas="bika-ambon.jpg" alt="Potongan kue bika ambon bersarang khas Medan" class="mv-faq-kanan__kecil" />
+                <x-foto :berkas="$fotoPilihan->get(0)['foto'] ?? 'peta-medan-1930-kota-lama.jpg'" :alt="$fotoPilihan->get(0)['nama'] ?? 'Peta wisata Medan'" class="mv-faq-kanan__tinggi" />
+                <x-foto :berkas="$fotoPilihan->get(1)['foto'] ?? ($fotoPilihan->get(0)['foto'] ?? 'peta-medan-1930-kota-lama.jpg')" :alt="$fotoPilihan->get(1)['nama'] ?? ($fotoPilihan->get(0)['nama'] ?? 'Peta wisata Medan')" class="mv-faq-kanan__kecil" />
             </div>
         </div>
     </div>

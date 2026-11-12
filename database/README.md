@@ -15,7 +15,6 @@ lalu jalankan `rdf:kirim` ke Database 3.
 
 | Folder / file | Isi |
 |---|---|
-| `data/*.json` | 9 file sumber: kategori, kecamatan, tempat, tiket, entitas, predikat, relasi, jalur, jalur_singgah |
 | `migrations-semantic/2026_11_06_000100_buat_tabel_katalog.php` | arsip migration katalog PostgreSQL, tidak aktif |
 | `migrations-semantic/2026_11_06_000200_buat_objek_katalog.php` | arsip objek katalog PostgreSQL, tidak aktif |
 | `migrations/2026_11_06_000300_buat_tabel_transaksi.php` | tabel DB 2, aktif |
@@ -26,7 +25,7 @@ lalu jalankan `rdf:kirim` ke Database 3.
 | `seeders/` | tidak digunakan; data wisata dimuat ke Database 3 dan transaksi dibuat melalui alur aplikasi |
 | `sql/00_role.sql`, `sql/01_medanvisit_katalog.sql`, `sql/02_medanvisit_transaksi.sql` | dump kedua database (struktur + data, perintah `INSERT` biasa). Bisa dijalankan di psql, DBeaver, atau SQL Editor Supabase tanpa Laravel; jalankan `00_role.sql` dulu |
 | `rdf/medanvisit-ontologi.ttl` (`.owl`) | ontologi (TBox): kelas dan properti, RDFS/OWL 2 |
-| `rdf/medanvisit-data.ttl` (`.jsonld`) | data (ABox), dibuat `rdf:ekspor` |
+| `rdf/medanvisit-data.ttl` | sumber data wisata (ABox), dikirim langsung ke Database 3 |
 | `rdf/fuseki-medanvisit.ttl` | konfigurasi Fuseki: dataset `medanvisit`, hanya baca, reasoner OWL Micro |
 | `rdf/query/*.rq` | 11 contoh query SPARQL (SELECT, property path, reifikasi, ASK, CONSTRUCT) |
 
@@ -58,9 +57,7 @@ setelah memastikan database yang dituju memang aman untuk dihapus.
 
 ```bash
 php artisan migrate      # akun/Laravel di DB 1 dan transaksi di DB 2
-php artisan data:ekspor
-php artisan rdf:ekspor
-php artisan rdf:kirim --replace
+php artisan rdf:kirim    # kirim berkas RDF sumber ke Database 3
 ```
 
 ### Migration Supabase dari server hosting

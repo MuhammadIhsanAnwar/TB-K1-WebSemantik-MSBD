@@ -1,8 +1,5 @@
 @extends('layouts.situs')
-@php
-    use App\Support\Katalog;
-    $contohTempat = collect(['istana-maimun', 'masjid-raya-al-mashun', 'soto-kesawan'])->map(fn ($s) => Katalog::get($s))->filter();
-@endphp
+@php use App\Support\Katalog; @endphp
 @section('judul', 'Tanya Medan')
 @section('tanpa-kaki', '1')
 
@@ -17,11 +14,16 @@
         <div>
             <b style="display:block;color:var(--mv-hijau);margin-bottom:8px">Pertanyaan populer</b>
             <div class="mv-tanya-topik" data-saran-samping>
-                <button type="button">Berapa harga tiket Istana Maimun?</button>
-                <button type="button">Kuliner khas Melayu Deli</button>
-                <button type="button">Rute setengah hari di Medan lama</button>
-                <button type="button">Rumah ibadah yang bisa dikunjungi</button>
-                <button type="button">Makan dekat Tjong A Fie Mansion</button>
+                @if ($contohTiket)
+                    <button type="button">Berapa harga tiket {{ $contohTiket['nama'] }}?</button>
+                @endif
+                @if ($contohKuliner)
+                    <button type="button">Info kuliner {{ $contohKuliner['nama'] }}</button>
+                @endif
+                @if ($contohTempat)
+                    <button type="button">Rute setengah hari dari {{ $contohTempat[0]['nama'] }}</button>
+                    <button type="button">Tempat wisata dekat {{ $contohTempat[0]['nama'] }}</button>
+                @endif
             </div>
         </div>
 
@@ -42,10 +44,18 @@
             @unless ($awal)
                 <div data-saran style="display:grid;gap:18px">
                     <div class="tanya__saran">
-                        <button type="button">Kuliner khas Melayu Deli</button>
-                        <button type="button">Rute setengah hari di Medan lama</button>
-                        <button type="button">Berapa harga tiket Istana Maimun?</button>
-                        <button type="button">Makan dekat Tjong A Fie Mansion</button>
+                        @if ($contohKuliner)
+                            <button type="button">Info kuliner {{ $contohKuliner['nama'] }}</button>
+                        @endif
+                        @if ($contohTempat)
+                            <button type="button">Rute setengah hari dari {{ $contohTempat[0]['nama'] }}</button>
+                        @endif
+                        @if ($contohTiket)
+                            <button type="button">Berapa harga tiket {{ $contohTiket['nama'] }}?</button>
+                        @endif
+                        @if ($contohTempat)
+                            <button type="button">Tempat wisata dekat {{ $contohTempat[0]['nama'] }}</button>
+                        @endif
                     </div>
                     <div class="mv-tanya-awal-grid">
                         @foreach ($contohTempat as $ct)
