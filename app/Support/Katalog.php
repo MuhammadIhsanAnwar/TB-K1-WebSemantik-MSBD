@@ -82,6 +82,12 @@ class Katalog
     private static ?array $relations = null;
     private static ?array $routes = null;
 
+    public static function forgetCache(): void
+    {
+        self::$entities = self::$relations = self::$routes = null;
+        Database3Catalog::forgetCache();
+    }
+
     public static function entitas(): array
     {
         return self::$entities ??= Database3Catalog::entities();

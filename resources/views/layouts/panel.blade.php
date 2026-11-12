@@ -13,6 +13,7 @@
         'voucher' => '<path d="M3 7h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4z"/><path d="M9 7v12" stroke-dasharray="2 2"/>',
         'tukar' => '<path d="M4 7h13l-3-3M20 17H7l3 3"/>',
         'statistik' => '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+        'akun' => '<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2zM17 8h4M19 6v4"/>',
         'situs' => '<path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/>',
     ];
     $svg = fn ($k) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'.$ikon[$k].'</svg>';
@@ -22,13 +23,20 @@
         ['admin.cerita', 'Cerita dan audio', 'cerita', null], ['admin.ulasan', 'Ulasan menunggu', 'ulasan', $antre ?: null],
         ['admin.tiket', 'Tiket dan transaksi', 'tiket', null], ['admin.sinkronisasi', 'Sinkronisasi', 'sinkron', null],
     ];
+    if ($u['peran'] === 'superadmin') {
+        $menuKurator = array_merge($menuKurator, [
+            ['admin.tempat.daftar', 'Kelola tempat wisata', 'entitas', null],
+            ['admin.akun', 'Kelola akun', 'akun', null],
+            ['admin.insight', 'Insight', 'statistik', null],
+        ]);
+    }
 @endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('judul') | MedanVisit {{ $u['peran'] === 'admin' ? 'Admin' : 'Superadmin' }}</title>
+    <title>@yield('judul') | MedanVisit {{ $u['peran'] === 'admin' ? 'Admin' : 'Super Admin' }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <script>document.documentElement.classList.add('js')</script>
@@ -44,7 +52,7 @@
                 <button class="ps__menu" type="button" data-tutup-samping style="margin-left:auto">Tutup</button>
             </div>
             <div class="ps__lingkup">
-                <span>Ruang {{ $u['peran'] === 'admin' ? 'admin' : 'superadmin' }}</span>
+                <span>Ruang {{ $u['peran'] === 'admin' ? 'admin' : 'Super Admin' }}</span>
                 <b>Kota Medan, 21 kecamatan</b>
             </div>
             <div class="ps__nav">

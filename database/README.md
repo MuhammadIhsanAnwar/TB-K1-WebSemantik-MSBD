@@ -55,6 +55,11 @@ memakai koneksi `transaksi` dan tidak menyimpan data wisata.
 Untuk mengulang tahap awal pada database pengembangan, gunakan `php artisan migrate:fresh`
 setelah memastikan database yang dituju memang aman untuk dihapus.
 
+Super Admin mengelola akun melalui Database 1 dan mengubah tempat wisata langsung
+ke Database 3 melalui SPARQL Update. Insight kunjungan halaman dicatat sebagai
+agregat harian di cache aplikasi (tanpa menyimpan alamat IP); insight transaksi
+mengikuti data pesanan yang tersedia di penyimpanan aplikasi.
+
 ```bash
 php artisan migrate      # akun/Laravel di DB 1 dan transaksi di DB 2
 php artisan rdf:kirim    # kirim berkas RDF sumber ke Database 3

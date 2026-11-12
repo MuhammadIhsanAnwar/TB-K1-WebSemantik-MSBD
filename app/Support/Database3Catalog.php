@@ -36,6 +36,12 @@ final class Database3Catalog
     private static ?array $relations = null;
     private static ?array $routes = null;
 
+    public static function forgetCache(): void
+    {
+        self::$triples = self::$entities = self::$relations = self::$routes = null;
+        Cache::forget('database3.catalog.triples.v4');
+    }
+
     public static function entities(): array
     {
         if (self::$entities !== null) {
@@ -296,7 +302,9 @@ final class Database3Catalog
     {
         $address = self::first($properties, 'schema:address', '');
 
-        return is_string($address) ? (string) self::first($bySubject[$address] ?? [], 'schema:streetAddress', '') : '';
+        return is_string($address)
+            ? (string) self::first($bySubject[$address] ?? [], 'schema:streetAddress', $address)
+            : '';
     }
 
     private static function offers(array $properties, array $bySubject): array

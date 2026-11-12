@@ -5,6 +5,12 @@
 @section('isi')
 <div class="p-judul">
     <div><h1>Entitas</h1><p class="sub">Tempat, tokoh, peristiwa, budaya, dan kuliner yang menjadi simpul graf.</p></div>
+    @if (session('pengguna.peran') === 'superadmin')
+        <div class="p-judul__aksi">
+            <a class="p-btn" href="{{ route('admin.tempat.daftar') }}">Kelola tempat</a>
+            <a class="p-btn p-btn--utama" href="{{ route('admin.tempat.baru') }}">Tambah tempat wisata</a>
+        </div>
+    @endif
 </div>
 <nav class="p-tabs" aria-label="Jenis entitas">
     <a href="{{ route('admin.entitas', ['q' => $q]) }}" @if (! $jenis) aria-current="true" @endif>Semua<span class="n">{{ array_sum($perJenis) }}</span></a>

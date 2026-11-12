@@ -30,6 +30,26 @@ class SparqlService
         return config('services.sparql.endpoint') ?: null;
     }
 
+    public static function perbarui(string $update): void
+    {
+        $endpoint = self::endpoint();
+        if ($endpoint === null) {
+            throw new \RuntimeException('SPARQL_ENDPOINT belum dikonfigurasi.');
+        }
+
+        $http = Http::timeout((int) config('services.sparql.timeout', 30));
+        $username = config('services.sparql.username');
+        $password = config('services.sparql.password');
+        if ($username !== null && $password !== null) {
+            $http = $http->withBasicAuth($username, $password);
+        }
+
+        $response = $http->asForm()->post($endpoint, ['update' => $update]);
+        if (! $response->successful()) {
+            throw new \RuntimeException('Database 3 menolak perubahan RDF (HTTP '.$response->status().').');
+        }
+    }
+
     private static function singkat(string $iri): string
     {
         foreach (self::PREFIX as $ns => $p) {

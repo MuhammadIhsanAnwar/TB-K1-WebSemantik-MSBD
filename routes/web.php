@@ -7,7 +7,7 @@ use App\Http\Controllers\TiketController;
 use Illuminate\Support\Facades\Route;
 
 // ---------- publik ----------
-Route::controller(SitusController::class)->group(function () {
+Route::controller(SitusController::class)->middleware('kunjungan')->group(function () {
     Route::get('/', 'beranda')->name('beranda');
     Route::get('/cari', 'cari')->name('cari');
     Route::get('/cari/saran.json', 'saran')->name('cari.saran');
@@ -26,7 +26,7 @@ Route::controller(SitusController::class)->group(function () {
 });
 
 // ---------- akun ----------
-Route::controller(AkunController::class)->group(function () {
+Route::controller(AkunController::class)->middleware('kunjungan')->group(function () {
     Route::get('/masuk', 'masuk')->name('masuk');
     Route::post('/masuk', 'prosesMasuk');
     Route::get('/masuk/google', 'google')->name('masuk.google');
@@ -42,7 +42,7 @@ Route::controller(AkunController::class)->group(function () {
     Route::post('/verifikasi-email/kirim-ulang', 'kirimUlangVerifikasi')->name('verifikasi.kirim');
     Route::post('/keluar', 'keluar')->name('keluar');
 
-    Route::middleware('peran')->group(function () {
+    Route::middleware(['peran', 'kunjungan'])->group(function () {
         Route::get('/akun', 'akun')->name('akun');
         Route::get('/akun/pengaturan', 'pengaturan')->name('akun.pengaturan');
         Route::post('/akun/pengaturan', 'simpanPengaturan');
@@ -54,7 +54,7 @@ Route::controller(AkunController::class)->group(function () {
 });
 
 // ---------- tiket ----------
-Route::controller(TiketController::class)->middleware('peran')->group(function () {
+Route::controller(TiketController::class)->middleware(['peran', 'kunjungan'])->group(function () {
     Route::get('/tempat/{slug}/tiket', 'pilih')->name('tiket.pilih');
     Route::post('/tempat/{slug}/tiket', 'simpanPilihan');
     Route::get('/checkout', 'checkout')->name('checkout');
@@ -81,4 +81,16 @@ Route::controller(AdminController::class)->middleware('peran:admin,superadmin')-
     Route::get('/tiket', 'tiket')->name('tiket');
     Route::post('/tiket/validasi', 'validasi')->name('tiket.validasi');
     Route::get('/sinkronisasi', 'sinkronisasi')->name('sinkronisasi');
+});
+
+Route::controller(AdminController::class)->middleware('peran:superadmin')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/insight', 'insight')->name('insight');
+    Route::get('/akun', 'akunAdmin')->name('akun');
+    Route::post('/akun', 'buatAkun')->name('akun.buat');
+    Route::patch('/akun/{id}', 'ubahAkun')->name('akun.ubah');
+    Route::delete('/akun/{id}', 'hapusAkun')->name('akun.hapus');
+    Route::get('/tempat', 'entitas')->defaults('jenis', 'tempat')->name('tempat.daftar');
+    Route::get('/tempat/baru', 'buatTempat')->name('tempat.baru');
+    Route::post('/tempat', 'simpanTempat')->name('tempat.simpan');
+    Route::delete('/tempat/{slug}', 'hapusTempat')->name('tempat.hapus');
 });

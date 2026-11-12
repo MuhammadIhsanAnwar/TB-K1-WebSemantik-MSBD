@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Support\Katalog;
+use App\Support\Database3CatalogWriter;
+use App\Support\Kunjungan;
 use App\Support\Penyimpanan;
 use App\Support\SupabaseApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
@@ -39,9 +44,125 @@ class AdminController extends Controller
         ]);
     }
 
+    public function insight(Request $request)
+    {
+        $periode = (int) $request->query('periode', 30);
+        $periode = in_array($periode, [7, 30, 90], true) ? $periode : 30;
+        $kunjungan = Kunjungan::ringkasan($periode);
+        $sejak = now('Asia/Jakarta')->subDays($periode)->toIso8601String();
+        $pesanan = collect(Penyimpanan::pesanan())->filter(
+            fn ($pesanan) => ($pesanan['waktu'] ?? '') >= $sejak
+        );
+        $transaksi = $pesanan->groupBy('tempat')->map(fn ($baris) => [
+            'pesanan' => $baris->count(),
+            'lunas' => $baris->where('status', 'lunas')->count(),
+            'tiket' => $baris->where('status', 'lunas')->sum(fn ($pesanan) => array_sum(array_column($pesanan['item'], 'jumlah'))),
+            'pendapatan' => $baris->where('status', 'lunas')->sum('total'),
+        ])->sortByDesc('pendapatan');
+        $akun = (new SupabaseApi)->users();
+
+        return view('admin.insight', [
+            'periode' => $periode,
+            'kunjungan' => $kunjungan,
+            'akun' => collect($akun)->countBy('peran')->all(),
+            'tempatPopuler' => collect($kunjungan['tempat'])->take(10),
+            'transaksi' => $transaksi,
+            'pesanan' => $pesanan,
+        ]);
+    }
+
+    public function akunAdmin(Request $request)
+    {
+        $q = mb_strtolower(trim((string) $request->query('q', '')));
+        $peran = $request->query('peran');
+        abort_if($peran && ! in_array($peran, ['admin', 'wisatawan'], true), 404);
+        $semuaAkun = (new SupabaseApi)->users();
+        $akun = collect($semuaAkun)
+            ->filter(fn ($user) => in_array($user['peran'], ['admin', 'wisatawan'], true))
+            ->when($peran, fn ($rows) => $rows->where('peran', $peran))
+            ->when($q !== '', fn ($rows) => $rows->filter(fn ($user) =>
+                str_contains(mb_strtolower($user['name']), $q)
+                || str_contains(mb_strtolower($user['email']), $q)
+            ))
+            ->values();
+
+        return view('admin.akun', [
+            'akun' => $akun,
+            'q' => $q,
+            'peran' => $peran,
+            'jumlah' => collect($semuaAkun)->countBy('peran')->all(),
+        ]);
+    }
+
+    public function buatAkun(Request $request)
+    {
+        $data = $request->validate([
+            'nama' => ['required', 'string', 'max:60'],
+            'email' => ['required', 'email:rfc', 'max:120'],
+            'peran' => ['required', 'in:admin,wisatawan'],
+            'password' => ['required', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/'],
+        ], ['password.regex' => 'Password minimal 8 karakter dan harus memiliki huruf kecil, huruf kapital, angka, dan simbol.']);
+        $api = new SupabaseApi;
+        if ($api->findUserByEmail($data['email'])) {
+            throw ValidationException::withMessages(['email' => 'Email sudah digunakan.']);
+        }
+        $waktu = now('Asia/Jakarta')->toDateTimeString();
+        $api->createUser([
+            'name' => $data['nama'],
+            'email' => strtolower($data['email']),
+            'peran' => $data['peran'],
+            'password' => Hash::make($data['password']),
+            'email_verified_at' => $waktu,
+            'created_at' => $waktu,
+            'updated_at' => $waktu,
+        ]);
+
+        return redirect()->route('admin.akun')->with('pesan', 'Akun '.$data['peran'].' berhasil dibuat.');
+    }
+
+    public function ubahAkun(Request $request, string $id)
+    {
+        $api = new SupabaseApi;
+        $user = collect($api->users())->first(fn ($user) => (string) $user['id'] === $id);
+        abort_unless($user && in_array($user['peran'], ['admin', 'wisatawan'], true), 404);
+        $data = $request->validate([
+            'nama' => ['required', 'string', 'max:60'],
+            'email' => ['required', 'email:rfc', 'max:120'],
+            'peran' => ['required', 'in:admin,wisatawan'],
+            'password' => ['nullable', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/'],
+        ], ['password.regex' => 'Password minimal 8 karakter dan harus memiliki huruf kecil, huruf kapital, angka, dan simbol.']);
+        $emailLama = $api->findUserByEmail($data['email']);
+        if ($emailLama && (string) $emailLama['id'] !== $id) {
+            throw ValidationException::withMessages(['email' => 'Email sudah digunakan akun lain.']);
+        }
+
+        $atribut = [
+            'name' => $data['nama'],
+            'email' => strtolower($data['email']),
+            'peran' => $data['peran'],
+            'updated_at' => now('Asia/Jakarta')->toDateTimeString(),
+        ];
+        if ($data['password'] !== null && $data['password'] !== '') {
+            $atribut['password'] = Hash::make($data['password']);
+        }
+        $api->updateUser($id, $atribut);
+
+        return redirect()->route('admin.akun')->with('pesan', 'Akun berhasil diperbarui.');
+    }
+
+    public function hapusAkun(Request $request, string $id)
+    {
+        abort_if((string) $request->session()->get('pengguna.id') === $id, 422, 'Akun yang sedang digunakan tidak dapat dihapus.');
+        $user = collect((new SupabaseApi)->users())->first(fn ($user) => (string) $user['id'] === $id);
+        abort_unless($user && in_array($user['peran'], ['admin', 'wisatawan'], true), 404);
+        (new SupabaseApi)->deleteUser($id);
+
+        return redirect()->route('admin.akun')->with('pesan', 'Akun '.$user['email'].' berhasil dihapus.');
+    }
+
     public function entitas(Request $request)
     {
-        $jenis = $request->query('jenis');
+        $jenis = $request->query('jenis', $request->route('jenis'));
         $q = mb_strtolower((string) $request->query('q', ''));
         $data = collect(Katalog::entitas())->reject(fn ($e) => $e['jenis'] === 'wilayah')
             ->filter(fn ($e) => (! $jenis || $e['jenis'] === $jenis) && ($q === '' || str_contains(mb_strtolower($e['nama']), $q)))
@@ -60,29 +181,107 @@ class AdminController extends Controller
     {
         $e = Katalog::get($slug);
         abort_unless($e && $e['jenis'] !== 'wilayah', 404);
+        $kecamatan = Katalog::jenis('wilayah');
+        $kecamatanTerpilih = collect($kecamatan)->first(fn ($wilayah) => $wilayah['nama'] === ($e['kecamatan'] ?? null))['slug'] ?? '';
 
-        return view('admin.entitas-ubah', ['e' => $e, 'tetangga' => Katalog::tetangga($slug, false)]);
+        return view('admin.entitas-ubah', [
+            'e' => $e,
+            'tetangga' => Katalog::tetangga($slug, false),
+            'kecamatan' => $kecamatan,
+            'kecamatanTerpilih' => $kecamatanTerpilih,
+        ]);
     }
 
     public function simpanEntitas(Request $request, string $slug)
     {
         $e = Katalog::get($slug);
         abort_unless($e, 404);
-        $aturan = ['nama' => ['required', 'string', 'max:120'], 'ringkas' => ['required', 'string', 'max:240'], 'status' => ['required', 'in:terbit,draf']];
+        $aturan = ['nama' => ['required', 'string', 'max:120'], 'ringkas' => ['required', 'string', 'max:240']];
         if ($e['jenis'] === 'tempat') {
             $aturan += [
                 'lat' => ['required', 'numeric', 'between:3.4,3.8'], 'lng' => ['required', 'numeric', 'between:98.5,98.8'],
                 'alamat' => ['required', 'string', 'max:160'], 'jam' => ['required', 'string', 'max:80'],
-                'harga' => ['array'], 'harga.*' => ['nullable', 'integer', 'min:0'],
+                'sumber' => ['required', 'string', 'min:3', 'max:240'],
+                'kategori' => ['required', 'in:'.implode(',', array_keys(Katalog::KATEGORI))],
+                'kecamatan' => ['nullable', 'string', 'max:100'],
+                'foto' => ['nullable', 'string', 'max:160', 'regex:/^[A-Za-z0-9][A-Za-z0-9._-]*$/'],
+                'harga' => ['nullable', 'array'], 'harga.*' => ['nullable', 'integer', 'min:0'],
             ];
+        } else {
+            $aturan['status'] = ['required', 'in:terbit,draf'];
         }
         $data = $request->validate($aturan, [
             'lat.between' => 'Lintang harus di wilayah Kota Medan (3,4 sampai 3,8).',
             'lng.between' => 'Bujur harus di wilayah Kota Medan (98,5 sampai 98,8).',
         ]);
+        if ($e['jenis'] === 'tempat') {
+            if (! empty($data['kecamatan'])) {
+                $wilayah = Katalog::get($data['kecamatan']);
+                if (! $wilayah || $wilayah['jenis'] !== 'wilayah') {
+                    throw ValidationException::withMessages(['kecamatan' => 'Kecamatan tidak ditemukan di Database 3.']);
+                }
+            }
+            $data['foto'] = (string) ($data['foto'] ?? '');
+            $data['kecamatan'] = (string) ($data['kecamatan'] ?? '');
+            Database3CatalogWriter::update($slug, $data, $data['harga'] ?? []);
+
+            return back()->with('pesan', 'Perubahan '.$data['nama'].' berhasil disimpan ke Database 3.');
+        }
+
         Cache::forever('medanvisit.draf_entitas.'.$slug, $data + ['waktu' => now('Asia/Jakarta')->toIso8601String()]);
 
-        return back()->with('pesan', 'Perubahan '.$data['nama'].' tersimpan sebagai draf. Draf akan ditulis ke PostgreSQL setelah database tersambung.');
+        return back()->with('pesan', 'Perubahan '.$data['nama'].' tersimpan sebagai draf.');
+    }
+
+    public function buatTempat()
+    {
+        return view('admin.tempat-baru', ['kecamatan' => Katalog::jenis('wilayah')]);
+    }
+
+    public function simpanTempat(Request $request)
+    {
+        $data = $request->validate([
+            'nama' => ['required', 'string', 'max:120'],
+            'ringkas' => ['required', 'string', 'max:240'],
+            'kategori' => ['required', 'in:'.implode(',', array_keys(Katalog::KATEGORI))],
+            'kecamatan' => ['nullable', 'string', 'max:100'],
+            'lat' => ['required', 'numeric', 'between:3.4,3.8'],
+            'lng' => ['required', 'numeric', 'between:98.5,98.8'],
+            'alamat' => ['required', 'string', 'max:160'],
+            'jam' => ['required', 'string', 'max:80'],
+            'sumber' => ['required', 'string', 'min:3', 'max:240'],
+            'foto' => ['nullable', 'string', 'max:160', 'regex:/^[A-Za-z0-9][A-Za-z0-9._-]*$/'],
+            'harga' => ['nullable', 'integer', 'min:0'],
+        ], [
+            'lat.between' => 'Lintang harus di wilayah Kota Medan (3,4 sampai 3,8).',
+            'lng.between' => 'Bujur harus di wilayah Kota Medan (98,5 sampai 98,8).',
+        ]);
+        if (! empty($data['kecamatan'])) {
+            $wilayah = Katalog::get($data['kecamatan']);
+            if (! $wilayah || $wilayah['jenis'] !== 'wilayah') {
+                throw ValidationException::withMessages(['kecamatan' => 'Kecamatan tidak ditemukan di Database 3.']);
+            }
+        }
+
+        $slug = Str::slug($data['nama']);
+        if ($slug === '' || Katalog::get($slug)) {
+            throw ValidationException::withMessages(['nama' => 'Nama tempat sudah digunakan atau tidak dapat dijadikan alamat.']);
+        }
+        $harga = isset($data['harga']) && $data['harga'] !== '' ? ['Reguler' => (int) $data['harga']] : [];
+        $data['foto'] = (string) ($data['foto'] ?? '');
+        $data['kecamatan'] = (string) ($data['kecamatan'] ?? '');
+        Database3CatalogWriter::create($slug, $data, $harga);
+
+        return redirect()->route('admin.entitas.ubah', $slug)->with('pesan', 'Tempat wisata berhasil dibuat di Database 3.');
+    }
+
+    public function hapusTempat(string $slug)
+    {
+        $tempat = Katalog::get($slug);
+        abort_unless($tempat && $tempat['jenis'] === 'tempat', 404);
+        Database3CatalogWriter::delete($slug);
+
+        return redirect()->route('admin.entitas', ['jenis' => 'tempat'])->with('pesan', 'Tempat wisata '.$tempat['nama'].' berhasil dihapus dari Database 3.');
     }
 
     public function relasi(Request $request)

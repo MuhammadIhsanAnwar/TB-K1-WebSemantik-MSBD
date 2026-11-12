@@ -15,6 +15,29 @@ class SupabaseApi
         return $this->getRows('users', ['email' => 'eq.'.strtolower($email)])[0] ?? null;
     }
 
+    public function users(): array
+    {
+        $users = [];
+        $offset = 0;
+        $limit = 500;
+
+        do {
+            $batch = $this->request()
+                ->get($this->url('users'), [
+                    'select' => 'id,name,email,peran,tanggal_lahir,no_hp,email_verified_at,created_at',
+                    'order' => 'id.desc',
+                    'limit' => $limit,
+                    'offset' => $offset,
+                ])
+                ->throw()
+                ->json();
+            array_push($users, ...$batch);
+            $offset += count($batch);
+        } while (count($batch) === $limit);
+
+        return $users;
+    }
+
     public function ping(string $table): void
     {
         $this->request()
@@ -42,6 +65,22 @@ class SupabaseApi
             ->json();
 
         return $rows[0] ?? throw new RuntimeException('Supabase tidak menemukan akun untuk diperbarui.');
+    }
+
+    public function deleteUser(int|string $id): void
+    {
+        $config = config('services.supabase.'.$this->database);
+        abort_unless($config['url'] && $config['secret_key'], 503, 'Konfigurasi Supabase belum lengkap.');
+
+        $response = Http::acceptJson()
+            ->withToken($config['secret_key'])
+            ->withHeaders(['apikey' => $config['secret_key'], 'Prefer' => 'return=representation'])
+            ->timeout(15)
+            ->delete($this->url('users').'?'.http_build_query(['id' => 'eq.'.$id]))
+            ->throw();
+        if (! $response->json()) {
+            throw new RuntimeException('Supabase tidak menemukan akun untuk dihapus.');
+        }
     }
 
     public function createVerificationToken(array $token): array
