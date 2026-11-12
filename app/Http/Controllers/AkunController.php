@@ -154,6 +154,7 @@ class AkunController extends Controller
             'nama' => $user['name'],
             'peran' => $user['peran'],
             'foto_profil' => $user['foto_profil'] ?? null,
+            'tempat_slug' => $user['tempat_slug'] ?? null,
         ]);
     }
 

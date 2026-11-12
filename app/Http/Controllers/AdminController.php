@@ -160,6 +160,26 @@ class AdminController extends Controller
         return redirect()->route('admin.akun')->with('pesan', 'Akun '.$user['email'].' berhasil dihapus.');
     }
 
+    /**
+     * Slug tempat yang boleh dikelola akun ini. null = tidak dibatasi
+     * (superadmin, dan admin lama yang belum ditautkan ke tempat).
+     */
+    private function slugKelolaan(Request $request): ?string
+    {
+        $pengguna = $request->session()->get('pengguna', []);
+        if (($pengguna['peran'] ?? null) !== 'admin') {
+            return null;
+        }
+
+        return $pengguna['tempat_slug'] ?? null;
+    }
+
+    private function pastikanBolehKelola(Request $request, string $slug): void
+    {
+        $milik = $this->slugKelolaan($request);
+        abort_if($milik !== null && $milik !== $slug, 403, 'Akun ini hanya boleh mengelola tempatnya sendiri.');
+    }
+
     public function entitas(Request $request)
     {
         $jenis = $request->query('jenis', $request->route('jenis'));
@@ -167,6 +187,10 @@ class AdminController extends Controller
         $data = collect(Katalog::entitas())->reject(fn ($e) => $e['jenis'] === 'wilayah')
             ->filter(fn ($e) => (! $jenis || $e['jenis'] === $jenis) && ($q === '' || str_contains(mb_strtolower($e['nama']), $q)))
             ->sortBy('nama');
+
+        if ($milik = $this->slugKelolaan($request)) {
+            $data = $data->filter(fn ($e) => $e['slug'] === $milik);
+        }
 
         return view('admin.entitas', [
             'data' => $data,
@@ -177,8 +201,9 @@ class AdminController extends Controller
         ]);
     }
 
-    public function ubahEntitas(string $slug)
+    public function ubahEntitas(Request $request, string $slug)
     {
+        $this->pastikanBolehKelola($request, $slug);
         $e = Katalog::get($slug);
         abort_unless($e && $e['jenis'] !== 'wilayah', 404);
         $kecamatan = Katalog::jenis('wilayah');
@@ -194,6 +219,7 @@ class AdminController extends Controller
 
     public function simpanEntitas(Request $request, string $slug)
     {
+        $this->pastikanBolehKelola($request, $slug);
         $e = Katalog::get($slug);
         abort_unless($e, 404);
         $aturan = ['nama' => ['required', 'string', 'max:120'], 'ringkas' => ['required', 'string', 'max:240']];
