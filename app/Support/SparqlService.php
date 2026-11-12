@@ -22,6 +22,7 @@ class SparqlService
         'http://www.w3.org/1999/02/22-rdf-syntax-ns#' => 'rdf:',
         'http://www.w3.org/2000/01/rdf-schema#' => 'rdfs:',
         'http://www.w3.org/2002/07/owl#' => 'owl:',
+        'http://www.w3.org/2003/01/geo/wgs84_pos#' => 'geo:',
         'http://purl.org/dc/terms/' => 'dcterms:',
     ];
 
