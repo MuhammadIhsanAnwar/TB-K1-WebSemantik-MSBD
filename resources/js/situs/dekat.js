@@ -51,3 +51,4 @@ function tampilkan(pos) {
     blok.removeAttribute('aria-busy');
 }
 
+function minta() {
