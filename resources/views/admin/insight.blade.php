@@ -22,6 +22,7 @@
             Kunjungan adalah tayangan halaman, bukan pengunjung unik. Riwayat kunjungan disimpan dalam cache aplikasi.
             @if ($fokus && ! $admin)<a class="p-tautan-kartu" href="{{ route('admin.insight', ['periode' => $periode]) }}">Kembali ke semua tempat</a>@endif
         </p>
+    </div>
     <nav class="p-seg" aria-label="Periode insight">
         @foreach ([7, 30, 90] as $pilihan)<a href="{{ route('admin.insight', ['periode' => $pilihan]) }}" @if ($periode === $pilihan) aria-current="true" @endif>{{ $pilihan }} hari</a>@endforeach
     </nav>
