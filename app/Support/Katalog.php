@@ -463,6 +463,7 @@ class Katalog
             unset($pool[$slugCalon]);
             $perpindahan = self::perpindahanDenganRute($kini, $calon, $moda);
             $durasiSinggah = (int) ($calon['singgah'] ?? 45);
+            // rute jalan sungguhan bisa lebih lama dari perkiraan garis lurus: periksa ulang
     }
 
     if ($durasiJam <= 0) {
