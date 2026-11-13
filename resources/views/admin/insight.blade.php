@@ -17,6 +17,7 @@
 @section('isi')
 <div class="p-judul">
     <div>
+        <h1>{{ $namaFokus ? 'Insight '.$namaFokus : 'Insight' }}</h1>
     <nav class="p-seg" aria-label="Periode insight">
         @foreach ([7, 30, 90] as $pilihan)<a href="{{ route('admin.insight', ['periode' => $pilihan]) }}" @if ($periode === $pilihan) aria-current="true" @endif>{{ $pilihan }} hari</a>@endforeach
     </nav>
