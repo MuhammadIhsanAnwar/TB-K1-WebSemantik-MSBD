@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-            if ($p['kode'] === $kode) {
                 return $p;
             }
         }
