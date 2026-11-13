@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-        $perpindahan = $kandidat[$slugCalon]['pindah'];
 
         $durasiSinggah = (int) ($calon['singgah'] ?? 45);
 
