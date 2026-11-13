@@ -518,6 +518,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
             preg_match_all("/\b($nama)(?:\s*[–-]\s*($nama))?,?\s+\d{1,2}\.\d{2}\s*[–-]/u", $teks, $cocok, PREG_SET_ORDER);
             foreach ($cocok as $c) {
                 $awal = self::HARI[$c[1]];
+                $akhir = isset($c[2]) && $c[2] !== '' ? self::HARI[$c[2]] : $awal;
 
         return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
