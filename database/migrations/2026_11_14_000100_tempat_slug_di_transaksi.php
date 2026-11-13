@@ -60,3 +60,4 @@ return new class extends Migration
 
             CREATE OR REPLACE FUNCTION trg_checkin_poin() RETURNS trigger LANGUAGE plpgsql AS $$
             BEGIN
+                INSERT INTO riwayat_poin (id_pengguna, poin, sumber, id_sumber, keterangan)
