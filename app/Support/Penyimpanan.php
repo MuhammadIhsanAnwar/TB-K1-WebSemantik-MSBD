@@ -14,7 +14,7 @@ use Throwable;
  * Penyimpanan transaksi MedanVisit.
  *
  * Pesanan tiket, ulasan, log pencarian, dan rencana disimpan di DB 2 (koneksi "transaksi", PostgreSQL).
- * Nanti diganti tabel PostgreSQL (pesanan, checkin, ulasan, voucher) dan log MongoDB (aktivitas).
+ * Aturan bisnisnya ada di database: sp_buat_pesanan dan sp_bayar_pesanan (procedure), total pesanan,
  */
 class Penyimpanan
 {
