@@ -190,6 +190,7 @@ class Penyimpanan
                 'jumlahUlasan' => (int) $r->jumlah_ulasan,
             ]])->all(), []);
     }
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
