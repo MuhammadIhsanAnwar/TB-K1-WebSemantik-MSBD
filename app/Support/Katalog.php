@@ -265,6 +265,7 @@ class Katalog
 {
     try {
         // batas pendek: kalau layanan rute lambat, perkiraan garis lurus dipakai
+        $timeout = min((int) config('services.routing.timeout', 15), 6);
 
         if ($moda === 'jalan') {
             $url = rtrim(config('services.routing.valhalla_url'), '/').'/route';
