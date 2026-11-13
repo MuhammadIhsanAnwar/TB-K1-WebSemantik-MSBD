@@ -57,6 +57,7 @@ class AdminController extends Controller
         $pilihan = $request->query('tempat');
         $fokus = $milik ?? (is_string($pilihan) && (Katalog::get($pilihan)['jenis'] ?? null) === 'tempat' ? $pilihan : null);
 
+        $pesanan = collect(Penyimpanan::pesanan(aman: true))->filter(
         );
         $transaksi = $pesanan->groupBy('tempat')->map(fn ($baris) => [
             'pesanan' => $baris->count(),
