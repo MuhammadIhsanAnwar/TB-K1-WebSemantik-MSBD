@@ -80,7 +80,7 @@
                     @foreach ($dikunjungi as $baris)
                         <div>
                             <a class="p-tautan-kartu" href="{{ route('admin.insight', ['periode' => $periode, 'tempat' => $baris['slug']]) }}" @if ($fokus === $baris['slug']) aria-current="true" @endif>{{ $baris['nama'] }}</a>
-            <div class="p-kosong">Belum ada halaman tempat wisata yang dikunjungi.</div>
+                            <b class="kanan">{{ number_format($baris['jumlah'], 0, ',', '.') }}</b>
         @endif
     </section>
     <section class="p-panel s12" aria-labelledby="transaksi-tempat">
