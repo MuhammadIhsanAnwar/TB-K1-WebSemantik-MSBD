@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-            + (self::hargaTermurah($calon) ?? 0);
 
         unset($pool[$slugCalon]);
 
