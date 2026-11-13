@@ -45,7 +45,7 @@
 
 <div class="p-grid">
     <section class="p-panel s12" aria-labelledby="kunjungan-harian">
-        <header><h2 id="kunjungan-harian">Kunjungan website per hari</h2><span class="meta">{{ $periode }} hari terakhir</span></header>
+        <header><h2 id="kunjungan-harian">{{ $namaFokus ? 'Kunjungan halaman '.$namaFokus.' per hari' : 'Kunjungan website per hari' }}</h2><span class="meta">{{ $periode }} hari terakhir</span></header>
         <div class="p-batang" role="img" aria-label="Tayangan halaman per hari">
             @foreach ($kunjungan['harian'] as $tanggal => $jumlah)
                 <div class="p-batang__baris {{ $jumlah ? '' : 'nol' }}" title="{{ $tanggal }}: {{ $jumlah }} tayangan">
