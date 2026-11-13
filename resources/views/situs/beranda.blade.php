@@ -108,6 +108,7 @@
             <p>Jelajahi berbagai tempat wisata dari seluruh kecamatan Medan. <a class="mv-tautan" href="{{ route('peta') }}">Lihat semua di peta</a></p>
         </div>
 
+        <div class="mv-dekat" data-dekat="{{ json_encode($dekatJson) }}" hidden>
         <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
             <button type="button" data-filter="semua" aria-pressed="true">Semua</button>
             @foreach ($kategori as $k => $grup)
