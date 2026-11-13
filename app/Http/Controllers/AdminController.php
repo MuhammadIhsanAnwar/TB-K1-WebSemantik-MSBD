@@ -81,7 +81,7 @@ class AdminController extends Controller
             'periode' => $periode,
             'kunjungan' => $kunjungan,
             'fokus' => $fokus,
-            'tempatPopuler' => collect($kunjungan['tempat'])->take(10),
+            'admin' => $milik !== null,
             'transaksi' => $transaksi,
             'pesanan' => $pesanan,
         ]);
