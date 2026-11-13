@@ -122,3 +122,4 @@ return new class extends Migration
                 WHERE (x->>'jumlah')::integer > 0;
             END $$;
             SQL);
+    }
