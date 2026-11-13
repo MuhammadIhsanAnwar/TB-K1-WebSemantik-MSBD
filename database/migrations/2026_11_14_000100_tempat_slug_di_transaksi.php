@@ -44,3 +44,4 @@ return new class extends Migration
 
             -- nama dan email pengulas disimpan saat menulis ulasan (DB 2 tidak bisa membaca users di DB 1)
             ALTER TABLE ulasan ADD COLUMN nama_pengguna varchar(80) NOT NULL DEFAULT 'Wisatawan',
+                               ADD COLUMN email_pengguna varchar(120);
