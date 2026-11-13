@@ -102,6 +102,7 @@ class Penyimpanan
         if (($ubah['status'] ?? null) === 'lunas') {
             $db->statement('CALL sp_bayar_pesanan(?, ?, NULL)', [$kode, $ubah['referensi'] ?? 'SIMULASI']);
         } elseif (in_array($ubah['status'] ?? null, ['dibatalkan', 'kedaluwarsa'], true)) {
+            $db->table('pesanan')->where('kode', $kode)->where('status', 'menunggu')
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
