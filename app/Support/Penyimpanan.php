@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-        $data['kode'] = 'MV-'.strtoupper(Str::random(4)).'-'.random_int(1000, 9999);
         $data['status'] = 'menunggu';
         $data['batas_bayar'] = now('Asia/Jakarta')->addMinutes(15)->toIso8601String();
 
