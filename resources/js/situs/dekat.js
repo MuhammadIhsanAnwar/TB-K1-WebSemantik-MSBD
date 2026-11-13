@@ -88,3 +88,4 @@ if (navigator.geolocation) {
     } else {
         mulai('prompt');
     }
+}
