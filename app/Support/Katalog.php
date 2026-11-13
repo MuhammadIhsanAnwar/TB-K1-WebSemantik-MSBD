@@ -252,6 +252,7 @@ class Katalog
         $kunci = 'medanvisit.rute.'.$moda.'.'.md5($a['lat'].','.$a['lng'].';'.$b['lat'].','.$b['lng']);
         if (is_array($simpan = Cache::get($kunci))) {
             return $simpan;
+        }
 {
     try {
         $timeout = (int) config('services.routing.timeout', 15);
