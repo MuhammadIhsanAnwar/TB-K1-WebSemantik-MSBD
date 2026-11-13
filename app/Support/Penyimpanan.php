@@ -359,7 +359,6 @@ class Penyimpanan
 
         return null;
     }
-
     // ---------- rencana tersimpan ----------
     public static function rencana(?string $email = null): array
     {
