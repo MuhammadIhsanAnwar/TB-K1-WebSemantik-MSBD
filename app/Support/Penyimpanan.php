@@ -198,6 +198,7 @@ class Penyimpanan
             'tempat_slug' => $data['tempat'],
             'nama_pengguna' => Str::limit($data['nama'] ?? 'Wisatawan', 77),
             'email_pengguna' => $data['email'] ?? null,
+            'bintang' => $data['bintang'],
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
