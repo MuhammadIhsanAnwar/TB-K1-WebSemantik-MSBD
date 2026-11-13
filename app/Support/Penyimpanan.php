@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-        $sejarah = collect($checkin)->pluck('tempat')->unique()->filter(fn ($s) => (Katalog::get($s)['kategori'] ?? null) === 'sejarah');
         $badge = [];
         $poin = count($checkin) * 10;
         if ($sejarah->count() >= 2) {
