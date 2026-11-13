@@ -56,7 +56,7 @@
         </div>
     </section>
 
-        <header><h2 id="halaman-populer">Halaman paling banyak dikunjungi</h2><span class="meta">{{ $periode }} hari</span></header>
+    @unless ($fokus)
         @if ($kunjungan['rute'])
             <div class="p-baris">
                 @foreach (array_slice($kunjungan['rute'], 0, 8, true) as $rute => $jumlah)
