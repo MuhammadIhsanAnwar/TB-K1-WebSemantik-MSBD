@@ -448,6 +448,7 @@ function modeAlat(el) {
         lingkarAkurasi?.remove();
         lokasiPenanda = lingkarAkurasi = null;
         tombolLokasi.setAttribute('aria-pressed', 'false');
+        tombolLokasi.removeAttribute('aria-busy');
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
