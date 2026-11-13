@@ -13,3 +13,4 @@ use Illuminate\Support\Facades\DB;
  * DB 2 tidak bisa membaca tabel users di DB 1.
  */
 return new class extends Migration
+{
