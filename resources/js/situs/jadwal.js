@@ -6,3 +6,4 @@ export function waktuWib(tanggal = new Date()) {
     const bagian = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
         timeZone: 'Asia/Jakarta', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
     }).formatToParts(tanggal).map((p) => [p.type, p.value]));
+    const hari = { Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 }[bagian.weekday];
