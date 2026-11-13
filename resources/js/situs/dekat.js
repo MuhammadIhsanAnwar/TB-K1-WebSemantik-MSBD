@@ -71,3 +71,4 @@ function minta() {
             }
             try { localStorage.setItem(KUNCI, String(Date.now())); } catch { /* penyimpanan tidak tersedia */ }
             tawarkanTombol('Izinkan lokasi untuk melihat tempat wisata terdekat.');
+        }).catch(() => { blok.hidden = true; });
