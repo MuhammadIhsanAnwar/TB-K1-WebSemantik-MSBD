@@ -53,3 +53,4 @@ return new class extends Migration
                        sum(i.jumlah_orang) AS jumlah_pengunjung,
                        sum(p.total) AS pendapatan
                 FROM pesanan p
+                JOIN (SELECT id_pesanan, sum(jumlah) AS jumlah_orang FROM pesanan_item GROUP BY id_pesanan) i
