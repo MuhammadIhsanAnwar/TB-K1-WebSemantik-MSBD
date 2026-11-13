@@ -281,6 +281,7 @@ class Penyimpanan
         return self::bentukRencana(self::db()->table('rencana')->where('kode', $kode)->limit(1)->get()->all())[0] ?? null;
     }
 
+    private static function bentukRencana(array $baris): array
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
