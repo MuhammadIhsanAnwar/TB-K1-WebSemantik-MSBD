@@ -47,6 +47,7 @@ function modeRingkas(el) {
 }
 
 
+
 async function modeRute(el) {
     const titik = JSON.parse(el.dataset.rute);
     const peta = buatPeta(el);
@@ -84,7 +85,7 @@ async function modeRute(el) {
 
     info.onAdd = () => {
         const div = L.DomUtil.create('div', 'leaflet-control-attribution');
-        div.textContent = 'Memuat jalur jalan...';
+        div.textContent = 'Memuat jalur perjalanan...';
         return div;
     };
 
@@ -96,80 +97,147 @@ async function modeRute(el) {
         return;
     }
 
-    const garisCadangan = () => {
-        return L.polyline(posisi, {
-            color: '#0f3b2e',
+    const garisCadangan = (awal, akhir) =>
+        L.polyline([awal, akhir], {
+            color: '#777777',
             weight: 4,
             dashArray: '2 8',
             lineCap: 'round',
         }).addTo(peta);
-    };
 
-    try {
-        const koordinat = valid
-            .map((t) => `${Number(t.lng)},${Number(t.lat)}`)
-            .join(';');
-
-        const url = `https://router.project-osrm.org/route/v1/driving/${koordinat}?overview=full&geometries=geojson&steps=false`;
-
+    async function ambilJalur(awal, akhir, berjalan) {
         const controller = new AbortController();
-        const batasWaktu = setTimeout(() => controller.abort(), 15000);
-
-        let response;
+        const batasWaktu = setTimeout(() => controller.abort(), 20000);
 
         try {
-            response = await fetch(url, {
-                signal: controller.signal,
-                headers: { Accept: 'application/json' },
-            });
+            let response;
+
+            if (berjalan) {
+                response = await fetch(
+                    'https://valhalla1.openstreetmap.de/route',
+                    {
+                        method: 'POST',
+                        signal: controller.signal,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-Client-Id': 'medanvisit.neoverse.my.id',
+                        },
+                        body: JSON.stringify({
+                            locations: [
+                                {
+                                    lat: awal[0],
+                                    lon: awal[1],
+                                },
+                                {
+                                    lat: akhir[0],
+                                    lon: akhir[1],
+                                },
+                            ],
+                            costing: 'pedestrian',
+                            units: 'kilometers',
+                            format: 'osrm',
+                            shape_format: 'geojson',
+                            directions_type: 'none',
+                        }),
+                    }
+                );
+            } else {
+                const koordinat = [
+                    `${awal[1]},${awal[0]}`,
+                    `${akhir[1]},${akhir[0]}`,
+                ].join(';');
+
+                const url =
+                    `https://router.project-osrm.org/route/v1/driving/${koordinat}?overview=full&geometries=geojson&steps=false`;
+
+                response = await fetch(url, {
+                    signal: controller.signal,
+                    headers: {
+                        Accept: 'application/json',
+                    },
+                });
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            const koordinat = data.routes?.[0]?.geometry?.coordinates;
+
+            if (
+                (data.code && data.code !== 'Ok') ||
+                !koordinat?.length
+            ) {
+                throw new Error('Jalur tidak ditemukan.');
+            }
+
+            return koordinat.map(([lng, lat]) => [lat, lng]);
         } finally {
             clearTimeout(batasWaktu);
         }
-
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (
-            data.code !== 'Ok' ||
-            !data.routes?.length ||
-            !data.routes[0].geometry?.coordinates?.length
-        ) {
-            throw new Error('Jalur jalan tidak ditemukan.');
-        }
-
-        const jalur = data.routes[0].geometry.coordinates.map(
-            ([lng, lat]) => [lat, lng]
-        );
-
-        const garis = L.polyline(jalur, {
-            color: '#0f3b2e',
-            weight: 5,
-            opacity: 0.9,
-            lineCap: 'round',
-            lineJoin: 'round',
-        }).addTo(peta);
-
-        info.getContainer().textContent = 'Jalur jalan kendaraan dari OSRM.';
-
-        peta.fitBounds(garis.getBounds().pad(0.15));
-
-    } catch (error) {
-        console.warn('OSRM tidak tersedia:', error);
-
-        const garis = garisCadangan();
-
-        info.getContainer().textContent =
-            'Jalur jalan tidak tersedia. Garis putus-putus hanya penghubung tempat.';
-
-        peta.fitBounds(garis.getBounds().pad(0.25));
     }
+
+    let jumlahJalanKaki = 0;
+    let jumlahKendaraan = 0;
+    let jumlahGagal = 0;
+
+    for (let i = 1; i < valid.length; i++) {
+        const awal = posisi[i - 1];
+        const akhir = posisi[i];
+
+        const berjalan =
+            String(valid[i].moda ?? '').toLowerCase() === 'jalan kaki';
+
+        try {
+            const jalur = await ambilJalur(awal, akhir, berjalan);
+
+            L.polyline(jalur, {
+                color: berjalan ? '#23865b' : '#0f3b2e',
+                weight: 5,
+                opacity: 0.9,
+                lineCap: 'round',
+                lineJoin: 'round',
+            }).addTo(peta);
+
+            if (berjalan) {
+                jumlahJalanKaki++;
+            } else {
+                jumlahKendaraan++;
+            }
+        } catch (error) {
+            console.warn(
+                `Rute segmen ${i} tidak tersedia:`,
+                error
+            );
+
+            garisCadangan(awal, akhir);
+            jumlahGagal++;
+        }
+    }
+
+    const keterangan = [];
+
+    if (jumlahJalanKaki) {
+        keterangan.push('Jalan kaki dari Valhalla');
+    }
+
+    if (jumlahKendaraan) {
+        keterangan.push('Kendaraan dari OSRM');
+    }
+
+    if (jumlahGagal) {
+        keterangan.push(`${jumlahGagal} segmen memakai garis penghubung`);
+    }
+
+    info.getContainer().textContent =
+        keterangan.join(' · ') || 'Jalur perjalanan tidak tersedia.';
+
+    peta.fitBounds(L.latLngBounds(posisi).pad(0.15));
 
     setTimeout(() => peta.invalidateSize(), 200);
 }
-
 
 // Satu tempat beserta area check-in (lingkaran seluas radius aslinya) dan tempat lain dalam 1,5 km.
 // Dipakai sebagai gambar utama halaman tempat yang belum punya foto berlisensi.
