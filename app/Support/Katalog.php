@@ -496,7 +496,7 @@ class Katalog
         [$buka, $tutup] = $jadwal['menit'];
         if ($buka === $tutup) {
             return true;
-
+        }
     if ($durasiAwal > $sisaMenit) {
         throw new RuntimeException('Durasi kunjungan tempat awal melebihi durasi perjalanan.');
     }
