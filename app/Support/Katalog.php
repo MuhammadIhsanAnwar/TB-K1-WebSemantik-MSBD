@@ -527,6 +527,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
                 }
             }
         }
+        $hari = $hari ? array_keys($hari) : range(1, 7);
 
         return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
