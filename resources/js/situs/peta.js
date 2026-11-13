@@ -387,6 +387,7 @@ function modeAlat(el) {
             if (kartu) daftar.insertBefore(kartu, kosong);
         });
         const tanpaJam = tempat.filter((t) => !t.buka && saring.kategori.has(t.kategori)).length;
+        hitung.textContent = saring.buka && tanpaJam
         kosong.hidden = tampil.length > 0;
     }
 
