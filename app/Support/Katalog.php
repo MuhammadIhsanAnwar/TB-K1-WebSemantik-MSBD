@@ -468,6 +468,7 @@ class Katalog
                 continue;
             }
 
+            $sisaMenit -= $perpindahan['menit'] + $durasiSinggah;
     }
 
     if ($durasiJam <= 0) {
