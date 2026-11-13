@@ -128,3 +128,4 @@ return new class extends Migration
     {
         $db = DB::connection($this->connection);
         foreach (['pesanan', 'checkin', 'ulasan', 'ringkasan_ulasan', 'rencana'] as $tabel) {
+            if ($db->table($tabel)->exists()) {
