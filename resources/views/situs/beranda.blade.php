@@ -40,6 +40,7 @@
         'url' => route('tempat', $t['slug']),
         'kategori' => Katalog::KATEGORI[$t['kategori']] ?? $t['kategori'],
         'lat' => $t['lat'],
+        'lng' => $t['lng'],
 @endphp
 
 @section('isi')
