@@ -162,6 +162,7 @@ class Penyimpanan
         $baca = function () use ($tempat, $status, $idPengguna) {
             $q = self::db()->table('ulasan')->orderByDesc('created_at')->orderByDesc('id_ulasan');
             $tempat === null || $q->where('tempat_slug', $tempat);
+            $status === null || $q->where('status', $status);
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
