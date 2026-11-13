@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-        $durasiSinggah = (int) ($calon['singgah'] ?? 45);
 
         if (
             $perpindahan['menit'] + $durasiSinggah > $sisaMenit
