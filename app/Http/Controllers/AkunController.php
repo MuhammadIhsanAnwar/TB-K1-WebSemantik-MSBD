@@ -433,7 +433,7 @@ class AkunController extends Controller
             'u' => $u,
             'pesanan' => count(Penyimpanan::pesanan((int) $u['id'], aman: true)),
             'rencana' => count(Penyimpanan::rencana((int) $u['id'], aman: true)),
-            'ulasan' => count(array_filter(Penyimpanan::ulasan(), fn ($x) => $x['email'] === $u['email'])),
+            'ulasan' => count(Penyimpanan::ulasan(idPengguna: (int) $u['id'], aman: true)),
         ]);
     }
 
