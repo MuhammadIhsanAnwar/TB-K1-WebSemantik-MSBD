@@ -44,6 +44,7 @@ final class Kunjungan
     {
         $harian = [];
         for ($i = $hari - 1; $i >= 0; $i--) {
+            $tanggal = now('Asia/Jakarta')->subDays($i)->toDateString();
     private static function tambah(string $key): void
     {
         Cache::add($key, 0, now('Asia/Jakarta')->addYears(5));
