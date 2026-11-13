@@ -97,6 +97,7 @@ class Penyimpanan
      * - ['dipakai' => waktu]         e-tiket dipindai di lokasi
      */
     public static function ubahPesanan(string $kode, array $ubah): ?array
+    {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
