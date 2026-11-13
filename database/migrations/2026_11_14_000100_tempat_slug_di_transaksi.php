@@ -148,3 +148,4 @@ return new class extends Migration
             ALTER TABLE checkin          ALTER COLUMN tempat_slug TYPE integer USING NULL;
             ALTER TABLE checkin          RENAME COLUMN tempat_slug TO id_tempat;
             ALTER TABLE ulasan           ALTER COLUMN tempat_slug TYPE integer USING NULL;
+            ALTER TABLE ulasan           RENAME COLUMN tempat_slug TO id_tempat;
