@@ -317,7 +317,7 @@ class Penyimpanan
     private static function tambah(string $kunci, array $baris): array
     {
         $isi = self::ambil($kunci);
-        $baris += ['id' => (string) Str::ulid(), 'waktu' => now('Asia/Jakarta')->toIso8601String()];
+        $baris += ['id' => (string) Str::ulid(), 'waktu' => now(self::ZONA)->toIso8601String()];
         $isi[$baris['id']] = $baris;
         self::simpan($kunci, $isi);
 
