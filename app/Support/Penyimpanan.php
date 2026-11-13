@@ -137,6 +137,7 @@ class Penyimpanan
             'kode' => $p->kode,
             'id_pengguna' => $p->id_pengguna === null ? null : (int) $p->id_pengguna,
             'pemesan' => ['nama' => $p->nama_pemesan, 'email' => $p->email_pemesan, 'hp' => $p->hp_pemesan],
+            'tempat' => $p->tempat_slug,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
