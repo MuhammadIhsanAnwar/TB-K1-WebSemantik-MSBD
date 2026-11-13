@@ -408,6 +408,7 @@ class Katalog
      * Calon diurutkan dengan jarak garis lurus, jadi layanan rute online hanya dipanggil sekali per langkah
      * untuk tempat yang terpilih. Kalau layanan itu gagal, perkiraan garis lurus dipakai.
      */
+    public static function susunRute(array $minat, int $durasiJam, array $moda, string $mulai, ?\DateTimeInterface $tanggal = null): array
 
     $awal = self::get($mulai);
 
