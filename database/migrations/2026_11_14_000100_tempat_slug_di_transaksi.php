@@ -176,3 +176,4 @@ return new class extends Migration
                 INSERT INTO ringkasan_ulasan (id_tempat, jumlah_ulasan, rata_rata_bintang, diperbarui_pada)
                 SELECT p_id_tempat, count(*), round(avg(bintang), 2), now()
                 FROM ulasan WHERE id_tempat = p_id_tempat AND status = 'tayang'
+                ON CONFLICT (id_tempat) DO UPDATE
