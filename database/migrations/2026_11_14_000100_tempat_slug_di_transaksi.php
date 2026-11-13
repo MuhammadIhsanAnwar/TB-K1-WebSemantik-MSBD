@@ -85,3 +85,4 @@ return new class extends Migration
                     PERFORM fn_hitung_ringkasan_ulasan(NEW.tempat_slug);
                 END IF;
                 RETURN NULL;
+            END $$;
