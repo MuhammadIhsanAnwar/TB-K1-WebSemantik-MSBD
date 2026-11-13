@@ -20,3 +20,4 @@ return new class extends Migration
     {
         DB::connection($this->connection)->unprepared(<<<'SQL'
             -- objek yang bergantung pada kolom id_tempat dilepas dulu
+            DROP VIEW IF EXISTS v_penjualan_tiket;
