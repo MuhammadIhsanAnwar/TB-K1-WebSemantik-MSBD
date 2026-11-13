@@ -457,7 +457,7 @@ class AkunController extends Controller
 
     public function rencanaSaya(Request $request)
     {
-        return view('akun.rencana', ['rencana' => Penyimpanan::rencana($this->pengguna($request)['email'])]);
+        return view('akun.rencana', ['rencana' => Penyimpanan::rencana((int) $this->pengguna($request)['id'])]);
     }
 
     public function simpanRencana(Request $request)
