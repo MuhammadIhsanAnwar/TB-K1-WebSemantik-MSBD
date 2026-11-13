@@ -32,3 +32,4 @@ function tawarkanTombol(teks) {
 function tampilkan(pos) {
     const lokasi = { lat: pos.coords.latitude, lng: pos.coords.longitude };
     const kini = waktuWib();
+    const terdekat = tempat
