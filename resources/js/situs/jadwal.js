@@ -3,3 +3,4 @@
 
 // Hari dan menit sejak 00.00 menurut jam WIB, apa pun zona waktu perangkatnya.
 export function waktuWib(tanggal = new Date()) {
+    const bagian = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
