@@ -441,6 +441,7 @@ function modeAlat(el) {
 
     function hentikanLokasi(pesan) {
         if (pantau !== null) navigator.geolocation.clearWatch(pantau);
+        pantau = null;
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
