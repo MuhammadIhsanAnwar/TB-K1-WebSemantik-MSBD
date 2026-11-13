@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-        return collect(self::ambil('cari'))->where('hasil', 0)->countBy('q')->sortDesc()->all();
     }
 
     public static function jumlahCari(): int
