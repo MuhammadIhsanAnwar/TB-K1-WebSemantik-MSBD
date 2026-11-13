@@ -187,6 +187,7 @@ class Penyimpanan
         return self::aman(fn () => self::db()->table('ringkasan_ulasan')->get()
             ->mapWithKeys(fn ($r) => [$r->tempat_slug => [
                 'rating' => $r->rata_rata_bintang === null ? 0 : (float) $r->rata_rata_bintang,
+                'jumlahUlasan' => (int) $r->jumlah_ulasan,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
