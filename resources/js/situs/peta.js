@@ -474,6 +474,7 @@ function modeAlat(el) {
             posisiTerurut = lokasi;
             const terdekat = Math.min(...tempat.map((t) => jarak(lokasi, t)));
             pesanLokasi.textContent = terdekat > 30000
+                ? 'Kamu sedang jauh dari Medan. Daftar tetap diurutkan dari yang paling dekat.'
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
