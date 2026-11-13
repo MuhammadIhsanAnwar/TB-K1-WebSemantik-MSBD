@@ -452,6 +452,7 @@ function modeAlat(el) {
         pesanLokasi.textContent = pesan;
         gambar();
     }
+
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
