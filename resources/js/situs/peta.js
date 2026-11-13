@@ -458,6 +458,7 @@ function modeAlat(el) {
         const titik = [lokasi.lat, lokasi.lng];
         const akurasi = Math.round(pos.coords.accuracy);
         if (!lokasiPenanda) {
+            lingkarAkurasi = L.circle(titik, { radius: akurasi, color: '#2f6690', weight: 1, fillColor: '#2f6690', fillOpacity: 0.12, interactive: false }).addTo(peta);
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
