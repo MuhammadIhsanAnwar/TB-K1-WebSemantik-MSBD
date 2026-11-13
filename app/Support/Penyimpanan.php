@@ -149,6 +149,7 @@ class Penyimpanan
             'batas_bayar' => self::waktu($p->batas_bayar),
             'waktu' => self::waktu($p->created_at),
             'dibayar' => self::waktu($p->dibayar_pada),
+            'kode_qr' => $p->kode_qr,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
