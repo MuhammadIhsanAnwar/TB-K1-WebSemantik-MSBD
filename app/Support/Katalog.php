@@ -473,6 +473,7 @@ class Katalog
             $urut[] = ['tempat' => $calon, 'mulai' => $jam, 'pindah' => $perpindahan];
             $jam += $durasiSinggah;
             $total += $perpindahan['biaya'] + (self::hargaTermurah($calon) ?? 0);
+            $kini = $calon;
     }
 
     if ($durasiJam <= 0) {
