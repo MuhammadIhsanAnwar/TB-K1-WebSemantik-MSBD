@@ -81,3 +81,4 @@ function mulai(keadaan) {
     else tawarkanTombol('Lihat tempat wisata yang paling dekat denganmu.');
 }
 
+if (navigator.geolocation) {
