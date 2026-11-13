@@ -443,6 +443,7 @@ function modeAlat(el) {
         if (pantau !== null) navigator.geolocation.clearWatch(pantau);
         pantau = null;
         lokasi = null;
+        posisiTerurut = null;
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
