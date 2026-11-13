@@ -181,3 +181,4 @@ return new class extends Migration
                         diperbarui_pada = EXCLUDED.diperbarui_pada;
             $$;
 
+            CREATE OR REPLACE FUNCTION trg_ulasan_ringkasan() RETURNS trigger LANGUAGE plpgsql AS $$
