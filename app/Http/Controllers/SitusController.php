@@ -142,7 +142,7 @@ class SitusController extends Controller
     abort_unless($t && $t['jenis'] === 'tempat', 404);
 
     return view('situs.tempat', $this->dataEntitas($t) + [
-        'ulasan' => Penyimpanan::ulasan($slug, 'tayang'),
+        'ulasan' => Penyimpanan::ulasan($slug, 'tayang', aman: true),
         'ramai' => 0,
         'dekat' => $this->terdekat($t, 4),
     ]);
