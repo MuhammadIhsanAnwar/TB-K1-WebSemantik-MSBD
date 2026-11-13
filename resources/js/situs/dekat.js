@@ -6,3 +6,4 @@ import { bukaPada, jarakMeter, waktuWib } from './jadwal.js';
 const blok = document.querySelector('[data-dekat]');
 const tempat = JSON.parse(blok.dataset.dekat);
 const status = blok.querySelector('[data-dekat-status]');
+const daftar = blok.querySelector('[data-dekat-daftar]');
