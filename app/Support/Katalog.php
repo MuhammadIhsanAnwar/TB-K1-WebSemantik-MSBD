@@ -497,7 +497,7 @@ class Katalog
         if ($buka === $tutup) {
             return true;
         }
-    if ($durasiAwal > $sisaMenit) {
+        if ($tutup < $buka) {
         throw new RuntimeException('Durasi kunjungan tempat awal melebihi durasi perjalanan.');
     }
 
