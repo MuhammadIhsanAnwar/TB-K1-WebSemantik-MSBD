@@ -55,7 +55,7 @@
             @endforeach
         </div>
     </section>
-    <section class="p-panel s6" aria-labelledby="halaman-populer">
+
         <header><h2 id="halaman-populer">Halaman paling banyak dikunjungi</h2><span class="meta">{{ $periode }} hari</span></header>
         @if ($kunjungan['rute'])
             <div class="p-baris">
