@@ -501,7 +501,6 @@ function modeAlat(el) {
                 : 'Lokasimu belum terbaca. Coba lagi di tempat terbuka.';
             hentikanLokasi(pesan);
         }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
-            tombolLokasi.removeAttribute('aria-busy');
             pesanLokasi.textContent = 'Izin lokasi ditolak. Peta tetap bisa dipakai tanpa lokasimu.';
         }, { enableHighAccuracy: true, timeout: 10000 });
     });
