@@ -331,4 +331,5 @@ final class Database3Catalog
         return $open === null || $close === null ? null : [(int) substr((string) $open, 0, 2), (int) substr((string) $close, 0, 2)];
     }
 
+    /** Jam buka dan tutup dalam menit sejak 00.00. Tutup 23.59 dianggap sampai akhir hari (1440). */
 }
