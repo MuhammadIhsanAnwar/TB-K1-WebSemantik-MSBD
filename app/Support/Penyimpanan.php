@@ -232,6 +232,7 @@ class Penyimpanan
         return self::aman(fn () => self::db()->table('v_celah_konten')
             ->orderByDesc('jumlah_dicari')->pluck('jumlah_dicari', 'kata_kunci')
             ->map(fn ($n) => (int) $n)->all(), []);
+    }
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
