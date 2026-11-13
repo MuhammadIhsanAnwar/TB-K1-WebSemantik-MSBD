@@ -165,6 +165,7 @@ class Penyimpanan
             $status === null || $q->where('status', $status);
             $idPengguna === null || $q->where('id_pengguna', $idPengguna);
 
+            return $q->get()->map(fn ($u) => [
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
