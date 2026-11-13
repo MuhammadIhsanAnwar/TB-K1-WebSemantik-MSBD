@@ -530,6 +530,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
         $hari = $hari ? array_keys($hari) : range(1, 7);
         preg_match_all("/\b($nama)\s+tutup\b/u", $teks, $tutup);
         $hari = array_values(array_diff($hari, array_map(fn ($h) => self::HARI[$h], $tutup[1])));
+        sort($hari);
 
         return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
