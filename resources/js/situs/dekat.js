@@ -47,3 +47,4 @@ function tampilkan(pos) {
     }).join('');
     daftar.hidden = false;
     tautanPeta.hidden = false;
+    tombol.hidden = true;
