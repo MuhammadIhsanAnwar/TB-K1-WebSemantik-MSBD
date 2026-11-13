@@ -461,6 +461,7 @@ function modeAlat(el) {
             lingkarAkurasi = L.circle(titik, { radius: akurasi, color: '#2f6690', weight: 1, fillColor: '#2f6690', fillOpacity: 0.12, interactive: false }).addTo(peta);
             lokasiPenanda = L.circleMarker(titik, { radius: 8, color: '#ffffff', weight: 3, fillColor: '#2f6690', fillOpacity: 1 }).addTo(peta).bindTooltip('Kamu di sini');
         } else {
+            lokasiPenanda.setLatLng(titik);
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
