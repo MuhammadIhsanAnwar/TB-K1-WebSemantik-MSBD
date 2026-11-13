@@ -39,3 +39,4 @@ function tampilkan(pos) {
     status.textContent = terdekat[0].jarak > 30000
         ? 'Kamu sedang di luar Medan. Ini tempat yang paling dekat dari posisimu.'
         : 'Tiga tempat terdekat dari lokasimu sekarang.';
+    daftar.innerHTML = terdekat.map((t) => {
