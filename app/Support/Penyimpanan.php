@@ -300,6 +300,7 @@ class Penyimpanan
             'mulai' => $r->tempat_mulai_slug,
             'waktu' => self::waktu($r->created_at),
         ], $baris);
+    }
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
