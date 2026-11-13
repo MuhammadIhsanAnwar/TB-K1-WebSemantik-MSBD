@@ -78,6 +78,7 @@ class Penyimpanan
         $hasil = self::db()->selectOne('CALL sp_buat_pesanan(?, ?, ?, ?, ?, ?::date, ?, ?::jsonb, NULL)', [
             $data['id_pengguna'],
             $data['pemesan']['nama'],
+            $data['pemesan']['email'],
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
