@@ -44,3 +44,4 @@ function tampilkan(pos) {
             ? `<span class="mv-lencana-jam ${bukaPada(t.buka, kini) ? 'mv-lencana-jam--buka">Buka' : 'mv-lencana-jam--tutup">Tutup'}</span>`
             : '';
         return `<li class="mv-dekat__butir"><a href="${esc(t.url)}">${esc(t.nama)}</a><span class="mv-dekat__meta">${esc(t.kategori)}, ${fmtJarak(t.jarak)}</span>${jam}</li>`;
+    }).join('');
