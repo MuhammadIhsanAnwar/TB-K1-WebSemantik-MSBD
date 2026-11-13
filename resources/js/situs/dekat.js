@@ -70,3 +70,4 @@ function minta() {
                 return;
             }
             try { localStorage.setItem(KUNCI, String(Date.now())); } catch { /* penyimpanan tidak tersedia */ }
+            tawarkanTombol('Izinkan lokasi untuk melihat tempat wisata terdekat.');
