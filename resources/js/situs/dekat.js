@@ -11,3 +11,4 @@ const tombol = blok.querySelector('[data-dekat-minta]');
 const tautanPeta = blok.querySelector('[data-dekat-peta]');
 const KUNCI = 'mv-lokasi-ditunda';
 const TUNDA = 7 * 24 * 60 * 60 * 1000;
+
