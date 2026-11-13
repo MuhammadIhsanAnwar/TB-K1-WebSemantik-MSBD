@@ -66,7 +66,7 @@ class AdminController extends Controller
             'tiket' => $baris->where('status', 'lunas')->sum(fn ($pesanan) => array_sum(array_column($pesanan['item'], 'jumlah'))),
             'pendapatan' => $baris->where('status', 'lunas')->sum('total'),
         ])->sortByDesc('pendapatan');
-        $akun = (new SupabaseApi)->users();
+
 
         return view('admin.insight', [
             'periode' => $periode,
