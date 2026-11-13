@@ -33,6 +33,7 @@ class Penyimpanan
     private static function aman(callable $baca, mixed $cadangan): mixed
     {
         try {
+            return $baca();
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
