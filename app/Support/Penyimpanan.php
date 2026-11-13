@@ -359,7 +359,6 @@ class Penyimpanan
 
         return null;
     }
-        return self::tambah('rencana', $data);
     }
 
     public static function cariRencana(string $kode): ?array
