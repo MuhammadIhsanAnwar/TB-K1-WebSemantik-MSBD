@@ -35,6 +35,7 @@ class Penyimpanan
         try {
             return $baca();
         } catch (Throwable $e) {
+            Log::warning('DB 2 (transaksi) tidak bisa dibaca: '.$e->getMessage());
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
