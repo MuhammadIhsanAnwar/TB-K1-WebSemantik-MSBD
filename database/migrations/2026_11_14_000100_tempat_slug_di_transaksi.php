@@ -46,3 +46,4 @@ return new class extends Migration
             ALTER TABLE ulasan ADD COLUMN nama_pengguna varchar(80) NOT NULL DEFAULT 'Wisatawan',
                                ADD COLUMN email_pengguna varchar(120);
 
+            -- ---------- dibuat ulang dengan slug ----------
