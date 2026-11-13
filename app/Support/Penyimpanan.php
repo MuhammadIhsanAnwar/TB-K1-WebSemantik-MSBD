@@ -43,6 +43,7 @@ class Penyimpanan
 
     private static function waktu(?string $nilai): ?string
     {
+        return $nilai === null ? null : Carbon::parse($nilai)->setTimezone(self::ZONA)->toIso8601String();
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
