@@ -312,6 +312,7 @@ class SitusController extends Controller
         try {
             $hasil = Katalog::susunRute($r['minat'], $r['durasi'], $r['moda'], $r['mulai']);
         } catch (\RuntimeException $e) {
+            // misalnya tempat awal sudah dihapus dari Database 3
         return view('situs.rencana', [
             'hasil' => Katalog::susunRute($r['minat'], $r['durasi'], $r['moda'], $r['mulai']),
             'pref' => $r, 'tempat' => Katalog::tempat(), 'dibagikan' => $r,
