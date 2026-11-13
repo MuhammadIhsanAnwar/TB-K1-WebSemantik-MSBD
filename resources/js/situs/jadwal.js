@@ -21,3 +21,4 @@ export function bukaPada(jadwal, kini = waktuWib()) {
     return (hariIni && kini.menit >= buka) || (kemarin && kini.menit < tutup);
 }
 
+// Jarak dua titik dalam meter (haversine).
