@@ -478,6 +478,7 @@ class Katalog
 
         return [
             'singgah' => $urut,
+            'biaya' => $total,
     }
 
     if ($durasiJam <= 0) {
