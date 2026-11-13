@@ -133,3 +133,4 @@ return new class extends Migration
             }
         }
 
+        $db->unprepared(<<<'SQL'
