@@ -53,6 +53,7 @@ class Penyimpanan
     {
         $baca = function () use ($idPengguna) {
             $q = self::queryPesanan();
+            if ($idPengguna !== null) {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
