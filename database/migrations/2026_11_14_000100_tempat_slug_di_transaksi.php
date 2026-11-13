@@ -214,3 +214,4 @@ return new class extends Migration
             END $$;
             SQL);
     }
+};
