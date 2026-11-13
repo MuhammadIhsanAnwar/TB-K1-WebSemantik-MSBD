@@ -69,3 +69,4 @@ function minta() {
                 blok.hidden = true;
                 return;
             }
+            try { localStorage.setItem(KUNCI, String(Date.now())); } catch { /* penyimpanan tidak tersedia */ }
