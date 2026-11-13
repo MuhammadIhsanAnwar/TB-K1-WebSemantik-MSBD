@@ -73,6 +73,7 @@ class Penyimpanan
      * total dihitung trigger, batas bayar 15 menit).
      */
     public static function buatPesanan(array $data): array
+    {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
