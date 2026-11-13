@@ -116,6 +116,7 @@ class Penyimpanan
 
     private static function queryPesanan()
     {
+        return self::db()->table('pesanan as p')
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
