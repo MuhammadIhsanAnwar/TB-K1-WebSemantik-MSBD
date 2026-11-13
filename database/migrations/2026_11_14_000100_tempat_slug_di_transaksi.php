@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\DB;
 return new class extends Migration
 {
     protected $connection = 'transaksi';
+
