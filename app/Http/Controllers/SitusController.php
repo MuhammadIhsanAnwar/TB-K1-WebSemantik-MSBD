@@ -140,7 +140,17 @@ class SitusController extends Controller
 
         return view('situs.peta', compact('tempat'));
     }
+    public function tempat(string $slug)
+{
+    $t = Katalog::get($slug);
+    abort_unless($t && $t['jenis'] === 'tempat', 404);
 
+    return view('situs.tempat', $this->dataEntitas($t) + [
+        'ulasan' => Penyimpanan::ulasan($slug, 'tayang'),
+        'ramai' => 0,
+        'dekat' => $this->terdekat($t, 4),
+    ]);
+}
     public function sukai(Request $request, string $slug)
 {
     $tempat = Katalog::get($slug);
