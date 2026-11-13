@@ -296,6 +296,7 @@ class Penyimpanan
             'judul' => $r->judul,
             'minat' => ($minat[$r->id_rencana] ?? collect())->pluck('kode_kategori')->all(),
             'durasi' => (int) $r->durasi_jam,
+            'moda' => array_keys(array_filter(['jalan' => (bool) $r->moda_jalan, 'becak' => (bool) $r->moda_becak])),
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
