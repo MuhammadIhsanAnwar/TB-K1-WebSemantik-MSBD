@@ -41,3 +41,4 @@ return new class extends Migration
 
             ALTER TABLE checkin RENAME CONSTRAINT checkin_id_pengguna_id_tempat_tanggal_unique TO checkin_id_pengguna_tempat_slug_tanggal_unique;
             ALTER TABLE pesanan ADD CONSTRAINT ck_pesanan_tempat CHECK (tempat_slug ~ '^[a-z0-9-]+$');
+
