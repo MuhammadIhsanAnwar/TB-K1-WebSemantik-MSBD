@@ -39,6 +39,7 @@ class Penyimpanan
 
             return $cadangan;
         }
+    }
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
