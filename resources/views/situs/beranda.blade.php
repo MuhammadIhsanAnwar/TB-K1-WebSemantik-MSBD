@@ -34,6 +34,7 @@
     $urutTempat = collect($semuaTempat)->sortBy('nama')->values();
     $jumlahGaleri = $urutTempat->countBy('kategori');
     $minatRute = array_values(array_unique(array_filter(array_column($semuaTempat, 'kategori'))));
+    // bahan saran "Dekat denganmu": jarak dihitung di peramban dari lokasi pengunjung
 @endphp
 
 @section('isi')
