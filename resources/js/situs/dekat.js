@@ -58,3 +58,4 @@ function minta() {
     status.textContent = 'Mencari tempat terdekat dari lokasimu…';
     navigator.geolocation.getCurrentPosition(tampilkan, (galat) => {
         blok.removeAttribute('aria-busy');
+        if (galat.code !== galat.PERMISSION_DENIED) {
