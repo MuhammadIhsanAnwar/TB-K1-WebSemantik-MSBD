@@ -440,7 +440,7 @@ class AdminController extends Controller
                     $hasil[] = ['label' => 'Database 3 ('.config('services.sparql.driver').'/SPARQL)', 'ok' => false, 'teks' => 'Tidak bisa dihubungi: '.str($e->getMessage())->limit(120)];
                 }
             }
-            $hasil[] = ['label' => 'Penyimpanan sementara (cache berkas)', 'ok' => true, 'teks' => count(Penyimpanan::pesanan()).' pesanan, '.count(Penyimpanan::checkin()).' check-in, '.count(Penyimpanan::ulasan()).' ulasan tersimpan.'];
+            try {
         }
 
         return view('admin.sinkronisasi', ['hasil' => $hasil, 'diperiksa' => $hasil ? now('Asia/Jakarta') : null]);
