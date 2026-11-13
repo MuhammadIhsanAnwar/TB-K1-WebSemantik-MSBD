@@ -124,7 +124,7 @@ class SitusController extends Controller
         $kunjungan = Kunjungan::ringkasan(365)['tempat'];
 
         // rating per tempat dihitung trigger DB 2 ke tabel ringkasan_ulasan
-            ->groupBy('tempat')
+        $ulasan = Penyimpanan::ringkasanUlasan();
             ->map(fn ($items) => [
                 'rating' => round($items->avg('bintang'), 2),
                 'jumlahUlasan' => $items->count(),
