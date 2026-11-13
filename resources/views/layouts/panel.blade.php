@@ -17,7 +17,7 @@
         'situs' => '<path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/>',
     ];
     $svg = fn ($k) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'.$ikon[$k].'</svg>';
-    $antre = count(\App\Support\Penyimpanan::ulasan(null, 'menunggu'));
+    $antre = count(\App\Support\Penyimpanan::ulasan(null, 'menunggu', aman: true));
     $menuKurator = [
         ['admin.ringkasan', 'Ringkasan', 'ringkasan', null], ['admin.entitas', 'Entitas', 'entitas', null], ['admin.relasi', 'Editor relasi', 'relasi', null],
         ['admin.cerita', 'Cerita dan audio', 'cerita', null], ['admin.ulasan', 'Ulasan menunggu', 'ulasan', $antre ?: null],
