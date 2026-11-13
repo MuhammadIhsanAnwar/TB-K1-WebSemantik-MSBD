@@ -494,7 +494,7 @@ class Katalog
             return false;
         }
         [$buka, $tutup] = $jadwal['menit'];
-
+        if ($buka === $tutup) {
     $durasiAwal = (int) ($awal['singgah'] ?? 45);
 
     if ($durasiAwal > $sisaMenit) {
