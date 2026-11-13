@@ -480,6 +480,7 @@ class Katalog
             'singgah' => $urut,
             'biaya' => $total,
             'selesai' => $jam,
+        ];
     }
 
     if ($durasiJam <= 0) {
