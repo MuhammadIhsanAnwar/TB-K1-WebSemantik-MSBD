@@ -249,6 +249,7 @@ class Penyimpanan
 
             return self::bentukRencana($q->get()->all());
         };
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
