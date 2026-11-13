@@ -410,6 +410,7 @@ class Katalog
      */
     public static function susunRute(array $minat, int $durasiJam, array $moda, string $mulai, ?\DateTimeInterface $tanggal = null): array
     {
+        $awal = self::get($mulai);
 
     $awal = self::get($mulai);
 
