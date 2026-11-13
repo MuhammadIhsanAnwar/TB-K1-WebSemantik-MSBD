@@ -56,6 +56,7 @@ class Penyimpanan
             if ($idPengguna !== null) {
                 $q->where('p.id_pengguna', $idPengguna);
             }
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
