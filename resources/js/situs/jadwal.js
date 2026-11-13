@@ -5,3 +5,4 @@
 export function waktuWib(tanggal = new Date()) {
     const bagian = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
         timeZone: 'Asia/Jakarta', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+    }).formatToParts(tanggal).map((p) => [p.type, p.value]));
