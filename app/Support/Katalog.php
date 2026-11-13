@@ -460,6 +460,7 @@ class Katalog
             }
 
             $calon = $pool[$slugCalon];
+            unset($pool[$slugCalon]);
     }
 
     if ($durasiJam <= 0) {
