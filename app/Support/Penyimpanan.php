@@ -131,6 +131,7 @@ class Penyimpanan
         $item = self::db()->table('pesanan_item')
             ->whereIn('id_pesanan', array_column($baris, 'id_pesanan'))
             ->orderBy('id_item')->get()->groupBy('id_pesanan');
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
