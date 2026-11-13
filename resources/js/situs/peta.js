@@ -388,6 +388,7 @@ function modeAlat(el) {
         });
         const tanpaJam = tempat.filter((t) => !t.buka && saring.kategori.has(t.kategori)).length;
         hitung.textContent = saring.buka && tanpaJam
+            ? `${tampil.length} dari ${tempat.length} tempat buka sekarang (jam WIB). ${tanpaJam} tempat tanpa jam buka tidak ditampilkan.`
         kosong.hidden = tampil.length > 0;
     }
 
