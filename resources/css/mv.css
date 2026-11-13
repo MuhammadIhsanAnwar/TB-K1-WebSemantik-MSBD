@@ -1088,6 +1088,7 @@
   justify-items: start;
   padding: 16px 18px;
   background: var(--mv-putih);
+  clip-path: var(--mv-potong-kecil);
 
 /* 3. Showcase: Benang merah kota (Square plate, spare text) */
 .mv-benang {
