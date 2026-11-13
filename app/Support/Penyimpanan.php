@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-            if ($c['tempat'] === $tempat && str_starts_with($c['waktu'], $hariIni)) {
                 return true;
             }
         }
