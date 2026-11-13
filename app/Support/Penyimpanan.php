@@ -260,6 +260,7 @@ class Penyimpanan
             $id = self::db()->table('rencana')->insertGetId([
                 'kode' => $kode,
                 'id_pengguna' => $data['id_pengguna'],
+                'judul' => $data['judul'],
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
