@@ -67,6 +67,7 @@ class AdminController extends Controller
             'pendapatan' => $baris->where('status', 'lunas')->sum('total'),
         ])->sortByDesc('pendapatan');
 
+        // semua tempat wisata dengan jumlah kunjungan halamannya (termasuk yang belum dikunjungi)
 
         return view('admin.insight', [
             'periode' => $periode,
