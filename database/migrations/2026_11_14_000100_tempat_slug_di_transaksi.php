@@ -51,3 +51,4 @@ return new class extends Migration
                 SELECT p.tempat_slug, date_trunc('month', p.tanggal_kunjungan)::date AS bulan,
                        count(*) AS jumlah_pesanan,
                        sum(i.jumlah_orang) AS jumlah_pengunjung,
+                       sum(p.total) AS pendapatan
