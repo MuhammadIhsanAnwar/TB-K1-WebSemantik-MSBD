@@ -66,7 +66,7 @@
                         <div><span>{{ $label }}</span><b class="kanan">{{ number_format($jumlah, 0, ',', '.') }}</b></div>
                     @endforeach
                 </div>
-        @endif
+            @else
     </section>
     <section class="p-panel s6" aria-labelledby="tempat-populer">
         <header><h2 id="tempat-populer">Kunjungan halaman tempat wisata</h2><span class="meta">{{ $periode }} hari</span></header>
