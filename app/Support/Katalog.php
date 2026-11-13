@@ -402,7 +402,7 @@ class Katalog
 
 
     /**
-{
+     * Susun rute satu hari dari tempat awal: setiap langkah memilih tempat terdekat yang cocok dengan minat,
     $pool = array_filter(
         self::tempat(),
         fn ($tempat) => in_array($tempat['kategori'], $minat, true)
