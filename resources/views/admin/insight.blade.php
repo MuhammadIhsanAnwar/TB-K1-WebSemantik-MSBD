@@ -24,7 +24,7 @@
         </p>
     </div>
     <nav class="p-seg" aria-label="Periode insight">
-        @foreach ([7, 30, 90] as $pilihan)<a href="{{ route('admin.insight', ['periode' => $pilihan]) }}" @if ($periode === $pilihan) aria-current="true" @endif>{{ $pilihan }} hari</a>@endforeach
+        @foreach ([7, 30, 90] as $pilihan)<a href="{{ $tautanPeriode($pilihan) }}" @if ($periode === $pilihan) aria-current="true" @endif>{{ $pilihan }} hari</a>@endforeach
     </nav>
 </div>
 
