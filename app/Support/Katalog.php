@@ -503,7 +503,6 @@ class Katalog
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
     }
-        'biaya' => $total,
         'selesai' => $jam,
     ];
 }
