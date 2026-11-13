@@ -71,3 +71,4 @@ return new class extends Migration
                 SELECT p_tempat_slug, count(*), round(avg(bintang), 2), now()
                 FROM ulasan WHERE tempat_slug = p_tempat_slug AND status = 'tayang'
                 ON CONFLICT (tempat_slug) DO UPDATE
+                    SET jumlah_ulasan = EXCLUDED.jumlah_ulasan,
