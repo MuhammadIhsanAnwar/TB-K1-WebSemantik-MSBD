@@ -342,7 +342,6 @@ class Penyimpanan
     public static function penukaran(?string $email = null): array
     {
         return array_reverse(array_filter(self::ambil('penukaran'), fn ($p) => $email === null || $p['email'] === $email));
-            'poin' => $voucher['poin'], 'kode' => 'V-'.strtoupper(Str::random(6)), 'dipakai' => false,
         ]);
     }
 
