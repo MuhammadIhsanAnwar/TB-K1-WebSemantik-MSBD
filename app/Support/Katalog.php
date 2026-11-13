@@ -414,6 +414,7 @@ class Katalog
         if (! $awal || $awal['jenis'] !== 'tempat') {
             throw new RuntimeException('Pilih tempat awal dari daftar tempat wisata.');
         }
+        if ($durasiJam <= 0) {
 
     $awal = self::get($mulai);
 
