@@ -181,6 +181,7 @@ class Penyimpanan
         return $aman ? self::aman($baca, []) : $baca();
     }
 
+    /** Rating per tempat dari tabel ringkasan_ulasan (diisi trigger ulasan_ringkasan). */
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
