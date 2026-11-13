@@ -69,6 +69,7 @@ class Penyimpanan
     }
 
     /**
+     * Membuat pesanan lewat procedure sp_buat_pesanan (pesanan + item dalam satu transaksi,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
