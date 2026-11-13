@@ -532,7 +532,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
         $hari = array_values(array_diff($hari, array_map(fn ($h) => self::HARI[$h], $tutup[1])));
         sort($hari);
 
-        return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
+        return ['menit' => $menit, 'hari' => $hari];
     }
 
     public static function cari(string $q): array
