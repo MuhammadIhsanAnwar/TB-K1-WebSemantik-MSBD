@@ -61,3 +61,4 @@ function minta() {
         if (galat.code !== galat.PERMISSION_DENIED) {
             tawarkanTombol('Lokasimu belum terbaca.');
             return;
+        }
