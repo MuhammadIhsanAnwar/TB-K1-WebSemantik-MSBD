@@ -463,6 +463,7 @@ function modeAlat(el) {
         } else {
             lokasiPenanda.setLatLng(titik);
             lingkarAkurasi.setLatLng(titik).setRadius(akurasi);
+        }
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
