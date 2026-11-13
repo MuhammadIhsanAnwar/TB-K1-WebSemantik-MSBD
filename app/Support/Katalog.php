@@ -491,7 +491,7 @@ class Katalog
             return true;
         }
         if (! in_array($hari, $jadwal['hari'], true)) {
-    $total = 0;
+            return false;
 
     unset($pool[$awal['slug']]);
 
