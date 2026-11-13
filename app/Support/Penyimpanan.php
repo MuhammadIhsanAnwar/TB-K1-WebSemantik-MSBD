@@ -160,6 +160,7 @@ class Penyimpanan
     public static function ulasan(?string $tempat = null, ?string $status = null, ?int $idPengguna = null, bool $aman = false): array
     {
         $baca = function () use ($tempat, $status, $idPengguna) {
+            $q = self::db()->table('ulasan')->orderByDesc('created_at')->orderByDesc('id_ulasan');
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
