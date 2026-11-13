@@ -9,3 +9,4 @@ use Illuminate\Support\Facades\DB;
  * Tempat wisata sekarang hanya ada di Database 3 (RDF), dan resource-nya dikenali lewat slug/URI
  * (https://medanvisit.neoverse.my.id/id/{slug}), tidak punya nomor. Kolom id_tempat (integer) diganti
  * tempat_slug (varchar), sama seperti users.tempat_slug di DB 1. Function, trigger, view, dan procedure
+ * yang memakai kolom itu dibuat ulang. Ulasan juga menyimpan nama pengulas saat menulis, karena
