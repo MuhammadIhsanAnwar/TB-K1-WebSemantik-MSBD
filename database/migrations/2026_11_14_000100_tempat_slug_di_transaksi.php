@@ -12,3 +12,4 @@ use Illuminate\Support\Facades\DB;
  * yang memakai kolom itu dibuat ulang. Ulasan juga menyimpan nama pengulas saat menulis, karena
  * DB 2 tidak bisa membaca tabel users di DB 1.
  */
+return new class extends Migration
