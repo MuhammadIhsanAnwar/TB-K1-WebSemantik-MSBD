@@ -1,6 +1,7 @@
 @extends('layouts.panel')
 @php
     use App\Support\Katalog;
+    use App\Support\Penyimpanan;
     $maksimumHarian = max($kunjungan['harian'] ?: [0]) ?: 1;
     $totalLunas = $pesanan->where('status', 'lunas');
     $namaRute = ['beranda' => 'Beranda', 'cari' => 'Pencarian', 'peta' => 'Peta', 'jalur' => 'Jalur', 'jelajah' => 'Jelajah', 'tanya' => 'Tanya'];
