@@ -493,7 +493,7 @@ function modeAlat(el) {
         tombolLokasi.setAttribute('aria-busy', 'true');
         tombolLokasi.setAttribute('aria-pressed', 'true');
         pesanLokasi.textContent = 'Membaca lokasimu…';
-        navigator.geolocation.getCurrentPosition((pos) => {
+        pantau = navigator.geolocation.watchPosition(terimaPosisi, (galat) => {
             lokasi = { lat: pos.coords.latitude, lng: pos.coords.longitude };
             lokasiPenanda?.remove();
             lokasiPenanda = L.circleMarker([lokasi.lat, lokasi.lng], { radius: 8, color: '#ffffff', weight: 3, fillColor: '#2f6690', fillOpacity: 1 }).addTo(peta).bindTooltip('Kamu di sini');
