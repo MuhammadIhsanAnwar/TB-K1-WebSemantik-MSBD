@@ -502,6 +502,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
     /**
      * Jadwal buka sebuah tempat: jam buka dan tutup dalam menit, dan hari buka (1 = Senin ... 7 = Minggu).
      * Hari dibaca dari keterangan jam, misalnya "Selasa–Minggu, 09.00–16.00 (Senin tutup)". Nama hari hanya
+     * dihitung kalau diikuti rentang jam, jadi "Di luar jam misa (Minggu 06.30, ...)" tidak membatasi hari.
     {
         $jam ??= (int) now('Asia/Jakarta')->format('G');
 
