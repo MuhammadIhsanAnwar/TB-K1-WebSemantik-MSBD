@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-    public static function poin(string $email): array
     {
         $checkin = self::checkin($email);
         $sejarah = collect($checkin)->pluck('tempat')->unique()->filter(fn ($s) => (Katalog::get($s)['kategori'] ?? null) === 'sejarah');
