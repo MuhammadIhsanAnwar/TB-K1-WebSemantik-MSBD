@@ -270,6 +270,7 @@ class Penyimpanan
             ], 'id_rencana');
             foreach (array_unique($data['minat']) as $kategori) {
                 self::db()->table('rencana_minat')->insert(['id_rencana' => $id, 'kode_kategori' => $kategori]);
+            }
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
