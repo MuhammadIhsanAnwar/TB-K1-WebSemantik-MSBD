@@ -153,6 +153,7 @@ class Penyimpanan
             'dipakai' => self::waktu($p->dipakai_pada),
         ], $baris);
     }
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
