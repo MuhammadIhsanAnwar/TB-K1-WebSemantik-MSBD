@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-
     public static function cariPesanan(string $kode): ?array
     {
         foreach (self::ambil('pesanan') as $p) {
