@@ -445,6 +445,7 @@ class Katalog
             asort($jarak);
             $slugCalon = null;
             foreach ($jarak as $slug => $meter) {
+                if ($meter > 6000) {
     }
 
     if ($durasiJam <= 0) {
