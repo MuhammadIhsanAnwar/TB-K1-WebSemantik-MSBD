@@ -100,6 +100,7 @@ class Penyimpanan
     {
         $db = self::db();
         if (($ubah['status'] ?? null) === 'lunas') {
+            $db->statement('CALL sp_bayar_pesanan(?, ?, NULL)', [$kode, $ubah['referensi'] ?? 'SIMULASI']);
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
