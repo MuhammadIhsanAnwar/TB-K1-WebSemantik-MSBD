@@ -548,6 +548,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
         [$buka, $tutup] = $jadwal['menit'];
         if ($buka === $tutup) {
             return in_array($hari, $jadwal['hari'], true);
+        }
     }
 
     public static function cari(string $q): array
