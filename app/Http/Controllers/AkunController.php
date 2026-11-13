@@ -469,7 +469,7 @@ class AkunController extends Controller
             'moda' => ['required', 'array'], 'moda.*' => ['in:jalan,becak'],
             'mulai' => ['required', 'string'],
         ]);
-        $r = Penyimpanan::simpanRencana($data + ['email' => $this->pengguna($request)['email'], 'durasi' => (int) $data['durasi']]);
+        $r = Penyimpanan::simpanRencana($data + ['id_pengguna' => (int) $this->pengguna($request)['id'], 'durasi' => (int) $data['durasi']]);
 
         return redirect()->route('rencana.bagikan', $r['kode'])->with('pesan', 'Rencana tersimpan. Bagikan tautan ini ke teman seperjalanan.');
     }
