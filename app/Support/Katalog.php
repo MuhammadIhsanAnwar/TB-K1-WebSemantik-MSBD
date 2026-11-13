@@ -256,6 +256,7 @@ class Katalog
         $hasil = self::mintaRuteApi($a, $b, $moda);
         if ($hasil !== null) {
             Cache::put($kunci, $hasil, now()->addDays(30));
+        }
 {
     try {
         $timeout = (int) config('services.routing.timeout', 15);
