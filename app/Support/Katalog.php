@@ -450,6 +450,7 @@ class Katalog
                 }
                 $kira = self::perpindahan($kini, $pool[$slug], $moda);
                 $singgah = (int) ($pool[$slug]['singgah'] ?? 45);
+                if ($kira['menit'] + $singgah <= $sisaMenit && self::bukaSelama($pool[$slug], $hari, $jam + $kira['menit'], $singgah)) {
     }
 
     if ($durasiJam <= 0) {
