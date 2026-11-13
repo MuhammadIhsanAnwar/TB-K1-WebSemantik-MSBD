@@ -323,10 +323,23 @@ function modeAlat(el) {
 
         tampil = tampil.map((t) => ({ ...t, jarak: lokasi ? jarak(lokasi, t) : null, jarakPusat: jarak(titikPusat, t) }));
 
-        if (saring.urut === 'terdekat' || lokasi) {
-            tampil.sort((a, b) => (a.jarak ?? a.jarakPusat) - (b.jarak ?? b.jarakPusat));
+        if (saring.urut === 'rating') {
+    tampil.sort((a, b) =>
+        (b.rating - a.rating) ||
+        (b.jumlahUlasan - a.jumlahUlasan)
+    );
+        } else if (saring.urut === 'kunjungan') {
+            tampil.sort((a, b) =>
+                b.jumlahKunjungan - a.jumlahKunjungan
+            );
+        } else if (saring.urut === 'terdekat' || lokasi) {
+            tampil.sort((a, b) =>
+                (a.jarak ?? a.jarakPusat) - (b.jarak ?? b.jarakPusat)
+            );
         } else if (saring.urut === 'termurah') {
-            tampil.sort((a, b) => (a.hargaAngka ?? 0) - (b.hargaAngka ?? 0));
+            tampil.sort((a, b) =>
+                (a.hargaAngka ?? 0) - (b.hargaAngka ?? 0)
+            );
         }
 
         const terlihat = new Set(tampil.map((t) => t.slug));

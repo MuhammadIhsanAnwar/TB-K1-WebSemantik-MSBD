@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Support\Asisten;
 use App\Support\Katalog;
+use App\Support\Kunjungan;
 use App\Support\Penyimpanan;
 use Illuminate\Http\Request;
 
@@ -116,9 +117,26 @@ class SitusController extends Controller
         return response()->json(Asisten::jawab($data['pesan']));
     }
 
-    public function peta()
+        public function peta()
     {
-        return view('situs.peta', ['tempat' => array_values(Katalog::tempat())]);
+        $tempat = array_values(Katalog::tempat());
+        $kunjungan = Kunjungan::ringkasan(365)['tempat'];
+
+        $ulasan = collect(Penyimpanan::ulasan(null, 'tayang'))
+            ->groupBy('tempat')
+            ->map(fn ($items) => [
+                'rating' => round($items->avg('bintang'), 2),
+                'jumlahUlasan' => $items->count(),
+            ]);
+
+        foreach ($tempat as &$t) {
+            $t['rating'] = $ulasan[$t['slug']]['rating'] ?? 0;
+            $t['jumlahUlasan'] = $ulasan[$t['slug']]['jumlahUlasan'] ?? 0;
+            $t['jumlahKunjungan'] = $kunjungan[$t['slug']] ?? 0;
+        }
+        unset($t);
+
+        return view('situs.peta', compact('tempat'));
     }
 
     public function tempat(string $slug)

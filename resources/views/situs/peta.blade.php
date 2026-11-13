@@ -14,6 +14,9 @@
         'hargaAngka' => Katalog::hargaTermurah($t) ?? 0,
         'tiket' => ! empty($t['tiket']) ? route('tiket.pilih', $t['slug']) : null,
         'buka' => $t['jam_buka'],
+        'rating' => $t['rating'] ?? 0,
+        'jumlahUlasan' => $t['jumlahUlasan'] ?? 0,
+        'jumlahKunjungan' => $t['jumlahKunjungan'] ?? 0,
     ])->values();
     $perKategori = collect($tempat)->countBy('kategori');
 @endphp
@@ -44,6 +47,8 @@
                         <option value="bawaan">Urutan utama</option>
                         <option value="terdekat">Terdekat</option>
                         <option value="termurah">Biaya terendah</option>
+                        <option value="rating">Rating tertinggi</option>
+                        <option value="kunjungan">Paling banyak dikunjungi</option>
                     </select>
                 </div>
             </div>
