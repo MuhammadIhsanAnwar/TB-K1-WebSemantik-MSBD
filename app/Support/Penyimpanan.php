@@ -245,6 +245,7 @@ class Penyimpanan
     {
         $baca = function () use ($idPengguna) {
             $q = self::db()->table('rencana')->orderByDesc('created_at')->orderByDesc('id_rencana');
+            $idPengguna === null || $q->where('id_pengguna', $idPengguna);
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
