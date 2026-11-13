@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-    }
 
     // ---------- check-in ----------
     public static function checkin(?string $email = null): array
