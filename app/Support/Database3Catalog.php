@@ -343,4 +343,5 @@ final class Database3Catalog
         $tutup = $menit((string) $close);
 
         return [$menit((string) $open), $tutup === 1439 ? 1440 : $tutup];
+    }
 }
