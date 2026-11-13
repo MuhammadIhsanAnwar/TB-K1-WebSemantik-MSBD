@@ -248,6 +248,7 @@ class Penyimpanan
             $idPengguna === null || $q->where('id_pengguna', $idPengguna);
 
             return self::bentukRencana($q->get()->all());
+        };
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
