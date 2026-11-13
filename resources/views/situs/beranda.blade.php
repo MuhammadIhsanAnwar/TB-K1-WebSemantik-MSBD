@@ -149,7 +149,7 @@
                         <span class="mv-kartu-tempat__meta">{{ \Illuminate\Support\Str::limit($t['ringkas'], $adalahLebar ? 115 : 80) }}</span>
                         <div class="mv-kartu-tempat__kaki">
                             <span><x-harga :tempat="$t" /></span>
-                            <span class="mv-lencana-jam {{ $sedangBuka ? 'mv-lencana-jam--buka' : 'mv-lencana-jam--tutup' }}">{{ $sedangBuka ? 'Buka' : 'Tutup' }}</span>
+                            @if (Katalog::jadwal($t))
                         </div>
                     </div>
                 </a>
