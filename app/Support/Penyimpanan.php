@@ -111,6 +111,7 @@ class Penyimpanan
                 ->update(['dipakai_pada' => Carbon::parse($ubah['dipakai'])]);
         }
 
+        return self::cariPesanan($kode);
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
