@@ -202,6 +202,7 @@ class Penyimpanan
             'teks' => $data['teks'],
             'status' => 'tayang',
             'created_at' => now(),
+            'updated_at' => now(),
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
