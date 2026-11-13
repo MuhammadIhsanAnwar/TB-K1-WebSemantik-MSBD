@@ -2,6 +2,7 @@
 // "rute" (jalur dan rencana, penanda bernomor dan garis rute).
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { bukaPada, waktuWib } from './jadwal.js';
 
 export const WARNA = { sejarah: '#e3a51c', religi: '#6a4c9c', kuliner: '#c9541e', museum: '#2f6690', 'ruang-publik': '#2e7d4f', belanja: '#9b6b3d', 'rekreasi-air': '#2f8a8a' };
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
