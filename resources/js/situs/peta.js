@@ -500,7 +500,7 @@ function modeAlat(el) {
                 ? 'Izin lokasi ditolak. Peta tetap bisa dipakai tanpa lokasimu.'
                 : 'Lokasimu belum terbaca. Coba lagi di tempat terbuka.';
             hentikanLokasi(pesan);
-            pesanLokasi.textContent = terdekat > 30000 ? 'Kamu sedang jauh dari Medan. Daftar tetap diurutkan dari yang paling dekat.' : 'Diurutkan dari yang terdekat denganmu.';
+        }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
             gambar();
         }, () => {
             tombolLokasi.removeAttribute('aria-busy');
