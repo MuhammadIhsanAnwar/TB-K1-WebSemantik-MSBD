@@ -10,6 +10,7 @@
     $dikunjungi = $kunjunganTempat->where('jumlah', '>', 0);
     $belumDikunjungi = $kunjunganTempat->count() - $dikunjungi->count();
     // superadmin yang sedang melihat satu tempat tetap membawa pilihan itu saat ganti periode
+    $tautanPeriode = fn ($p) => route('admin.insight', array_filter(['periode' => $p, 'tempat' => $admin ? null : $fokus]));
 @endphp
 @section('judul', 'Insight')
 
