@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-
     // ---------- ulasan ----------
     public static function ulasan(?string $tempat = null, ?string $status = null): array
     {
