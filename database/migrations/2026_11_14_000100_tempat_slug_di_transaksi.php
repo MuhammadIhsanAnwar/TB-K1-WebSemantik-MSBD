@@ -87,3 +87,4 @@ return new class extends Migration
                 RETURN NULL;
             END $$;
 
+            CREATE TRIGGER ulasan_ringkasan
