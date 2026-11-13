@@ -431,6 +431,7 @@ function modeAlat(el) {
     });
 
     // Lokasi saya: diikuti terus (watchPosition) sampai tombol ditekan lagi. Daftar diurutkan ulang
+    // hanya kalau posisi bergeser lebih dari 25 m, supaya tidak melompat-lompat saat berjalan.
     const tombolLokasi = document.querySelector('[data-lokasi-saya]');
     const pesanLokasi = document.querySelector('[data-pesan-lokasi]');
     tombolLokasi?.addEventListener('click', () => {
