@@ -18,3 +18,4 @@ return new class extends Migration
 
     public function up(): void
     {
+        DB::connection($this->connection)->unprepared(<<<'SQL'
