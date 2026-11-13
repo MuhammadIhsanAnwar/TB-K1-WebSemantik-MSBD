@@ -170,3 +170,4 @@ return new class extends Migration
                 VALUES (NEW.id_pengguna, 10, 'checkin', NEW.id_checkin, 'Check-in di tempat #' || NEW.id_tempat);
                 RETURN NULL;
             END $$;
+
