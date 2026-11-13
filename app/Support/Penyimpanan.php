@@ -234,6 +234,7 @@ class Penyimpanan
             ->map(fn ($n) => (int) $n)->all(), []);
     }
 
+    public static function jumlahCari(): int
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
