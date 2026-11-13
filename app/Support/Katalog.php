@@ -416,6 +416,7 @@ class Katalog
         }
         if ($durasiJam <= 0) {
             throw new RuntimeException('Durasi perjalanan harus lebih dari 0 jam.');
+        }
 
     $awal = self::get($mulai);
 
