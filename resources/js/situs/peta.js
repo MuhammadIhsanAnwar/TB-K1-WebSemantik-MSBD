@@ -430,6 +430,7 @@ function modeAlat(el) {
         gambar();
     });
 
+    // Lokasi saya: diikuti terus (watchPosition) sampai tombol ditekan lagi. Daftar diurutkan ulang
     const tombolLokasi = document.querySelector('[data-lokasi-saya]');
     const pesanLokasi = document.querySelector('[data-pesan-lokasi]');
     tombolLokasi?.addEventListener('click', () => {
