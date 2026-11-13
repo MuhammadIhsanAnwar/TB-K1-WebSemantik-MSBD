@@ -519,6 +519,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
             foreach ($cocok as $c) {
                 $awal = self::HARI[$c[1]];
                 $akhir = isset($c[2]) && $c[2] !== '' ? self::HARI[$c[2]] : $awal;
+                for ($h = $awal, $n = 0; $n < 7; $h = $h % 7 + 1, $n++) {
 
         return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
