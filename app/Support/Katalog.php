@@ -249,6 +249,7 @@ class Katalog
     /** Rute jalan sungguhan (OSRM/Valhalla), disimpan 30 hari karena letak tempat jarang berubah. */
     private static function ambilRuteApi(array $a, array $b, string $moda): ?array
     {
+        $kunci = 'medanvisit.rute.'.$moda.'.'.md5($a['lat'].','.$a['lng'].';'.$b['lat'].','.$b['lng']);
 {
     try {
         $timeout = (int) config('services.routing.timeout', 15);
