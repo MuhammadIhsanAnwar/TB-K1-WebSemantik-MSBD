@@ -115,6 +115,7 @@
             </div>
             <ol class="mv-dekat__daftar" data-dekat-daftar hidden></ol>
             <div class="mv-dekat__aksi">
+                <button class="mv-btn mv-btn--kecil" type="button" data-dekat-minta hidden>Tampilkan tempat terdekat</button>
         <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
             <button type="button" data-filter="semua" aria-pressed="true">Semua</button>
             @foreach ($kategori as $k => $grup)
