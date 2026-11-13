@@ -75,3 +75,4 @@ return new class extends Migration
                         rata_rata_bintang = EXCLUDED.rata_rata_bintang,
                         diperbarui_pada = EXCLUDED.diperbarui_pada;
             $$;
+
