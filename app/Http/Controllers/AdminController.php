@@ -55,6 +55,7 @@ class AdminController extends Controller
         // admin tempat hanya melihat tempatnya sendiri; superadmin bisa memilih satu tempat lewat ?tempat=
         $milik = $this->slugKelolaan($request);
         $pilihan = $request->query('tempat');
+        $fokus = $milik ?? (is_string($pilihan) && (Katalog::get($pilihan)['jenis'] ?? null) === 'tempat' ? $pilihan : null);
         );
         $transaksi = $pesanan->groupBy('tempat')->map(fn ($baris) => [
             'pesanan' => $baris->count(),
