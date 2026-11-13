@@ -119,3 +119,4 @@ return new class extends Migration
                 INSERT INTO pesanan_item (id_pesanan, jenis_pengunjung, harga, jumlah)
                 SELECT v_id, x->>'jenis', (x->>'harga')::integer, (x->>'jumlah')::smallint
                 FROM jsonb_array_elements(p_item) AS x
+                WHERE (x->>'jumlah')::integer > 0;
