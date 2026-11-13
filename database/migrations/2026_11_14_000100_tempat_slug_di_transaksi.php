@@ -11,3 +11,4 @@ use Illuminate\Support\Facades\DB;
  * tempat_slug (varchar), sama seperti users.tempat_slug di DB 1. Function, trigger, view, dan procedure
  * yang memakai kolom itu dibuat ulang. Ulasan juga menyimpan nama pengulas saat menulis, karena
  * DB 2 tidak bisa membaca tabel users di DB 1.
+ */
