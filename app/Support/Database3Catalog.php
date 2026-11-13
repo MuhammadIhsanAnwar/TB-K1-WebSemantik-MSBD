@@ -340,4 +340,5 @@ final class Database3Catalog
             return null;
         }
         $menit = fn (string $jam) => (int) substr($jam, 0, 2) * 60 + (int) substr($jam, 3, 2);
+        $tutup = $menit((string) $close);
 }
