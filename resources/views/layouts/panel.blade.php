@@ -23,11 +23,11 @@
         ['admin.cerita', 'Cerita dan audio', 'cerita', null], ['admin.ulasan', 'Ulasan menunggu', 'ulasan', $antre ?: null],
         ['admin.tiket', 'Tiket dan transaksi', 'tiket', null], ['admin.sinkronisasi', 'Sinkronisasi', 'sinkron', null],
     ];
+        $menuKurator[] = ['admin.insight', 'Insight', 'statistik', null];
     if ($u['peran'] === 'superadmin') {
         $menuKurator = array_merge($menuKurator, [
             ['admin.tempat.daftar', 'Kelola tempat wisata', 'entitas', null],
             ['admin.akun', 'Kelola akun', 'akun', null],
-            ['admin.insight', 'Insight', 'statistik', null],
         ]);
     }
 @endphp
