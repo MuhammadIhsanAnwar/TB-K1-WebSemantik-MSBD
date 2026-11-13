@@ -72,7 +72,7 @@
         </section>
     @endunless
 
-                @foreach ($tempatPopuler as $slug => $jumlah)
+    @unless ($admin)
                     @php $tempat = Katalog::get($slug); @endphp
                     @if ($tempat)
                         <div><span>{{ $tempat['nama'] }}</span><b class="kanan">{{ number_format($jumlah, 0, ',', '.') }}</b></div>
