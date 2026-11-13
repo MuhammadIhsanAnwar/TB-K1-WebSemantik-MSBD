@@ -9,3 +9,4 @@ const status = blok.querySelector('[data-dekat-status]');
 const daftar = blok.querySelector('[data-dekat-daftar]');
 const tombol = blok.querySelector('[data-dekat-minta]');
 const tautanPeta = blok.querySelector('[data-dekat-peta]');
+const KUNCI = 'mv-lokasi-ditunda';
