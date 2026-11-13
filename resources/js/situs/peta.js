@@ -472,6 +472,7 @@ function modeAlat(el) {
         }
         if (!posisiTerurut || jarak(posisiTerurut, lokasi) > 25) {
             posisiTerurut = lokasi;
+            const terdekat = Math.min(...tempat.map((t) => jarak(lokasi, t)));
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
