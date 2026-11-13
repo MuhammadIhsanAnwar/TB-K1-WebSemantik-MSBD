@@ -52,3 +52,4 @@ function tampilkan(pos) {
 }
 
 function minta() {
+    blok.hidden = false;
