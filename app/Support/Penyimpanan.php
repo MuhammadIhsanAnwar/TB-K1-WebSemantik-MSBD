@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-    public static function catatCheckin(string $email, string $nama, string $tempat, int $jarak): array
     {
         return self::tambah('checkin', ['email' => $email, 'nama' => $nama, 'tempat' => $tempat, 'jarak_m' => $jarak]);
     }
