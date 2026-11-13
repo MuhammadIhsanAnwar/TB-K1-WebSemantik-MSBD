@@ -491,6 +491,7 @@ function modeAlat(el) {
         }
         pertama = true;
         tombolLokasi.setAttribute('aria-busy', 'true');
+        tombolLokasi.setAttribute('aria-pressed', 'true');
         pesanLokasi.textContent = 'Membaca lokasimu…';
         navigator.geolocation.getCurrentPosition((pos) => {
             lokasi = { lat: pos.coords.latitude, lng: pos.coords.longitude };
