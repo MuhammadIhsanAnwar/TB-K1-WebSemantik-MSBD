@@ -429,6 +429,7 @@ class Katalog
         }
 
         $sisaMenit = $durasiJam * 60;
+        $durasiAwal = (int) ($awal['singgah'] ?? 45);
     }
 
     if ($durasiJam <= 0) {
