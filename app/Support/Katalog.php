@@ -507,7 +507,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
      */
     public static function jadwal(array $tempat): ?array
     {
-        $jam ??= (int) now('Asia/Jakarta')->format('G');
+        $menit = $tempat['jam_menit'] ?? null;
 
         return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
