@@ -338,4 +338,5 @@ final class Database3Catalog
         $close = self::first($properties, 'mv:jamTutup', null);
         if ($open === null || $close === null) {
             return null;
+        }
 }
