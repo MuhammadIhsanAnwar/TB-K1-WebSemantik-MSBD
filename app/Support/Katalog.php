@@ -409,6 +409,7 @@ class Katalog
      * untuk tempat yang terpilih. Kalau layanan itu gagal, perkiraan garis lurus dipakai.
      */
     public static function susunRute(array $minat, int $durasiJam, array $moda, string $mulai, ?\DateTimeInterface $tanggal = null): array
+    {
 
     $awal = self::get($mulai);
 
