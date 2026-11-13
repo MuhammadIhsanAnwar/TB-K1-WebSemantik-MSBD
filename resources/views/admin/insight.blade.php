@@ -7,6 +7,7 @@
     $namaRute = ['beranda' => 'Beranda', 'cari' => 'Pencarian', 'peta' => 'Peta', 'jalur' => 'Jalur', 'jelajah' => 'Jelajah', 'tanya' => 'Tanya'];
     $namaFokus = $fokus ? (Katalog::get($fokus)['nama'] ?? $fokus) : null;
     $rating = $fokus ? (Penyimpanan::ringkasanUlasan()[$fokus] ?? null) : null;
+    $dikunjungi = $kunjunganTempat->where('jumlah', '>', 0);
 @endphp
 @section('judul', 'Insight')
 
