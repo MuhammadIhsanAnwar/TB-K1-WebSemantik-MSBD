@@ -109,3 +109,4 @@ return new class extends Migration
                     RAISE EXCEPTION 'Tanggal kunjungan tidak boleh di masa lalu';
                 END IF;
 
+                p_kode := fn_kode_acak('MV-', 8);
