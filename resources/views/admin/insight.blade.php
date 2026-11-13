@@ -70,7 +70,7 @@
                 <div class="p-kosong">Belum ada data kunjungan selama periode ini.</div>
             @endif
         </section>
-        @if ($tempatPopuler->isNotEmpty())
+    @endunless
             <div class="p-baris">
                 @foreach ($tempatPopuler as $slug => $jumlah)
                     @php $tempat = Katalog::get($slug); @endphp
