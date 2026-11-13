@@ -146,6 +146,7 @@ class Penyimpanan
             'total' => (int) $p->total,
             'metode' => $p->metode,
             'status' => $p->status,
+            'batas_bayar' => self::waktu($p->batas_bayar),
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
