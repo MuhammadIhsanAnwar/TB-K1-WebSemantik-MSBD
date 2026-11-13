@@ -150,6 +150,7 @@
                         <div class="mv-kartu-tempat__kaki">
                             <span><x-harga :tempat="$t" /></span>
                             @if (Katalog::jadwal($t))
+                                <span class="mv-lencana-jam {{ $sedangBuka ? 'mv-lencana-jam--buka' : 'mv-lencana-jam--tutup' }}">{{ $sedangBuka ? 'Buka' : 'Tutup' }}</span>
                         </div>
                     </div>
                 </a>
