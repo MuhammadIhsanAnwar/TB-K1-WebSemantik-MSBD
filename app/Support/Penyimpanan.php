@@ -184,6 +184,7 @@ class Penyimpanan
     /** Rating per tempat dari tabel ringkasan_ulasan (diisi trigger ulasan_ringkasan). */
     public static function ringkasanUlasan(): array
     {
+        return self::aman(fn () => self::db()->table('ringkasan_ulasan')->get()
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
