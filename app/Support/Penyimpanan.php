@@ -286,6 +286,7 @@ class Penyimpanan
         if (! $baris) {
             return [];
         }
+        $minat = self::db()->table('rencana_minat')
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
