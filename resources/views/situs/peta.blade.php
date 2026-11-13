@@ -13,7 +13,7 @@
         'harga' => Katalog::rupiah(Katalog::hargaTermurah($t)),
         'hargaAngka' => Katalog::hargaTermurah($t) ?? 0,
         'tiket' => ! empty($t['tiket']) ? route('tiket.pilih', $t['slug']) : null,
-        'buka' => $t['jam_buka'],
+        'buka' => Katalog::jadwal($t),
         'rating' => $t['rating'] ?? 0,
         'jumlahUlasan' => $t['jumlahUlasan'] ?? 0,
         'jumlahKunjungan' => $t['jumlahKunjungan'] ?? 0,
