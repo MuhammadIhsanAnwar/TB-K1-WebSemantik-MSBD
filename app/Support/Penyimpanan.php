@@ -268,6 +268,7 @@ class Penyimpanan
                 'created_at' => now(),
                 'updated_at' => now(),
             ], 'id_rencana');
+            foreach (array_unique($data['minat']) as $kategori) {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
