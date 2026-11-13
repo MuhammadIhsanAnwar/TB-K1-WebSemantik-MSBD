@@ -440,6 +440,7 @@ class Katalog
         $total = self::hargaTermurah($awal) ?? 0;
         $kini = $awal;
 
+        while ($pool) {
     }
 
     if ($durasiJam <= 0) {
