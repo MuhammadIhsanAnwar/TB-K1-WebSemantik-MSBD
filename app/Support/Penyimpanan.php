@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-            $badge[] = ['nama' => 'Pemburu Sejarah', 'keterangan' => '2 tempat bersejarah, bonus 25 poin'];
             $poin += 25;
         }
         $dipakai = collect(self::penukaran($email))->sum('poin');
