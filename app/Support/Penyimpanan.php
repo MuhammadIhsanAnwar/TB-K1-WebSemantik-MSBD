@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use Throwable;
 
 /**
- * Penyimpanan sementara untuk prototipe: pesanan tiket, check-in, ulasan, log pencarian, voucher mitra,
+ * Penyimpanan transaksi MedanVisit.
  * dan penukaran poin disimpan di cache berkas (CACHE_STORE=file), karena database belum tersambung.
  * Semua angka di dashboard dihitung dari isi penyimpanan ini, tidak ada angka yang diketik.
  * Nanti diganti tabel PostgreSQL (pesanan, checkin, ulasan, voucher) dan log MongoDB (aktivitas).
