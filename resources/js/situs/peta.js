@@ -478,6 +478,7 @@ function modeAlat(el) {
                 : `Lokasimu diikuti langsung (akurasi sekitar ${akurasi.toLocaleString('id')} m). Daftar diurutkan dari yang terdekat.`;
             gambar();
         }
+    }
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
