@@ -422,7 +422,7 @@ class Katalog
         $hari = (int) \Illuminate\Support\Carbon::instance($tanggal ?? now())->setTimezone('Asia/Jakarta')->isoFormat('E');
 
         // mulai pukul 08.30, atau saat tempat awal buka kalau lebih siang
-        throw new RuntimeException('Tempat awal atau pilihan minat tidak ditemukan di Database 3.');
+        $jam = 8 * 60 + 30;
     }
 
     if ($durasiJam <= 0) {
