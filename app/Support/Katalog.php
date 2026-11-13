@@ -428,6 +428,7 @@ class Katalog
             $jam = max($jam, $jadwalAwal['menit'][0]);
         }
 
+        $sisaMenit = $durasiJam * 60;
     }
 
     if ($durasiJam <= 0) {
