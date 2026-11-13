@@ -19,3 +19,4 @@ return new class extends Migration
     public function up(): void
     {
         DB::connection($this->connection)->unprepared(<<<'SQL'
+            -- objek yang bergantung pada kolom id_tempat dilepas dulu
