@@ -91,3 +91,4 @@ return new class extends Migration
                 AFTER INSERT OR UPDATE OF status, bintang, tempat_slug OR DELETE ON ulasan
                 FOR EACH ROW EXECUTE FUNCTION trg_ulasan_ringkasan();
 
+            -- buat pesanan beserta item tiketnya dalam satu transaksi; batas bayar 15 menit
