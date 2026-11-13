@@ -212,3 +212,4 @@ return new class extends Migration
                 SELECT v_id, x->>'jenis', (x->>'harga')::integer, (x->>'jumlah')::smallint
                 FROM jsonb_array_elements(p_item) AS x WHERE (x->>'jumlah')::integer > 0;
             END $$;
+            SQL);
