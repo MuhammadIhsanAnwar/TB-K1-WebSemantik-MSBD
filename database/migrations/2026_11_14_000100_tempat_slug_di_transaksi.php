@@ -86,3 +86,4 @@ return new class extends Migration
                 END IF;
                 RETURN NULL;
             END $$;
+
