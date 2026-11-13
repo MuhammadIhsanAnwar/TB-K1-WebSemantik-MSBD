@@ -505,6 +505,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
      * dihitung kalau diikuti rentang jam, jadi "Di luar jam misa (Minggu 06.30, ...)" tidak membatasi hari.
      * Tanpa jam terstruktur hasilnya null, artinya jam buka tidak diketahui.
      */
+    public static function jadwal(array $tempat): ?array
     {
         $jam ??= (int) now('Asia/Jakarta')->format('G');
 
