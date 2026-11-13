@@ -140,3 +140,4 @@ return new class extends Migration
             DROP FUNCTION IF EXISTS fn_hitung_ringkasan_ulasan(varchar);
             DROP PROCEDURE IF EXISTS sp_buat_pesanan(bigint, varchar, varchar, varchar, varchar, date, varchar, jsonb, varchar);
             ALTER TABLE pesanan DROP CONSTRAINT IF EXISTS ck_pesanan_tempat;
+            ALTER TABLE ulasan DROP COLUMN IF EXISTS nama_pengguna, DROP COLUMN IF EXISTS email_pengguna;
