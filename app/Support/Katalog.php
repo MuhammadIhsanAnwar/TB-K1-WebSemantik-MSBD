@@ -499,7 +499,6 @@ class Katalog
         }
         if ($tutup < $buka) {
             $tutup += 1440; // lewat tengah malam
-
     $sisaMenit -= $durasiAwal;
     $jam += $durasiAwal;
     $total += self::hargaTermurah($awal) ?? 0;
