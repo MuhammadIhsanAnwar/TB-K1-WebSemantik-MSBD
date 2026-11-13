@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-    }
 
     public static function buatPesanan(array $data): array
     {
