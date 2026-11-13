@@ -197,3 +197,4 @@ return new class extends Migration
                 p_id_tempat integer, p_tanggal date, p_metode varchar, p_item jsonb,
                 INOUT p_kode varchar DEFAULT NULL)
             LANGUAGE plpgsql AS $$
+            DECLARE
