@@ -107,6 +107,7 @@ class Penyimpanan
         }
         if (isset($ubah['dipakai'])) {
             $id = $db->table('pesanan')->where('kode', $kode)->value('id_pesanan');
+            $db->table('e_tiket')->where('id_pesanan', $id)->whereNull('dipakai_pada')
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
