@@ -309,6 +309,7 @@ class SitusController extends Controller
         $r = Penyimpanan::cariRencana($kode);
         abort_unless($r, 404);
 
+        try {
         return view('situs.rencana', [
             'hasil' => Katalog::susunRute($r['minat'], $r['durasi'], $r['moda'], $r['mulai']),
             'pref' => $r, 'tempat' => Katalog::tempat(), 'dibagikan' => $r,
