@@ -293,7 +293,7 @@ class Katalog
                 .$a['lng'].','.$a['lat'].';'
                 .$b['lng'].','.$b['lat'];
 
-            $response = Http::timeout($timeout)
+            $response = Http::connectTimeout(3)->timeout($timeout)
                 ->acceptJson()
                 ->get($url, [
                     'overview' => 'false',
