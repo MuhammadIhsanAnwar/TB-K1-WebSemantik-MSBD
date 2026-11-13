@@ -69,7 +69,7 @@
             @else
                 <div class="p-kosong">Belum ada data kunjungan selama periode ini.</div>
             @endif
-        <header><h2 id="tempat-populer">Kunjungan halaman tempat wisata</h2><span class="meta">{{ $periode }} hari</span></header>
+        </section>
         @if ($tempatPopuler->isNotEmpty())
             <div class="p-baris">
                 @foreach ($tempatPopuler as $slug => $jumlah)
