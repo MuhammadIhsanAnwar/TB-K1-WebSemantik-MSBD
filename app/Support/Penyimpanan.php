@@ -238,6 +238,7 @@ class Penyimpanan
     {
         return self::aman(fn () => self::db()->table('log_pencarian')->count(), 0);
     }
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
