@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-    /** Poin: 10 per check-in, +25 sekali saat dua tempat bersejarah berbeda sudah dikunjungi, dikurangi penukaran. */
     public static function poin(string $email): array
     {
         $checkin = self::checkin($email);
