@@ -166,6 +166,7 @@ class Penyimpanan
             $idPengguna === null || $q->where('id_pengguna', $idPengguna);
 
             return $q->get()->map(fn ($u) => [
+                'id' => (string) $u->id_ulasan,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
