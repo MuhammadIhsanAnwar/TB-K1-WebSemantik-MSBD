@@ -450,7 +450,7 @@ class AkunController extends Controller
             'teks.min' => 'Tulis minimal 10 karakter supaya ulasanmu berguna bagi orang lain.',
         ]);
         $u = $this->pengguna($request);
-        Penyimpanan::tulisUlasan($data + ['tempat' => $slug, 'email' => $u['email'], 'nama' => $u['nama']]);
+        Penyimpanan::tulisUlasan($data + ['tempat' => $slug, 'id_pengguna' => (int) $u['id'], 'email' => $u['email'], 'nama' => $u['nama']]);
 
         return redirect()->to(route('tempat', $slug).'#ulasan')->with('pesan', 'Terima kasih. Ulasanmu tayang setelah diperiksa kurator.');
     }
