@@ -40,3 +40,4 @@ function tampilkan(pos) {
         ? 'Kamu sedang di luar Medan. Ini tempat yang paling dekat dari posisimu.'
         : 'Tiga tempat terdekat dari lokasimu sekarang.';
     daftar.innerHTML = terdekat.map((t) => {
+        const jam = t.buka
