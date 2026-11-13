@@ -24,6 +24,7 @@ class Penyimpanan
 {
     private const ZONA = 'Asia/Jakarta';
 
+    private static function db(): ConnectionInterface
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
