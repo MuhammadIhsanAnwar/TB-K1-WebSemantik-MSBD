@@ -244,6 +244,7 @@ class Penyimpanan
     public static function rencana(?int $idPengguna = null, bool $aman = false): array
     {
         $baca = function () use ($idPengguna) {
+            $q = self::db()->table('rencana')->orderByDesc('created_at')->orderByDesc('id_rencana');
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
