@@ -13,7 +13,7 @@ use Throwable;
 /**
  * Penyimpanan transaksi MedanVisit.
  *
- * Semua angka di dashboard dihitung dari isi penyimpanan ini, tidak ada angka yang diketik.
+ * Pesanan tiket, ulasan, log pencarian, dan rencana disimpan di DB 2 (koneksi "transaksi", PostgreSQL).
  * Nanti diganti tabel PostgreSQL (pesanan, checkin, ulasan, voucher) dan log MongoDB (aktivitas).
  */
 class Penyimpanan
