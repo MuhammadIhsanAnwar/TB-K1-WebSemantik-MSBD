@@ -76,3 +76,4 @@ function minta() {
 }
 
 function mulai(keadaan) {
+    if (keadaan === 'denied') return;
