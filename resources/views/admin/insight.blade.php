@@ -75,7 +75,7 @@
     @unless ($admin)
         <section class="p-panel {{ $fokus ? 's12' : 's6' }}" aria-labelledby="tempat-populer">
             <header><h2 id="tempat-populer">Kunjungan halaman tempat wisata</h2><span class="meta">{{ $periode }} hari · pilih tempat untuk melihat grafiknya</span></header>
-                        <div><span>{{ $tempat['nama'] }}</span><b class="kanan">{{ number_format($jumlah, 0, ',', '.') }}</b></div>
+            @if ($dikunjungi->isNotEmpty())
                     @endif
                 @endforeach
             </div>
