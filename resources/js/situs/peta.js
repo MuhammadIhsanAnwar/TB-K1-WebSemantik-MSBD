@@ -503,6 +503,7 @@ function modeAlat(el) {
         }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
     });
 
+    // Lokasi yang sudah diizinkan di beranda langsung dipakai di peta.
 
     daftar.querySelectorAll('[data-slug]').forEach((a) => {
         a.addEventListener('mouseenter', () => penanda.get(a.dataset.slug)?.setZIndexOffset(400));
