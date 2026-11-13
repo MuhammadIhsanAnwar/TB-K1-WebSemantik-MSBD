@@ -14,3 +14,4 @@ export function waktuWib(tanggal = new Date()) {
 export function bukaPada(jadwal, kini = waktuWib()) {
     if (!jadwal) return false;
     const [buka, tutup] = jadwal.menit;
+    const hariIni = jadwal.hari.includes(kini.hari);
