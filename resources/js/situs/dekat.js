@@ -41,3 +41,4 @@ function tampilkan(pos) {
         : 'Tiga tempat terdekat dari lokasimu sekarang.';
     daftar.innerHTML = terdekat.map((t) => {
         const jam = t.buka
+            ? `<span class="mv-lencana-jam ${bukaPada(t.buka, kini) ? 'mv-lencana-jam--buka">Buka' : 'mv-lencana-jam--tutup">Tutup'}</span>`
