@@ -7,3 +7,4 @@ const blok = document.querySelector('[data-dekat]');
 const tempat = JSON.parse(blok.dataset.dekat);
 const status = blok.querySelector('[data-dekat-status]');
 const daftar = blok.querySelector('[data-dekat-daftar]');
+const tombol = blok.querySelector('[data-dekat-minta]');
