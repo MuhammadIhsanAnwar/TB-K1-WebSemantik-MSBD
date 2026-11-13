@@ -1062,6 +1062,7 @@
 .mv-lencana-jam--buka { background: var(--mv-buka-bg); color: var(--mv-buka-teks); }
 .mv-lencana-jam--tutup { background: var(--mv-tutup-bg); color: var(--mv-tutup-teks); }
 
+/* beranda: tiga tempat terdekat dari lokasi pengunjung */
 
 /* 3. Showcase: Benang merah kota (Square plate, spare text) */
 .mv-benang {
