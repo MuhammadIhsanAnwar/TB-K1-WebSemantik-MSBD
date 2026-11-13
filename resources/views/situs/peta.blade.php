@@ -89,12 +89,15 @@
                         <span class="mv-peta-kartu__meta" style="display:flex;justify-content:space-between;gap:8px"><span>{{ Katalog::KATEGORI[$t['kategori']] }}</span><b class="nums" style="color:var(--mv-hijau)"><x-harga :tempat="$t" /></b></span>
                         <span class="mv-peta-kartu__meta">{{ $t['kecamatan'] }}, {{ $t['jam'] }}</span>
                         <div class="mv-peta-kartu__meta" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:5px">
-                        <span>
-                            ★ {{ ($t['jumlahUlasan'] ?? 0) > 0 ? number_format($t['rating'], 1, ',', '.') : 'Belum ada rating' }}
-                            @if(($t['jumlahUlasan'] ?? 0) > 0)
-                                ({{ $t['jumlahUlasan'] }} ulasan)
-                            @endif
-                        </span>
+                        <span style="display:inline-flex;align-items:center;gap:4px;white-space:nowrap">
+                        <span style="color:#e6a23c;letter-spacing:1px">★</span>
+                        <b>{{ ($t['jumlahUlasan'] ?? 0) > 0 ? number_format($t['rating'], 1, ',', '.') : '-' }}</b>
+                        @if(($t['jumlahUlasan'] ?? 0) > 0)
+                            <span>({{ $t['jumlahUlasan'] }} ulasan)</span>
+                        @else
+                            <span>Belum ada rating</span>
+                        @endif
+                    </span>
                         <span>
                             <span aria-hidden="true">👁</span>
                             {{ number_format($t['jumlahKunjungan'] ?? 0, 0, ',', '.') }} kunjungan
