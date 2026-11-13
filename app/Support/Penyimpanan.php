@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-
     public static function buatPesanan(array $data): array
     {
         $data['kode'] = 'MV-'.strtoupper(Str::random(4)).'-'.random_int(1000, 9999);
