@@ -423,6 +423,7 @@ class Katalog
 
         // mulai pukul 08.30, atau saat tempat awal buka kalau lebih siang
         $jam = 8 * 60 + 30;
+        $jadwalAwal = self::jadwal($awal);
     }
 
     if ($durasiJam <= 0) {
