@@ -359,7 +359,6 @@ class Penyimpanan
 
         return null;
     }
-    public static function rencana(?string $email = null): array
     {
         return array_reverse(array_filter(self::ambil('rencana'), fn ($r) => $email === null || $r['email'] === $email));
     }
