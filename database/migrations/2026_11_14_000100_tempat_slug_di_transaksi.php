@@ -92,3 +92,4 @@ return new class extends Migration
                 FOR EACH ROW EXECUTE FUNCTION trg_ulasan_ringkasan();
 
             -- buat pesanan beserta item tiketnya dalam satu transaksi; batas bayar 15 menit
+            -- p_item: [{"jenis": "Dewasa", "harga": 10000, "jumlah": 2}, ...]
