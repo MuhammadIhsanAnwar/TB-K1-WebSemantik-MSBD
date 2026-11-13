@@ -76,7 +76,7 @@
         <section class="p-panel {{ $fokus ? 's12' : 's6' }}" aria-labelledby="tempat-populer">
             <header><h2 id="tempat-populer">Kunjungan halaman tempat wisata</h2><span class="meta">{{ $periode }} hari · pilih tempat untuk melihat grafiknya</span></header>
             @if ($dikunjungi->isNotEmpty())
-                    @endif
+                <div class="p-baris">
                 @endforeach
             </div>
         @else
