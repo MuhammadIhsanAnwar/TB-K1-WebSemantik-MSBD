@@ -262,6 +262,7 @@ class Penyimpanan
                 'id_pengguna' => $data['id_pengguna'],
                 'judul' => $data['judul'],
                 'durasi_jam' => (int) $data['durasi'],
+                'moda_jalan' => in_array('jalan', $data['moda'], true),
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
