@@ -242,6 +242,7 @@ class Penyimpanan
     // ---------- rencana tersimpan ----------
 
     public static function rencana(?int $idPengguna = null, bool $aman = false): array
+    {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
