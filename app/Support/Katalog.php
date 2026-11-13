@@ -418,7 +418,7 @@ class Katalog
             throw new RuntimeException('Durasi perjalanan harus lebih dari 0 jam.');
         }
 
-    $awal = self::get($mulai);
+        $pool = array_filter(self::tempat(), fn ($t) => in_array($t['kategori'], $minat, true) && $t['slug'] !== $mulai);
 
     if (! $awal || $awal['jenis'] !== 'tempat' || ! $pool) {
         throw new RuntimeException('Tempat awal atau pilihan minat tidak ditemukan di Database 3.');
