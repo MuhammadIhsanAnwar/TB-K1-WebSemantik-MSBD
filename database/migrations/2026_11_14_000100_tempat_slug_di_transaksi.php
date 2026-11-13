@@ -162,3 +162,4 @@ return new class extends Migration
                 JOIN (SELECT id_pesanan, sum(jumlah) AS jumlah_orang FROM pesanan_item GROUP BY id_pesanan) i
                   ON i.id_pesanan = p.id_pesanan
                 WHERE p.status = 'lunas'
+                GROUP BY p.id_tempat, date_trunc('month', p.tanggal_kunjungan);
