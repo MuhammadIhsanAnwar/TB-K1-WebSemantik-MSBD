@@ -79,3 +79,4 @@ return new class extends Migration
             CREATE OR REPLACE FUNCTION trg_ulasan_ringkasan() RETURNS trigger LANGUAGE plpgsql AS $$
             BEGIN
                 IF TG_OP IN ('UPDATE', 'DELETE') THEN
+                    PERFORM fn_hitung_ringkasan_ulasan(OLD.tempat_slug);
