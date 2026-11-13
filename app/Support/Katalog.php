@@ -419,6 +419,7 @@ class Katalog
         }
 
         $pool = array_filter(self::tempat(), fn ($t) => in_array($t['kategori'], $minat, true) && $t['slug'] !== $mulai);
+        $hari = (int) \Illuminate\Support\Carbon::instance($tanggal ?? now())->setTimezone('Asia/Jakarta')->isoFormat('E');
 
     if (! $awal || $awal['jenis'] !== 'tempat' || ! $pool) {
         throw new RuntimeException('Tempat awal atau pilihan minat tidak ditemukan di Database 3.');
