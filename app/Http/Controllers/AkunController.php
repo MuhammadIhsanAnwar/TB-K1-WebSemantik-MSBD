@@ -439,7 +439,7 @@ class AkunController extends Controller
 
     public function ulasanSaya(Request $request)
     {
-        $email = $this->pengguna($request)['email'];
+        return view('akun.ulasan', ['ulasan' => Penyimpanan::ulasan(idPengguna: (int) $this->pengguna($request)['id'])]);
 
         return view('akun.ulasan', ['ulasan' => array_filter(Penyimpanan::ulasan(), fn ($u) => $u['email'] === $email)]);
     }
