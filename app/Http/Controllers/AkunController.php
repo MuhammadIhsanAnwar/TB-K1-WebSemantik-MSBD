@@ -440,7 +440,6 @@ class AkunController extends Controller
     public function ulasanSaya(Request $request)
     {
         return view('akun.ulasan', ['ulasan' => Penyimpanan::ulasan(idPengguna: (int) $this->pengguna($request)['id'])]);
-        return view('akun.ulasan', ['ulasan' => array_filter(Penyimpanan::ulasan(), fn ($u) => $u['email'] === $email)]);
     }
 
     public function tulisUlasan(Request $request, string $slug)
