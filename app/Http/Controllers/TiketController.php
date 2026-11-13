@@ -133,7 +133,7 @@ class TiketController extends Controller
     {
         $p = $this->milik($request, $kode);
         if ($p['status'] === 'menunggu') {
-            Penyimpanan::ubahPesanan($kode, ['status' => 'lunas', 'dibayar' => now('Asia/Jakarta')->toIso8601String()]);
+            Penyimpanan::ubahPesanan($kode, ['status' => 'lunas', 'referensi' => 'SIMULASI']);
         }
 
         return redirect()->route('pesanan', $kode);
