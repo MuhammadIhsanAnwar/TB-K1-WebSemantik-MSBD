@@ -82,3 +82,4 @@ function mulai(keadaan) {
 }
 
 if (navigator.geolocation) {
+    tombol.addEventListener('click', minta);
