@@ -52,3 +52,4 @@ return new class extends Migration
                        count(*) AS jumlah_pesanan,
                        sum(i.jumlah_orang) AS jumlah_pengunjung,
                        sum(p.total) AS pendapatan
+                FROM pesanan p
