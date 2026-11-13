@@ -54,3 +54,4 @@ function tampilkan(pos) {
 function minta() {
     blok.hidden = false;
     tombol.hidden = true;
+    blok.setAttribute('aria-busy', 'true');
