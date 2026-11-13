@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-                self::simpan('pesanan', $semua);
 
                 return $semua[$id];
             }
