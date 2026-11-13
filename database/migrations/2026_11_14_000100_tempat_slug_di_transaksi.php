@@ -47,3 +47,4 @@ return new class extends Migration
                                ADD COLUMN email_pengguna varchar(120);
 
             -- ---------- dibuat ulang dengan slug ----------
+            CREATE OR REPLACE VIEW v_penjualan_tiket AS
