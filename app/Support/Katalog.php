@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-            fn ($a, $b) => $a['pindah']['meter'] <=> $b['pindah']['meter']
         );
 
         $slugCalon = array_key_first($kandidat);
