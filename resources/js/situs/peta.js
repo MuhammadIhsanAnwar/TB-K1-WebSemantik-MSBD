@@ -335,7 +335,7 @@ function modeAlat(el) {
     }
 
     function gambar() {
-        const jam = new Date().getHours();
+        const kini = waktuWib();
         const kueri = saring.teks.toLowerCase();
         let tampil = tempat.filter((t) => {
             const cocokKat = saring.kategori.has(t.kategori);
