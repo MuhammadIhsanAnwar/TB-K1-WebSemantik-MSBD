@@ -292,6 +292,7 @@ class Penyimpanan
         return array_map(fn ($r) => [
             'id' => (string) $r->id_rencana,
             'kode' => $r->kode,
+            'id_pengguna' => (int) $r->id_pengguna,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
