@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-    {
         foreach (self::ambil('pesanan') as $p) {
             if ($p['kode'] === $kode) {
                 return $p;
