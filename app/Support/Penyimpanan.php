@@ -302,6 +302,7 @@ class Penyimpanan
         ], $baris);
     }
 
+    // ---------- fitur tanpa route: masih di cache berkas ----------
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
