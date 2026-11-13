@@ -79,7 +79,7 @@
                 <div class="p-baris">
                     @foreach ($dikunjungi as $baris)
                         <div>
-        @else
+                            <a class="p-tautan-kartu" href="{{ route('admin.insight', ['periode' => $periode, 'tempat' => $baris['slug']]) }}" @if ($fokus === $baris['slug']) aria-current="true" @endif>{{ $baris['nama'] }}</a>
             <div class="p-kosong">Belum ada halaman tempat wisata yang dikunjungi.</div>
         @endif
     </section>
