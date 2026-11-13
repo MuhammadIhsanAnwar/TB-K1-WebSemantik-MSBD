@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-            'mulai' => $jam,
             'pindah' => $perpindahan,
         ];
 
