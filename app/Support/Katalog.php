@@ -411,6 +411,7 @@ class Katalog
     public static function susunRute(array $minat, int $durasiJam, array $moda, string $mulai, ?\DateTimeInterface $tanggal = null): array
     {
         $awal = self::get($mulai);
+        if (! $awal || $awal['jenis'] !== 'tempat') {
 
     $awal = self::get($mulai);
 
