@@ -316,6 +316,7 @@ class SitusController extends Controller
             return view('situs.rencana', ['hasil' => null, 'pref' => $r, 'tempat' => Katalog::tempat()])
                 ->withErrors(['rute' => 'Rencana ini tidak bisa disusun lagi: '.$e->getMessage()]);
         }
+
         return view('situs.rencana', [
             'hasil' => Katalog::susunRute($r['minat'], $r['durasi'], $r['moda'], $r['mulai']),
             'pref' => $r, 'tempat' => Katalog::tempat(), 'dibagikan' => $r,
