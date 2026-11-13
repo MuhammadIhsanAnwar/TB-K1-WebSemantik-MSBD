@@ -20,3 +20,4 @@ function ditunda() {
         return Date.now() - Number(localStorage.getItem(KUNCI) || 0) < TUNDA;
     } catch {
         return false;
+    }
