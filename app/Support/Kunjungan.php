@@ -43,6 +43,7 @@ final class Kunjungan
     public static function harianTempat(string $slug, int $hari): array
     {
         $harian = [];
+        for ($i = $hari - 1; $i >= 0; $i--) {
     private static function tambah(string $key): void
     {
         Cache::add($key, 0, now('Asia/Jakarta')->addYears(5));
