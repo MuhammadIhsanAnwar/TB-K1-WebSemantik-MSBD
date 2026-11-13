@@ -48,6 +48,7 @@ final class Kunjungan
             $harian[$tanggal] = (int) (Cache::get("medanvisit.kunjungan.tempat.$tanggal", [])[$slug] ?? 0);
         }
 
+        return $harian;
     private static function tambah(string $key): void
     {
         Cache::add($key, 0, now('Asia/Jakarta')->addYears(5));
