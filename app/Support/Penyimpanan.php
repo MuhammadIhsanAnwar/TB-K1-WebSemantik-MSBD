@@ -132,6 +132,7 @@ class Penyimpanan
             ->whereIn('id_pesanan', array_column($baris, 'id_pesanan'))
             ->orderBy('id_item')->get()->groupBy('id_pesanan');
 
+        return array_map(fn ($p) => [
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
