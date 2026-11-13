@@ -86,6 +86,7 @@ class Penyimpanan
             json_encode($item),
         ]);
 
+        return self::cariPesanan($hasil->p_kode);
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
