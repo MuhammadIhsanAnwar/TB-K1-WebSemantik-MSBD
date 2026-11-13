@@ -477,6 +477,7 @@ class Katalog
         }
 
         return [
+            'singgah' => $urut,
     }
 
     if ($durasiJam <= 0) {
