@@ -453,6 +453,7 @@ class Katalog
                 if ($kira['menit'] + $singgah <= $sisaMenit && self::bukaSelama($pool[$slug], $hari, $jam + $kira['menit'], $singgah)) {
                     $slugCalon = $slug;
                     break;
+                }
     }
 
     if ($durasiJam <= 0) {
