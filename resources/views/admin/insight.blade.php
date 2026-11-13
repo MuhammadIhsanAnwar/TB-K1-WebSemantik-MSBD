@@ -91,6 +91,7 @@
                 <div class="p-kosong">Belum ada halaman tempat wisata yang dikunjungi.</div>
             @endif
         </section>
+    @endunless
     <section class="p-panel s12" aria-labelledby="transaksi-tempat">
         <header><h2 id="transaksi-tempat">Transaksi per tempat wisata</h2><span class="meta">{{ $periode }} hari · hanya pesanan lunas dihitung sebagai penjualan</span></header>
         @if ($transaksi->isNotEmpty())
