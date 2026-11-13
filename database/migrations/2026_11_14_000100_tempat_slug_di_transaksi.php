@@ -171,3 +171,4 @@ return new class extends Migration
                 RETURN NULL;
             END $$;
 
+            CREATE OR REPLACE FUNCTION fn_hitung_ringkasan_ulasan(p_id_tempat integer)
