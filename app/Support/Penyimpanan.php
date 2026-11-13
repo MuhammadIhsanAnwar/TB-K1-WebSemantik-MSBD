@@ -75,6 +75,7 @@ class Penyimpanan
     public static function buatPesanan(array $data): array
     {
         $item = array_map(fn ($i) => ['jenis' => $i['jenis'], 'harga' => (int) $i['harga'], 'jumlah' => (int) $i['jumlah']], $data['item']);
+        $hasil = self::db()->selectOne('CALL sp_buat_pesanan(?, ?, ?, ?, ?, ?::date, ?, ?::jsonb, NULL)', [
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
