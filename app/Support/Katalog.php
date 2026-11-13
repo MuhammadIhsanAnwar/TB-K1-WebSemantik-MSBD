@@ -471,6 +471,7 @@ class Katalog
             $sisaMenit -= $perpindahan['menit'] + $durasiSinggah;
             $jam += $perpindahan['menit'];
             $urut[] = ['tempat' => $calon, 'mulai' => $jam, 'pindah' => $perpindahan];
+            $jam += $durasiSinggah;
     }
 
     if ($durasiJam <= 0) {
