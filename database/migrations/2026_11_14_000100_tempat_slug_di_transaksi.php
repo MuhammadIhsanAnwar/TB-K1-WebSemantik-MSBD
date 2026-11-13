@@ -155,3 +155,4 @@ return new class extends Migration
             ALTER TABLE rencana          RENAME COLUMN tempat_mulai_slug TO id_tempat_mulai;
             ALTER TABLE pesanan ADD CONSTRAINT ck_pesanan_tempat CHECK (id_tempat > 0);
 
+            CREATE OR REPLACE VIEW v_penjualan_tiket AS
