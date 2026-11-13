@@ -301,6 +301,7 @@ class Penyimpanan
             'waktu' => self::waktu($r->created_at),
         ], $baris);
     }
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
