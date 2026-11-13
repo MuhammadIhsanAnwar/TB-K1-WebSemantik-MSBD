@@ -62,7 +62,7 @@
             @if ($kunjungan['rute'])
                 <div class="p-baris">
                     @foreach (array_slice($kunjungan['rute'], 0, 8, true) as $rute => $jumlah)
-                @endforeach
+                        @php $label = $namaRute[$rute] ?? ($rute === 'tempat' ? 'Detail tempat wisata' : ucfirst(str_replace(['.', '_'], ' ', $rute))); @endphp
             </div>
         @else
             <div class="p-kosong">Belum ada data kunjungan selama periode ini.</div>
