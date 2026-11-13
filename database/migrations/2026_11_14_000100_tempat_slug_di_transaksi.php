@@ -66,3 +66,4 @@ return new class extends Migration
             END $$;
 
             CREATE OR REPLACE FUNCTION fn_hitung_ringkasan_ulasan(p_tempat_slug varchar)
+            RETURNS void LANGUAGE sql AS $$
