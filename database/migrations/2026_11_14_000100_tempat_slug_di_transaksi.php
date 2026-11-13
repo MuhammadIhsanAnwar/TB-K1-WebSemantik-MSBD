@@ -187,3 +187,4 @@ return new class extends Migration
                 IF TG_OP IN ('INSERT', 'UPDATE') THEN PERFORM fn_hitung_ringkasan_ulasan(NEW.id_tempat); END IF;
                 RETURN NULL;
             END $$;
+
