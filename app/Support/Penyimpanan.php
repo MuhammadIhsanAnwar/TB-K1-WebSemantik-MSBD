@@ -359,7 +359,6 @@ class Penyimpanan
 
         return null;
     }
-    }
 
     public static function simpanRencana(array $data): array
     {
