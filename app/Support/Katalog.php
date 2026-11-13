@@ -253,6 +253,7 @@ class Katalog
         if (is_array($simpan = Cache::get($kunci))) {
             return $simpan;
         }
+        $hasil = self::mintaRuteApi($a, $b, $moda);
 {
     try {
         $timeout = (int) config('services.routing.timeout', 15);
