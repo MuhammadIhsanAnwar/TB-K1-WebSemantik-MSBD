@@ -205,6 +205,7 @@ class Penyimpanan
             'updated_at' => now(),
         ], 'id_ulasan');
 
+        return ['id' => (string) $id] + $data;
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
