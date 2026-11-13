@@ -487,7 +487,7 @@ class Katalog
     private static function bukaSelama(array $tempat, int $hari, int $tiba, int $durasi): bool
     {
         $jadwal = self::jadwal($tempat);
-    $sisaMenit = $durasiJam * 60;
+        if (! $jadwal) {
     $urut = [];
     $kini = $awal;
     $jam = 8 * 60 + 30;
