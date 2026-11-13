@@ -109,6 +109,7 @@
         </div>
 
         <div class="mv-dekat" data-dekat="{{ json_encode($dekatJson) }}" hidden>
+            <div class="mv-dekat__kepala">
         <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
             <button type="button" data-filter="semua" aria-pressed="true">Semua</button>
             @foreach ($kategori as $k => $grup)
