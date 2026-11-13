@@ -230,6 +230,7 @@ class Penyimpanan
     public static function celahKonten(): array
     {
         return self::aman(fn () => self::db()->table('v_celah_konten')
+            ->orderByDesc('jumlah_dicari')->pluck('jumlah_dicari', 'kata_kunci')
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
