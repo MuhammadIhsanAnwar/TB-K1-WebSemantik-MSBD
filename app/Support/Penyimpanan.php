@@ -342,7 +342,6 @@ class Penyimpanan
     public static function penukaran(?string $email = null): array
     {
         return array_reverse(array_filter(self::ambil('penukaran'), fn ($p) => $email === null || $p['email'] === $email));
-
     public static function tukar(string $email, array $voucher): array
     {
         $semua = self::voucher();
