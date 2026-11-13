@@ -59,3 +59,4 @@ return new class extends Migration
                 GROUP BY p.tempat_slug, date_trunc('month', p.tanggal_kunjungan);
 
             CREATE OR REPLACE FUNCTION trg_checkin_poin() RETURNS trigger LANGUAGE plpgsql AS $$
+            BEGIN
