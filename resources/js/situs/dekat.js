@@ -49,3 +49,4 @@ function tampilkan(pos) {
     tautanPeta.hidden = false;
     tombol.hidden = true;
     blok.removeAttribute('aria-busy');
+}
