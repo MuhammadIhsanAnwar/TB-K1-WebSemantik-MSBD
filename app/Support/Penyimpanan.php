@@ -117,6 +117,7 @@ class Penyimpanan
     private static function queryPesanan()
     {
         return self::db()->table('pesanan as p')
+            ->leftJoin('pembayaran as b', 'b.id_pesanan', '=', 'p.id_pesanan')
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
