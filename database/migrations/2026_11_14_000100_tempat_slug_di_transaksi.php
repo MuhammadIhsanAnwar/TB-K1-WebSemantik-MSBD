@@ -95,3 +95,4 @@ return new class extends Migration
             -- p_item: [{"jenis": "Dewasa", "harga": 10000, "jumlah": 2}, ...]
             -- (harga diambil aplikasi dari Database 3, karena DB 2 tidak bisa membaca RDF)
             CREATE OR REPLACE PROCEDURE sp_buat_pesanan(
+                p_id_pengguna bigint, p_nama varchar, p_email varchar, p_hp varchar,
