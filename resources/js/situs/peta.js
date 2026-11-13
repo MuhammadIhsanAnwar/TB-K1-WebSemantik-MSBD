@@ -465,6 +465,7 @@ function modeAlat(el) {
             lingkarAkurasi.setLatLng(titik).setRadius(akurasi);
         }
         tombolLokasi.removeAttribute('aria-busy');
+        if (pertama) {
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
