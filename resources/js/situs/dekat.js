@@ -75,3 +75,4 @@ function minta() {
     }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 300000 });
 }
 
+function mulai(keadaan) {
