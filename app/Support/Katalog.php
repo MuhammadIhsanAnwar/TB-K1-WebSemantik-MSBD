@@ -542,6 +542,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
         if (! $jadwal) {
             return false;
         }
+        $waktu = \Illuminate\Support\Carbon::instance($waktu ?? now())->setTimezone('Asia/Jakarta');
     }
 
     public static function cari(string $q): array
