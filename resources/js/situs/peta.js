@@ -489,6 +489,7 @@ function modeAlat(el) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
             return;
         }
+        pertama = true;
         tombolLokasi.setAttribute('aria-busy', 'true');
         pesanLokasi.textContent = 'Membaca lokasimu…';
         navigator.geolocation.getCurrentPosition((pos) => {
