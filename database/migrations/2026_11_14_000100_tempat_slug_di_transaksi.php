@@ -27,3 +27,4 @@ return new class extends Migration
             DROP PROCEDURE IF EXISTS sp_buat_pesanan(bigint, varchar, varchar, varchar, integer, date, varchar, jsonb, varchar);
             ALTER TABLE pesanan DROP CONSTRAINT IF EXISTS ck_pesanan_tempat;
 
+            -- kolom: angka menjadi slug (index dan unique ikut pindah ke kolom baru)
