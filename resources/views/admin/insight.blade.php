@@ -73,7 +73,7 @@
     @endunless
 
     @unless ($admin)
-                    @php $tempat = Katalog::get($slug); @endphp
+        <section class="p-panel {{ $fokus ? 's12' : 's6' }}" aria-labelledby="tempat-populer">
                     @if ($tempat)
                         <div><span>{{ $tempat['nama'] }}</span><b class="kanan">{{ number_format($jumlah, 0, ',', '.') }}</b></div>
                     @endif
