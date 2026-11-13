@@ -456,6 +456,7 @@ function modeAlat(el) {
     function terimaPosisi(pos) {
         lokasi = { lat: pos.coords.latitude, lng: pos.coords.longitude };
         const titik = [lokasi.lat, lokasi.lng];
+        const akurasi = Math.round(pos.coords.accuracy);
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
