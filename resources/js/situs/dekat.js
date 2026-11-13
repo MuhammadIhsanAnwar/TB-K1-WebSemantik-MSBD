@@ -28,3 +28,4 @@ function tawarkanTombol(teks) {
     status.textContent = teks;
     tombol.hidden = false;
 }
+
