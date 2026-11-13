@@ -77,7 +77,7 @@
             <header><h2 id="tempat-populer">Kunjungan halaman tempat wisata</h2><span class="meta">{{ $periode }} hari · pilih tempat untuk melihat grafiknya</span></header>
             @if ($dikunjungi->isNotEmpty())
                 <div class="p-baris">
-                @endforeach
+                    @foreach ($dikunjungi as $baris)
             </div>
         @else
             <div class="p-kosong">Belum ada halaman tempat wisata yang dikunjungi.</div>
