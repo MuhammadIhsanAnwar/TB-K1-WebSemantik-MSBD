@@ -68,6 +68,7 @@ class AdminController extends Controller
         ])->sortByDesc('pendapatan');
 
         // semua tempat wisata dengan jumlah kunjungan halamannya (termasuk yang belum dikunjungi)
+        $kunjunganTempat = collect(Katalog::tempat())
 
         return view('admin.insight', [
             'periode' => $periode,
