@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-
         $sisaMenit -= $perpindahan['menit'] + $durasiSinggah;
 
         $jam += $perpindahan['menit'];
