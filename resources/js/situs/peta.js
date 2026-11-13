@@ -496,7 +496,7 @@ function modeAlat(el) {
         pantau = navigator.geolocation.watchPosition(terimaPosisi, (galat) => {
             // sinyal sempat hilang saat lokasi sudah ada: tetap pantau, pakai posisi terakhir
             if (lokasi && galat.code !== galat.PERMISSION_DENIED) return;
-            lokasiPenanda = L.circleMarker([lokasi.lat, lokasi.lng], { radius: 8, color: '#ffffff', weight: 3, fillColor: '#2f6690', fillOpacity: 1 }).addTo(peta).bindTooltip('Kamu di sini');
+            const pesan = galat.code === galat.PERMISSION_DENIED
             tombolLokasi.setAttribute('aria-pressed', 'true');
             tombolLokasi.removeAttribute('aria-busy');
             const terdekat = Math.min(...tempat.map((t) => jarak(lokasi, t)));
