@@ -126,3 +126,4 @@ return new class extends Migration
 
     public function down(): void
     {
+        $db = DB::connection($this->connection);
