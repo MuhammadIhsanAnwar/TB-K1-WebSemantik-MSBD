@@ -34,3 +34,4 @@ function tampilkan(pos) {
     const kini = waktuWib();
     const terdekat = tempat
         .map((t) => ({ ...t, jarak: jarakMeter(lokasi, t) }))
+        .sort((a, b) => a.jarak - b.jarak)
