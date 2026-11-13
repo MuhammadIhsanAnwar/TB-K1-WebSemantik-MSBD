@@ -34,6 +34,7 @@ class Penyimpanan
     {
         try {
             return $baca();
+        } catch (Throwable $e) {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
