@@ -204,3 +204,4 @@ return new class extends Migration
                 IF p_tanggal < (now() AT TIME ZONE 'Asia/Jakarta')::date THEN RAISE EXCEPTION 'Tanggal kunjungan tidak boleh di masa lalu'; END IF;
                 p_kode := fn_kode_acak('MV-', 8);
                 INSERT INTO pesanan (kode, id_pengguna, nama_pemesan, email_pemesan, hp_pemesan,
+                                     id_tempat, tanggal_kunjungan, metode, batas_bayar, created_at, updated_at)
