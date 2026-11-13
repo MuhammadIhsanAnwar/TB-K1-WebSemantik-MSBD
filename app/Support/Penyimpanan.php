@@ -218,6 +218,7 @@ class Penyimpanan
     public static function catatCari(string $q, int $jumlahHasil): void
     {
         if (trim($q) === '') {
+            return;
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
