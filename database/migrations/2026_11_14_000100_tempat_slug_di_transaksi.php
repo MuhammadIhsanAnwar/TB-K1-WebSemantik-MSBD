@@ -132,3 +132,4 @@ return new class extends Migration
                 throw new RuntimeException("Tabel $tabel sudah berisi data: slug tempat tidak bisa diubah kembali menjadi angka.");
             }
         }
+
