@@ -444,6 +444,7 @@ class Katalog
             $jarak = array_map(fn ($t) => self::jarakMeter($kini, $t), $pool);
             asort($jarak);
             $slugCalon = null;
+            foreach ($jarak as $slug => $meter) {
     }
 
     if ($durasiJam <= 0) {
