@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-
         $total += $perpindahan['biaya']
             + (self::hargaTermurah($calon) ?? 0);
 
