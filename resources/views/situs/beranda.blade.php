@@ -117,6 +117,7 @@
             <div class="mv-dekat__aksi">
                 <button class="mv-btn mv-btn--kecil" type="button" data-dekat-minta hidden>Tampilkan tempat terdekat</button>
                 <a class="mv-tautan" href="{{ route('peta') }}" data-dekat-peta hidden>Buka peta dengan lokasimu</a>
+            </div>
         <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
             <button type="button" data-filter="semua" aria-pressed="true">Semua</button>
             @foreach ($kategori as $k => $grup)
