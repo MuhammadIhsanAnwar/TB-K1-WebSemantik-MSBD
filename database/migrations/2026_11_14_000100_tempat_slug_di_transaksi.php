@@ -168,3 +168,4 @@ return new class extends Migration
             BEGIN
                 INSERT INTO riwayat_poin (id_pengguna, poin, sumber, id_sumber, keterangan)
                 VALUES (NEW.id_pengguna, 10, 'checkin', NEW.id_checkin, 'Check-in di tempat #' || NEW.id_tempat);
+                RETURN NULL;
