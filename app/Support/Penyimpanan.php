@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-
     public static function ubahPesanan(string $kode, array $ubah): ?array
     {
         $semua = self::ambil('pesanan');
