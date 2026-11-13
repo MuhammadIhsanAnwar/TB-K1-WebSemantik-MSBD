@@ -87,3 +87,4 @@ if (navigator.geolocation) {
         navigator.permissions.query({ name: 'geolocation' }).then((izin) => mulai(izin.state)).catch(() => mulai('prompt'));
     } else {
         mulai('prompt');
+    }
