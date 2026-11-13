@@ -127,3 +127,4 @@ return new class extends Migration
     public function down(): void
     {
         $db = DB::connection($this->connection);
+        foreach (['pesanan', 'checkin', 'ulasan', 'ringkasan_ulasan', 'rencana'] as $tabel) {
