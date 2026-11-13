@@ -447,6 +447,7 @@ class Katalog
             foreach ($jarak as $slug => $meter) {
                 if ($meter > 6000) {
                     break;
+                }
     }
 
     if ($durasiJam <= 0) {
