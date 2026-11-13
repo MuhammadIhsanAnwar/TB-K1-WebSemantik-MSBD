@@ -318,7 +318,7 @@ class SitusController extends Controller
         }
 
         return view('situs.rencana', [
-            'hasil' => Katalog::susunRute($r['minat'], $r['durasi'], $r['moda'], $r['mulai']),
+            'hasil' => $hasil,
             'pref' => $r, 'tempat' => Katalog::tempat(), 'dibagikan' => $r,
         ]);
     }
