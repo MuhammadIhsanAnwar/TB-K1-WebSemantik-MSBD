@@ -142,6 +142,7 @@ class Penyimpanan
             'item' => ($item[$p->id_pesanan] ?? collect())->map(fn ($i) => [
                 'jenis' => $i->jenis_pengunjung, 'harga' => (int) $i->harga,
                 'jumlah' => (int) $i->jumlah, 'subtotal' => (int) $i->subtotal,
+            ])->values()->all(),
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
