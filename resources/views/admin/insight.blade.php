@@ -32,6 +32,7 @@
     @if ($fokus)
         <div><div class="label">Kunjungan halaman tempat</div><div class="nilai">{{ number_format($kunjungan['total'], 0, ',', '.') }}</div><div class="ket">tayangan halaman {{ $namaFokus }} dalam {{ $periode }} hari</div></div>
     @else
+        <div><div class="label">Kunjungan website</div><div class="nilai">{{ number_format($kunjungan['total'], 0, ',', '.') }}</div><div class="ket">tayangan halaman dalam {{ $periode }} hari</div></div>
     <div><div class="label">Tiket terjual</div><div class="nilai">{{ number_format($totalLunas->sum(fn ($pesanan) => array_sum(array_column($pesanan['item'], 'jumlah'))), 0, ',', '.') }}</div><div class="ket">dari {{ $totalLunas->count() }} pesanan lunas</div></div>
     <div><div class="label">Pendapatan tiket</div><div class="nilai">{{ Katalog::rupiah($totalLunas->sum('total')) }}</div><div class="ket">berdasarkan pesanan lunas</div></div>
     <div><div class="label">Akun terdaftar</div><div class="nilai">{{ number_format(($akun['admin'] ?? 0) + ($akun['wisatawan'] ?? 0) + ($akun['superadmin'] ?? 0), 0, ',', '.') }}</div><div class="ket">{{ $akun['admin'] ?? 0 }} admin · {{ $akun['wisatawan'] ?? 0 }} wisatawan</div></div>
