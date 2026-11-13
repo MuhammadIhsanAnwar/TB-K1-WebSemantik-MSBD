@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-        unset($pool[$slugCalon]);
 
         $kini = $calon;
     }
