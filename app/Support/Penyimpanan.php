@@ -92,6 +92,7 @@ class Penyimpanan
     /**
      * Mengubah pesanan:
      * - ['status' => 'lunas']        lewat sp_bayar_pesanan (catat pembayaran, terbitkan e-tiket;
+     *                                 kalau sudah lewat batas bayar, procedure menandainya kedaluwarsa)
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
