@@ -129,6 +129,7 @@ class Penyimpanan
             return [];
         }
         $item = self::db()->table('pesanan_item')
+            ->whereIn('id_pesanan', array_column($baris, 'id_pesanan'))
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
