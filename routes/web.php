@@ -85,7 +85,7 @@ Route::controller(AdminController::class)->middleware('peran:admin,superadmin')-
 });
 
 Route::controller(AdminController::class)->middleware('peran:superadmin')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/insight', [AdminController::class, 'insight'])->middleware('peran:admin,superadmin')->name('insight');
+    Route::get('/insight', [AdminController::class, 'insight'])->middleware('peran:kurator,admin,superadmin')->name('insight');
     Route::get('/akun', 'akunAdmin')->name('akun');
     Route::post('/akun', 'buatAkun')->name('akun.buat');
     Route::patch('/akun/{id}', 'ubahAkun')->name('akun.ubah');
