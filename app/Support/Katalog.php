@@ -438,6 +438,7 @@ class Katalog
         $sisaMenit -= $durasiAwal;
         $jam += $durasiAwal;
         $total = self::hargaTermurah($awal) ?? 0;
+        $kini = $awal;
     }
 
     if ($durasiJam <= 0) {
