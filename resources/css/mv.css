@@ -1095,6 +1095,7 @@
   color: var(--mv-hijau);
   text-decoration: none;
 }
+.mv-dekat__butir a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
 
 /* 3. Showcase: Benang merah kota (Square plate, spare text) */
 .mv-benang {
