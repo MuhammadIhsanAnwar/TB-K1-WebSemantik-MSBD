@@ -137,3 +137,4 @@ return new class extends Migration
             DROP VIEW IF EXISTS v_penjualan_tiket;
             DROP TRIGGER IF EXISTS ulasan_ringkasan ON ulasan;
             DROP FUNCTION IF EXISTS trg_ulasan_ringkasan();
+            DROP FUNCTION IF EXISTS fn_hitung_ringkasan_ulasan(varchar);
