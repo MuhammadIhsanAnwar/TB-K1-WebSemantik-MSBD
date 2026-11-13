@@ -550,6 +550,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
             return in_array($hari, $jadwal['hari'], true);
         }
         if ($tutup > $buka) {
+            return in_array($hari, $jadwal['hari'], true) && $sekarang >= $buka && $sekarang < $tutup;
     }
 
     public static function cari(string $q): array
