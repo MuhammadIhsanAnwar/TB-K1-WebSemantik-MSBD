@@ -293,7 +293,7 @@ class SitusController extends Controller
                 'minat.required' => 'Pilih minimal satu minat.',
                 'moda.required' => 'Pilih minimal satu cara berpindah.',
             ]);
-            abort_unless(Katalog::get($pref['mulai']), 422);
+            try {
             $hasil = Katalog::susunRute($pref['minat'], (int) $pref['durasi'], $pref['moda'], $pref['mulai']);
         }
 
