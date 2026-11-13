@@ -136,3 +136,4 @@ return new class extends Migration
         $db->unprepared(<<<'SQL'
             DROP VIEW IF EXISTS v_penjualan_tiket;
             DROP TRIGGER IF EXISTS ulasan_ringkasan ON ulasan;
+            DROP FUNCTION IF EXISTS trg_ulasan_ringkasan();
