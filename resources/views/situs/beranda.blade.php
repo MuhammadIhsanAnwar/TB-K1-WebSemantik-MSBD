@@ -36,6 +36,7 @@
     $minatRute = array_values(array_unique(array_filter(array_column($semuaTempat, 'kategori'))));
     // bahan saran "Dekat denganmu": jarak dihitung di peramban dari lokasi pengunjung
     $dekatJson = collect($semuaTempat)->filter(fn ($t) => ($t['lat'] ?? 0) > 0)->map(fn ($t) => [
+        'nama' => $t['nama'],
 @endphp
 
 @section('isi')
