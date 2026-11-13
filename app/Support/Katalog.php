@@ -461,6 +461,7 @@ class Katalog
 
             $calon = $pool[$slugCalon];
             unset($pool[$slugCalon]);
+            $perpindahan = self::perpindahanDenganRute($kini, $calon, $moda);
     }
 
     if ($durasiJam <= 0) {
