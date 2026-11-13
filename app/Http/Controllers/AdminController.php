@@ -73,6 +73,7 @@ class AdminController extends Controller
             ->sortBy([['jumlah', 'desc'], ['nama', 'asc']])->values();
 
         if ($fokus !== null) {
+            $harian = Kunjungan::harianTempat($fokus, $periode);
 
         return view('admin.insight', [
             'periode' => $periode,
