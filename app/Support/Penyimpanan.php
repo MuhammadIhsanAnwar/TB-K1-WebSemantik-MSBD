@@ -99,6 +99,7 @@ class Penyimpanan
     public static function ubahPesanan(string $kode, array $ubah): ?array
     {
         $db = self::db();
+        if (($ubah['status'] ?? null) === 'lunas') {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
