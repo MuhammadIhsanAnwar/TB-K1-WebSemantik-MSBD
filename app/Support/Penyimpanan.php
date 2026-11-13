@@ -229,6 +229,7 @@ class Penyimpanan
     /** Kata kunci yang dicari tetapi tanpa hasil, dengan jumlahnya (view v_celah_konten). */
     public static function celahKonten(): array
     {
+        return self::aman(fn () => self::db()->table('v_celah_konten')
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
