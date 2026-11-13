@@ -483,7 +483,7 @@ class Katalog
         ];
     }
 
-    if ($durasiJam <= 0) {
+    /** Tempat buka saat tiba dan belum tutup sampai kunjungan selesai. Jam buka yang tidak diketahui tidak menghalangi. */
         throw new RuntimeException('Durasi perjalanan harus lebih dari 0 jam.');
     }
 
