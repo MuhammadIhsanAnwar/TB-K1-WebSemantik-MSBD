@@ -407,7 +407,7 @@ class Katalog
      *
      * Calon diurutkan dengan jarak garis lurus, jadi layanan rute online hanya dipanggil sekali per langkah
      * untuk tempat yang terpilih. Kalau layanan itu gagal, perkiraan garis lurus dipakai.
-    );
+     */
 
     $awal = self::get($mulai);
 
