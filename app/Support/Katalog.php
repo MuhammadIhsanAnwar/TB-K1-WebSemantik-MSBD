@@ -498,7 +498,7 @@ class Katalog
             return true;
         }
         if ($tutup < $buka) {
-        throw new RuntimeException('Durasi kunjungan tempat awal melebihi durasi perjalanan.');
+            $tutup += 1440; // lewat tengah malam
     }
 
     $urut[] = [
