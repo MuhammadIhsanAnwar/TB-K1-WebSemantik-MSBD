@@ -142,3 +142,4 @@ return new class extends Migration
             ALTER TABLE pesanan DROP CONSTRAINT IF EXISTS ck_pesanan_tempat;
             ALTER TABLE ulasan DROP COLUMN IF EXISTS nama_pengguna, DROP COLUMN IF EXISTS email_pengguna;
 
+            ALTER TABLE checkin RENAME CONSTRAINT checkin_id_pengguna_tempat_slug_tanggal_unique TO checkin_id_pengguna_id_tempat_tanggal_unique;
