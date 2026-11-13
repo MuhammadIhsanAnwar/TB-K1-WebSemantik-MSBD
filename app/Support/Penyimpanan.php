@@ -359,7 +359,6 @@ class Penyimpanan
 
         return null;
     }
-            if ($r['kode'] === $kode) {
                 return $r;
             }
         }
