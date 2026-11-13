@@ -221,6 +221,7 @@ class Penyimpanan
             return;
         }
         self::aman(fn () => self::db()->table('log_pencarian')->insert([
+            'kata_kunci' => Str::limit(mb_strtolower(trim($q)), 117),
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
