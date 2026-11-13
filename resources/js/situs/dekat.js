@@ -78,3 +78,4 @@ function minta() {
 function mulai(keadaan) {
     if (keadaan === 'denied') return;
     if (keadaan === 'granted' || !ditunda()) minta();
+    else tawarkanTombol('Lihat tempat wisata yang paling dekat denganmu.');
