@@ -103,3 +103,4 @@ return new class extends Migration
                 v_id bigint;
             BEGIN
                 IF jsonb_array_length(p_item) = 0 THEN
+                    RAISE EXCEPTION 'Pesanan harus berisi minimal satu tiket';
