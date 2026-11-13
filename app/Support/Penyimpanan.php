@@ -51,6 +51,7 @@ class Penyimpanan
     /** Semua pesanan (terbaru dulu), atau milik satu pengguna. */
     public static function pesanan(?int $idPengguna = null, bool $aman = false): array
     {
+        $baca = function () use ($idPengguna) {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
