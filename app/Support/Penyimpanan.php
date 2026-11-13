@@ -122,6 +122,7 @@ class Penyimpanan
             ->select('p.*', 'b.dibayar_pada', 'b.referensi', 'e.kode_qr', 'e.dipakai_pada');
     }
 
+    /** Baris database menjadi bentuk yang dipakai controller dan view. */
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
