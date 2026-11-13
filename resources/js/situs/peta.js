@@ -497,7 +497,7 @@ function modeAlat(el) {
             // sinyal sempat hilang saat lokasi sudah ada: tetap pantau, pakai posisi terakhir
             if (lokasi && galat.code !== galat.PERMISSION_DENIED) return;
             const pesan = galat.code === galat.PERMISSION_DENIED
-            tombolLokasi.setAttribute('aria-pressed', 'true');
+                ? 'Izin lokasi ditolak. Peta tetap bisa dipakai tanpa lokasimu.'
             tombolLokasi.removeAttribute('aria-busy');
             const terdekat = Math.min(...tempat.map((t) => jarak(lokasi, t)));
             pesanLokasi.textContent = terdekat > 30000 ? 'Kamu sedang jauh dari Medan. Daftar tetap diurutkan dari yang paling dekat.' : 'Diurutkan dari yang terdekat denganmu.';
