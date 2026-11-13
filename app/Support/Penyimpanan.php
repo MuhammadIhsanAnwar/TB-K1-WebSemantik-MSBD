@@ -259,6 +259,7 @@ class Penyimpanan
         self::db()->transaction(function () use ($data, $kode) {
             $id = self::db()->table('rencana')->insertGetId([
                 'kode' => $kode,
+                'id_pengguna' => $data['id_pengguna'],
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
