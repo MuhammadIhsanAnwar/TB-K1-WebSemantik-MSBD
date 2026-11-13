@@ -41,6 +41,7 @@ final class Kunjungan
 
     /** Tayangan halaman satu tempat wisata per hari, untuk grafik insight tempat itu. */
     public static function harianTempat(string $slug, int $hari): array
+    {
     private static function tambah(string $key): void
     {
         Cache::add($key, 0, now('Asia/Jakarta')->addYears(5));
