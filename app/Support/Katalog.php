@@ -486,7 +486,7 @@ class Katalog
     /** Tempat buka saat tiba dan belum tutup sampai kunjungan selesai. Jam buka yang tidak diketahui tidak menghalangi. */
     private static function bukaSelama(array $tempat, int $hari, int $tiba, int $durasi): bool
     {
-
+        $jadwal = self::jadwal($tempat);
     $sisaMenit = $durasiJam * 60;
     $urut = [];
     $kini = $awal;
