@@ -69,6 +69,7 @@ class AdminController extends Controller
 
         // semua tempat wisata dengan jumlah kunjungan halamannya (termasuk yang belum dikunjungi)
         $kunjunganTempat = collect(Katalog::tempat())
+            ->map(fn ($t) => ['slug' => $t['slug'], 'nama' => $t['nama'], 'jumlah' => (int) ($kunjungan['tempat'][$t['slug']] ?? 0)])
 
         return view('admin.insight', [
             'periode' => $periode,
