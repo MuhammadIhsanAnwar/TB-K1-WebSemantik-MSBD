@@ -37,6 +37,7 @@
     // bahan saran "Dekat denganmu": jarak dihitung di peramban dari lokasi pengunjung
     $dekatJson = collect($semuaTempat)->filter(fn ($t) => ($t['lat'] ?? 0) > 0)->map(fn ($t) => [
         'nama' => $t['nama'],
+        'url' => route('tempat', $t['slug']),
 @endphp
 
 @section('isi')
