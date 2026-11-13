@@ -77,3 +77,4 @@ return new class extends Migration
             $$;
 
             CREATE OR REPLACE FUNCTION trg_ulasan_ringkasan() RETURNS trigger LANGUAGE plpgsql AS $$
+            BEGIN
