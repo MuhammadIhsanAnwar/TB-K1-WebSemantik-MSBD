@@ -257,6 +257,7 @@ class Penyimpanan
     {
         $kode = 'mdn-'.strtolower(Str::random(4));
         self::db()->transaction(function () use ($data, $kode) {
+            $id = self::db()->table('rencana')->insertGetId([
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
