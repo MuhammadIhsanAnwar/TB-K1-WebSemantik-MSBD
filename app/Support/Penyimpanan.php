@@ -261,6 +261,7 @@ class Penyimpanan
                 'kode' => $kode,
                 'id_pengguna' => $data['id_pengguna'],
                 'judul' => $data['judul'],
+                'durasi_jam' => (int) $data['durasi'],
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
