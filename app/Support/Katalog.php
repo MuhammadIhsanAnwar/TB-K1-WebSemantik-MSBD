@@ -448,6 +448,7 @@ class Katalog
                 if ($meter > 6000) {
                     break;
                 }
+                $kira = self::perpindahan($kini, $pool[$slug], $moda);
     }
 
     if ($durasiJam <= 0) {
