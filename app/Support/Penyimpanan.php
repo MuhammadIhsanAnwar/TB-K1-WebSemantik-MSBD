@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-        return self::tambah('checkin', ['email' => $email, 'nama' => $nama, 'tempat' => $tempat, 'jarak_m' => $jarak]);
     }
 
     public static function sudahCheckinHariIni(string $email, string $tempat): bool
