@@ -514,6 +514,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
         $teks = mb_strtolower($tempat['jam'] ?? '');
         $nama = implode('|', array_keys(self::HARI));
         $hari = [];
+        if (! str_contains($teks, 'setiap hari')) {
 
         return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
