@@ -84,3 +84,4 @@ function mulai(keadaan) {
 if (navigator.geolocation) {
     tombol.addEventListener('click', minta);
     if (navigator.permissions?.query) {
+        navigator.permissions.query({ name: 'geolocation' }).then((izin) => mulai(izin.state)).catch(() => mulai('prompt'));
