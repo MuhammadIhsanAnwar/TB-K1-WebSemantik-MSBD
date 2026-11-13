@@ -523,6 +523,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
                     $hari[$h] = true;
                     if ($h === $akhir) {
                         break;
+                    }
 
         return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
