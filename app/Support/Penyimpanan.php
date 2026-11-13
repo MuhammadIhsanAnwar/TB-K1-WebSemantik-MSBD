@@ -288,6 +288,7 @@ class Penyimpanan
         }
         $minat = self::db()->table('rencana_minat')
             ->whereIn('id_rencana', array_column($baris, 'id_rencana'))->get()->groupBy('id_rencana');
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
