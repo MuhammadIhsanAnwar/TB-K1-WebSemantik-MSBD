@@ -179,3 +179,4 @@ return new class extends Migration
                 ON CONFLICT (id_tempat) DO UPDATE
                     SET jumlah_ulasan = EXCLUDED.jumlah_ulasan, rata_rata_bintang = EXCLUDED.rata_rata_bintang,
                         diperbarui_pada = EXCLUDED.diperbarui_pada;
+            $$;
