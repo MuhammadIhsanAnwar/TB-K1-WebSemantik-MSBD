@@ -60,7 +60,7 @@
         <section class="p-panel s6" aria-labelledby="halaman-populer">
             <header><h2 id="halaman-populer">Halaman paling banyak dikunjungi</h2><span class="meta">{{ $periode }} hari</span></header>
             @if ($kunjungan['rute'])
-                    @php $label = $namaRute[$rute] ?? ($rute === 'tempat' ? 'Detail tempat wisata' : ucfirst(str_replace(['.', '_'], ' ', $rute))); @endphp
+                <div class="p-baris">
                     <div><span>{{ $label }}</span><b class="kanan">{{ number_format($jumlah, 0, ',', '.') }}</b></div>
                 @endforeach
             </div>
