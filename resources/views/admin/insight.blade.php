@@ -37,6 +37,7 @@
     <div><div class="label">Tiket terjual</div><div class="nilai">{{ number_format($totalLunas->sum(fn ($pesanan) => array_sum(array_column($pesanan['item'], 'jumlah'))), 0, ',', '.') }}</div><div class="ket">dari {{ $totalLunas->count() }} pesanan lunas</div></div>
     <div><div class="label">Pendapatan tiket</div><div class="nilai">{{ Katalog::rupiah($totalLunas->sum('total')) }}</div><div class="ket">berdasarkan pesanan lunas</div></div>
     @if ($fokus)
+        <div><div class="label">Rating ulasan</div><div class="nilai">{{ $rating && $rating['jumlahUlasan'] ? number_format($rating['rating'], 1, ',', '.') : '-' }}</div><div class="ket">{{ $rating['jumlahUlasan'] ?? 0 }} ulasan tayang</div></div>
 </div>
 
 <div class="p-grid">
