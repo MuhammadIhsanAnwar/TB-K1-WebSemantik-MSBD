@@ -501,7 +501,6 @@ function modeAlat(el) {
                 : 'Lokasimu belum terbaca. Coba lagi di tempat terbuka.';
             hentikanLokasi(pesan);
         }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
-        }, { enableHighAccuracy: true, timeout: 10000 });
     });
 
     daftar.querySelectorAll('[data-slug]').forEach((a) => {
