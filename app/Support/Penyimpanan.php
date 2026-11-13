@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-    // ---------- pesanan tiket ----------
     public static function pesanan(?string $email = null): array
     {
         $semua = self::ambil('pesanan');
