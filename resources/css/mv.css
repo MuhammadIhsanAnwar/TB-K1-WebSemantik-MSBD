@@ -1099,6 +1099,7 @@
 .mv-dekat__meta { font-size: var(--mv-s-meta); color: var(--mv-redup); }
 .mv-dekat__aksi { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
 @media (max-width: 780px) {
+  .mv-dekat__daftar { grid-template-columns: minmax(0, 1fr); }
 
 /* 3. Showcase: Benang merah kota (Square plate, spare text) */
 .mv-benang {
