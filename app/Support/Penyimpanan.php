@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-        return null;
     }
 
     public static function ubahPesanan(string $kode, array $ubah): ?array
