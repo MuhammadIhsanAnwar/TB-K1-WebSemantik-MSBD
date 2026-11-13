@@ -57,3 +57,4 @@ function minta() {
     blok.setAttribute('aria-busy', 'true');
     status.textContent = 'Mencari tempat terdekat dari lokasimu…';
     navigator.geolocation.getCurrentPosition(tampilkan, (galat) => {
+        blok.removeAttribute('aria-busy');
