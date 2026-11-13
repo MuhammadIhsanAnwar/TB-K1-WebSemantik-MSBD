@@ -177,6 +177,7 @@ class Penyimpanan
                 'waktu' => self::waktu($u->created_at),
             ])->all();
         };
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
