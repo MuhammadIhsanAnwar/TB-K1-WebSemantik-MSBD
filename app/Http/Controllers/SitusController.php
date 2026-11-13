@@ -294,7 +294,7 @@ class SitusController extends Controller
                 'moda.required' => 'Pilih minimal satu cara berpindah.',
             ]);
             try {
-            $hasil = Katalog::susunRute($pref['minat'], (int) $pref['durasi'], $pref['moda'], $pref['mulai']);
+                $hasil = Katalog::susunRute($pref['minat'], (int) $pref['durasi'], $pref['moda'], $pref['mulai']);
         }
 
         return view('situs.rencana', ['hasil' => $hasil, 'pref' => $pref, 'tempat' => Katalog::tempat()]);
