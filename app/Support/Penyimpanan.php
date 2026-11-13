@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-        $semua = self::ambil('pesanan');
 
         return array_reverse(array_filter($semua, fn ($p) => $email === null || $p['email'] === $email));
     }
