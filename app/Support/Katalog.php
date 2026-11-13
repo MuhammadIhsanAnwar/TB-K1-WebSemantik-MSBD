@@ -467,6 +467,7 @@ class Katalog
             if ($perpindahan['menit'] + $durasiSinggah > $sisaMenit || ! self::bukaSelama($calon, $hari, $jam + $perpindahan['menit'], $durasiSinggah)) {
                 continue;
             }
+
     }
 
     if ($durasiJam <= 0) {
