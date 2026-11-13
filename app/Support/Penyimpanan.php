@@ -125,6 +125,7 @@ class Penyimpanan
     /** Baris database menjadi bentuk yang dipakai controller dan view. */
     private static function bentukPesanan(array $baris): array
     {
+        if (! $baris) {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
