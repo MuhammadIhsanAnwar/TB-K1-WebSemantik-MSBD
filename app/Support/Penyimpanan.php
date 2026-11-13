@@ -359,7 +359,6 @@ class Penyimpanan
 
         return null;
     }
-        foreach (self::ambil('rencana') as $r) {
             if ($r['kode'] === $kode) {
                 return $r;
             }
