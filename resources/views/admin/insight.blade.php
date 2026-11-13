@@ -71,7 +71,7 @@
             @endif
         </section>
     @endunless
-            <div class="p-baris">
+
                 @foreach ($tempatPopuler as $slug => $jumlah)
                     @php $tempat = Katalog::get($slug); @endphp
                     @if ($tempat)
