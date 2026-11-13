@@ -152,7 +152,7 @@ class TiketController extends Controller
     public function daftar(Request $request)
     {
         $tab = $request->query('tab', 'aktif');
-        $semua = collect(Penyimpanan::pesanan($request->session()->get('pengguna.email')))->map(function ($p) {
+        $semua = collect(Penyimpanan::pesanan((int) $request->session()->get('pengguna.id')))->map(function ($p) {
             if ($p['status'] === 'menunggu' && now()->greaterThan($p['batas_bayar'])) {
                 $p = Penyimpanan::ubahPesanan($p['kode'], ['status' => 'kedaluwarsa']);
             }
