@@ -51,7 +51,7 @@ class AdminController extends Controller
         $periode = in_array($periode, [7, 30, 90], true) ? $periode : 30;
         $kunjungan = Kunjungan::ringkasan($periode);
         $sejak = now('Asia/Jakarta')->subDays($periode)->toIso8601String();
-        $pesanan = collect(Penyimpanan::pesanan())->filter(
+
             fn ($pesanan) => ($pesanan['waktu'] ?? '') >= $sejak
         );
         $transaksi = $pesanan->groupBy('tempat')->map(fn ($baris) => [
