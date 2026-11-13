@@ -27,7 +27,7 @@ class TiketController extends Controller
     private function milik(Request $request, string $kode): array
     {
         $p = Penyimpanan::cariPesanan($kode);
-        abort_unless($p && $p['email'] === $request->session()->get('pengguna.email'), 404);
+        abort_unless($p && $p['id_pengguna'] === (int) $request->session()->get('pengguna.id'), 404);
         if ($p['status'] === 'menunggu' && now()->greaterThan($p['batas_bayar'])) {
             $p = Penyimpanan::ubahPesanan($kode, ['status' => 'kedaluwarsa']);
         }
