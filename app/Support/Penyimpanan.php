@@ -119,6 +119,7 @@ class Penyimpanan
         return self::db()->table('pesanan as p')
             ->leftJoin('pembayaran as b', 'b.id_pesanan', '=', 'p.id_pesanan')
             ->leftJoin('e_tiket as e', 'e.id_pesanan', '=', 'p.id_pesanan')
+            ->select('p.*', 'b.dibayar_pada', 'b.referensi', 'e.kode_qr', 'e.dipakai_pada');
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
