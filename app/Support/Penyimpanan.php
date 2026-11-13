@@ -95,6 +95,7 @@ class Penyimpanan
      *                                 kalau sudah lewat batas bayar, procedure menandainya kedaluwarsa)
      * - ['status' => 'dibatalkan'|'kedaluwarsa']  hanya untuk pesanan yang masih menunggu
      * - ['dipakai' => waktu]         e-tiket dipindai di lokasi
+     */
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
