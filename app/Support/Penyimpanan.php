@@ -48,6 +48,7 @@ class Penyimpanan
 
     // ---------- pesanan tiket ----------
 
+    /** Semua pesanan (terbaru dulu), atau milik satu pengguna. */
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
