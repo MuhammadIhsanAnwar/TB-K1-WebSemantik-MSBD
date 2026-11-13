@@ -51,7 +51,7 @@
     <div class="mv-hero__isi">
         <div class="mv-hero__utama">
             <h1 id="judul-utama" data-naik style="--i:0">Jelajahi Medan lewat ceritanya</h1>
-            <p class="mv-hero__sub" data-naik style="--i:1">Panduan wisata Kota Medan yang menautkan {{ count($semuaTempat) }} tempat, tokoh sejarah, budaya, dan kuliner khas. Cari tujuan dan pesan tiket masuk dengan mudah.</p>
+            <p class="mv-hero__sub" data-naik style="--i:1">Panduan wisata Kota Medan yang menautkan tempat, tokoh sejarah, budaya, dan kuliner khas. Cari tujuan dan pesan tiket masuk dengan mudah.</p>
 
             <div class="mv-hero__cari-bungkus" data-naik style="--i:2">
                 <form action="{{ route('cari') }}" method="get" role="search" data-cari-cepat>
@@ -96,7 +96,7 @@
     <div class="mv-wadah">
         <div class="mv-kepala-seksi">
             <h2 id="judul-tempat">Tempat pilihan</h2>
-            <p>{{ count($semuaTempat) }} tempat wisata dari {{ $jumlahKecamatan }} kecamatan Medan. <a class="mv-tautan" href="{{ route('peta') }}">Lihat semua di peta</a></p>
+            <p>Jelajahi berbagai tempat wisata dari seluruh kecamatan Medan. <a class="mv-tautan" href="{{ route('peta') }}">Lihat semua di peta</a></p>
         </div>
 
         <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
@@ -310,7 +310,7 @@
         <div class="mv-paspor-grid">
             <div class="mv-paspor-peta">
                 <h2 id="judul-peta-paspor">Peta kota</h2>
-                <p style="color:var(--mv-redup)">Lihat sebaran ke-{{ count($semuaTempat) }} titik wisata di atas peta Kota Medan.</p>
+                <p style="color:var(--mv-redup)">Jelajahi persebaran tempat wisata di seluruh Kota Medan.</p>
                 <div class="mv-paspor-peta__kanvas" data-peta data-peta-mode="ringkas" data-pusat="{{ $pusatPeta }}" data-tempat="{{ json_encode($petaJson) }}">
                     <p class="peta-diam" style="padding:20px">Peta interaktif tempat wisata Medan dimuat di sini.</p>
                 </div>
@@ -322,7 +322,7 @@
             <div class="mv-paspor-baris">
                 <div class="mv-paspor-butir">
                     <div>
-                        <h3>Peta {{ count($semuaTempat) }} titik</h3>
+                        <h3>Peta Wisata Medan</h3>
                         <p>Saring berdasarkan kategori, tempat yang sedang buka sekarang, ketersediaan tiket, atau urutkan dari jarak terdekat.</p>
                     </div>
                 </div>

@@ -33,6 +33,7 @@ class AdminController extends Controller
 
         return view('admin.ringkasan', [
             'periode' => $periode,
+            'jumlahTempat' => count(Katalog::tempat()),
             'tiket' => $lunas->sum(fn ($p) => array_sum(array_column($p['item'], 'jumlah'))),
             'pendapatan' => $lunas->sum('total'),
             'ulasanMenunggu' => Penyimpanan::ulasan(null, 'menunggu'),

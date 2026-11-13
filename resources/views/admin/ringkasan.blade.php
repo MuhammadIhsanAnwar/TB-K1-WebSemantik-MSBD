@@ -20,7 +20,19 @@
 </div>
 
 <div class="p-kpi">
-    <div><div class="label">Tiket terjual</div><div class="nilai">{{ number_format($tiket, 0, ',', '.') }}</div><div class="ket">{{ Katalog::rupiah($pendapatan) }} dari pesanan lunas</div></div>
+    <div>
+        <div class="label">Tiket terjual</div>
+        <div class="nilai">{{ number_format($tiket, 0, ',', '.') }}</div>
+        <div class="ket">{{ Katalog::rupiah($pendapatan) }} dari pesanan lunas</div>
+    </div>
+
+    @if (session('pengguna.peran') === 'superadmin')
+        <div>
+            <div class="label">Total tempat wisata</div>
+            <div class="nilai">{{ number_format($jumlahTempat, 0, ',', '.') }}</div>
+            <div class="ket">Tempat wisata terdaftar di Database 3</div>
+        </div>
+    @endif
 </div>
 
 <div class="p-grid rata">
