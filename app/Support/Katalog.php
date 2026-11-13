@@ -264,7 +264,7 @@ class Katalog
     private static function mintaRuteApi(array $a, array $b, string $moda): ?array
 {
     try {
-        $timeout = (int) config('services.routing.timeout', 15);
+        // batas pendek: kalau layanan rute lambat, perkiraan garis lurus dipakai
 
         if ($moda === 'jalan') {
             $url = rtrim(config('services.routing.valhalla_url'), '/').'/route';
