@@ -329,7 +329,6 @@ class Penyimpanan
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
     }
 
-        if (trim($q) !== '') {
             self::tambah('cari', ['q' => mb_strtolower(trim($q)), 'hasil' => $jumlahHasil]);
         }
     }
