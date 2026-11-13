@@ -258,6 +258,7 @@ class Katalog
             Cache::put($kunci, $hasil, now()->addDays(30));
         }
 
+        return $hasil;
 {
     try {
         $timeout = (int) config('services.routing.timeout', 15);
