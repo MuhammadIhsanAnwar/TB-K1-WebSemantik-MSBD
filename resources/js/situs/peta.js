@@ -450,6 +450,7 @@ function modeAlat(el) {
         tombolLokasi.setAttribute('aria-pressed', 'false');
         tombolLokasi.removeAttribute('aria-busy');
         pesanLokasi.textContent = pesan;
+        gambar();
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
