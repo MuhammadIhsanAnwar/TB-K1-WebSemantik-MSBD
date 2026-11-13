@@ -494,7 +494,7 @@ function modeAlat(el) {
         tombolLokasi.setAttribute('aria-pressed', 'true');
         pesanLokasi.textContent = 'Membaca lokasimu…';
         pantau = navigator.geolocation.watchPosition(terimaPosisi, (galat) => {
-            lokasi = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+            // sinyal sempat hilang saat lokasi sudah ada: tetap pantau, pakai posisi terakhir
             lokasiPenanda?.remove();
             lokasiPenanda = L.circleMarker([lokasi.lat, lokasi.lng], { radius: 8, color: '#ffffff', weight: 3, fillColor: '#2f6690', fillOpacity: 1 }).addTo(peta).bindTooltip('Kamu di sini');
             tombolLokasi.setAttribute('aria-pressed', 'true');
