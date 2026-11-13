@@ -477,6 +477,7 @@ function modeAlat(el) {
                 ? 'Kamu sedang jauh dari Medan. Daftar tetap diurutkan dari yang paling dekat.'
                 : `Lokasimu diikuti langsung (akurasi sekitar ${akurasi.toLocaleString('id')} m). Daftar diurutkan dari yang terdekat.`;
             gambar();
+        }
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
