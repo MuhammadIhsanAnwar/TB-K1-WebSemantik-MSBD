@@ -535,6 +535,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
         return ['menit' => $menit, 'hari' => $hari];
     }
 
+    /** Apakah tempat sedang buka, menurut jam WIB. Jam yang lewat tengah malam (tutup < buka) ikut dihitung. */
     }
 
     public static function cari(string $q): array
