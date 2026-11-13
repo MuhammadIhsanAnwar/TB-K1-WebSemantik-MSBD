@@ -123,7 +123,9 @@ class Penyimpanan
 
     public static function tulisUlasan(array $data): array
     {
-        return self::tambah('ulasan', $data + ['status' => 'menunggu']);
+        return self::tambah('ulasan', $data + [
+            'status' => 'tayang',
+        ]);
     }
 
     public static function moderasi(string $id, string $status): void
