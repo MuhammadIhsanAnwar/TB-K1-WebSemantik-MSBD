@@ -105,3 +105,4 @@ return new class extends Migration
                 IF jsonb_array_length(p_item) = 0 THEN
                     RAISE EXCEPTION 'Pesanan harus berisi minimal satu tiket';
                 END IF;
+                IF p_tanggal < (now() AT TIME ZONE 'Asia/Jakarta')::date THEN
