@@ -499,7 +499,7 @@ function modeAlat(el) {
             const pesan = galat.code === galat.PERMISSION_DENIED
                 ? 'Izin lokasi ditolak. Peta tetap bisa dipakai tanpa lokasimu.'
                 : 'Lokasimu belum terbaca. Coba lagi di tempat terbuka.';
-            const terdekat = Math.min(...tempat.map((t) => jarak(lokasi, t)));
+            hentikanLokasi(pesan);
             pesanLokasi.textContent = terdekat > 30000 ? 'Kamu sedang jauh dari Medan. Daftar tetap diurutkan dari yang paling dekat.' : 'Diurutkan dari yang terdekat denganmu.';
             gambar();
         }, () => {
