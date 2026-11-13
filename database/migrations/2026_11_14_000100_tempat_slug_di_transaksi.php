@@ -180,3 +180,4 @@ return new class extends Migration
                     SET jumlah_ulasan = EXCLUDED.jumlah_ulasan, rata_rata_bintang = EXCLUDED.rata_rata_bintang,
                         diperbarui_pada = EXCLUDED.diperbarui_pada;
             $$;
+
