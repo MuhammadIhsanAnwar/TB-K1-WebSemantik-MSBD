@@ -20,8 +20,31 @@ function ikon(warna, nomor = null) {
 }
 
 function popup(t) {
-    return `<div class="popup-tempat"><b>${esc(t.nama)}</b><span>${esc(t.harga ?? '')}${t.jarak != null ? `, ${t.jarak.toLocaleString('id')} m` : ''}</span>
-        <div class="aksi"><a href="${esc(t.url)}">Lihat tempat</a>${t.tiket ? `<a href="${esc(t.tiket)}">Pesan tiket</a>` : ''}</div></div>`;
+    const rating = Number(t.rating ?? 0);
+    const jumlahUlasan = Number(t.jumlahUlasan ?? 0);
+    const jumlahKunjungan = Number(t.jumlahKunjungan ?? 0);
+
+    const infoRating = jumlahUlasan > 0
+        ? `★ ${rating.toLocaleString('id', {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1
+        })} (${jumlahUlasan} ulasan)`
+        : 'Belum ada rating';
+
+    return `
+        <div class="popup-tempat">
+            <b>${esc(t.nama)}</b>
+            <span>${esc(t.harga ?? '')}</span>
+            <div style="margin-top:6px;font-size:0.85rem">
+                <div>${infoRating}</div>
+                <div>👁 ${jumlahKunjungan.toLocaleString('id')} kunjungan</div>
+            </div>
+            <div class="aksi">
+                <a href="${esc(t.url)}">Lihat tempat</a>
+                ${t.tiket ? `<a href="${esc(t.tiket)}">Pesan tiket</a>` : ''}
+            </div>
+        </div>
+    `;
 }
 
 function buatPeta(el, opsi = {}) {

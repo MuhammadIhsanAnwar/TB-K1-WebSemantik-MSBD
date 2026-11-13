@@ -88,6 +88,18 @@
                         </a>
                         <span class="mv-peta-kartu__meta" style="display:flex;justify-content:space-between;gap:8px"><span>{{ Katalog::KATEGORI[$t['kategori']] }}</span><b class="nums" style="color:var(--mv-hijau)"><x-harga :tempat="$t" /></b></span>
                         <span class="mv-peta-kartu__meta">{{ $t['kecamatan'] }}, {{ $t['jam'] }}</span>
+                        <div class="mv-peta-kartu__meta" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:5px">
+                        <span>
+                            ★ {{ ($t['jumlahUlasan'] ?? 0) > 0 ? number_format($t['rating'], 1, ',', '.') : 'Belum ada rating' }}
+                            @if(($t['jumlahUlasan'] ?? 0) > 0)
+                                ({{ $t['jumlahUlasan'] }} ulasan)
+                            @endif
+                        </span>
+                        <span>
+                            <span aria-hidden="true">👁</span>
+                            {{ number_format($t['jumlahKunjungan'] ?? 0, 0, ',', '.') }} kunjungan
+                        </span>
+                    </div>
                         <span class="mv-peta-kartu__jarak nums" data-jarak></span>
                         <div style="display:flex;gap:10px;align-items:center;margin-top:6px">
                             <button type="button" data-fokus-peta="{{ $t['slug'] }}" style="padding:2px 8px;min-height:30px;border:1px solid var(--mv-kertas-2);background:var(--mv-kertas);color:var(--mv-hijau);font:600 0.75rem/1 var(--font-text)">Lihat di peta</button>
