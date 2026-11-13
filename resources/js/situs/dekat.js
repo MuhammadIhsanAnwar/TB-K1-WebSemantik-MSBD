@@ -50,3 +50,4 @@ function tampilkan(pos) {
     tombol.hidden = true;
     blok.removeAttribute('aria-busy');
 }
+
