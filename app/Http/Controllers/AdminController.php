@@ -72,6 +72,7 @@ class AdminController extends Controller
             ->map(fn ($t) => ['slug' => $t['slug'], 'nama' => $t['nama'], 'jumlah' => (int) ($kunjungan['tempat'][$t['slug']] ?? 0)])
             ->sortBy([['jumlah', 'desc'], ['nama', 'asc']])->values();
 
+        if ($fokus !== null) {
 
         return view('admin.insight', [
             'periode' => $periode,
