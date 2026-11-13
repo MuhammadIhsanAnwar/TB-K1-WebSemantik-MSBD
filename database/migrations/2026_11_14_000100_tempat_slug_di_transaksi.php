@@ -192,3 +192,4 @@ return new class extends Migration
                 AFTER INSERT OR UPDATE OF status, bintang, id_tempat OR DELETE ON ulasan
                 FOR EACH ROW EXECUTE FUNCTION trg_ulasan_ringkasan();
 
+            CREATE OR REPLACE PROCEDURE sp_buat_pesanan(
