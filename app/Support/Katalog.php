@@ -492,7 +492,7 @@ class Katalog
         }
         if (! in_array($hari, $jadwal['hari'], true)) {
             return false;
-
+        }
     unset($pool[$awal['slug']]);
 
     $durasiAwal = (int) ($awal['singgah'] ?? 45);
