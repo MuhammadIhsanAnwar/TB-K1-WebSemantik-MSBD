@@ -78,7 +78,7 @@
             @if ($dikunjungi->isNotEmpty())
                 <div class="p-baris">
                     @foreach ($dikunjungi as $baris)
-            </div>
+                        <div>
         @else
             <div class="p-kosong">Belum ada halaman tempat wisata yang dikunjungi.</div>
         @endif
