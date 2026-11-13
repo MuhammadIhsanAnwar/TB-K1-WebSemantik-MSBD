@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-            $kandidat,
             fn ($a, $b) => $a['pindah']['meter'] <=> $b['pindah']['meter']
         );
 
