@@ -342,4 +342,5 @@ final class Database3Catalog
         $menit = fn (string $jam) => (int) substr($jam, 0, 2) * 60 + (int) substr($jam, 3, 2);
         $tutup = $menit((string) $close);
 
+        return [$menit((string) $open), $tutup === 1439 ? 1440 : $tutup];
 }
