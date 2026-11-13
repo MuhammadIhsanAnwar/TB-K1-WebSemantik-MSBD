@@ -206,3 +206,4 @@ return new class extends Migration
                 INSERT INTO pesanan (kode, id_pengguna, nama_pemesan, email_pemesan, hp_pemesan,
                                      id_tempat, tanggal_kunjungan, metode, batas_bayar, created_at, updated_at)
                 VALUES (p_kode, p_id_pengguna, p_nama, p_email, p_hp,
+                        p_id_tempat, p_tanggal, p_metode, now() + interval '15 minutes', now(), now())
