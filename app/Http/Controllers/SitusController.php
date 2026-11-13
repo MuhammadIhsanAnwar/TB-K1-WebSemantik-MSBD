@@ -295,6 +295,7 @@ class SitusController extends Controller
             ]);
             try {
                 $hasil = Katalog::susunRute($pref['minat'], (int) $pref['durasi'], $pref['moda'], $pref['mulai']);
+            } catch (\RuntimeException $e) {
         }
 
         return view('situs.rencana', ['hasil' => $hasil, 'pref' => $pref, 'tempat' => Katalog::tempat()]);
