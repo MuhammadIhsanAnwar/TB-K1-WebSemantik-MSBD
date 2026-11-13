@@ -152,6 +152,7 @@ class Penyimpanan
             'kode_qr' => $p->kode_qr,
             'dipakai' => self::waktu($p->dipakai_pada),
         ], $baris);
+    }
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
