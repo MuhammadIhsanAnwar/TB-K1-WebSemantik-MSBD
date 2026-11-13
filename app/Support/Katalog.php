@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-            $perpindahan['menit'] + $durasiSinggah > $sisaMenit
             || $perpindahan['meter'] > 6000
         ) {
             break;
