@@ -1077,6 +1077,7 @@
   list-style: none;
   margin: 0 0 14px;
   padding: 0;
+  display: grid;
 
 /* 3. Showcase: Benang merah kota (Square plate, spare text) */
 .mv-benang {
