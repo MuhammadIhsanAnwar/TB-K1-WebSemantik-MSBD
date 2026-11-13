@@ -432,6 +432,7 @@ class Katalog
         $durasiAwal = (int) ($awal['singgah'] ?? 45);
         if ($durasiAwal > $sisaMenit) {
             throw new RuntimeException('Singgah di '.$awal['nama'].' butuh sekitar '.$durasiAwal.' menit, lebih lama dari waktu yang dipilih. Pilih waktu yang lebih panjang.');
+        }
     }
 
     if ($durasiJam <= 0) {
