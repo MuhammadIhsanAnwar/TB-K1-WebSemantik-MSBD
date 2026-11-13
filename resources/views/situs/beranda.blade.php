@@ -38,6 +38,7 @@
     $dekatJson = collect($semuaTempat)->filter(fn ($t) => ($t['lat'] ?? 0) > 0)->map(fn ($t) => [
         'nama' => $t['nama'],
         'url' => route('tempat', $t['slug']),
+        'kategori' => Katalog::KATEGORI[$t['kategori']] ?? $t['kategori'],
 @endphp
 
 @section('isi')
