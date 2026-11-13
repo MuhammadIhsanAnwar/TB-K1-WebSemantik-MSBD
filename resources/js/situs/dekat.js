@@ -18,3 +18,4 @@ const fmtJarak = (m) => (m < 1000 ? `${m.toLocaleString('id')} m` : `${(m / 1000
 function ditunda() {
     try {
         return Date.now() - Number(localStorage.getItem(KUNCI) || 0) < TUNDA;
+    } catch {
