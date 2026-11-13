@@ -474,6 +474,7 @@ class Katalog
             $jam += $durasiSinggah;
             $total += $perpindahan['biaya'] + (self::hargaTermurah($calon) ?? 0);
             $kini = $calon;
+        }
     }
 
     if ($durasiJam <= 0) {
