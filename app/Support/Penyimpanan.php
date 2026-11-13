@@ -57,6 +57,7 @@ class Penyimpanan
                 $q->where('p.id_pengguna', $idPengguna);
             }
 
+            return self::bentukPesanan($q->orderByDesc('p.created_at')->orderByDesc('p.id_pesanan')->get()->all());
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
