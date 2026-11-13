@@ -41,6 +41,7 @@
         'kategori' => Katalog::KATEGORI[$t['kategori']] ?? $t['kategori'],
         'lat' => $t['lat'],
         'lng' => $t['lng'],
+        'buka' => Katalog::jadwal($t),
 @endphp
 
 @section('isi')
