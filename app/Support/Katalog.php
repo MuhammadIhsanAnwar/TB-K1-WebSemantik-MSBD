@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-        $jam += $perpindahan['menit'];
 
         $urut[] = [
             'tempat' => $calon,
