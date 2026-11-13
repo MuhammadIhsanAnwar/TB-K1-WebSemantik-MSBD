@@ -189,3 +189,4 @@ return new class extends Migration
             END $$;
 
             CREATE TRIGGER ulasan_ringkasan
+                AFTER INSERT OR UPDATE OF status, bintang, id_tempat OR DELETE ON ulasan
