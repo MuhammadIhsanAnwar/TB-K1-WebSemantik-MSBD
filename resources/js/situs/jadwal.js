@@ -10,3 +10,4 @@ export function waktuWib(tanggal = new Date()) {
     return { hari, menit: Number(bagian.hour) * 60 + Number(bagian.minute) };
 }
 
+// Jam yang lewat tengah malam (tutup lebih kecil dari buka) ikut dihitung.
