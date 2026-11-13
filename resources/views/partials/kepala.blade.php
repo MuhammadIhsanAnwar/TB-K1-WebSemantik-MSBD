@@ -16,7 +16,7 @@
         [$u && $u['peran'] === 'wisatawan' ? route('tiket.saya') : route('beranda').'#tiket', 'Tiket', ['tiket.*', 'checkout', 'pesanan']],
     ];
     $tiketAktif = ($u && $u['peran'] === 'wisatawan')
-        ? collect(Penyimpanan::pesanan($u['email']))->filter(fn ($p) => in_array($p['status'], ['menunggu', 'lunas'], true) && empty($p['dipakai']) && $p['tanggal'] >= now('Asia/Jakarta')->toDateString())->count()
+        ? collect(Penyimpanan::pesanan((int) ($u['id'] ?? 0), aman: true))->filter(fn ($p) => in_array($p['status'], ['menunggu', 'lunas'], true) && empty($p['dipakai']) && $p['tanggal'] >= now('Asia/Jakarta')->toDateString())->count()
         : 0;
 @endphp
 <header class="mv-kepala {{ $adalahBeranda ? 'mv-kepala--hero' : '' }}" data-kepala>
