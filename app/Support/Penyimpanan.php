@@ -168,6 +168,7 @@ class Penyimpanan
             return $q->get()->map(fn ($u) => [
                 'id' => (string) $u->id_ulasan,
                 'id_pengguna' => (int) $u->id_pengguna,
+                'tempat' => $u->tempat_slug,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
