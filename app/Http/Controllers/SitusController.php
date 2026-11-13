@@ -123,7 +123,7 @@ class SitusController extends Controller
         $tempat = array_values(Katalog::tempat());
         $kunjungan = Kunjungan::ringkasan(365)['tempat'];
 
-        $ulasan = collect(Penyimpanan::ulasan(null, 'tayang'))
+        // rating per tempat dihitung trigger DB 2 ke tabel ringkasan_ulasan
             ->groupBy('tempat')
             ->map(fn ($items) => [
                 'rating' => round($items->avg('bintang'), 2),
