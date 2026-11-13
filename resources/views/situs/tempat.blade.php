@@ -58,7 +58,7 @@
                 <div class="mv-tempat-tanda">
                     <x-kelas jenis="tempat" :label="$kategori" />
                     <span class="kecil">{{ implode(', ', array_filter([$t['kelurahan'], $t['kecamatan']])) }}</span>
-                    <span class="mv-lencana-jam {{ $buka ? 'mv-lencana-jam--buka' : 'mv-lencana-jam--tutup' }}">{{ $buka ? 'Buka sekarang' : 'Tutup sekarang' }}</span>
+                    @if (Katalog::jadwal($t))
                 </div>
             </div>
 
