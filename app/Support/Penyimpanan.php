@@ -264,6 +264,7 @@ class Penyimpanan
                 'durasi_jam' => (int) $data['durasi'],
                 'moda_jalan' => in_array('jalan', $data['moda'], true),
                 'moda_becak' => in_array('becak', $data['moda'], true),
+                'tempat_mulai_slug' => $data['mulai'],
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
