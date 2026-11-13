@@ -449,6 +449,7 @@ class Katalog
                     break;
                 }
                 $kira = self::perpindahan($kini, $pool[$slug], $moda);
+                $singgah = (int) ($pool[$slug]['singgah'] ?? 45);
     }
 
     if ($durasiJam <= 0) {
