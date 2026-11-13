@@ -541,6 +541,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
         $jadwal = self::jadwal($tempat);
         if (! $jadwal) {
             return false;
+        }
     }
 
     public static function cari(string $q): array
