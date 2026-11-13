@@ -114,6 +114,7 @@
                 <p data-dekat-status role="status" aria-live="polite"></p>
             </div>
             <ol class="mv-dekat__daftar" data-dekat-daftar hidden></ol>
+            <div class="mv-dekat__aksi">
         <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
             <button type="button" data-filter="semua" aria-pressed="true">Semua</button>
             @foreach ($kategori as $k => $grup)
