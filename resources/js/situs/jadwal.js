@@ -23,3 +23,4 @@ export function bukaPada(jadwal, kini = waktuWib()) {
 
 // Jarak dua titik dalam meter (haversine).
 export function jarakMeter(a, b) {
+    const r = 6371000, d = Math.PI / 180;
