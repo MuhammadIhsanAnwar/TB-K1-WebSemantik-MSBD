@@ -465,6 +465,7 @@ class Katalog
             $durasiSinggah = (int) ($calon['singgah'] ?? 45);
             // rute jalan sungguhan bisa lebih lama dari perkiraan garis lurus: periksa ulang
             if ($perpindahan['menit'] + $durasiSinggah > $sisaMenit || ! self::bukaSelama($calon, $hari, $jam + $perpindahan['menit'], $durasiSinggah)) {
+                continue;
     }
 
     if ($durasiJam <= 0) {
