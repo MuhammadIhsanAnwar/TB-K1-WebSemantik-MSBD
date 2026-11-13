@@ -16,6 +16,7 @@ if (ada('[data-panggung]')) import('./situs/panggung.js');
 if (ada('[data-benang]')) import('./situs/benang.js');
 if (ada('[data-jalur-pin]')) import('./situs/jalur-pin.js');
 if (ada('[data-peta]')) import('./situs/peta.js');
+if (ada('[data-dekat]')) import('./situs/dekat.js');
 if (ada('[data-graf]')) import('./situs/graf.js');
 if (ada('[data-tanya]')) import('./situs/tanya.js');
 if (ada('[data-checkin]')) import('./situs/checkin.js');
