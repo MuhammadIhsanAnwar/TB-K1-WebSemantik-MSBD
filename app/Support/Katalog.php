@@ -503,7 +503,6 @@ class Katalog
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
     }
-}
 
     public static function jamTeks(int $menitDariTengahMalam): string
     {
