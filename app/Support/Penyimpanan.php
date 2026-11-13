@@ -18,6 +18,7 @@ use Throwable;
  * rating tempat, dan poin dihitung trigger. Pengguna dirujuk lewat id_pengguna (users.id di DB 1),
  * tempat lewat slug resource Database 3.
  *
+ * Check-in, voucher, dan penukaran poin masih di cache berkas: fiturnya tidak punya route lagi.
  */
 class Penyimpanan
 {
