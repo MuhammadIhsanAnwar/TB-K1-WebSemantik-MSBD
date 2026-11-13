@@ -500,6 +500,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
     private const HARI = ['senin' => 1, 'selasa' => 2, 'rabu' => 3, 'kamis' => 4, 'jumat' => 5, 'sabtu' => 6, 'minggu' => 7];
 
     /**
+     * Jadwal buka sebuah tempat: jam buka dan tutup dalam menit, dan hari buka (1 = Senin ... 7 = Minggu).
     {
         $jam ??= (int) now('Asia/Jakarta')->format('G');
 
