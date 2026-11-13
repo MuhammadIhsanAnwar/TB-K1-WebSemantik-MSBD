@@ -8,6 +8,7 @@
     $namaFokus = $fokus ? (Katalog::get($fokus)['nama'] ?? $fokus) : null;
     $rating = $fokus ? (Penyimpanan::ringkasanUlasan()[$fokus] ?? null) : null;
     $dikunjungi = $kunjunganTempat->where('jumlah', '>', 0);
+    $belumDikunjungi = $kunjunganTempat->count() - $dikunjungi->count();
 @endphp
 @section('judul', 'Insight')
 
