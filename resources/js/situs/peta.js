@@ -471,6 +471,7 @@ function modeAlat(el) {
             if (terdekat <= 30000) peta.setView(titik, Math.max(peta.getZoom(), 14));
         }
         if (!posisiTerurut || jarak(posisiTerurut, lokasi) > 25) {
+            posisiTerurut = lokasi;
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
