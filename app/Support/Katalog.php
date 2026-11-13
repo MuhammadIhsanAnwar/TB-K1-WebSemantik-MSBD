@@ -539,6 +539,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
     public static function bukaSekarang(array $tempat, ?\DateTimeInterface $waktu = null): bool
     {
         $jadwal = self::jadwal($tempat);
+        if (! $jadwal) {
     }
 
     public static function cari(string $q): array
