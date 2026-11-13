@@ -298,6 +298,7 @@ class Penyimpanan
             'durasi' => (int) $r->durasi_jam,
             'moda' => array_keys(array_filter(['jalan' => (bool) $r->moda_jalan, 'becak' => (bool) $r->moda_becak])),
             'mulai' => $r->tempat_mulai_slug,
+            'waktu' => self::waktu($r->created_at),
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
