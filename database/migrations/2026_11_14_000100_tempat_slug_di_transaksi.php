@@ -35,3 +35,4 @@ return new class extends Migration
             ALTER TABLE ulasan           RENAME COLUMN id_tempat TO tempat_slug;
             ALTER TABLE ulasan           ALTER COLUMN tempat_slug TYPE varchar(80) USING tempat_slug::text;
             ALTER TABLE ringkasan_ulasan RENAME COLUMN id_tempat TO tempat_slug;
+            ALTER TABLE ringkasan_ulasan ALTER COLUMN tempat_slug TYPE varchar(80) USING tempat_slug::text;
