@@ -24,3 +24,4 @@ return new class extends Migration
             DROP TRIGGER IF EXISTS ulasan_ringkasan ON ulasan;
             DROP FUNCTION IF EXISTS trg_ulasan_ringkasan();
             DROP FUNCTION IF EXISTS fn_hitung_ringkasan_ulasan(integer);
+            DROP PROCEDURE IF EXISTS sp_buat_pesanan(bigint, varchar, varchar, varchar, integer, date, varchar, jsonb, varchar);
