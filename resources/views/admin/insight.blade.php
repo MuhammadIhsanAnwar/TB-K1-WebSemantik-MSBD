@@ -9,6 +9,7 @@
     $rating = $fokus ? (Penyimpanan::ringkasanUlasan()[$fokus] ?? null) : null;
     $dikunjungi = $kunjunganTempat->where('jumlah', '>', 0);
     $belumDikunjungi = $kunjunganTempat->count() - $dikunjungi->count();
+    // superadmin yang sedang melihat satu tempat tetap membawa pilihan itu saat ganti periode
 @endphp
 @section('judul', 'Insight')
 
