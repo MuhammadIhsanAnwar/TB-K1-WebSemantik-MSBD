@@ -90,3 +90,4 @@ return new class extends Migration
             CREATE TRIGGER ulasan_ringkasan
                 AFTER INSERT OR UPDATE OF status, bintang, tempat_slug OR DELETE ON ulasan
                 FOR EACH ROW EXECUTE FUNCTION trg_ulasan_ringkasan();
+
