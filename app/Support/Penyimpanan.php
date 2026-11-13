@@ -144,6 +144,7 @@ class Penyimpanan
                 'jumlah' => (int) $i->jumlah, 'subtotal' => (int) $i->subtotal,
             ])->values()->all(),
             'total' => (int) $p->total,
+            'metode' => $p->metode,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
