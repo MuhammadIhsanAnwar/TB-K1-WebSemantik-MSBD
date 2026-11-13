@@ -100,3 +100,4 @@ return new class extends Migration
                 INOUT p_kode varchar DEFAULT NULL)
             LANGUAGE plpgsql AS $$
             DECLARE
+                v_id bigint;
