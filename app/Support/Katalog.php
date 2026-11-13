@@ -456,6 +456,7 @@ class Katalog
                 }
             }
             if ($slugCalon === null) {
+                break;
     }
 
     if ($durasiJam <= 0) {
