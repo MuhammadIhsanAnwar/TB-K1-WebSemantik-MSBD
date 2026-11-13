@@ -359,7 +359,6 @@ class Penyimpanan
 
         return null;
     }
-    {
         return array_reverse(array_filter(self::ambil('rencana'), fn ($r) => $email === null || $r['email'] === $email));
     }
 
