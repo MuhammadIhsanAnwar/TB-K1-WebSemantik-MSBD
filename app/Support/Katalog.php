@@ -415,6 +415,7 @@ class Katalog
             throw new RuntimeException('Pilih tempat awal dari daftar tempat wisata.');
         }
         if ($durasiJam <= 0) {
+            throw new RuntimeException('Durasi perjalanan harus lebih dari 0 jam.');
 
     $awal = self::get($mulai);
 
