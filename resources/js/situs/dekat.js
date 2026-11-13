@@ -37,3 +37,4 @@ function tampilkan(pos) {
         .sort((a, b) => a.jarak - b.jarak)
         .slice(0, 3);
     status.textContent = terdekat[0].jarak > 30000
+        ? 'Kamu sedang di luar Medan. Ini tempat yang paling dekat dari posisimu.'
