@@ -39,6 +39,7 @@
     @if ($fokus)
         <div><div class="label">Rating ulasan</div><div class="nilai">{{ $rating && $rating['jumlahUlasan'] ? number_format($rating['rating'], 1, ',', '.') : '-' }}</div><div class="ket">{{ $rating['jumlahUlasan'] ?? 0 }} ulasan tayang</div></div>
     @else
+        <div><div class="label">Akun terdaftar</div><div class="nilai">{{ number_format(($akun['admin'] ?? 0) + ($akun['wisatawan'] ?? 0) + ($akun['superadmin'] ?? 0), 0, ',', '.') }}</div><div class="ket">{{ $akun['admin'] ?? 0 }} admin · {{ $akun['wisatawan'] ?? 0 }} wisatawan</div></div>
 </div>
 
 <div class="p-grid">
