@@ -60,6 +60,7 @@
                     <span class="kecil">{{ implode(', ', array_filter([$t['kelurahan'], $t['kecamatan']])) }}</span>
                     @if (Katalog::jadwal($t))
                         <span class="mv-lencana-jam {{ $buka ? 'mv-lencana-jam--buka' : 'mv-lencana-jam--tutup' }}">{{ $buka ? 'Buka sekarang' : 'Tutup sekarang' }}</span>
+                    @endif
                 </div>
             </div>
 
