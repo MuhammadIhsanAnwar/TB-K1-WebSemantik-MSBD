@@ -220,6 +220,7 @@ class Penyimpanan
         if (trim($q) === '') {
             return;
         }
+        self::aman(fn () => self::db()->table('log_pencarian')->insert([
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
