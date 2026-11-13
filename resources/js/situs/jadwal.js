@@ -26,3 +26,4 @@ export function jarakMeter(a, b) {
     const r = 6371000, d = Math.PI / 180;
     const h = Math.sin(((b.lat - a.lat) * d) / 2) ** 2 + Math.cos(a.lat * d) * Math.cos(b.lat * d) * Math.sin(((b.lng - a.lng) * d) / 2) ** 2;
     return Math.round(2 * r * Math.asin(Math.sqrt(h)));
+}
