@@ -499,7 +499,6 @@ class Katalog
         }
         if ($tutup < $buka) {
             $tutup += 1440; // lewat tengah malam
-        foreach ($pool as $slug => $tempat) {
             $perpindahan = self::perpindahanDenganRute(
                 $kini,
                 $tempat,
