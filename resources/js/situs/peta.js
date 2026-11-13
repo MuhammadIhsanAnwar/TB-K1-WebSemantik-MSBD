@@ -467,6 +467,7 @@ function modeAlat(el) {
         tombolLokasi.removeAttribute('aria-busy');
         if (pertama) {
             pertama = false;
+            const terdekat = Math.min(...tempat.map((t) => jarak(lokasi, t)));
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
