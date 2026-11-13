@@ -404,7 +404,7 @@ class Katalog
     /**
      * Susun rute satu hari dari tempat awal: setiap langkah memilih tempat terdekat yang cocok dengan minat,
      * masih muat dalam sisa waktu, dan buka saat didatangi (jam buka dari Database 3).
-        self::tempat(),
+     *
         fn ($tempat) => in_array($tempat['kategori'], $minat, true)
             || $tempat['slug'] === $mulai
     );
