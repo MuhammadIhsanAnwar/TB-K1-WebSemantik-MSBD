@@ -96,6 +96,7 @@ final class Database3Catalog
                     'koordinat_perkiraan' => self::boolean($properties, 'mv:koordinatPerkiraan'),
                     'jam' => self::first($properties, 'mv:keteranganJam', ''),
                     'jam_buka' => self::timeRange($properties),
+                    'jam_menit' => self::minuteRange($properties),
                     'jam_contoh' => self::boolean($properties, 'mv:jamContoh'),
                     'fasilitas' => $properties['mv:fasilitas'] ?? [],
                     'radius_checkin' => (int) self::first($properties, 'mv:radiusCheckin', 100),
