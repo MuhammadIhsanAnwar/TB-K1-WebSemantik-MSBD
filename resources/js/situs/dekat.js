@@ -73,3 +73,4 @@ function minta() {
             tawarkanTombol('Izinkan lokasi untuk melihat tempat wisata terdekat.');
         }).catch(() => { blok.hidden = true; });
     }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 300000 });
+}
