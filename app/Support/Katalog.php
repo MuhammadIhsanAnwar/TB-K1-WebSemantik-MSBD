@@ -476,6 +476,7 @@ class Katalog
             $kini = $calon;
         }
 
+        return [
     }
 
     if ($durasiJam <= 0) {
