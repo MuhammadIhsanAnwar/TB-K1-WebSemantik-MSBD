@@ -435,6 +435,7 @@ class Katalog
         }
 
         $urut = [['tempat' => $awal, 'mulai' => $jam, 'pindah' => null]];
+        $sisaMenit -= $durasiAwal;
     }
 
     if ($durasiJam <= 0) {
