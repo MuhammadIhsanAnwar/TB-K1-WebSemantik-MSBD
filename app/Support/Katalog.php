@@ -488,7 +488,7 @@ class Katalog
     {
         $jadwal = self::jadwal($tempat);
         if (! $jadwal) {
-    $urut = [];
+            return true;
     $kini = $awal;
     $jam = 8 * 60 + 30;
     $total = 0;
