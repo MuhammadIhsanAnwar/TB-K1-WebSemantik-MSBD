@@ -110,6 +110,7 @@ class Penyimpanan
             $db->table('e_tiket')->where('id_pesanan', $id)->whereNull('dipakai_pada')
                 ->update(['dipakai_pada' => Carbon::parse($ubah['dipakai'])]);
         }
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
