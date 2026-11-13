@@ -3,3 +3,4 @@
 // tidak bertanya otomatis lagi selama 7 hari dan menampilkan tombol. Kalau izin ditolak, bagian ini disembunyikan.
 import { bukaPada, jarakMeter, waktuWib } from './jadwal.js';
 
+const blok = document.querySelector('[data-dekat]');
