@@ -108,7 +108,7 @@ class TiketController extends Controller
         ]);
 
         $p = Penyimpanan::buatPesanan([
-            'email' => $request->session()->get('pengguna.email'),
+            'id_pengguna' => (int) $request->session()->get('pengguna.id'),
             'pemesan' => ['nama' => $data['nama'], 'email' => $data['email'], 'hp' => $data['hp']],
             'tempat' => $pilihan['tempat'],
             'tanggal' => $pilihan['tanggal'],
