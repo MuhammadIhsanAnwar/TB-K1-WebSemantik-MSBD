@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Throwable;
 
 /**
  * Penyimpanan sementara untuk prototipe: pesanan tiket, check-in, ulasan, log pencarian, voucher mitra,
