@@ -16,3 +16,4 @@ export function bukaPada(jadwal, kini = waktuWib()) {
     const [buka, tutup] = jadwal.menit;
     const hariIni = jadwal.hari.includes(kini.hari);
     if (buka === tutup) return hariIni;
+    if (tutup > buka) return hariIni && kini.menit >= buka && kini.menit < tutup;
