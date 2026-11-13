@@ -41,6 +41,7 @@ class Penyimpanan
         }
     }
 
+    private static function waktu(?string $nilai): ?string
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
