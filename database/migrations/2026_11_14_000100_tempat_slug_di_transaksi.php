@@ -55,3 +55,4 @@ return new class extends Migration
                 FROM pesanan p
                 JOIN (SELECT id_pesanan, sum(jumlah) AS jumlah_orang FROM pesanan_item GROUP BY id_pesanan) i
                   ON i.id_pesanan = p.id_pesanan
+                WHERE p.status = 'lunas'
