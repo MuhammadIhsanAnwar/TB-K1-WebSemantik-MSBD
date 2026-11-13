@@ -261,6 +261,7 @@ class Katalog
         return $hasil;
     }
 
+    private static function mintaRuteApi(array $a, array $b, string $moda): ?array
 {
     try {
         $timeout = (int) config('services.routing.timeout', 15);
