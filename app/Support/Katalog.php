@@ -406,7 +406,7 @@ class Katalog
      * masih muat dalam sisa waktu, dan buka saat didatangi (jam buka dari Database 3).
      *
      * Calon diurutkan dengan jarak garis lurus, jadi layanan rute online hanya dipanggil sekali per langkah
-            || $tempat['slug'] === $mulai
+     * untuk tempat yang terpilih. Kalau layanan itu gagal, perkiraan garis lurus dipakai.
     );
 
     $awal = self::get($mulai);
