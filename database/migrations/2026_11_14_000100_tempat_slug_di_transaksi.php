@@ -82,3 +82,4 @@ return new class extends Migration
                     PERFORM fn_hitung_ringkasan_ulasan(OLD.tempat_slug);
                 END IF;
                 IF TG_OP IN ('INSERT', 'UPDATE') THEN
+                    PERFORM fn_hitung_ringkasan_ulasan(NEW.tempat_slug);
