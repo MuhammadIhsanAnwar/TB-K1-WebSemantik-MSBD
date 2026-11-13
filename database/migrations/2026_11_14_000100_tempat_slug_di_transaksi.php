@@ -26,3 +26,4 @@ return new class extends Migration
             DROP FUNCTION IF EXISTS fn_hitung_ringkasan_ulasan(integer);
             DROP PROCEDURE IF EXISTS sp_buat_pesanan(bigint, varchar, varchar, varchar, integer, date, varchar, jsonb, varchar);
             ALTER TABLE pesanan DROP CONSTRAINT IF EXISTS ck_pesanan_tempat;
+
