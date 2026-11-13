@@ -66,3 +66,4 @@ function minta() {
         const cek = navigator.permissions?.query ? navigator.permissions.query({ name: 'geolocation' }) : Promise.resolve({ state: 'denied' });
         cek.then((izin) => {
             if (izin.state === 'denied') {
+                blok.hidden = true;
