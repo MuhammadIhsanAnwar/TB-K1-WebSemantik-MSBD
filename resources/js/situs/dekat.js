@@ -59,3 +59,4 @@ function minta() {
     navigator.geolocation.getCurrentPosition(tampilkan, (galat) => {
         blok.removeAttribute('aria-busy');
         if (galat.code !== galat.PERMISSION_DENIED) {
+            tawarkanTombol('Lokasimu belum terbaca.');
