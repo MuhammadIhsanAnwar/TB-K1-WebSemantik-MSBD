@@ -67,7 +67,7 @@
                     @endforeach
                 </div>
             @else
-    </section>
+                <div class="p-kosong">Belum ada data kunjungan selama periode ini.</div>
     <section class="p-panel s6" aria-labelledby="tempat-populer">
         <header><h2 id="tempat-populer">Kunjungan halaman tempat wisata</h2><span class="meta">{{ $periode }} hari</span></header>
         @if ($tempatPopuler->isNotEmpty())
