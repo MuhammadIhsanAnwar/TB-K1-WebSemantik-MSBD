@@ -484,6 +484,7 @@ function modeAlat(el) {
         if (pantau !== null) {
             hentikanLokasi('Lokasimu tidak diikuti lagi.');
             return;
+        }
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
             return;
