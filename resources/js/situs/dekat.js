@@ -29,3 +29,4 @@ function tawarkanTombol(teks) {
     tombol.hidden = false;
 }
 
+function tampilkan(pos) {
