@@ -100,10 +100,10 @@
         </div>
 
         <div class="mv-saring-baris" data-saring-beranda role="group" aria-label="Saring kategori tempat">
-            <button type="button" data-filter="semua" aria-pressed="true">Semua <span class="nums">({{ $urutTempat->count() }})</span></button>
+            <button type="button" data-filter="semua" aria-pressed="true">Semua</button>
             @foreach ($kategori as $k => $grup)
                 @continue(! ($jumlahGaleri[$k] ?? 0))
-                <button type="button" data-filter="{{ $k }}" aria-pressed="false">{{ $grup['label'] }} <span class="nums">({{ $jumlahGaleri[$k] }})</span></button>
+                <button type="button" data-filter="{{ $k }}" aria-pressed="false">{{ $grup['label'] }}</button>
             @endforeach
         </div>
 

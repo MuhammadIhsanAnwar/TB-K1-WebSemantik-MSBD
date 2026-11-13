@@ -51,11 +51,10 @@
             <div class="mv-peta-chip" role="group" aria-label="Kategori tempat">
                 @foreach (Katalog::KATEGORI as $k => $label)
                     @continue(! $perKategori->get($k))
-                    <button type="button" data-saring-kategori="{{ $k }}" aria-pressed="true">
-                        <span class="mv-titik-warna" style="--warna-kat: {{ $warnaKat[$k] ?? '#e3a51c' }}" aria-hidden="true"></span>
-                        <span>{{ $label }}</span>
-                        <span class="nums">({{ $perKategori->get($k) }})</span>
-                    </button>
+                   <button type="button" data-saring-kategori="{{ $k }}" aria-pressed="true">
+                    <span class="mv-titik-warna" style="--warna-kat: {{ $warnaKat[$k] ?? '#e3a51c' }}" aria-hidden="true"></span>
+                    <span>{{ $label }}</span>
+                </button>
                 @endforeach
             </div>
 
