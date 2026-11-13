@@ -270,7 +270,7 @@ class Katalog
         if ($moda === 'jalan') {
             $url = rtrim(config('services.routing.valhalla_url'), '/').'/route';
 
-            $response = Http::timeout($timeout)
+            $response = Http::connectTimeout(3)->timeout($timeout)
                 ->acceptJson()
                 ->post($url, [
                     'locations' => [
