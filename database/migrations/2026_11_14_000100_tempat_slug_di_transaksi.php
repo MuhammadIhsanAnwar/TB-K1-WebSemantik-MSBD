@@ -50,3 +50,4 @@ return new class extends Migration
             CREATE OR REPLACE VIEW v_penjualan_tiket AS
                 SELECT p.tempat_slug, date_trunc('month', p.tanggal_kunjungan)::date AS bulan,
                        count(*) AS jumlah_pesanan,
+                       sum(i.jumlah_orang) AS jumlah_pengunjung,
