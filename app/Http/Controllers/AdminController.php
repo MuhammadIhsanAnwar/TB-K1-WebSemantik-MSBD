@@ -444,6 +444,7 @@ class AdminController extends Controller
                 $hasil[] = ['label' => 'Isi Database 2 (transaksi)', 'ok' => true, 'teks' => count(Penyimpanan::pesanan()).' pesanan, '.count(Penyimpanan::ulasan()).' ulasan, '.count(Penyimpanan::rencana()).' rencana, '.Penyimpanan::jumlahCari().' pencarian tercatat.'];
             } catch (\Throwable $e) {
                 $hasil[] = ['label' => 'Isi Database 2 (transaksi)', 'ok' => false, 'teks' => 'Tidak bisa dibaca lewat koneksi langsung: '.str($e->getMessage())->before(' (Connection:')->limit(120)];
+            }
         }
 
         return view('admin.sinkronisasi', ['hasil' => $hasil, 'diperiksa' => $hasil ? now('Asia/Jakarta') : null]);
