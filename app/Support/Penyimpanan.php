@@ -233,6 +233,7 @@ class Penyimpanan
             ->orderByDesc('jumlah_dicari')->pluck('jumlah_dicari', 'kata_kunci')
             ->map(fn ($n) => (int) $n)->all(), []);
     }
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
