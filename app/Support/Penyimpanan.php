@@ -139,6 +139,7 @@ class Penyimpanan
             'pemesan' => ['nama' => $p->nama_pemesan, 'email' => $p->email_pemesan, 'hp' => $p->hp_pemesan],
             'tempat' => $p->tempat_slug,
             'tanggal' => Carbon::parse($p->tanggal_kunjungan)->toDateString(),
+            'item' => ($item[$p->id_pesanan] ?? collect())->map(fn ($i) => [
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
