@@ -502,7 +502,6 @@ class Katalog
         }
 
         return $tiba >= $buka && $tiba + $durasi <= $tutup;
-        $slugCalon = array_key_first($kandidat);
         $calon = $kandidat[$slugCalon]['tempat'];
         $perpindahan = $kandidat[$slugCalon]['pindah'];
 
