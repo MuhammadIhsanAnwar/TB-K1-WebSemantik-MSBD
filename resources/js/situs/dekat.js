@@ -36,3 +36,4 @@ function tampilkan(pos) {
         .map((t) => ({ ...t, jarak: jarakMeter(lokasi, t) }))
         .sort((a, b) => a.jarak - b.jarak)
         .slice(0, 3);
+    status.textContent = terdekat[0].jarak > 30000
