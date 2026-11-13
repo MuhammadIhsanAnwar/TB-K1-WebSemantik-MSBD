@@ -225,6 +225,7 @@ class Penyimpanan
             'jumlah_hasil' => min($jumlahHasil, 32767),
         ]), null);
     }
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
