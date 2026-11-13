@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
 /**
@@ -244,6 +245,67 @@ class Katalog
         return (int) round(2 * $radiusBumi * asin(sqrt($h)));
     }
 
+    private static function ambilRuteApi(array $a, array $b, string $moda): ?array
+{
+    try {
+        $timeout = (int) config('services.routing.timeout', 15);
+
+        if ($moda === 'jalan') {
+            $url = rtrim(config('services.routing.valhalla_url'), '/').'/route';
+
+            $response = Http::timeout($timeout)
+                ->acceptJson()
+                ->post($url, [
+                    'locations' => [
+                        [
+                            'lat' => (float) $a['lat'],
+                            'lon' => (float) $a['lng'],
+                        ],
+                        [
+                            'lat' => (float) $b['lat'],
+                            'lon' => (float) $b['lng'],
+                        ],
+                    ],
+                    'costing' => 'pedestrian',
+                    'units' => 'kilometers',
+                    'format' => 'osrm',
+                ]);
+        } else {
+            $url = rtrim(config('services.routing.osrm_url'), '/')
+                .'/route/v1/driving/'
+                .$a['lng'].','.$a['lat'].';'
+                .$b['lng'].','.$b['lat'];
+
+            $response = Http::timeout($timeout)
+                ->acceptJson()
+                ->get($url, [
+                    'overview' => 'false',
+                    'steps' => 'false',
+                ]);
+        }
+
+        if (! $response->successful()) {
+            return null;
+        }
+
+        $data = $response->json();
+        $rute = $data['routes'][0] ?? null;
+
+        if (! $rute || ! isset($rute['distance'], $rute['duration'])) {
+            return null;
+        }
+
+        return [
+            'meter' => (int) round($rute['distance']),
+            'menit' => max(1, (int) round($rute['duration'] / 60)),
+        ];
+    } catch (\Throwable $e) {
+        report($e);
+
+        return null;
+    }
+}
+
     public static function perpindahan(array $a, array $b, array $moda): array
     {
         $meter = self::jarakMeter($a, $b);
@@ -258,6 +320,37 @@ class Katalog
             'biaya' => 10000 + (int) (ceil(max(0, $meter - 1000) / 1000) * 5000),
         ];
     }
+
+    private static function perpindahanDenganRute(
+    array $a,
+    array $b,
+    array $moda
+): array {
+    $hasil = self::perpindahan($a, $b, $moda);
+
+    $jenisModa = $hasil['moda'] === 'Jalan kaki'
+        ? 'jalan'
+        : 'becak';
+
+    $rute = self::ambilRuteApi($a, $b, $jenisModa);
+
+    if ($rute === null) {
+        return $hasil;
+    }
+
+    $meter = $rute['meter'];
+
+    return [
+        'moda' => $hasil['moda'],
+        'meter' => $meter,
+        'menit' => $rute['menit'],
+        'biaya' => $jenisModa === 'jalan'
+            ? 0
+            : 10000 + (int) (
+                ceil(max(0, $meter - 1000) / 1000) * 5000
+            ),
+    ];
+}
 
     public static function jalurTematik(): array
     {
@@ -290,47 +383,109 @@ class Katalog
         return self::$routes = $routes;
     }
 
-    public static function susunRute(array $minat, int $durasiJam, array $moda, string $mulai): array
-    {
-        $pool = array_filter(
-            self::tempat(),
-            fn ($tempat) => in_array($tempat['kategori'], $minat, true) || $tempat['slug'] === $mulai
-        );
-        $awal = self::get($mulai);
-        if (! $awal || $awal['jenis'] !== 'tempat' || ! $pool) {
-            throw new RuntimeException('Tempat awal atau pilihan minat tidak ditemukan di Database 3.');
-        }
 
-        $sisaMenit = $durasiJam * 60;
-        $urut = [];
-        $kini = $awal;
-        $jam = 8 * 60 + 30;
-        $total = 0;
-        unset($pool[$awal['slug']]);
-        $urut[] = ['tempat' => $awal, 'mulai' => $jam, 'pindah' => null];
-        $sisaMenit -= (int) ($awal['singgah'] ?? 45);
-        $jam += (int) ($awal['singgah'] ?? 45);
-        $total += self::hargaTermurah($awal) ?? 0;
+public static function susunRute(array $minat, int $durasiJam, array $moda, string $mulai): array
+{
+    $pool = array_filter(
+        self::tempat(),
+        fn ($tempat) => in_array($tempat['kategori'], $minat, true)
+            || $tempat['slug'] === $mulai
+    );
 
-        while ($pool) {
-            uasort($pool, fn ($x, $y) => self::jarakMeter($kini, $x) <=> self::jarakMeter($kini, $y));
-            $calon = reset($pool);
-            $perpindahan = self::perpindahan($kini, $calon, $moda);
-            $durasiSinggah = (int) ($calon['singgah'] ?? 45);
-            if ($perpindahan['menit'] + $durasiSinggah > $sisaMenit || $perpindahan['meter'] > 6000) {
-                break;
-            }
-            $sisaMenit -= $perpindahan['menit'] + $durasiSinggah;
-            $jam += $perpindahan['menit'];
-            $urut[] = ['tempat' => $calon, 'mulai' => $jam, 'pindah' => $perpindahan];
-            $jam += $durasiSinggah;
-            $total += $perpindahan['biaya'] + (self::hargaTermurah($calon) ?? 0);
-            unset($pool[$calon['slug']]);
-            $kini = $calon;
-        }
+    $awal = self::get($mulai);
 
-        return ['singgah' => $urut, 'biaya' => $total, 'selesai' => $jam];
+    if (! $awal || $awal['jenis'] !== 'tempat' || ! $pool) {
+        throw new RuntimeException('Tempat awal atau pilihan minat tidak ditemukan di Database 3.');
     }
+
+    if ($durasiJam <= 0) {
+        throw new RuntimeException('Durasi perjalanan harus lebih dari 0 jam.');
+    }
+
+    $sisaMenit = $durasiJam * 60;
+    $urut = [];
+    $kini = $awal;
+    $jam = 8 * 60 + 30;
+    $total = 0;
+
+    unset($pool[$awal['slug']]);
+
+    $durasiAwal = (int) ($awal['singgah'] ?? 45);
+
+    if ($durasiAwal > $sisaMenit) {
+        throw new RuntimeException('Durasi kunjungan tempat awal melebihi durasi perjalanan.');
+    }
+
+    $urut[] = [
+        'tempat' => $awal,
+        'mulai' => $jam,
+        'pindah' => null,
+    ];
+
+    $sisaMenit -= $durasiAwal;
+    $jam += $durasiAwal;
+    $total += self::hargaTermurah($awal) ?? 0;
+
+    while ($pool) {
+        $kandidat = [];
+
+        foreach ($pool as $slug => $tempat) {
+            $perpindahan = self::perpindahanDenganRute(
+                $kini,
+                $tempat,
+                $moda
+            );
+
+            $kandidat[$slug] = [
+                'tempat' => $tempat,
+                'pindah' => $perpindahan,
+            ];
+        }
+
+        uasort(
+            $kandidat,
+            fn ($a, $b) => $a['pindah']['meter'] <=> $b['pindah']['meter']
+        );
+
+        $slugCalon = array_key_first($kandidat);
+        $calon = $kandidat[$slugCalon]['tempat'];
+        $perpindahan = $kandidat[$slugCalon]['pindah'];
+
+        $durasiSinggah = (int) ($calon['singgah'] ?? 45);
+
+        if (
+            $perpindahan['menit'] + $durasiSinggah > $sisaMenit
+            || $perpindahan['meter'] > 6000
+        ) {
+            break;
+        }
+
+        $sisaMenit -= $perpindahan['menit'] + $durasiSinggah;
+
+        $jam += $perpindahan['menit'];
+
+        $urut[] = [
+            'tempat' => $calon,
+            'mulai' => $jam,
+            'pindah' => $perpindahan,
+        ];
+
+        $jam += $durasiSinggah;
+
+        $total += $perpindahan['biaya']
+            + (self::hargaTermurah($calon) ?? 0);
+
+        unset($pool[$slugCalon]);
+
+        $kini = $calon;
+    }
+
+    return [
+        'singgah' => $urut,
+        'biaya' => $total,
+        'selesai' => $jam,
+    ];
+}
 
     public static function jamTeks(int $menitDariTengahMalam): string
     {

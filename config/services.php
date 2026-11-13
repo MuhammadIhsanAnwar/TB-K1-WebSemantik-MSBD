@@ -61,6 +61,12 @@ return [
         ],
     ],
 
+        'routing' => [
+        'osrm_url' => env('ROUTING_OSRM_URL', 'https://router.project-osrm.org'),
+        'valhalla_url' => env('ROUTING_VALHALLA_URL', 'https://valhalla1.openstreetmap.de'),
+        'timeout' => (int) env('ROUTING_TIMEOUT', 15),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
