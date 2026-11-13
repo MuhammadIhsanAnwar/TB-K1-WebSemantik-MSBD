@@ -215,6 +215,7 @@ class Penyimpanan
 
     // ---------- log pencarian ----------
 
+    public static function catatCari(string $q, int $jumlahHasil): void
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
