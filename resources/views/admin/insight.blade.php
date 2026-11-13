@@ -65,7 +65,7 @@
                         @php $label = $namaRute[$rute] ?? ($rute === 'tempat' ? 'Detail tempat wisata' : ucfirst(str_replace(['.', '_'], ' ', $rute))); @endphp
                         <div><span>{{ $label }}</span><b class="kanan">{{ number_format($jumlah, 0, ',', '.') }}</b></div>
                     @endforeach
-            <div class="p-kosong">Belum ada data kunjungan selama periode ini.</div>
+                </div>
         @endif
     </section>
     <section class="p-panel s6" aria-labelledby="tempat-populer">
