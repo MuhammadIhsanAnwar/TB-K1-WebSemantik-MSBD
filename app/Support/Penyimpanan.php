@@ -291,6 +291,7 @@ class Penyimpanan
 
         return array_map(fn ($r) => [
             'id' => (string) $r->id_rencana,
+            'kode' => $r->kode,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
