@@ -131,3 +131,4 @@ return new class extends Migration
             if ($db->table($tabel)->exists()) {
                 throw new RuntimeException("Tabel $tabel sudah berisi data: slug tempat tidak bisa diubah kembali menjadi angka.");
             }
+        }
