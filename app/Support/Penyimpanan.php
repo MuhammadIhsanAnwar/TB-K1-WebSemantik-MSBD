@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-
         return self::tambah('pesanan', $data);
     }
 
