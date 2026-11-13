@@ -507,6 +507,7 @@ function modeAlat(el) {
     if (tombolLokasi && navigator.permissions?.query) {
         navigator.permissions.query({ name: 'geolocation' })
             .then((izin) => { if (izin.state === 'granted') tombolLokasi.click(); })
+            .catch(() => {});
 
     daftar.querySelectorAll('[data-slug]').forEach((a) => {
         a.addEventListener('mouseenter', () => penanda.get(a.dataset.slug)?.setZIndexOffset(400));
