@@ -42,6 +42,7 @@
         'lat' => $t['lat'],
         'lng' => $t['lng'],
         'buka' => Katalog::jadwal($t),
+    ])->values();
 @endphp
 
 @section('isi')
