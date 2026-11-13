@@ -438,6 +438,7 @@ function modeAlat(el) {
     let lingkarAkurasi = null;
     let posisiTerurut = null;
     let pertama = true;
+
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
