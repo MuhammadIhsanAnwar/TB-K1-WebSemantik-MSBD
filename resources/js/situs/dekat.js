@@ -67,3 +67,4 @@ function minta() {
         cek.then((izin) => {
             if (izin.state === 'denied') {
                 blok.hidden = true;
+                return;
