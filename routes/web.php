@@ -84,8 +84,9 @@ Route::controller(AdminController::class)->middleware('peran:admin,superadmin')-
     Route::get('/sinkronisasi', 'sinkronisasi')->name('sinkronisasi');
 });
 
-Route::controller(AdminController::class)->middleware('peran:superadmin')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/insight', [AdminController::class, 'insight'])->middleware('peran:kurator,admin,superadmin')->name('insight');
+Route::controller(AdminController::class)->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/insight', 'insight')->middleware('peran:admin,superadmin')->name('insight');
+    Route::middleware('peran:superadmin')->group(function () {
     Route::get('/akun', 'akunAdmin')->name('akun');
     Route::post('/akun', 'buatAkun')->name('akun.buat');
     Route::patch('/akun/{id}', 'ubahAkun')->name('akun.ubah');
@@ -94,4 +95,5 @@ Route::controller(AdminController::class)->middleware('peran:superadmin')->prefi
     Route::get('/tempat/baru', 'buatTempat')->name('tempat.baru');
     Route::post('/tempat', 'simpanTempat')->name('tempat.simpan');
     Route::delete('/tempat/{slug}', 'hapusTempat')->name('tempat.hapus');
+    });
 });
