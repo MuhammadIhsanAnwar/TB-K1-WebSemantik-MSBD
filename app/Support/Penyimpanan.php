@@ -237,6 +237,7 @@ class Penyimpanan
     public static function jumlahCari(): int
     {
         return self::aman(fn () => self::db()->table('log_pencarian')->count(), 0);
+    }
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
