@@ -334,4 +334,5 @@ final class Database3Catalog
     /** Jam buka dan tutup dalam menit sejak 00.00. Tutup 23.59 dianggap sampai akhir hari (1440). */
     private static function minuteRange(array $properties): ?array
     {
+        $open = self::first($properties, 'mv:jamBuka', null);
 }
