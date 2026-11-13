@@ -63,3 +63,4 @@ return new class extends Migration
                 INSERT INTO riwayat_poin (id_pengguna, poin, sumber, id_sumber, keterangan)
                 VALUES (NEW.id_pengguna, 10, 'checkin', NEW.id_checkin, 'Check-in di ' || NEW.tempat_slug);
                 RETURN NULL;
+            END $$;
