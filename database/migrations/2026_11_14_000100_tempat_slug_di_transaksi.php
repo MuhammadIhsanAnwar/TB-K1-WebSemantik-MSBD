@@ -29,3 +29,4 @@ return new class extends Migration
 
             -- kolom: angka menjadi slug (index dan unique ikut pindah ke kolom baru)
             ALTER TABLE pesanan          RENAME COLUMN id_tempat TO tempat_slug;
+            ALTER TABLE pesanan          ALTER COLUMN tempat_slug TYPE varchar(80) USING tempat_slug::text;
