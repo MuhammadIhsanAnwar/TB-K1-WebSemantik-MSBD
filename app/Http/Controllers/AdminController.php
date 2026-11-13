@@ -82,6 +82,7 @@ class AdminController extends Controller
             'kunjungan' => $kunjungan,
             'fokus' => $fokus,
             'admin' => $milik !== null,
+            'akun' => $milik === null ? collect((new SupabaseApi)->users())->countBy('peran')->all() : [],
             'transaksi' => $transaksi,
             'pesanan' => $pesanan,
         ]);
