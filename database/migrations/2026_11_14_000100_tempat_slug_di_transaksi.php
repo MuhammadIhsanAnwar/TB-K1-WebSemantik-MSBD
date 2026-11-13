@@ -209,3 +209,4 @@ return new class extends Migration
                         p_id_tempat, p_tanggal, p_metode, now() + interval '15 minutes', now(), now())
                 RETURNING id_pesanan INTO v_id;
                 INSERT INTO pesanan_item (id_pesanan, jenis_pengunjung, harga, jumlah)
+                SELECT v_id, x->>'jenis', (x->>'harga')::integer, (x->>'jumlah')::smallint
