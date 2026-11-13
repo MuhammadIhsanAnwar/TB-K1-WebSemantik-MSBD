@@ -490,7 +490,7 @@ class Katalog
         if (! $jadwal) {
             return true;
         }
-    $jam = 8 * 60 + 30;
+        if (! in_array($hari, $jadwal['hari'], true)) {
     $total = 0;
 
     unset($pool[$awal['slug']]);
