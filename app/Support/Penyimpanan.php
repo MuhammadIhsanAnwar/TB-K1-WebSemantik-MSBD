@@ -26,6 +26,7 @@ class Penyimpanan
 
     private static function db(): ConnectionInterface
     {
+        return DB::connection('transaksi');
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
