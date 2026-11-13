@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-        $data['status'] = 'menunggu';
         $data['batas_bayar'] = now('Asia/Jakarta')->addMinutes(15)->toIso8601String();
 
         return self::tambah('pesanan', $data);
