@@ -188,6 +188,7 @@ class Penyimpanan
             ->mapWithKeys(fn ($r) => [$r->tempat_slug => [
                 'rating' => $r->rata_rata_bintang === null ? 0 : (float) $r->rata_rata_bintang,
                 'jumlahUlasan' => (int) $r->jumlah_ulasan,
+            ]])->all(), []);
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
