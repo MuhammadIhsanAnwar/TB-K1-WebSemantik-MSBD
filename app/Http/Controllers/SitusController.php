@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Cache;
 use App\Support\Asisten;
 use App\Support\Katalog;
 use App\Support\Kunjungan;
@@ -133,24 +134,33 @@ class SitusController extends Controller
             $t['rating'] = $ulasan[$t['slug']]['rating'] ?? 0;
             $t['jumlahUlasan'] = $ulasan[$t['slug']]['jumlahUlasan'] ?? 0;
             $t['jumlahKunjungan'] = $kunjungan[$t['slug']] ?? 0;
+            $t['jumlahSuka'] = (int) Cache::get('medanvisit.favorit.' . $t['slug'], 0);
         }
         unset($t);
 
         return view('situs.peta', compact('tempat'));
     }
 
-    public function tempat(string $slug)
-    {
-        $t = Katalog::get($slug);
-        abort_unless($t && $t['jenis'] === 'tempat', 404);
+    public function sukai(Request $request, string $slug)
+{
+    $tempat = Katalog::get($slug);
 
-        return view('situs.tempat', $this->dataEntitas($t) + [
-            'ulasan' => Penyimpanan::ulasan($slug, 'tayang'),
-            'ramai' => 0,
-            'dekat' => $this->terdekat($t, 4),
-        ]);
+    abort_unless($tempat && ($tempat['jenis'] ?? null) === 'tempat', 404);
+
+    $disukai = $request->session()->get('tempat_disukai', []);
+
+    if (!in_array($slug, $disukai, true)) {
+        $kunci = 'medanvisit.favorit.' . $slug;
+
+        Cache::add($kunci, 0, now()->addYears(10));
+        Cache::increment($kunci);
+
+        $disukai[] = $slug;
+        $request->session()->put('tempat_disukai', $disukai);
     }
 
+    return back()->with('status', 'Terima kasih sudah menyukai tempat ini.');
+}
     public function entitas(string $jenis, string $slug)
     {
         $e = Katalog::get($slug);

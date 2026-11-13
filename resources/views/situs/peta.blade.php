@@ -17,6 +17,7 @@
         'rating' => $t['rating'] ?? 0,
         'jumlahUlasan' => $t['jumlahUlasan'] ?? 0,
         'jumlahKunjungan' => $t['jumlahKunjungan'] ?? 0,
+        'jumlahSuka' => $t['jumlahSuka'] ?? 0,
     ])->values();
     $perKategori = collect($tempat)->countBy('kategori');
 @endphp
@@ -49,6 +50,7 @@
                         <option value="termurah">Biaya terendah</option>
                         <option value="rating">Rating tertinggi</option>
                         <option value="kunjungan">Paling banyak dikunjungi</option>
+                        <option value="disukai">Paling disukai</option>
                     </select>
                 </div>
             </div>
@@ -104,6 +106,15 @@
                         </span>
                     </div>
                         <span class="mv-peta-kartu__jarak nums" data-jarak></span>
+                        <form method="POST" action="{{ route('tempat.sukai', $t['slug']) }}">
+                            @csrf
+                            <button
+                                type="submit"
+                                style="border:1px solid var(--mv-kertas-2);background:var(--mv-kertas);padding:5px 10px;border-radius:8px;cursor:pointer;color:#d9485f"
+                            >
+                                ❤️ {{ number_format($t['jumlahSuka'] ?? 0, 0, ',', '.') }} suka
+                            </button>
+                        </form>
                         <div style="display:flex;gap:10px;align-items:center;margin-top:6px">
                             <button type="button" data-fokus-peta="{{ $t['slug'] }}" style="padding:2px 8px;min-height:30px;border:1px solid var(--mv-kertas-2);background:var(--mv-kertas);color:var(--mv-hijau);font:600 0.75rem/1 var(--font-text)">Lihat di peta</button>
                             <a href="{{ route('tempat', $t['slug']) }}" style="font:600 0.75rem/1 var(--font-text);color:var(--mv-hijau);padding:6px 0">Buka halaman</a>

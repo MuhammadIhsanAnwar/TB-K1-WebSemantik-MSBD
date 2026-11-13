@@ -355,6 +355,10 @@ function modeAlat(el) {
             tampil.sort((a, b) =>
                 b.jumlahKunjungan - a.jumlahKunjungan
             );
+        } else if (saring.urut === 'disukai') {
+            tampil.sort((a, b) =>
+                (b.jumlahSuka ?? 0) - (a.jumlahSuka ?? 0)
+            );
         } else if (saring.urut === 'terdekat' || lokasi) {
             tampil.sort((a, b) =>
                 (a.jarak ?? a.jarakPusat) - (b.jarak ?? b.jarakPusat)
