@@ -164,6 +164,7 @@ class Penyimpanan
             $tempat === null || $q->where('tempat_slug', $tempat);
             $status === null || $q->where('status', $status);
             $idPengguna === null || $q->where('id_pengguna', $idPengguna);
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
