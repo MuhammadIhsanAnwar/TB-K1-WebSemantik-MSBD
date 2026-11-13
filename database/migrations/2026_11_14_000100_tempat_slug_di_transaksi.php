@@ -130,3 +130,4 @@ return new class extends Migration
         foreach (['pesanan', 'checkin', 'ulasan', 'ringkasan_ulasan', 'rencana'] as $tabel) {
             if ($db->table($tabel)->exists()) {
                 throw new RuntimeException("Tabel $tabel sudah berisi data: slug tempat tidak bisa diubah kembali menjadi angka.");
+            }
