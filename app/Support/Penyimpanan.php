@@ -105,6 +105,7 @@ class Penyimpanan
             $db->table('pesanan')->where('kode', $kode)->where('status', 'menunggu')
                 ->update(['status' => $ubah['status'], 'updated_at' => now()]);
         }
+        if (isset($ubah['dipakai'])) {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
