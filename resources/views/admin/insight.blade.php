@@ -94,7 +94,7 @@
     @endunless
 
     <section class="p-panel s12" aria-labelledby="transaksi-tempat">
-        <header><h2 id="transaksi-tempat">Transaksi per tempat wisata</h2><span class="meta">{{ $periode }} hari · hanya pesanan lunas dihitung sebagai penjualan</span></header>
+        <header><h2 id="transaksi-tempat">{{ $namaFokus ? 'Transaksi '.$namaFokus : 'Transaksi per tempat wisata' }}</h2><span class="meta">{{ $periode }} hari · hanya pesanan lunas dihitung sebagai penjualan</span></header>
         @if ($transaksi->isNotEmpty())
             <div class="p-tabel-bungkus"><table class="p-tabel jadi-daftar">
                 <thead><tr><th>Tempat</th><th class="n">Pesanan</th><th class="n">Lunas</th><th class="n">Tiket</th><th class="n">Pendapatan</th></tr></thead>
