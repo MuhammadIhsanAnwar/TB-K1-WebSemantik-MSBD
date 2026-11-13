@@ -133,6 +133,7 @@ class Penyimpanan
             ->orderBy('id_item')->get()->groupBy('id_pesanan');
 
         return array_map(fn ($p) => [
+            'id' => (string) $p->id_pesanan,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
