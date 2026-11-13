@@ -134,3 +134,4 @@ return new class extends Migration
         }
 
         $db->unprepared(<<<'SQL'
+            DROP VIEW IF EXISTS v_penjualan_tiket;
