@@ -68,3 +68,4 @@ function minta() {
             if (izin.state === 'denied') {
                 blok.hidden = true;
                 return;
+            }
