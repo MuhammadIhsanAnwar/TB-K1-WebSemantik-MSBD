@@ -335,4 +335,5 @@ final class Database3Catalog
     private static function minuteRange(array $properties): ?array
     {
         $open = self::first($properties, 'mv:jamBuka', null);
+        $close = self::first($properties, 'mv:jamTutup', null);
 }
