@@ -310,6 +310,7 @@ class SitusController extends Controller
         abort_unless($r, 404);
 
         try {
+            $hasil = Katalog::susunRute($r['minat'], $r['durasi'], $r['moda'], $r['mulai']);
         return view('situs.rencana', [
             'hasil' => Katalog::susunRute($r['minat'], $r['durasi'], $r['moda'], $r['mulai']),
             'pref' => $r, 'tempat' => Katalog::tempat(), 'dibagikan' => $r,
