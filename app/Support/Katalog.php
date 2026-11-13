@@ -260,6 +260,7 @@ class Katalog
 
         return $hasil;
     }
+
 {
     try {
         $timeout = (int) config('services.routing.timeout', 15);
