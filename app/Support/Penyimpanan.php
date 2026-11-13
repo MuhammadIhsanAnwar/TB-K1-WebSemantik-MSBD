@@ -143,6 +143,7 @@ class Penyimpanan
                 'jenis' => $i->jenis_pengunjung, 'harga' => (int) $i->harga,
                 'jumlah' => (int) $i->jumlah, 'subtotal' => (int) $i->subtotal,
             ])->values()->all(),
+            'total' => (int) $p->total,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
