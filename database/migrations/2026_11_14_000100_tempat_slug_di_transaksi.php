@@ -156,3 +156,4 @@ return new class extends Migration
             ALTER TABLE pesanan ADD CONSTRAINT ck_pesanan_tempat CHECK (id_tempat > 0);
 
             CREATE OR REPLACE VIEW v_penjualan_tiket AS
+                SELECT p.id_tempat, date_trunc('month', p.tanggal_kunjungan)::date AS bulan,
