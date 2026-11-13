@@ -25,3 +25,4 @@ function ditunda() {
 
 function tawarkanTombol(teks) {
     blok.hidden = false;
+    status.textContent = teks;
