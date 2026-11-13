@@ -534,6 +534,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
 
         return ['menit' => $menit, 'hari' => $hari];
     }
+
     }
 
     public static function cari(string $q): array
