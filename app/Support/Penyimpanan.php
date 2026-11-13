@@ -82,6 +82,7 @@ class Penyimpanan
             $data['pemesan']['hp'],
             $data['tempat'],
             $data['tanggal'],
+            $data['metode'],
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
