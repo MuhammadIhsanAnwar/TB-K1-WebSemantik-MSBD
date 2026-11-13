@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-        $semua = self::ambil('pesanan');
         foreach ($semua as $id => $p) {
             if ($p['kode'] === $kode) {
                 $semua[$id] = array_merge($p, $ubah);
