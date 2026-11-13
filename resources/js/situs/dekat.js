@@ -46,3 +46,4 @@ function tampilkan(pos) {
         return `<li class="mv-dekat__butir"><a href="${esc(t.url)}">${esc(t.nama)}</a><span class="mv-dekat__meta">${esc(t.kategori)}, ${fmtJarak(t.jarak)}</span>${jam}</li>`;
     }).join('');
     daftar.hidden = false;
+    tautanPeta.hidden = false;
