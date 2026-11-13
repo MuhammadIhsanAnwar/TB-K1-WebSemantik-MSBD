@@ -63,7 +63,7 @@
                 <div class="p-baris">
                     @foreach (array_slice($kunjungan['rute'], 0, 8, true) as $rute => $jumlah)
                         @php $label = $namaRute[$rute] ?? ($rute === 'tempat' ? 'Detail tempat wisata' : ucfirst(str_replace(['.', '_'], ' ', $rute))); @endphp
-            </div>
+                        <div><span>{{ $label }}</span><b class="kanan">{{ number_format($jumlah, 0, ',', '.') }}</b></div>
         @else
             <div class="p-kosong">Belum ada data kunjungan selama periode ini.</div>
         @endif
