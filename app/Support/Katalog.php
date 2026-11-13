@@ -405,7 +405,7 @@ class Katalog
      * Susun rute satu hari dari tempat awal: setiap langkah memilih tempat terdekat yang cocok dengan minat,
      * masih muat dalam sisa waktu, dan buka saat didatangi (jam buka dari Database 3).
      *
-        fn ($tempat) => in_array($tempat['kategori'], $minat, true)
+     * Calon diurutkan dengan jarak garis lurus, jadi layanan rute online hanya dipanggil sekali per langkah
             || $tempat['slug'] === $mulai
     );
 
