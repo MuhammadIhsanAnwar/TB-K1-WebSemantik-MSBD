@@ -193,6 +193,7 @@ class Penyimpanan
 
     public static function tulisUlasan(array $data): array
     {
+        $id = self::db()->table('ulasan')->insertGetId([
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
