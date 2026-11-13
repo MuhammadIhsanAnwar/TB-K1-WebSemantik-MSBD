@@ -39,3 +39,4 @@ return new class extends Migration
             ALTER TABLE rencana          RENAME COLUMN id_tempat_mulai TO tempat_mulai_slug;
             ALTER TABLE rencana          ALTER COLUMN tempat_mulai_slug TYPE varchar(80) USING tempat_mulai_slug::text;
 
+            ALTER TABLE checkin RENAME CONSTRAINT checkin_id_pengguna_id_tempat_tanggal_unique TO checkin_id_pengguna_tempat_slug_tanggal_unique;
