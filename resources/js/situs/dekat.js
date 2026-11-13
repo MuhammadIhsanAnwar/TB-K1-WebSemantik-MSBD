@@ -13,3 +13,4 @@ const KUNCI = 'mv-lokasi-ditunda';
 const TUNDA = 7 * 24 * 60 * 60 * 1000;
 
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const fmtJarak = (m) => (m < 1000 ? `${m.toLocaleString('id')} m` : `${(m / 1000).toLocaleString('id', { maximumFractionDigits: 1 })} km`);
