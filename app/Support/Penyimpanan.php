@@ -178,6 +178,7 @@ class Penyimpanan
             ])->all();
         };
 
+        return $aman ? self::aman($baca, []) : $baca();
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
