@@ -38,6 +38,7 @@
     <div><div class="label">Pendapatan tiket</div><div class="nilai">{{ Katalog::rupiah($totalLunas->sum('total')) }}</div><div class="ket">berdasarkan pesanan lunas</div></div>
     @if ($fokus)
         <div><div class="label">Rating ulasan</div><div class="nilai">{{ $rating && $rating['jumlahUlasan'] ? number_format($rating['rating'], 1, ',', '.') : '-' }}</div><div class="ket">{{ $rating['jumlahUlasan'] ?? 0 }} ulasan tayang</div></div>
+    @else
 </div>
 
 <div class="p-grid">
