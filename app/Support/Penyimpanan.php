@@ -196,6 +196,7 @@ class Penyimpanan
         $id = self::db()->table('ulasan')->insertGetId([
             'id_pengguna' => $data['id_pengguna'],
             'tempat_slug' => $data['tempat'],
+            'nama_pengguna' => Str::limit($data['nama'] ?? 'Wisatawan', 77),
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
