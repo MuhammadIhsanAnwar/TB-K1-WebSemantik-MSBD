@@ -116,3 +116,4 @@ return new class extends Migration
                         p_tempat_slug, p_tanggal, p_metode, now() + interval '15 minutes', now(), now())
                 RETURNING id_pesanan INTO v_id;
 
+                INSERT INTO pesanan_item (id_pesanan, jenis_pengunjung, harga, jumlah)
