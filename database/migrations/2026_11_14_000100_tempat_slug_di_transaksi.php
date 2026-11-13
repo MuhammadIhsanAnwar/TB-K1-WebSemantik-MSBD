@@ -93,3 +93,4 @@ return new class extends Migration
 
             -- buat pesanan beserta item tiketnya dalam satu transaksi; batas bayar 15 menit
             -- p_item: [{"jenis": "Dewasa", "harga": 10000, "jumlah": 2}, ...]
+            -- (harga diambil aplikasi dari Database 3, karena DB 2 tidak bisa membaca RDF)
