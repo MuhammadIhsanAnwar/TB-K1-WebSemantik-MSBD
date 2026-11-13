@@ -48,3 +48,4 @@ return new class extends Migration
 
             -- ---------- dibuat ulang dengan slug ----------
             CREATE OR REPLACE VIEW v_penjualan_tiket AS
+                SELECT p.tempat_slug, date_trunc('month', p.tanggal_kunjungan)::date AS bulan,
