@@ -442,6 +442,7 @@ class Katalog
 
         while ($pool) {
             $jarak = array_map(fn ($t) => self::jarakMeter($kini, $t), $pool);
+            asort($jarak);
     }
 
     if ($durasiJam <= 0) {
