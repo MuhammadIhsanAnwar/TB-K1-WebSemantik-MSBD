@@ -106,3 +106,4 @@ return new class extends Migration
                     RAISE EXCEPTION 'Pesanan harus berisi minimal satu tiket';
                 END IF;
                 IF p_tanggal < (now() AT TIME ZONE 'Asia/Jakarta')::date THEN
+                    RAISE EXCEPTION 'Tanggal kunjungan tidak boleh di masa lalu';
