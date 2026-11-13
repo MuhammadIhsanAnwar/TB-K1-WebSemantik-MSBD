@@ -52,7 +52,7 @@ class AdminController extends Controller
         $kunjungan = Kunjungan::ringkasan($periode);
         $sejak = now('Asia/Jakarta')->subDays($periode)->toIso8601String();
 
-            fn ($pesanan) => ($pesanan['waktu'] ?? '') >= $sejak
+        // admin tempat hanya melihat tempatnya sendiri; superadmin bisa memilih satu tempat lewat ?tempat=
         );
         $transaksi = $pesanan->groupBy('tempat')->map(fn ($baris) => [
             'pesanan' => $baris->count(),
