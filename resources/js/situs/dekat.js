@@ -64,3 +64,4 @@ function minta() {
         }
         // permintaan ditutup tanpa jawaban (izin masih "prompt") atau benar-benar ditolak
         const cek = navigator.permissions?.query ? navigator.permissions.query({ name: 'geolocation' }) : Promise.resolve({ state: 'denied' });
+        cek.then((izin) => {
