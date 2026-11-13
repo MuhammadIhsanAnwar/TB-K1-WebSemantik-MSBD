@@ -108,3 +108,4 @@ return new class extends Migration
                 IF p_tanggal < (now() AT TIME ZONE 'Asia/Jakarta')::date THEN
                     RAISE EXCEPTION 'Tanggal kunjungan tidak boleh di masa lalu';
                 END IF;
+
