@@ -11,3 +11,4 @@ export function waktuWib(tanggal = new Date()) {
 }
 
 // Jam yang lewat tengah malam (tutup lebih kecil dari buka) ikut dihitung.
+export function bukaPada(jadwal, kini = waktuWib()) {
