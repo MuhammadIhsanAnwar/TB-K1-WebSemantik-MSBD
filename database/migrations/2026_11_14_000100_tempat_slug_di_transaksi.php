@@ -28,3 +28,4 @@ return new class extends Migration
             ALTER TABLE pesanan DROP CONSTRAINT IF EXISTS ck_pesanan_tempat;
 
             -- kolom: angka menjadi slug (index dan unique ikut pindah ke kolom baru)
+            ALTER TABLE pesanan          RENAME COLUMN id_tempat TO tempat_slug;
