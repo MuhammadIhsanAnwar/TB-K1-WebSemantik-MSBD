@@ -246,6 +246,7 @@ class Katalog
         return (int) round(2 * $radiusBumi * asin(sqrt($h)));
     }
 
+    /** Rute jalan sungguhan (OSRM/Valhalla), disimpan 30 hari karena letak tempat jarang berubah. */
     private static function ambilRuteApi(array $a, array $b, string $moda): ?array
 {
     try {
