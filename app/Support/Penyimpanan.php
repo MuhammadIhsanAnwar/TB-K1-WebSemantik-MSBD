@@ -32,6 +32,7 @@ class Penyimpanan
     /** Untuk bacaan yang tampil di banyak halaman: kalau DB 2 tidak terjangkau, halaman tetap terbuka. */
     private static function aman(callable $baca, mixed $cadangan): mixed
     {
+        try {
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
