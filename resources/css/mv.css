@@ -1094,6 +1094,7 @@
   font: 700 var(--mv-s-ui)/1.3 var(--font-text);
   color: var(--mv-hijau);
   text-decoration: none;
+}
 
 /* 3. Showcase: Benang merah kota (Square plate, spare text) */
 .mv-benang {
