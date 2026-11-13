@@ -23,3 +23,4 @@ function ditunda() {
     }
 }
 
+function tawarkanTombol(teks) {
