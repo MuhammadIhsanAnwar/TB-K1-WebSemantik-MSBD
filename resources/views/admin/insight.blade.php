@@ -57,7 +57,7 @@
     </section>
 
     @unless ($fokus)
-        @if ($kunjungan['rute'])
+        <section class="p-panel s6" aria-labelledby="halaman-populer">
             <div class="p-baris">
                 @foreach (array_slice($kunjungan['rute'], 0, 8, true) as $rute => $jumlah)
                     @php $label = $namaRute[$rute] ?? ($rute === 'tempat' ? 'Detail tempat wisata' : ucfirst(str_replace(['.', '_'], ' ', $rute))); @endphp
