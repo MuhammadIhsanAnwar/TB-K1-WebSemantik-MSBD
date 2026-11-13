@@ -208,6 +208,7 @@ class Penyimpanan
         return ['id' => (string) $id] + $data;
     }
 
+    public static function moderasi(string $id, string $status): void
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
