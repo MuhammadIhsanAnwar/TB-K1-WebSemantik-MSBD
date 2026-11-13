@@ -193,3 +193,4 @@ return new class extends Migration
                 FOR EACH ROW EXECUTE FUNCTION trg_ulasan_ringkasan();
 
             CREATE OR REPLACE PROCEDURE sp_buat_pesanan(
+                p_id_pengguna bigint, p_nama varchar, p_email varchar, p_hp varchar,
