@@ -125,7 +125,6 @@ class SitusController extends Controller
 
         // rating per tempat dihitung trigger DB 2 ke tabel ringkasan_ulasan
         $ulasan = Penyimpanan::ringkasanUlasan();
-            ]);
 
         foreach ($tempat as &$t) {
             $t['rating'] = $ulasan[$t['slug']]['rating'] ?? 0;
