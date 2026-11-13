@@ -1068,6 +1068,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
+  gap: 4px 16px;
 
 /* 3. Showcase: Benang merah kota (Square plate, spare text) */
 .mv-benang {
