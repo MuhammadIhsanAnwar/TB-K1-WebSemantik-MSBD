@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-                $semua[$id] = array_merge($p, $ubah);
                 self::simpan('pesanan', $semua);
 
                 return $semua[$id];
