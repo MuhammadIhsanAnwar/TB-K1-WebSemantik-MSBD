@@ -55,3 +55,4 @@ function minta() {
     blok.hidden = false;
     tombol.hidden = true;
     blok.setAttribute('aria-busy', 'true');
+    status.textContent = 'Mencari tempat terdekat dari lokasimu…';
