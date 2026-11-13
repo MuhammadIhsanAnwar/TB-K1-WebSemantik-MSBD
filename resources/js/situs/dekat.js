@@ -27,3 +27,4 @@ function tawarkanTombol(teks) {
     blok.hidden = false;
     status.textContent = teks;
     tombol.hidden = false;
+}
