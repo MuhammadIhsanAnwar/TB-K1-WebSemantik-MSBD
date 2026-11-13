@@ -29,6 +29,7 @@ class Penyimpanan
         return DB::connection('transaksi');
     }
 
+    /** Untuk bacaan yang tampil di banyak halaman: kalau DB 2 tidak terjangkau, halaman tetap terbuka. */
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
