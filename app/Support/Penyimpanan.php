@@ -278,6 +278,7 @@ class Penyimpanan
 
     public static function cariRencana(string $kode): ?array
     {
+        return self::bentukRencana(self::db()->table('rencana')->where('kode', $kode)->limit(1)->get()->all())[0] ?? null;
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
