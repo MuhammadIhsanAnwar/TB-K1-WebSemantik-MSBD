@@ -35,3 +35,4 @@ function tampilkan(pos) {
     const terdekat = tempat
         .map((t) => ({ ...t, jarak: jarakMeter(lokasi, t) }))
         .sort((a, b) => a.jarak - b.jarak)
+        .slice(0, 3);
