@@ -255,6 +255,7 @@ class Penyimpanan
 
     public static function simpanRencana(array $data): array
     {
+        $kode = 'mdn-'.strtolower(Str::random(4));
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
