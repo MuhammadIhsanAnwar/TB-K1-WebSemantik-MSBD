@@ -80,7 +80,7 @@ class AdminController extends Controller
         return view('admin.insight', [
             'periode' => $periode,
             'kunjungan' => $kunjungan,
-            'akun' => collect($akun)->countBy('peran')->all(),
+            'fokus' => $fokus,
             'tempatPopuler' => collect($kunjungan['tempat'])->take(10),
             'transaksi' => $transaksi,
             'pesanan' => $pesanan,
