@@ -174,3 +174,4 @@ return new class extends Migration
             CREATE OR REPLACE FUNCTION fn_hitung_ringkasan_ulasan(p_id_tempat integer)
             RETURNS void LANGUAGE sql AS $$
                 INSERT INTO ringkasan_ulasan (id_tempat, jumlah_ulasan, rata_rata_bintang, diperbarui_pada)
+                SELECT p_id_tempat, count(*), round(avg(bintang), 2), now()
