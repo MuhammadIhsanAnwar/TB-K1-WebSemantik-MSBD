@@ -163,3 +163,4 @@ return new class extends Migration
                   ON i.id_pesanan = p.id_pesanan
                 WHERE p.status = 'lunas'
                 GROUP BY p.id_tempat, date_trunc('month', p.tanggal_kunjungan);
+
