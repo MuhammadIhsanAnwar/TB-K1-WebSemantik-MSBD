@@ -22,3 +22,4 @@ return new class extends Migration
             -- objek yang bergantung pada kolom id_tempat dilepas dulu
             DROP VIEW IF EXISTS v_penjualan_tiket;
             DROP TRIGGER IF EXISTS ulasan_ringkasan ON ulasan;
+            DROP FUNCTION IF EXISTS trg_ulasan_ringkasan();
