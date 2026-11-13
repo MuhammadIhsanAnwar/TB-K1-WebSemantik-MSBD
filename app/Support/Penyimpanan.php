@@ -359,7 +359,6 @@ class Penyimpanan
 
         return null;
     }
-    {
         $data['kode'] = 'mdn-'.strtolower(Str::random(4));
 
         return self::tambah('rencana', $data);
