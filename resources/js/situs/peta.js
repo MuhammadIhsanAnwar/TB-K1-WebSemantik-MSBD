@@ -386,7 +386,7 @@ function modeAlat(el) {
             const kartu = daftar.querySelector(`[data-slug="${t.slug}"]`);
             if (kartu) daftar.insertBefore(kartu, kosong);
         });
-        hitung.textContent = `${tampil.length} dari ${tempat.length} tempat`;
+        const tanpaJam = tempat.filter((t) => !t.buka && saring.kategori.has(t.kategori)).length;
         kosong.hidden = tampil.length > 0;
     }
 
