@@ -504,6 +504,7 @@ function modeAlat(el) {
     });
 
     // Lokasi yang sudah diizinkan di beranda langsung dipakai di peta.
+    if (tombolLokasi && navigator.permissions?.query) {
 
     daftar.querySelectorAll('[data-slug]').forEach((a) => {
         a.addEventListener('mouseenter', () => penanda.get(a.dataset.slug)?.setZIndexOffset(400));
