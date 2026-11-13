@@ -5,6 +5,7 @@
     $maksimumHarian = max($kunjungan['harian'] ?: [0]) ?: 1;
     $totalLunas = $pesanan->where('status', 'lunas');
     $namaRute = ['beranda' => 'Beranda', 'cari' => 'Pencarian', 'peta' => 'Peta', 'jalur' => 'Jalur', 'jelajah' => 'Jelajah', 'tanya' => 'Tanya'];
+    $namaFokus = $fokus ? (Katalog::get($fokus)['nama'] ?? $fokus) : null;
 @endphp
 @section('judul', 'Insight')
 
