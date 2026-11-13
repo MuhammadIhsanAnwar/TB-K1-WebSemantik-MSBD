@@ -202,3 +202,4 @@ return new class extends Migration
             BEGIN
                 IF jsonb_array_length(p_item) = 0 THEN RAISE EXCEPTION 'Pesanan harus berisi minimal satu tiket'; END IF;
                 IF p_tanggal < (now() AT TIME ZONE 'Asia/Jakarta')::date THEN RAISE EXCEPTION 'Tanggal kunjungan tidak boleh di masa lalu'; END IF;
+                p_kode := fn_kode_acak('MV-', 8);
