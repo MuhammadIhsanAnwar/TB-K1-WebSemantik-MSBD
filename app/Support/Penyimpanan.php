@@ -145,6 +145,7 @@ class Penyimpanan
             ])->values()->all(),
             'total' => (int) $p->total,
             'metode' => $p->metode,
+            'status' => $p->status,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
