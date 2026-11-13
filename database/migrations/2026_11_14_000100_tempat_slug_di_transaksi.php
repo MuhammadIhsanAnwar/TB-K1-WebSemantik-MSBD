@@ -104,3 +104,4 @@ return new class extends Migration
             BEGIN
                 IF jsonb_array_length(p_item) = 0 THEN
                     RAISE EXCEPTION 'Pesanan harus berisi minimal satu tiket';
+                END IF;
