@@ -72,3 +72,4 @@ return new class extends Migration
                 FROM ulasan WHERE tempat_slug = p_tempat_slug AND status = 'tayang'
                 ON CONFLICT (tempat_slug) DO UPDATE
                     SET jumlah_ulasan = EXCLUDED.jumlah_ulasan,
+                        rata_rata_bintang = EXCLUDED.rata_rata_bintang,
