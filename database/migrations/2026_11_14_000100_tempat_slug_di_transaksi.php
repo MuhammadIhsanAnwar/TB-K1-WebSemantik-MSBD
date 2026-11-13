@@ -213,3 +213,4 @@ return new class extends Migration
                 FROM jsonb_array_elements(p_item) AS x WHERE (x->>'jumlah')::integer > 0;
             END $$;
             SQL);
+    }
