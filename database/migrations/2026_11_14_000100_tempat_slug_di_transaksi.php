@@ -145,3 +145,4 @@ return new class extends Migration
             ALTER TABLE checkin RENAME CONSTRAINT checkin_id_pengguna_tempat_slug_tanggal_unique TO checkin_id_pengguna_id_tempat_tanggal_unique;
             ALTER TABLE pesanan          ALTER COLUMN tempat_slug TYPE integer USING NULL;
             ALTER TABLE pesanan          RENAME COLUMN tempat_slug TO id_tempat;
+            ALTER TABLE checkin          ALTER COLUMN tempat_slug TYPE integer USING NULL;
