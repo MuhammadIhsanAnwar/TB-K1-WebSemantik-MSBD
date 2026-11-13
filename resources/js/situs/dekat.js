@@ -33,3 +33,4 @@ function tampilkan(pos) {
     const lokasi = { lat: pos.coords.latitude, lng: pos.coords.longitude };
     const kini = waktuWib();
     const terdekat = tempat
+        .map((t) => ({ ...t, jarak: jarakMeter(lokasi, t) }))
