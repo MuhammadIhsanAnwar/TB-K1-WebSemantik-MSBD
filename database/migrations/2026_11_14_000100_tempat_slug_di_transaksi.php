@@ -80,3 +80,4 @@ return new class extends Migration
             BEGIN
                 IF TG_OP IN ('UPDATE', 'DELETE') THEN
                     PERFORM fn_hitung_ringkasan_ulasan(OLD.tempat_slug);
+                END IF;
