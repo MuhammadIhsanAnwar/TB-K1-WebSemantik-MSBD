@@ -511,6 +511,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
         if (! $menit) {
             return null;
         }
+        $teks = mb_strtolower($tempat['jam'] ?? '');
 
         return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
