@@ -39,6 +39,7 @@ final class Kunjungan
         return ['harian' => $harian, 'rute' => $rute, 'tempat' => $tempat, 'total' => array_sum($harian)];
     }
 
+    /** Tayangan halaman satu tempat wisata per hari, untuk grafik insight tempat itu. */
     private static function tambah(string $key): void
     {
         Cache::add($key, 0, now('Asia/Jakarta')->addYears(5));
