@@ -324,7 +324,6 @@ class Penyimpanan
         return $baris;
     }
 
-    // ---------- check-in ----------
     public static function checkin(?string $email = null): array
     {
         return array_reverse(array_filter(self::ambil('checkin'), fn ($c) => $email === null || $c['email'] === $email));
