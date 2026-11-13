@@ -545,6 +545,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
         $waktu = \Illuminate\Support\Carbon::instance($waktu ?? now())->setTimezone('Asia/Jakarta');
         $hari = (int) $waktu->isoFormat('E');
         $sekarang = $waktu->hour * 60 + $waktu->minute;
+        [$buka, $tutup] = $jadwal['menit'];
     }
 
     public static function cari(string $q): array
