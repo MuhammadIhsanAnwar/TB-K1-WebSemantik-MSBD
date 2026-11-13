@@ -18,3 +18,4 @@ export function bukaPada(jadwal, kini = waktuWib()) {
     if (buka === tutup) return hariIni;
     if (tutup > buka) return hariIni && kini.menit >= buka && kini.menit < tutup;
     const kemarin = jadwal.hari.includes(kini.hari === 1 ? 7 : kini.hari - 1);
+    return (hariIni && kini.menit >= buka) || (kemarin && kini.menit < tutup);
