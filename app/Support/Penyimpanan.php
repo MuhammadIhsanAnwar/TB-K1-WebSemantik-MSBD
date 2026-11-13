@@ -276,6 +276,7 @@ class Penyimpanan
         return self::cariRencana($kode);
     }
 
+    public static function cariRencana(string $kode): ?array
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
