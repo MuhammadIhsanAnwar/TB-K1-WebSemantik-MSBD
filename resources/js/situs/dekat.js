@@ -62,3 +62,4 @@ function minta() {
             tawarkanTombol('Lokasimu belum terbaca.');
             return;
         }
+        // permintaan ditutup tanpa jawaban (izin masih "prompt") atau benar-benar ditolak
