@@ -254,6 +254,7 @@ class Katalog
             return $simpan;
         }
         $hasil = self::mintaRuteApi($a, $b, $moda);
+        if ($hasil !== null) {
 {
     try {
         $timeout = (int) config('services.routing.timeout', 15);
