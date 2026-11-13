@@ -173,6 +173,7 @@ class Penyimpanan
                 'email' => $u->email_pengguna,
                 'bintang' => (int) $u->bintang,
                 'teks' => $u->teks,
+                'status' => $u->status,
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
