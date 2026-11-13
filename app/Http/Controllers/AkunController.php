@@ -432,7 +432,7 @@ class AkunController extends Controller
         return view('akun.akun', [
             'u' => $u,
             'pesanan' => count(Penyimpanan::pesanan((int) $u['id'], aman: true)),
-            'rencana' => count(Penyimpanan::rencana($u['email'])),
+            'rencana' => count(Penyimpanan::rencana((int) $u['id'], aman: true)),
             'ulasan' => count(array_filter(Penyimpanan::ulasan(), fn ($x) => $x['email'] === $u['email'])),
         ]);
     }
