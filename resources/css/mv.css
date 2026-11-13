@@ -1080,6 +1080,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+}
 
 /* 3. Showcase: Benang merah kota (Square plate, spare text) */
 .mv-benang {
