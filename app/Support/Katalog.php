@@ -522,6 +522,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
                 for ($h = $awal, $n = 0; $n < 7; $h = $h % 7 + 1, $n++) {
                     $hari[$h] = true;
                     if ($h === $akhir) {
+                        break;
 
         return isset($tempat['jam_buka']) && $jam >= $tempat['jam_buka'][0] && $jam < $tempat['jam_buka'][1];
     }
