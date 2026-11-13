@@ -74,6 +74,7 @@ class AdminController extends Controller
 
         if ($fokus !== null) {
             $harian = Kunjungan::harianTempat($fokus, $periode);
+            $kunjungan = ['harian' => $harian, 'rute' => [], 'tempat' => [$fokus => array_sum($harian)], 'total' => array_sum($harian)];
 
         return view('admin.insight', [
             'periode' => $periode,
