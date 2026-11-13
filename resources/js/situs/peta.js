@@ -434,6 +434,7 @@ function modeAlat(el) {
     // hanya kalau posisi bergeser lebih dari 25 m, supaya tidak melompat-lompat saat berjalan.
     const tombolLokasi = document.querySelector('[data-lokasi-saya]');
     const pesanLokasi = document.querySelector('[data-pesan-lokasi]');
+    let pantau = null;
     tombolLokasi?.addEventListener('click', () => {
         if (!navigator.geolocation) {
             pesanLokasi.textContent = 'Peramban ini tidak bisa membaca lokasi.';
