@@ -401,7 +401,7 @@ class Katalog
     }
 
 
-public static function susunRute(array $minat, int $durasiJam, array $moda, string $mulai): array
+    /**
 {
     $pool = array_filter(
         self::tempat(),
