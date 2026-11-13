@@ -47,6 +47,7 @@ class Penyimpanan
     }
 
     // ---------- pesanan tiket ----------
+
     private static function ambil(string $kunci): array
     {
         return Cache::get('medanvisit.'.$kunci, []);
