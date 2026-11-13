@@ -61,7 +61,7 @@
             <header><h2 id="halaman-populer">Halaman paling banyak dikunjungi</h2><span class="meta">{{ $periode }} hari</span></header>
             @if ($kunjungan['rute'])
                 <div class="p-baris">
-                    <div><span>{{ $label }}</span><b class="kanan">{{ number_format($jumlah, 0, ',', '.') }}</b></div>
+                    @foreach (array_slice($kunjungan['rute'], 0, 8, true) as $rute => $jumlah)
                 @endforeach
             </div>
         @else
