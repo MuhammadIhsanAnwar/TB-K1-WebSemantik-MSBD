@@ -537,6 +537,7 @@ public static function susunRute(array $minat, int $durasiJam, array $moda, stri
 
     /** Apakah tempat sedang buka, menurut jam WIB. Jam yang lewat tengah malam (tutup < buka) ikut dihitung. */
     public static function bukaSekarang(array $tempat, ?\DateTimeInterface $waktu = null): bool
+    {
     }
 
     public static function cari(string $q): array
