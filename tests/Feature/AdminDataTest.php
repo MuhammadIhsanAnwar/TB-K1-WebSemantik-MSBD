@@ -79,6 +79,9 @@ class AdminDataTest extends TestCase
             'services.supabase.katalog.url' => 'https://supabase.test',
             'services.supabase.katalog.publishable_key' => 'test-key',
             'services.supabase.katalog.secret_key' => 'test-secret',
+            'services.supabase.transaksi.url' => 'https://transaksi.test',
+            'services.supabase.transaksi.publishable_key' => 'test-key',
+            'services.supabase.transaksi.secret_key' => 'test-secret',
         ]);
         Http::fake([
             'https://supabase.test/rest/v1/users*' => Http::response([[
@@ -88,6 +91,7 @@ class AdminDataTest extends TestCase
                 'peran' => 'superadmin',
                 'foto_profil' => null,
             ]], 200),
+            'https://transaksi.test/*' => Http::response([], 200),
             '*' => Http::response([
                 'head' => ['vars' => ['s', 'p', 'o']],
                 'results' => ['bindings' => []],
@@ -117,7 +121,7 @@ class AdminDataTest extends TestCase
         Cache::setDefaultDriver('array');
         Cache::store('array')->flush();
         config(['services.sparql.endpoint' => 'https://sparql.test/query']);
-        Http::fake(['*' => fn (Request $request) => str_contains($request->url(), '/rest/v1/users')
+        Http::fake(['*' => fn (Request $request) => str_contains($request->url(), '/rest/v1/')
             ? Http::response([], 200)
             : Http::response(['head' => ['vars' => ['s', 'p', 'o']], 'results' => ['bindings' => []]], 200)]);
         $session = ['pengguna' => [

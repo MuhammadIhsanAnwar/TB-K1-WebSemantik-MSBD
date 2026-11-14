@@ -2,10 +2,8 @@
 
 namespace App\Support;
 
-use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Throwable;
@@ -13,10 +11,12 @@ use Throwable;
 /**
  * Penyimpanan transaksi MedanVisit.
  *
- * Pesanan tiket, ulasan, log pencarian, dan rencana disimpan di DB 2 (koneksi "transaksi", PostgreSQL).
- * Aturan bisnisnya ada di database: sp_buat_pesanan dan sp_bayar_pesanan (procedure), total pesanan,
- * rating tempat, dan poin dihitung trigger. Pengguna dirujuk lewat id_pengguna (users.id di DB 1),
- * tempat lewat slug resource Database 3.
+ * Pesanan tiket, ulasan, log pencarian, dan rencana disimpan di DB 2 (Supabase, project transaksi)
+ * dan diakses lewat Supabase REST API (PostgREST), bukan koneksi PostgreSQL langsung: hosting
+ * tidak membuka port 5432. Aturan bisnisnya tetap di database — sp_buat_pesanan, sp_bayar_pesanan,
+ * fn_simpan_rencana, dan trigger (total pesanan, rating tempat, poin).
+ *
+ * Pengguna dirujuk lewat id_pengguna (users.id di DB 1), tempat lewat slug resource Database 3.
  *
  * Check-in, voucher, dan penukaran poin masih di cache berkas: fiturnya tidak punya route lagi.
  */
@@ -24,9 +24,9 @@ class Penyimpanan
 {
     private const ZONA = 'Asia/Jakarta';
 
-    private static function db(): ConnectionInterface
+    private static function api(): SupabaseApi
     {
-        return DB::connection('transaksi');
+        return new SupabaseApi('transaksi');
     }
 
     /** Untuk bacaan yang tampil di banyak halaman: kalau DB 2 tidak terjangkau, halaman tetap terbuka. */
@@ -51,75 +51,58 @@ class Penyimpanan
     /** Semua pesanan (terbaru dulu), atau milik satu pengguna. */
     public static function pesanan(?int $idPengguna = null, bool $aman = false): array
     {
-        $baca = function () use ($idPengguna) {
-            $q = self::queryPesanan();
-            if ($idPengguna !== null) {
-                $q->where('p.id_pengguna', $idPengguna);
-            }
-
-            return self::bentukPesanan($q->orderByDesc('p.created_at')->orderByDesc('p.id_pesanan')->get()->all());
-        };
+        $baca = fn () => self::bentukPesanan(self::api()->pesanan($idPengguna));
 
         return $aman ? self::aman($baca, []) : $baca();
     }
 
     public static function cariPesanan(string $kode): ?array
     {
-        return self::bentukPesanan(self::queryPesanan()->where('p.kode', $kode)->limit(1)->get()->all())[0] ?? null;
+        return self::bentukPesanan(self::api()->pesanan(kode: $kode))[0] ?? null;
     }
 
     /**
-     * Membuat pesanan lewat procedure sp_buat_pesanan (pesanan + item dalam satu transaksi,
+     * Membuat pesanan lewat function sp_buat_pesanan (pesanan + item dalam satu transaksi,
      * total dihitung trigger, batas bayar 15 menit).
      */
     public static function buatPesanan(array $data): array
     {
         $item = array_map(fn ($i) => ['jenis' => $i['jenis'], 'harga' => (int) $i['harga'], 'jumlah' => (int) $i['jumlah']], $data['item']);
-        $hasil = self::db()->selectOne('CALL sp_buat_pesanan(?, ?, ?, ?, ?, ?::date, ?, ?::jsonb, NULL)', [
-            $data['id_pengguna'],
-            $data['pemesan']['nama'],
-            $data['pemesan']['email'],
-            $data['pemesan']['hp'],
-            $data['tempat'],
-            $data['tanggal'],
-            $data['metode'],
-            json_encode($item),
+        $kode = self::api()->buatPesanan([
+            'p_id_pengguna' => $data['id_pengguna'],
+            'p_nama' => $data['pemesan']['nama'],
+            'p_email' => $data['pemesan']['email'],
+            'p_hp' => $data['pemesan']['hp'],
+            'p_tempat_slug' => $data['tempat'],
+            'p_tanggal' => $data['tanggal'],
+            'p_metode' => $data['metode'],
+            'p_item' => $item,
         ]);
 
-        return self::cariPesanan($hasil->p_kode);
+        return self::cariPesanan($kode);
     }
 
     /**
      * Mengubah pesanan:
      * - ['status' => 'lunas']        lewat sp_bayar_pesanan (catat pembayaran, terbitkan e-tiket;
-     *                                 kalau sudah lewat batas bayar, procedure menandainya kedaluwarsa)
+     *                                 kalau sudah lewat batas bayar, function menandainya kedaluwarsa)
      * - ['status' => 'dibatalkan'|'kedaluwarsa']  hanya untuk pesanan yang masih menunggu
      * - ['dipakai' => waktu]         e-tiket dipindai di lokasi
      */
     public static function ubahPesanan(string $kode, array $ubah): ?array
     {
-        $db = self::db();
+        $api = self::api();
         if (($ubah['status'] ?? null) === 'lunas') {
-            $db->statement('CALL sp_bayar_pesanan(?, ?, NULL)', [$kode, $ubah['referensi'] ?? 'SIMULASI']);
+            $api->bayarPesanan($kode, $ubah['referensi'] ?? 'SIMULASI');
         } elseif (in_array($ubah['status'] ?? null, ['dibatalkan', 'kedaluwarsa'], true)) {
-            $db->table('pesanan')->where('kode', $kode)->where('status', 'menunggu')
-                ->update(['status' => $ubah['status'], 'updated_at' => now()]);
+            $api->batalkanPesanan($kode, $ubah['status']);
         }
         if (isset($ubah['dipakai'])) {
-            $id = $db->table('pesanan')->where('kode', $kode)->value('id_pesanan');
-            $db->table('e_tiket')->where('id_pesanan', $id)->whereNull('dipakai_pada')
-                ->update(['dipakai_pada' => Carbon::parse($ubah['dipakai'])]);
+            $id = $api->pesanan(kode: $kode)[0]['id_pesanan'] ?? null;
+            $id && $api->pakaiTiket((int) $id, Carbon::parse($ubah['dipakai'])->toIso8601String());
         }
 
         return self::cariPesanan($kode);
-    }
-
-    private static function queryPesanan()
-    {
-        return self::db()->table('pesanan as p')
-            ->leftJoin('pembayaran as b', 'b.id_pesanan', '=', 'p.id_pesanan')
-            ->leftJoin('e_tiket as e', 'e.id_pesanan', '=', 'p.id_pesanan')
-            ->select('p.*', 'b.dibayar_pada', 'b.referensi', 'e.kode_qr', 'e.dipakai_pada');
     }
 
     /** Baris database menjadi bentuk yang dipakai controller dan view. */
@@ -128,29 +111,27 @@ class Penyimpanan
         if (! $baris) {
             return [];
         }
-        $item = self::db()->table('pesanan_item')
-            ->whereIn('id_pesanan', array_column($baris, 'id_pesanan'))
-            ->orderBy('id_item')->get()->groupBy('id_pesanan');
+        $item = collect(self::api()->pesananItem(array_column($baris, 'id_pesanan')))->groupBy('id_pesanan');
 
         return array_map(fn ($p) => [
-            'id' => (string) $p->id_pesanan,
-            'kode' => $p->kode,
-            'id_pengguna' => $p->id_pengguna === null ? null : (int) $p->id_pengguna,
-            'pemesan' => ['nama' => $p->nama_pemesan, 'email' => $p->email_pemesan, 'hp' => $p->hp_pemesan],
-            'tempat' => $p->tempat_slug,
-            'tanggal' => Carbon::parse($p->tanggal_kunjungan)->toDateString(),
-            'item' => ($item[$p->id_pesanan] ?? collect())->map(fn ($i) => [
-                'jenis' => $i->jenis_pengunjung, 'harga' => (int) $i->harga,
-                'jumlah' => (int) $i->jumlah, 'subtotal' => (int) $i->subtotal,
+            'id' => (string) $p['id_pesanan'],
+            'kode' => $p['kode'],
+            'id_pengguna' => $p['id_pengguna'] === null ? null : (int) $p['id_pengguna'],
+            'pemesan' => ['nama' => $p['nama_pemesan'], 'email' => $p['email_pemesan'], 'hp' => $p['hp_pemesan']],
+            'tempat' => $p['tempat_slug'],
+            'tanggal' => Carbon::parse($p['tanggal_kunjungan'])->toDateString(),
+            'item' => ($item[$p['id_pesanan']] ?? collect())->map(fn ($i) => [
+                'jenis' => $i['jenis_pengunjung'], 'harga' => (int) $i['harga'],
+                'jumlah' => (int) $i['jumlah'], 'subtotal' => (int) $i['subtotal'],
             ])->values()->all(),
-            'total' => (int) $p->total,
-            'metode' => $p->metode,
-            'status' => $p->status,
-            'batas_bayar' => self::waktu($p->batas_bayar),
-            'waktu' => self::waktu($p->created_at),
-            'dibayar' => self::waktu($p->dibayar_pada),
-            'kode_qr' => $p->kode_qr,
-            'dipakai' => self::waktu($p->dipakai_pada),
+            'total' => (int) $p['total'],
+            'metode' => $p['metode'],
+            'status' => $p['status'],
+            'batas_bayar' => self::waktu($p['batas_bayar']),
+            'waktu' => self::waktu($p['created_at']),
+            'dibayar' => self::waktu($p['pembayaran'][0]['dibayar_pada'] ?? null),
+            'kode_qr' => $p['e_tiket'][0]['kode_qr'] ?? null,
+            'dipakai' => self::waktu($p['e_tiket'][0]['dipakai_pada'] ?? null),
         ], $baris);
     }
 
@@ -159,24 +140,17 @@ class Penyimpanan
     /** Ulasan (terbaru dulu), bisa disaring per tempat dan status. Rating dihitung trigger ke ringkasan_ulasan. */
     public static function ulasan(?string $tempat = null, ?string $status = null, ?int $idPengguna = null, bool $aman = false): array
     {
-        $baca = function () use ($tempat, $status, $idPengguna) {
-            $q = self::db()->table('ulasan')->orderByDesc('created_at')->orderByDesc('id_ulasan');
-            $tempat === null || $q->where('tempat_slug', $tempat);
-            $status === null || $q->where('status', $status);
-            $idPengguna === null || $q->where('id_pengguna', $idPengguna);
-
-            return $q->get()->map(fn ($u) => [
-                'id' => (string) $u->id_ulasan,
-                'id_pengguna' => (int) $u->id_pengguna,
-                'tempat' => $u->tempat_slug,
-                'nama' => $u->nama_pengguna,
-                'email' => $u->email_pengguna,
-                'bintang' => (int) $u->bintang,
-                'teks' => $u->teks,
-                'status' => $u->status,
-                'waktu' => self::waktu($u->created_at),
-            ])->all();
-        };
+        $baca = fn () => array_map(fn ($u) => [
+            'id' => (string) $u['id_ulasan'],
+            'id_pengguna' => (int) $u['id_pengguna'],
+            'tempat' => $u['tempat_slug'],
+            'nama' => $u['nama_pengguna'],
+            'email' => $u['email_pengguna'],
+            'bintang' => (int) $u['bintang'],
+            'teks' => $u['teks'],
+            'status' => $u['status'],
+            'waktu' => self::waktu($u['created_at']),
+        ], self::api()->ulasan($tempat, $status, $idPengguna));
 
         return $aman ? self::aman($baca, []) : $baca();
     }
@@ -184,16 +158,16 @@ class Penyimpanan
     /** Rating per tempat dari tabel ringkasan_ulasan (diisi trigger ulasan_ringkasan). */
     public static function ringkasanUlasan(): array
     {
-        return self::aman(fn () => self::db()->table('ringkasan_ulasan')->get()
-            ->mapWithKeys(fn ($r) => [$r->tempat_slug => [
-                'rating' => $r->rata_rata_bintang === null ? 0 : (float) $r->rata_rata_bintang,
-                'jumlahUlasan' => (int) $r->jumlah_ulasan,
+        return self::aman(fn () => collect(self::api()->ringkasanUlasan())
+            ->mapWithKeys(fn ($r) => [$r['tempat_slug'] => [
+                'rating' => $r['rata_rata_bintang'] === null ? 0 : (float) $r['rata_rata_bintang'],
+                'jumlahUlasan' => (int) $r['jumlah_ulasan'],
             ]])->all(), []);
     }
 
     public static function tulisUlasan(array $data): array
     {
-        $id = self::db()->table('ulasan')->insertGetId([
+        $row = self::api()->tulisUlasan([
             'id_pengguna' => $data['id_pengguna'],
             'tempat_slug' => $data['tempat'],
             'nama_pengguna' => Str::limit($data['nama'] ?? 'Wisatawan', 77),
@@ -201,16 +175,16 @@ class Penyimpanan
             'bintang' => $data['bintang'],
             'teks' => $data['teks'],
             'status' => 'tayang',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ], 'id_ulasan');
+            'created_at' => now()->toIso8601String(),
+            'updated_at' => now()->toIso8601String(),
+        ]);
 
-        return ['id' => (string) $id] + $data;
+        return ['id' => (string) $row['id_ulasan']] + $data;
     }
 
     public static function moderasi(string $id, string $status): void
     {
-        self::db()->table('ulasan')->where('id_ulasan', (int) $id)->update(['status' => $status, 'updated_at' => now()]);
+        self::api()->moderasiUlasan((int) $id, $status);
     }
 
     // ---------- log pencarian ----------
@@ -220,65 +194,49 @@ class Penyimpanan
         if (trim($q) === '') {
             return;
         }
-        self::aman(fn () => self::db()->table('log_pencarian')->insert([
-            'kata_kunci' => Str::limit(mb_strtolower(trim($q)), 117),
-            'jumlah_hasil' => min($jumlahHasil, 32767),
-        ]), null);
+        self::aman(fn () => self::api()->catatCari(Str::limit(mb_strtolower(trim($q)), 117), min($jumlahHasil, 32767)), null);
     }
 
     /** Kata kunci yang dicari tetapi tanpa hasil, dengan jumlahnya (view v_celah_konten). */
     public static function celahKonten(): array
     {
-        return self::aman(fn () => self::db()->table('v_celah_konten')
-            ->orderByDesc('jumlah_dicari')->pluck('jumlah_dicari', 'kata_kunci')
-            ->map(fn ($n) => (int) $n)->all(), []);
+        return self::aman(fn () => collect(self::api()->celahKonten())
+            ->pluck('jumlah_dicari', 'kata_kunci')->map(fn ($n) => (int) $n)->all(), []);
     }
 
     public static function jumlahCari(): int
     {
-        return self::aman(fn () => self::db()->table('log_pencarian')->count(), 0);
+        return self::aman(fn () => self::api()->jumlahCari(), 0);
     }
 
     // ---------- rencana tersimpan ----------
 
     public static function rencana(?int $idPengguna = null, bool $aman = false): array
     {
-        $baca = function () use ($idPengguna) {
-            $q = self::db()->table('rencana')->orderByDesc('created_at')->orderByDesc('id_rencana');
-            $idPengguna === null || $q->where('id_pengguna', $idPengguna);
-
-            return self::bentukRencana($q->get()->all());
-        };
+        $baca = fn () => self::bentukRencana(self::api()->rencana($idPengguna));
 
         return $aman ? self::aman($baca, []) : $baca();
     }
 
     public static function simpanRencana(array $data): array
     {
-        $kode = 'mdn-'.strtolower(Str::random(4));
-        self::db()->transaction(function () use ($data, $kode) {
-            $id = self::db()->table('rencana')->insertGetId([
-                'kode' => $kode,
-                'id_pengguna' => $data['id_pengguna'],
-                'judul' => $data['judul'],
-                'durasi_jam' => (int) $data['durasi'],
-                'moda_jalan' => in_array('jalan', $data['moda'], true),
-                'moda_becak' => in_array('becak', $data['moda'], true),
-                'tempat_mulai_slug' => $data['mulai'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ], 'id_rencana');
-            foreach (array_unique($data['minat']) as $kategori) {
-                self::db()->table('rencana_minat')->insert(['id_rencana' => $id, 'kode_kategori' => $kategori]);
-            }
-        });
+        $row = self::api()->simpanRencana([
+            'p_kode' => 'mdn-'.strtolower(Str::random(4)),
+            'p_id_pengguna' => $data['id_pengguna'],
+            'p_judul' => $data['judul'],
+            'p_durasi_jam' => (int) $data['durasi'],
+            'p_moda_jalan' => in_array('jalan', $data['moda'], true),
+            'p_moda_becak' => in_array('becak', $data['moda'], true),
+            'p_tempat_mulai_slug' => $data['mulai'],
+            'p_minat' => array_values(array_unique($data['minat'])),
+        ]);
 
-        return self::cariRencana($kode);
+        return self::bentukRencana([$row])[0];
     }
 
     public static function cariRencana(string $kode): ?array
     {
-        return self::bentukRencana(self::db()->table('rencana')->where('kode', $kode)->limit(1)->get()->all())[0] ?? null;
+        return self::bentukRencana(self::api()->rencana(kode: $kode))[0] ?? null;
     }
 
     private static function bentukRencana(array $baris): array
@@ -286,19 +244,18 @@ class Penyimpanan
         if (! $baris) {
             return [];
         }
-        $minat = self::db()->table('rencana_minat')
-            ->whereIn('id_rencana', array_column($baris, 'id_rencana'))->get()->groupBy('id_rencana');
+        $minat = collect(self::api()->rencanaMinat(array_column($baris, 'id_rencana')))->groupBy('id_rencana');
 
         return array_map(fn ($r) => [
-            'id' => (string) $r->id_rencana,
-            'kode' => $r->kode,
-            'id_pengguna' => (int) $r->id_pengguna,
-            'judul' => $r->judul,
-            'minat' => ($minat[$r->id_rencana] ?? collect())->pluck('kode_kategori')->all(),
-            'durasi' => (int) $r->durasi_jam,
-            'moda' => array_keys(array_filter(['jalan' => (bool) $r->moda_jalan, 'becak' => (bool) $r->moda_becak])),
-            'mulai' => $r->tempat_mulai_slug,
-            'waktu' => self::waktu($r->created_at),
+            'id' => (string) $r['id_rencana'],
+            'kode' => $r['kode'],
+            'id_pengguna' => (int) $r['id_pengguna'],
+            'judul' => $r['judul'],
+            'minat' => ($minat[$r['id_rencana']] ?? collect())->pluck('kode_kategori')->all(),
+            'durasi' => (int) $r['durasi_jam'],
+            'moda' => array_keys(array_filter(['jalan' => (bool) $r['moda_jalan'], 'becak' => (bool) $r['moda_becak']])),
+            'mulai' => $r['tempat_mulai_slug'],
+            'waktu' => self::waktu($r['created_at']),
         ], $baris);
     }
 

@@ -430,7 +430,7 @@ class AdminController extends Controller
         $hasil = null;
         if ($request->boolean('periksa')) {
             $hasil = [];
-            foreach (['katalog' => ['users', 'PostgreSQL Database 1 (akun, Laravel, katalog)'], 'transaksi' => ['pesanan', 'PostgreSQL Database 2 (transaksi)']] as $koneksi => [$tabel, $label]) {
+            foreach (['katalog' => ['users', 'Database 1 (akun, Laravel, katalog)'], 'transaksi' => ['pesanan', 'Database 2 (transaksi)']] as $koneksi => [$tabel, $label]) {
                 $mulai = microtime(true);
                 try {
                     (new SupabaseApi($koneksi))->ping($tabel);
@@ -460,7 +460,7 @@ class AdminController extends Controller
             try {
                 $hasil[] = ['label' => 'Isi Database 2 (transaksi)', 'ok' => true, 'teks' => count(Penyimpanan::pesanan()).' pesanan, '.count(Penyimpanan::ulasan()).' ulasan, '.count(Penyimpanan::rencana()).' rencana, '.Penyimpanan::jumlahCari().' pencarian tercatat.'];
             } catch (\Throwable $e) {
-                $hasil[] = ['label' => 'Isi Database 2 (transaksi)', 'ok' => false, 'teks' => 'Tidak bisa dibaca lewat koneksi langsung: '.str($e->getMessage())->before(' (Connection:')->limit(120)];
+                $hasil[] = ['label' => 'Isi Database 2 (transaksi)', 'ok' => false, 'teks' => 'Tidak bisa dibaca lewat Supabase REST API: '.str($e->getMessage())->before(' (Connection:')->limit(120)];
             }
         }
 
