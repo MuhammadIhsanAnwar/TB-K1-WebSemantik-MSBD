@@ -14,20 +14,20 @@
 >
     <button class="mv-asisten-widget__pemicu" type="button" data-buka-asisten aria-expanded="false" aria-controls="panel-asisten-melayang">
         <span class="mv-asisten-widget__pemicu-avatar" aria-hidden="true">
-            <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="" width="36" height="36" data-pemicu-maskot>
+            <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="Mas Nonov" width="36" height="36" data-pemicu-maskot>
         </span>
-        <span>Tanya asisten</span>
+        <span>Tanya Mas Nonov</span>
     </button>
 
-    <div class="mv-asisten-panel" id="panel-asisten-melayang" role="dialog" aria-label="Asisten wisata MedanVisit" hidden>
+    <div class="mv-asisten-panel" id="panel-asisten-melayang" role="dialog" aria-label="Mas Nonov - Asisten Wisata MedanVisit" hidden>
         <header class="mv-asisten-panel__kepala">
             <div class="mv-asisten-panel__identitas">
                 <span class="mv-asisten-panel__avatar" aria-hidden="true">
-                    <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="Maskot Asisten MedanVisit" width="46" height="46" data-panel-maskot>
+                    <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="Mas Nonov - Maskot Asisten MedanVisit" width="46" height="46" data-panel-maskot>
                 </span>
                 <div>
-                    <b>Asisten MedanVisit</b>
-                    <span class="mv-asisten-panel__status" data-panel-status>Siap membantu wisatamu</span>
+                    <b>Mas Nonov</b>
+                    <span class="mv-asisten-panel__status" data-panel-status>Asisten Wisata MedanVisit</span>
                 </div>
             </div>
             <div class="mv-asisten-panel__kontrol">
@@ -42,7 +42,7 @@
 
         <div class="mv-asisten-panel__log" data-widget-log aria-live="polite">
             <div class="mv-gelembung mv-gelembung--asisten">
-                <p>Halo! Aku bisa bantu cari tempat wisata, kuliner khas, rute jalan kaki, dan info harga tiket di Medan. Mau mulai dari mana?</p>
+                <p>Halo! Aku <b>Mas Nonov</b>, maskot asisten wisatamu di Medan. Aku bisa bantu cari tempat wisata, kuliner khas, rute jalan kaki, dan info harga tiket. Mau mulai dari mana?</p>
             </div>
             <div class="mv-asisten-panel__saran" data-widget-saran>
                 @if ($contohTiket)

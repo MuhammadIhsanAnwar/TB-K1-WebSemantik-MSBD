@@ -64,12 +64,12 @@ kotak?.addEventListener('input', () => {
     const v = kotak.value.trim();
     clearTimeout(timerEkspresi);
     if (v.length > 0) {
-        aturEkspresi('mendengarkan', 'Mendengarkan', 'Sedang menyimak pertanyaanmu…');
+        aturEkspresi('mendengarkan', 'Mendengarkan', 'Mas Nonov sedang menyimak pertanyaanmu…');
         timerEkspresi = setTimeout(() => {
-            aturEkspresi('menyapa', 'Siap Membantu', 'Tanyakan rute wisata, tiket, dan kuliner khas Kota Medan!');
+            aturEkspresi('menyapa', 'Siap Membantu', 'Tanyakan rute wisata, tiket, dan kuliner khas ke Mas Nonov!');
         }, 4500);
     } else {
-        aturEkspresi('menyapa', 'Siap Membantu', 'Tanyakan rute wisata, tiket, dan kuliner khas Kota Medan!');
+        aturEkspresi('menyapa', 'Siap Membantu', 'Tanyakan rute wisata, tiket, dan kuliner khas ke Mas Nonov!');
     }
 });
 
@@ -78,12 +78,12 @@ async function tanya(pesan) {
     akar.querySelector('[data-saran]')?.remove();
 
     clearTimeout(timerEkspresi);
-    aturEkspresi('berpikir', 'Sedang Berpikir', 'Menelusuri katalog semantik & menyusun jawaban…');
+    aturEkspresi('berpikir', 'Sedang Berpikir', 'Mas Nonov sedang menelusuri katalog semantik…');
 
     const ketik = document.createElement('div');
     ketik.className = 'mengetik';
-    ketik.setAttribute('aria-label', 'Asisten sedang mengetik');
-    ketik.innerHTML = `<img src="${esc(maskot.berpikir)}" alt="" width="26" height="26" class="mv-mini-maskot"><span></span><span></span><span></span>`;
+    ketik.setAttribute('aria-label', 'Mas Nonov sedang mengetik');
+    ketik.innerHTML = `<img src="${esc(maskot.berpikir)}" alt="Mas Nonov berpikir" width="26" height="26" class="mv-mini-maskot"><span></span><span></span><span></span>`;
     log.append(ketik);
     kirim.disabled = true;
 
@@ -107,21 +107,21 @@ async function tanya(pesan) {
 
         const teksKosong = (!j.teks || j.teks.length === 0) && !adaTempat;
         if (teksKosong) {
-            aturEkspresi('bingung', 'Data Belum Ada', 'Belum menemukan data yang sesuai di katalog.');
+            aturEkspresi('bingung', 'Data Belum Ada', 'Mas Nonov belum menemukan data yang sesuai.');
         } else if (adaTempat) {
-            aturEkspresi('membantu', 'Rekomendasi Siap', 'Berikut rekomendasi tempat wisata yang kami temukan.');
+            aturEkspresi('membantu', 'Rekomendasi Siap', 'Berikut rekomendasi wisata pilihan Mas Nonov.');
         } else {
-            aturEkspresi('sukses', 'Jawaban Siap', 'Semoga jawaban ini membantu wisatamu di Medan!');
+            aturEkspresi('sukses', 'Jawaban Siap', 'Semoga jawaban Mas Nonov membantu wisatamu!');
         }
 
         clearTimeout(timerEkspresi);
         timerEkspresi = setTimeout(() => {
-            aturEkspresi('menyapa', 'Siap Membantu', 'Ada destinasi atau rute lain yang ingin kamu cari?');
+            aturEkspresi('menyapa', 'Siap Membantu', 'Ada destinasi lain yang ingin kamu tanyakan ke Mas Nonov?');
         }, 7000);
 
     } catch (e) {
         ketik.remove();
-        aturEkspresi('bingung', 'Terjadi Kendala', 'Maaf, jawaban belum bisa dimuat. Coba lagi.');
+        aturEkspresi('bingung', 'Terjadi Kendala', 'Mas Nonov mengalami kendala saat memuat jawaban.');
         const pesanGalat = e.message === 'batas' ? 'Kamu terlalu cepat bertanya. Coba lagi sebentar ya.' : 'Jawaban tidak bisa dimuat. Periksa sambunganmu lalu coba lagi.';
         const el = tambah(`<p>${pesanGalat}</p><div class="aksi-mini"><a href="#" data-ulang>Coba lagi</a></div>`, 'gelembung--asisten');
         el.querySelector('[data-ulang]').addEventListener('click', (ev) => {

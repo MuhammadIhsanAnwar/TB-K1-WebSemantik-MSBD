@@ -318,7 +318,7 @@ if (widget) {
         pemicu.hidden = status;
         pemicu.setAttribute('aria-expanded', status ? 'true' : 'false');
         if (status) {
-            aturEkspresi('menyapa', 'Siap membantu wisatamu');
+            aturEkspresi('menyapa', 'Mas Nonov siap membantumu');
             setTimeout(() => input?.focus(), 40);
         } else {
             pemicu.focus();
@@ -336,12 +336,12 @@ if (widget) {
         const v = input.value.trim();
         clearTimeout(timerEkspresi);
         if (v.length > 0) {
-            aturEkspresi('mendengarkan', 'Mendengarkan pertanyaanmu…');
+            aturEkspresi('mendengarkan', 'Mas Nonov sedang menyimak…');
             timerEkspresi = setTimeout(() => {
-                aturEkspresi('menyapa', 'Tempat, kuliner, rute, dan tiket Medan');
+                aturEkspresi('menyapa', 'Asisten Wisata MedanVisit');
             }, 4500);
         } else {
-            aturEkspresi('menyapa', 'Tempat, kuliner, rute, dan tiket Medan');
+            aturEkspresi('menyapa', 'Asisten Wisata MedanVisit');
         }
     });
 
@@ -366,12 +366,12 @@ if (widget) {
         widget.querySelector('[data-widget-saran]')?.remove();
         
         clearTimeout(timerEkspresi);
-        aturEkspresi('berpikir', 'Sedang menelusuri data & menyusun jawaban…');
+        aturEkspresi('berpikir', 'Mas Nonov sedang mencari jawaban…');
 
         const ketik = tambahPesan(
             `<div class="mv-mengetik-maskot">` +
-            `<img src="${esc(maskot.berpikir)}" alt="" width="28" height="28" class="mv-mini-maskot">` +
-            `<span>Menyusun jawaban…</span>` +
+            `<img src="${esc(maskot.berpikir)}" alt="Mas Nonov berpikir" width="28" height="28" class="mv-mini-maskot">` +
+            `<span>Mas Nonov menyusun jawaban…</span>` +
             `</div>`,
             'mv-gelembung--asisten'
         );
@@ -397,21 +397,21 @@ if (widget) {
 
             const teksKosong = (!j.teks || j.teks.length === 0) && !adaTempat;
             if (teksKosong) {
-                aturEkspresi('bingung', 'Data belum ditemukan di katalog');
+                aturEkspresi('bingung', 'Mas Nonov belum menemukan datanya');
             } else if (adaTempat) {
-                aturEkspresi('membantu', 'Menampilkan rekomendasi tempat');
+                aturEkspresi('membantu', 'Mas Nonov punya rekomendasi wisata!');
             } else {
-                aturEkspresi('sukses', 'Jawaban siap untukmu!');
+                aturEkspresi('sukses', 'Jawaban siap dari Mas Nonov!');
             }
 
             clearTimeout(timerEkspresi);
             timerEkspresi = setTimeout(() => {
-                aturEkspresi('menyapa', 'Ada lagi yang ingin kamu tanyakan?');
+                aturEkspresi('menyapa', 'Tanyakan apa saja ke Mas Nonov!');
             }, 6500);
 
         } catch (err) {
             ketik.remove();
-            aturEkspresi('bingung', 'Maaf, jawaban belum bisa dimuat');
+            aturEkspresi('bingung', 'Maaf, terjadi kendala koneksi');
             const teks = err.message === 'batas' ? 'Terlalu banyak pertanyaan sekaligus. Tunggu sebentar lalu coba lagi.' : 'Jawaban belum bisa dimuat. Periksa sambunganmu.';
             const gagal = tambahPesan(`<p>${teks}</p><div class="aksi-mini"><a href="#" data-coba-lagi>Coba lagi</a></div>`, 'mv-gelembung--asisten');
             gagal.querySelector('[data-coba-lagi]')?.addEventListener('click', (ev) => {

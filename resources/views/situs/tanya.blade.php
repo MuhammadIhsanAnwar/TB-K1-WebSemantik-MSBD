@@ -17,12 +17,12 @@
     <aside class="mv-tanya-samping" aria-label="Topik dan cakupan asisten">
         <div class="mv-tanya-maskot-kartu">
             <div class="mv-tanya-maskot-bingkai">
-                <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="Maskot Asisten MedanVisit" class="mv-tanya-maskot-gambar" data-tanya-maskot>
+                <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="Mas Nonov" class="mv-tanya-maskot-gambar" data-tanya-maskot>
             </div>
             <div class="mv-tanya-maskot-info">
                 <span class="mv-tanya-maskot-lencana" data-tanya-lencana>Siap Membantu</span>
-                <b class="mv-tanya-maskot-nama">Asisten MedanVisit</b>
-                <p class="mv-tanya-maskot-deskripsi" data-tanya-status>Tanyakan rute wisata, tiket, dan kuliner khas Kota Medan!</p>
+                <b class="mv-tanya-maskot-nama">Mas Nonov</b>
+                <p class="mv-tanya-maskot-deskripsi" data-tanya-status>Hai! Aku Mas Nonov, maskot asisten wisatamu di Medan. Tanyakan rute wisata, tiket, dan kuliner khas!</p>
             </div>
         </div>
 
@@ -59,7 +59,7 @@
     <div class="mv-tanya-utama">
         <div class="tanya__log" data-log aria-live="polite">
             <div class="gelembung gelembung--asisten">
-                <p>Halo! Aku siap membantu mencari tempat bersejarah, rumah ibadah, kuliner khas, rute jalan kaki, dan info harga tiket di Kota Medan. Apa yang ingin kamu rencanakan hari ini?</p>
+                <p>Halo! Aku <b>Mas Nonov</b>, maskot asisten wisatamu di Medan. Aku siap membantu mencari tempat bersejarah, rumah ibadah, kuliner khas, rute jalan kaki, dan info harga tiket di Kota Medan. Apa yang ingin kamu rencanakan hari ini?</p>
             </div>
             @unless ($awal)
                 <div data-saran style="display:grid;gap:18px">
