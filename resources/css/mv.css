@@ -730,15 +730,9 @@
 }
 
 @media (max-width: 580px) {
-  /* Panel maskot samping: geser ke atas panel di mobile */
+  /* Sembunyikan maskot samping di mobile — tidak perlu seperti desktop */
   .mv-asisten-panel__maskot-samping {
-    left: -12px;
-    top: -55px;
-    width: 78px;
-  }
-  .mv-maskot-samping-img {
-    transform: rotate(-6deg);
-    animation: none;
+    display: none !important;
   }
 
   /* ── MOBILE: Tombol jadi FAB bulat hanya dengan maskot ── */
