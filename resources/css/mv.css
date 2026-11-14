@@ -3162,7 +3162,8 @@ fieldset.mv-graf__kelompok .mv-graf__catatan { margin-top: 6px; }
   .mv-kepala__cari { padding: 0 12px; }
   .mv-kepala__tombol-menu { display: inline-flex; padding: 0 10px; }
   .mv-kepala__logo img { width: 124px; }
-  [data-ui].mv-asisten-widget { display: none; }
+  /* Widget tetap tampil di mobile — hanya bentuknya berubah jadi FAB bulat */
+  [data-ui].mv-asisten-widget { display: block; }
 
   .mv-hero { min-height: calc(100svh - var(--mv-tinggi-kepala)); }
   .mv-hero__utama { grid-column: 1 / -1; }
