@@ -323,14 +323,112 @@ if (widget) {
         }
     };
 
-    const aturBuka = (status) => {
-        panel.hidden = !status;
-        pemicu.hidden = status;
-        pemicu.setAttribute('aria-expanded', status ? 'true' : 'false');
-        if (status) {
+    const maskotAtasEl = pemicu?.querySelector('.mv-asisten-widget__maskot-atas');
+
+    const terbangKePanel = () => {
+        const rectAwal = maskotAtasEl?.getBoundingClientRect();
+
+        // Buka panel terlebih dahulu agar target bounding rect dapat dihitung
+        panel.hidden = false;
+        panel.classList.add('mv-panel--muncul');
+        pemicu.setAttribute('aria-expanded', 'true');
+
+        if (maskotSampingImg) {
+            maskotSampingImg.style.visibility = 'hidden';
+            maskotSampingImg.classList.remove('mv-maskot-samping--muncul');
+        }
+
+        const rectTujuan = maskotSampingImg?.getBoundingClientRect();
+
+        // Jika rect tersedia dan animasi didukung
+        if (rectAwal && rectTujuan && rectAwal.width > 0 && typeof maskotAtasEl?.animate === 'function') {
+            const startX = rectAwal.left + rectAwal.width / 2;
+            const startY = rectAwal.top + rectAwal.height / 2;
+            const targetX = rectTujuan.left + rectTujuan.width / 2;
+            const targetY = rectTujuan.top + rectTujuan.height / 2;
+            const deltaX = targetX - startX;
+            const deltaY = targetY - startY;
+
+            // 1. Maskot di atas tombol meletup menjadi kepulan asap
+            maskotAtasEl.classList.add('mv-maskot-atas--puff');
+
+            // 2. Buat elemen gumpalan asap terbang
+            const asap = document.createElement('div');
+            asap.className = 'mv-asap-terbang';
+            asap.style.left = `${startX - 32}px`;
+            asap.style.top = `${startY - 32}px`;
+            asap.innerHTML = `
+                <div class="mv-asap-blob mv-asap-blob--1"></div>
+                <div class="mv-asap-blob mv-asap-blob--2"></div>
+                <div class="mv-asap-blob mv-asap-blob--3"></div>
+            `;
+            document.body.appendChild(asap);
+
+            // Jejak partikel asap lembut di sepanjang lintasan terbang
+            const timerJejak = setInterval(() => {
+                const rectAsap = asap.getBoundingClientRect();
+                const jejak = document.createElement('div');
+                jejak.className = 'mv-asap-jejak';
+                const s = 22 + Math.random() * 18;
+                jejak.style.width = `${s}px`;
+                jejak.style.height = `${s}px`;
+                jejak.style.left = `${rectAsap.left + 16}px`;
+                jejak.style.top = `${rectAsap.top + 16}px`;
+                document.body.appendChild(jejak);
+                setTimeout(() => jejak.remove(), 500);
+            }, 60);
+
+            // Animasi terbang melengkung ke kiri atas menuju samping chatbox
+            const anim = asap.animate([
+                { transform: 'translate(0px, 0px) scale(0.7) rotate(0deg)', opacity: 0.95 },
+                { transform: `translate(${deltaX * 0.3}px, ${deltaY * 0.18 - 30}px) scale(1.3) rotate(120deg)`, opacity: 0.9, offset: 0.3 },
+                { transform: `translate(${deltaX * 0.7}px, ${deltaY * 0.6 - 45}px) scale(1.15) rotate(260deg)`, opacity: 0.85, offset: 0.7 },
+                { transform: `translate(${deltaX}px, ${deltaY}px) scale(1.35) rotate(380deg)`, opacity: 0.95, offset: 0.92 },
+                { transform: `translate(${deltaX}px, ${deltaY}px) scale(2) rotate(420deg)`, opacity: 0, offset: 1 }
+            ], {
+                duration: 620,
+                easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                fill: 'forwards'
+            });
+
+            anim.onfinish = () => {
+                clearInterval(timerJejak);
+                asap.remove();
+                pemicu.hidden = true;
+                maskotAtasEl.classList.remove('mv-maskot-atas--puff');
+
+                // Mas Nonov muncul dari asap di sebelah samping chatbox!
+                if (maskotSampingImg) {
+                    maskotSampingImg.style.visibility = '';
+                    maskotSampingImg.classList.add('mv-maskot-samping--muncul');
+                    aturEkspresi('menyapa', 'Mas Nonov siap membantumu');
+                }
+                setTimeout(() => input?.focus(), 60);
+            };
+        } else {
+            // Fallback langsung
+            pemicu.hidden = true;
+            if (maskotSampingImg) {
+                maskotSampingImg.style.visibility = '';
+                maskotSampingImg.classList.add('mv-maskot-samping--muncul');
+            }
             aturEkspresi('menyapa', 'Mas Nonov siap membantumu');
             setTimeout(() => input?.focus(), 40);
+        }
+    };
+
+    const aturBuka = (status) => {
+        if (status) {
+            terbangKePanel();
         } else {
+            panel.hidden = true;
+            panel.classList.remove('mv-panel--muncul');
+            pemicu.hidden = false;
+            pemicu.setAttribute('aria-expanded', 'false');
+            maskotAtasEl?.classList.remove('mv-maskot-atas--puff');
+            if (maskotSampingImg) {
+                maskotSampingImg.classList.remove('mv-maskot-samping--muncul');
+            }
             pemicu.focus();
         }
     };
