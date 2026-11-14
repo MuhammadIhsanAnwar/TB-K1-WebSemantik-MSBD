@@ -3,9 +3,19 @@
     $contohTempat = array_values(\App\Support\Katalog::tempat())[0] ?? null;
     $contohKuliner = array_values(\App\Support\Katalog::tempat('kuliner'))[0] ?? null;
 @endphp
-<div class="mv-asisten-widget tidak-dicetak" data-ui data-asisten-widget data-url="{{ route('tanya.jawab') }}">
+<div class="mv-asisten-widget tidak-dicetak" data-ui data-asisten-widget
+    data-url="{{ route('tanya.jawab') }}"
+    data-maskot-menyapa="{{ asset('images/maskot/mascot-menyapa.png') }}"
+    data-maskot-mendengarkan="{{ asset('images/maskot/mascot-mendengarkan.png') }}"
+    data-maskot-berpikir="{{ asset('images/maskot/mascot-berpikir.png') }}"
+    data-maskot-membantu="{{ asset('images/maskot/mascot-membantu.png') }}"
+    data-maskot-bingung="{{ asset('images/maskot/mascot-bingung.png') }}"
+    data-maskot-sukses="{{ asset('images/maskot/mascot-sukses.png') }}"
+>
     <button class="mv-asisten-widget__pemicu" type="button" data-buka-asisten aria-expanded="false" aria-controls="panel-asisten-melayang">
-        <img src="{{ asset('storage/logo_app/svg/MedanVisit_ikon.svg') }}" alt="" width="24" height="24">
+        <span class="mv-asisten-widget__pemicu-avatar" aria-hidden="true">
+            <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="" width="36" height="36" data-pemicu-maskot>
+        </span>
         <span>Tanya asisten</span>
     </button>
 
@@ -13,11 +23,11 @@
         <header class="mv-asisten-panel__kepala">
             <div class="mv-asisten-panel__identitas">
                 <span class="mv-asisten-panel__avatar" aria-hidden="true">
-                    <img src="{{ asset('storage/logo_app/svg/MedanVisit_ikon.svg') }}" alt="" width="24" height="24">
+                    <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="Maskot Asisten MedanVisit" width="46" height="46" data-panel-maskot>
                 </span>
                 <div>
                     <b>Asisten MedanVisit</b>
-                    <span>Tempat, kuliner, rute, dan tiket Medan</span>
+                    <span class="mv-asisten-panel__status" data-panel-status>Siap membantu wisatamu</span>
                 </div>
             </div>
             <div class="mv-asisten-panel__kontrol">

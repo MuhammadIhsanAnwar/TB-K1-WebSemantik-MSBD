@@ -276,18 +276,73 @@ if (widget) {
     const kirim = form?.querySelector('button[type="submit"]');
     const token = document.querySelector('meta[name="csrf-token"]')?.content;
 
+    // Maskot interaktif asisten
+    const maskot = {
+        menyapa: widget.dataset.maskotMenyapa || '/images/maskot/mascot-menyapa.png',
+        mendengarkan: widget.dataset.maskotMendengarkan || '/images/maskot/mascot-mendengarkan.png',
+        berpikir: widget.dataset.maskotBerpikir || '/images/maskot/mascot-berpikir.png',
+        membantu: widget.dataset.maskotMembantu || '/images/maskot/mascot-membantu.png',
+        bingung: widget.dataset.maskotBingung || '/images/maskot/mascot-bingung.png',
+        sukses: widget.dataset.maskotSukses || '/images/maskot/mascot-sukses.png',
+    };
+
+    const maskotPanelImg = panel?.querySelector('[data-panel-maskot]');
+    const statusPanelEl = panel?.querySelector('[data-panel-status]');
+    const maskotPemicuImg = pemicu?.querySelector('[data-pemicu-maskot]');
+    let timerEkspresi = null;
+
+    const aturEkspresi = (tipe, statusTeks = '') => {
+        const url = maskot[tipe];
+        if (!url) return;
+
+        if (maskotPanelImg && maskotPanelImg.dataset.ekspresi !== tipe) {
+            maskotPanelImg.dataset.ekspresi = tipe;
+            maskotPanelImg.classList.add('mv-maskot--ganti');
+            setTimeout(() => {
+                maskotPanelImg.src = url;
+                maskotPanelImg.classList.remove('mv-maskot--ganti');
+            }, 120);
+        }
+
+        if (maskotPemicuImg && (tipe === 'menyapa' || tipe === 'sukses')) {
+            maskotPemicuImg.src = url;
+        }
+
+        if (statusPanelEl && statusTeks) {
+            statusPanelEl.textContent = statusTeks;
+        }
+    };
+
     const aturBuka = (status) => {
         panel.hidden = !status;
         pemicu.hidden = status;
         pemicu.setAttribute('aria-expanded', status ? 'true' : 'false');
-        if (status) setTimeout(() => input?.focus(), 40);
-        else pemicu.focus();
+        if (status) {
+            aturEkspresi('menyapa', 'Siap membantu wisatamu');
+            setTimeout(() => input?.focus(), 40);
+        } else {
+            pemicu.focus();
+        }
     };
 
     pemicu?.addEventListener('click', () => aturBuka(true));
     tutup?.addEventListener('click', () => aturBuka(false));
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !panel.hidden) aturBuka(false);
+    });
+
+    // Deteksi saat pengguna mengetik pertanyaan -> ekspresi mendengarkan
+    input?.addEventListener('input', () => {
+        const v = input.value.trim();
+        clearTimeout(timerEkspresi);
+        if (v.length > 0) {
+            aturEkspresi('mendengarkan', 'Mendengarkan pertanyaanmu…');
+            timerEkspresi = setTimeout(() => {
+                aturEkspresi('menyapa', 'Tempat, kuliner, rute, dan tiket Medan');
+            }, 4500);
+        } else {
+            aturEkspresi('menyapa', 'Tempat, kuliner, rute, dan tiket Medan');
+        }
     });
 
     const kartuMini = (t) => {
@@ -309,8 +364,19 @@ if (widget) {
     const kirimPesan = async (pesan) => {
         tambahPesan(`<p>${esc(pesan)}</p>`, 'mv-gelembung--aku');
         widget.querySelector('[data-widget-saran]')?.remove();
-        const ketik = tambahPesan('<p>Menyusun jawaban…</p>', 'mv-gelembung--asisten');
+        
+        clearTimeout(timerEkspresi);
+        aturEkspresi('berpikir', 'Sedang menelusuri data & menyusun jawaban…');
+
+        const ketik = tambahPesan(
+            `<div class="mv-mengetik-maskot">` +
+            `<img src="${esc(maskot.berpikir)}" alt="" width="28" height="28" class="mv-mini-maskot">` +
+            `<span>Menyusun jawaban…</span>` +
+            `</div>`,
+            'mv-gelembung--asisten'
+        );
         if (kirim) kirim.disabled = true;
+
         try {
             const res = await fetch(widget.dataset.url, {
                 method: 'POST',
@@ -321,12 +387,31 @@ if (widget) {
             if (!res.ok) throw new Error('galat');
             const j = await res.json();
             ketik.remove();
+
+            const adaTempat = Array.isArray(j.tempat) && j.tempat.length > 0;
             const isi = (j.teks ?? []).map((p) => `<p>${esc(p)}</p>`).join('')
                 + (j.tempat ?? []).map(kartuMini).join('')
                 + (j.tautan ? `<div class="aksi-mini"><a href="${esc(j.tautan.url)}">${esc(j.tautan.label)}</a></div>` : '');
+            
             tambahPesan(isi || '<p>Belum ada data yang cocok di katalog.</p>', 'mv-gelembung--asisten');
+
+            const teksKosong = (!j.teks || j.teks.length === 0) && !adaTempat;
+            if (teksKosong) {
+                aturEkspresi('bingung', 'Data belum ditemukan di katalog');
+            } else if (adaTempat) {
+                aturEkspresi('membantu', 'Menampilkan rekomendasi tempat');
+            } else {
+                aturEkspresi('sukses', 'Jawaban siap untukmu!');
+            }
+
+            clearTimeout(timerEkspresi);
+            timerEkspresi = setTimeout(() => {
+                aturEkspresi('menyapa', 'Ada lagi yang ingin kamu tanyakan?');
+            }, 6500);
+
         } catch (err) {
             ketik.remove();
+            aturEkspresi('bingung', 'Maaf, jawaban belum bisa dimuat');
             const teks = err.message === 'batas' ? 'Terlalu banyak pertanyaan sekaligus. Tunggu sebentar lalu coba lagi.' : 'Jawaban belum bisa dimuat. Periksa sambunganmu.';
             const gagal = tambahPesan(`<p>${teks}</p><div class="aksi-mini"><a href="#" data-coba-lagi>Coba lagi</a></div>`, 'mv-gelembung--asisten');
             gagal.querySelector('[data-coba-lagi]')?.addEventListener('click', (ev) => {

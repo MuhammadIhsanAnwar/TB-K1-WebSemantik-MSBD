@@ -4,8 +4,28 @@
 @section('tanpa-kaki', '1')
 
 @section('isi')
-<div class="mv-tanya-ruang" data-tanya data-url="{{ route('tanya.jawab') }}" data-awal="{{ $awal }}">
+<div class="mv-tanya-ruang" data-tanya
+    data-url="{{ route('tanya.jawab') }}"
+    data-awal="{{ $awal }}"
+    data-maskot-menyapa="{{ asset('images/maskot/mascot-menyapa.png') }}"
+    data-maskot-mendengarkan="{{ asset('images/maskot/mascot-mendengarkan.png') }}"
+    data-maskot-berpikir="{{ asset('images/maskot/mascot-berpikir.png') }}"
+    data-maskot-membantu="{{ asset('images/maskot/mascot-membantu.png') }}"
+    data-maskot-bingung="{{ asset('images/maskot/mascot-bingung.png') }}"
+    data-maskot-sukses="{{ asset('images/maskot/mascot-sukses.png') }}"
+>
     <aside class="mv-tanya-samping" aria-label="Topik dan cakupan asisten">
+        <div class="mv-tanya-maskot-kartu">
+            <div class="mv-tanya-maskot-bingkai">
+                <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="Maskot Asisten MedanVisit" class="mv-tanya-maskot-gambar" data-tanya-maskot>
+            </div>
+            <div class="mv-tanya-maskot-info">
+                <span class="mv-tanya-maskot-lencana" data-tanya-lencana>Siap Membantu</span>
+                <b class="mv-tanya-maskot-nama">Asisten MedanVisit</b>
+                <p class="mv-tanya-maskot-deskripsi" data-tanya-status>Tanyakan rute wisata, tiket, dan kuliner khas Kota Medan!</p>
+            </div>
+        </div>
+
         <div>
             <h1>Tanya Medan</h1>
             <p class="redup" style="margin-top:8px">Cari tahu jam kunjungan, tiket masuk, kuliner khas, dan rute jalan kaki berdasarkan katalog terkurasi MedanVisit.</p>

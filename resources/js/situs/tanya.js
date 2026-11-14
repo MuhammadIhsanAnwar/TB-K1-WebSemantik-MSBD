@@ -8,6 +8,37 @@ const kotak = form.querySelector('textarea');
 const kirim = form.querySelector('button[type="submit"]');
 const token = document.querySelector('meta[name="csrf-token"]')?.content;
 
+// Maskot interaktif halaman tanya
+const maskot = {
+    menyapa: akar.dataset.maskotMenyapa || '/images/maskot/mascot-menyapa.png',
+    mendengarkan: akar.dataset.maskotMendengarkan || '/images/maskot/mascot-mendengarkan.png',
+    berpikir: akar.dataset.maskotBerpikir || '/images/maskot/mascot-berpikir.png',
+    membantu: akar.dataset.maskotMembantu || '/images/maskot/mascot-membantu.png',
+    bingung: akar.dataset.maskotBingung || '/images/maskot/mascot-bingung.png',
+    sukses: akar.dataset.maskotSukses || '/images/maskot/mascot-sukses.png',
+};
+
+const maskotImg = akar.querySelector('[data-tanya-maskot]');
+const lencanaEl = akar.querySelector('[data-tanya-lencana]');
+const statusEl = akar.querySelector('[data-tanya-status]');
+let timerEkspresi = null;
+
+function aturEkspresi(tipe, lencanaTeks = '', statusTeks = '') {
+    const url = maskot[tipe];
+    if (!url) return;
+
+    if (maskotImg && maskotImg.dataset.ekspresi !== tipe) {
+        maskotImg.dataset.ekspresi = tipe;
+        maskotImg.classList.add('mv-maskot--ganti');
+        setTimeout(() => {
+            maskotImg.src = url;
+            maskotImg.classList.remove('mv-maskot--ganti');
+        }, 120);
+    }
+    if (lencanaEl && lencanaTeks) lencanaEl.textContent = lencanaTeks;
+    if (statusEl && statusTeks) statusEl.textContent = statusTeks;
+}
+
 function gulir() {
     akar.querySelector('.tanya__form')?.scrollIntoView({ block: 'end', behavior: 'smooth' });
 }
@@ -28,15 +59,34 @@ function kartu(t) {
     return `<div><a class="kartu-mini" href="${esc(t.url ?? '#')}">${foto}<span><b>${esc(t.nama)}</b><span>${esc(sub)}</span></span></a>${aksi ? `<div class="aksi-mini">${aksi}</div>` : ''}</div>`;
 }
 
+// Deteksi saat pengguna mengetik pertanyaan -> ekspresi mendengarkan
+kotak?.addEventListener('input', () => {
+    const v = kotak.value.trim();
+    clearTimeout(timerEkspresi);
+    if (v.length > 0) {
+        aturEkspresi('mendengarkan', 'Mendengarkan', 'Sedang menyimak pertanyaanmu…');
+        timerEkspresi = setTimeout(() => {
+            aturEkspresi('menyapa', 'Siap Membantu', 'Tanyakan rute wisata, tiket, dan kuliner khas Kota Medan!');
+        }, 4500);
+    } else {
+        aturEkspresi('menyapa', 'Siap Membantu', 'Tanyakan rute wisata, tiket, dan kuliner khas Kota Medan!');
+    }
+});
+
 async function tanya(pesan) {
     tambah(`<p>${esc(pesan)}</p>`, 'gelembung--aku');
     akar.querySelector('[data-saran]')?.remove();
+
+    clearTimeout(timerEkspresi);
+    aturEkspresi('berpikir', 'Sedang Berpikir', 'Menelusuri katalog semantik & menyusun jawaban…');
+
     const ketik = document.createElement('div');
     ketik.className = 'mengetik';
     ketik.setAttribute('aria-label', 'Asisten sedang mengetik');
-    ketik.innerHTML = '<span></span><span></span><span></span>';
+    ketik.innerHTML = `<img src="${esc(maskot.berpikir)}" alt="" width="26" height="26" class="mv-mini-maskot"><span></span><span></span><span></span>`;
     log.append(ketik);
     kirim.disabled = true;
+
     try {
         const res = await fetch(akar.dataset.url, {
             method: 'POST',
@@ -47,13 +97,31 @@ async function tanya(pesan) {
         if (!res.ok) throw new Error('galat');
         const j = await res.json();
         ketik.remove();
+
+        const adaTempat = Array.isArray(j.tempat) && j.tempat.length > 0;
         const isi = (j.teks ?? []).map((p) => `<p>${esc(p)}</p>`).join('')
             + (j.tempat ?? []).map(kartu).join('')
             + (j.tautan ? `<div class="aksi-mini"><a href="${esc(j.tautan.url)}">${esc(j.tautan.label)}</a></div>` : '')
             + '<p class="sumber">Berdasarkan katalog MedanVisit</p>';
         tambah(isi, 'gelembung--asisten');
+
+        const teksKosong = (!j.teks || j.teks.length === 0) && !adaTempat;
+        if (teksKosong) {
+            aturEkspresi('bingung', 'Data Belum Ada', 'Belum menemukan data yang sesuai di katalog.');
+        } else if (adaTempat) {
+            aturEkspresi('membantu', 'Rekomendasi Siap', 'Berikut rekomendasi tempat wisata yang kami temukan.');
+        } else {
+            aturEkspresi('sukses', 'Jawaban Siap', 'Semoga jawaban ini membantu wisatamu di Medan!');
+        }
+
+        clearTimeout(timerEkspresi);
+        timerEkspresi = setTimeout(() => {
+            aturEkspresi('menyapa', 'Siap Membantu', 'Ada destinasi atau rute lain yang ingin kamu cari?');
+        }, 7000);
+
     } catch (e) {
         ketik.remove();
+        aturEkspresi('bingung', 'Terjadi Kendala', 'Maaf, jawaban belum bisa dimuat. Coba lagi.');
         const pesanGalat = e.message === 'batas' ? 'Kamu terlalu cepat bertanya. Coba lagi sebentar ya.' : 'Jawaban tidak bisa dimuat. Periksa sambunganmu lalu coba lagi.';
         const el = tambah(`<p>${pesanGalat}</p><div class="aksi-mini"><a href="#" data-ulang>Coba lagi</a></div>`, 'gelembung--asisten');
         el.querySelector('[data-ulang]').addEventListener('click', (ev) => {
