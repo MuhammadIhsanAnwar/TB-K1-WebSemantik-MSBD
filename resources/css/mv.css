@@ -730,6 +730,7 @@
 }
 
 @media (max-width: 580px) {
+  /* Panel maskot samping: geser ke atas panel di mobile */
   .mv-asisten-panel__maskot-samping {
     left: -12px;
     top: -55px;
@@ -738,6 +739,51 @@
   .mv-maskot-samping-img {
     transform: rotate(-6deg);
     animation: none;
+  }
+
+  /* ── MOBILE: Tombol jadi FAB bulat hanya dengan maskot ── */
+  [data-ui] .mv-asisten-widget__pemicu {
+    width: 64px;
+    height: 64px;
+    min-height: unset;
+    padding: 0;
+    border-radius: 50%;
+    gap: 0;
+    justify-content: center;
+    align-items: center;
+  }
+  /* Sembunyikan teks "Tanya Mas Nonov" dan avatar lingkaran kecil di mobile */
+  [data-ui] .mv-asisten-widget__pemicu > span:not(.mv-asisten-widget__maskot-atas):not(.mv-asisten-widget__pemicu-avatar),
+  [data-ui] .mv-asisten-widget__pemicu-avatar {
+    display: none;
+  }
+  /* Maskot di atas button disembunyikan — sudah ada di dalam button via avatar di mobile */
+  .mv-asisten-widget__maskot-atas {
+    display: none;
+  }
+  /* Avatar maskot di dalam FAB bulat — tampil besar mengisi tombol */
+  [data-ui] .mv-asisten-widget__pemicu-avatar {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    overflow: visible;
+  }
+  [data-ui] .mv-asisten-widget__pemicu-avatar img {
+    width: 110%;
+    height: 110%;
+    object-fit: contain;
+    transform: translateY(-6px);
+  }
+  /* Idle bounce animation untuk FAB di mobile */
+  [data-ui] .mv-asisten-widget__pemicu:not([aria-expanded="true"]) .mv-asisten-widget__pemicu-avatar {
+    animation: mv-fab-bounce 2.4s ease-in-out infinite alternate;
+  }
+  @keyframes mv-fab-bounce {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-5px); }
   }
 }
 .mv-asisten-panel__kepala {

@@ -326,7 +326,12 @@ if (widget) {
     const maskotAtasEl = pemicu?.querySelector('.mv-asisten-widget__maskot-atas');
 
     const terbangKePanel = () => {
-        const rectAwal = maskotAtasEl?.getBoundingClientRect();
+        // Deteksi mobile: maskotAtasEl disembunyikan via CSS, gunakan posisi FAB sebagai awal
+        const isMobile = window.innerWidth <= 580;
+        const rectFAB = pemicu?.getBoundingClientRect();
+        const rectAwal = (!isMobile && maskotAtasEl)
+            ? maskotAtasEl.getBoundingClientRect()
+            : rectFAB; // fallback ke posisi button FAB di mobile
 
         // Buka panel terlebih dahulu agar target bounding rect dapat dihitung
         panel.hidden = false;
@@ -340,8 +345,8 @@ if (widget) {
 
         const rectTujuan = maskotSampingImg?.getBoundingClientRect();
 
-        // Jika rect tersedia dan animasi didukung
-        if (rectAwal && rectTujuan && rectAwal.width > 0 && typeof maskotAtasEl?.animate === 'function') {
+        // Jika rect tersedia dan animasi didukung (termasuk mobile yang pakai rectFAB)
+        if (rectAwal && rectTujuan && rectAwal.width > 0 && typeof pemicu?.animate === 'function') {
             const startX = rectAwal.left + rectAwal.width / 2;
             const startY = rectAwal.top + rectAwal.height / 2;
             const targetX = rectTujuan.left + rectTujuan.width / 2;
@@ -352,8 +357,10 @@ if (widget) {
             // 1. Sembunyikan button seketika — langsung hilang saat diklik
             pemicu.hidden = true;
 
-            // 2. Maskot di atas tombol meletup menjadi kepulan asap
-            maskotAtasEl.classList.add('mv-maskot-atas--puff');
+            // 2. Maskot di atas tombol / FAB meletup menjadi kepulan asap
+            if (!isMobile && maskotAtasEl) {
+                maskotAtasEl.classList.add('mv-maskot-atas--puff');
+            }
 
             // 3. Buat elemen gumpalan asap terbang (posisi fixed di layar sesuai rect awal)
             const asap = document.createElement('div');
@@ -397,7 +404,7 @@ if (widget) {
             anim.onfinish = () => {
                 clearInterval(timerJejak);
                 asap.remove();
-                maskotAtasEl.classList.remove('mv-maskot-atas--puff');
+                maskotAtasEl?.classList.remove('mv-maskot-atas--puff');
 
                 // Mas Nonov muncul dari asap di sebelah samping chatbox!
                 if (maskotSampingImg) {
