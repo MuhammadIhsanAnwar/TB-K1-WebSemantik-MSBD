@@ -57,7 +57,7 @@ class PenyimpananRestTest extends TestCase
         $this->assertSame(20000, $pesanan[0]['item'][0]['subtotal']);
 
         Http::assertSent(fn (Request $r) => str_starts_with($r->url(), 'https://transaksi.test/rest/v1/pesanan')
-            && $r->hasHeader('apikey', 'pub-key')
+            && $r->hasHeader('apikey', 'secret-key')
             && $r->hasHeader('Authorization', 'Bearer secret-key'));
     }
 
