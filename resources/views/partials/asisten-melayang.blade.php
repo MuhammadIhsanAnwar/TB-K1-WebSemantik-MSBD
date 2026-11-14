@@ -13,6 +13,10 @@
     data-maskot-sukses="{{ asset('images/maskot/mascot-sukses.png') }}"
 >
     <button class="mv-asisten-widget__pemicu" type="button" data-buka-asisten aria-expanded="false" aria-controls="panel-asisten-melayang">
+        <!-- Maskot Mas Nonov berada tepat di atas tombol sebelum chatbox dibuka -->
+        <span class="mv-asisten-widget__maskot-atas" aria-hidden="true">
+            <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="" class="mv-maskot-atas-img">
+        </span>
         <span class="mv-asisten-widget__pemicu-avatar" aria-hidden="true">
             <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="Mas Nonov" width="36" height="36" data-pemicu-maskot>
         </span>
