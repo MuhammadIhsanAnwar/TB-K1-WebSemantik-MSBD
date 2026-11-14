@@ -20,6 +20,11 @@
     </button>
 
     <div class="mv-asisten-panel" id="panel-asisten-melayang" role="dialog" aria-label="Mas Nonov - Asisten Wisata MedanVisit" hidden>
+        <!-- Maskot Mas Nonov muncul di samping miring chatbox -->
+        <div class="mv-asisten-panel__maskot-samping" aria-hidden="true">
+            <img src="{{ asset('images/maskot/mascot-menyapa.png') }}" alt="" class="mv-maskot-samping-img" data-maskot-samping>
+        </div>
+
         <header class="mv-asisten-panel__kepala">
             <div class="mv-asisten-panel__identitas">
                 <span class="mv-asisten-panel__avatar" aria-hidden="true">

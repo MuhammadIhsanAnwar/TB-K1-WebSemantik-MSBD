@@ -287,6 +287,7 @@ if (widget) {
     };
 
     const maskotPanelImg = panel?.querySelector('[data-panel-maskot]');
+    const maskotSampingImg = panel?.querySelector('[data-maskot-samping]');
     const statusPanelEl = panel?.querySelector('[data-panel-status]');
     const maskotPemicuImg = pemicu?.querySelector('[data-pemicu-maskot]');
     let timerEkspresi = null;
@@ -301,6 +302,15 @@ if (widget) {
             setTimeout(() => {
                 maskotPanelImg.src = url;
                 maskotPanelImg.classList.remove('mv-maskot--ganti');
+            }, 120);
+        }
+
+        if (maskotSampingImg && maskotSampingImg.dataset.ekspresi !== tipe) {
+            maskotSampingImg.dataset.ekspresi = tipe;
+            maskotSampingImg.classList.add('mv-maskot--ganti');
+            setTimeout(() => {
+                maskotSampingImg.src = url;
+                maskotSampingImg.classList.remove('mv-maskot--ganti');
             }, 120);
         }
 
