@@ -349,10 +349,13 @@ if (widget) {
             const deltaX = targetX - startX;
             const deltaY = targetY - startY;
 
-            // 1. Maskot di atas tombol meletup menjadi kepulan asap
+            // 1. Sembunyikan button seketika — langsung hilang saat diklik
+            pemicu.hidden = true;
+
+            // 2. Maskot di atas tombol meletup menjadi kepulan asap
             maskotAtasEl.classList.add('mv-maskot-atas--puff');
 
-            // 2. Buat elemen gumpalan asap terbang
+            // 3. Buat elemen gumpalan asap terbang (posisi fixed di layar sesuai rect awal)
             const asap = document.createElement('div');
             asap.className = 'mv-asap-terbang';
             asap.style.left = `${startX - 32}px`;
@@ -394,7 +397,6 @@ if (widget) {
             anim.onfinish = () => {
                 clearInterval(timerJejak);
                 asap.remove();
-                pemicu.hidden = true;
                 maskotAtasEl.classList.remove('mv-maskot-atas--puff');
 
                 // Mas Nonov muncul dari asap di sebelah samping chatbox!
